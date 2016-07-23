@@ -1,0 +1,95 @@
+#!/bin/sh
+
+# Convert a cbr file to cbz file, preserving metadata
+# requires 'ziplong' and 'unrar' command utilities.  'zip' can be used instead but comments
+# are limited to 256 characters.
+# This script can be downloaded from https://dl.dropbox.com/u/135713/cbr2cbz
+
+# Snow Leopard versions can be found in my dropbox folder:
+# https://dl.dropbox.com/u/135713/ziplong
+# https://dl.dropbox.com/u/135713/unrar
+# Download these and install somewhere you can execute them in your shell. e.g.
+# the same place as this script.
+
+ZIP=ziplong
+UNRAR=unrar
+
+# Checks to see if a command can be executed
+function cmd_there {
+    com=$1
+    $com >/dev/null 2>&1 </dev/null
+    [[ $? -eq 127 ]] && return 1
+    return 0
+}
+
+cmd_there $ZIP || {
+    echo "ZIP command not found - $ZIP"
+    exit 1
+}
+cmd_there $UNRAR || {
+    echo "UNRAR command not found - $UNRAR"
+    exit 1
+}
+
+TEMPDIR=/tmp
+seen=0
+function usage() {
+    [[ $seen == 0 ]]  &&  {
+	echo "Usage: $0 CBR_file.cbr ..."
+    }
+    seen=1
+}
+
+[[ $# -lt 1 ]] && {
+    usage
+    exit 1
+}
+
+for F; do
+
+    if [ -f "$F" ]
+    then
+#is this rar file
+	MIMETYPE=$(file -b "$F" 2>/dev/null)
+	if [ ${MIMETYPE:0:3} == "RAR" ] 
+	then
+# we are good to go        
+            echo "Processing file "$F" ... "
+	else
+            echo "File "$F" in not valid RAR archive"    
+            usage
+	    continue
+	fi
+    else
+	echo "File "$F" does not exist"
+	usage
+    fi
+    
+# Temporary area
+    WORKDIR=$TEMPDIR/cbr2cbz.workdir
+    NEWNAME=$(echo "$F" | sed 's/.[Cc][Bb][Rr]$/.cbz/')
+    if [ -f "$NEWNAME" ]
+    then
+	echo "$NEWNAME already exists - skipping"
+	continue
+    fi
+    rm -rf $WORKDIR
+    mkdir $WORKDIR
+# Preserve timestamp of original cbr file
+    touch -r "$F" $WORKDIR/__STAMP
+    
+# Extract archive to $WORKDIR
+    $UNRAR x "$F" $WORKDIR
+# Extract comment to $WORKDIR/COMMENT if it exists
+    xattr -p com.bitcartel.comicbooklover.xattr.metadata  "$F" >$WORKDIR/CBLCOMMENT 2>/dev/null
+# Comments exists so preserve it
+    if [ -s $WORKDIR/CBLCOMMENT ]; then
+	$ZIP -z0jr "$NEWNAME" $WORKDIR/* -x *CBLCOMMENT *_STAMP < $WORKDIR/CBLCOMMENT
+    else
+# Otherwize, just create a file without comments.
+	$ZIP -0jr "$NEWNAME" $WORKDIR/* -x *CBLCOMMENT *_STAMP < $WORKDIR/CBLCOMMENT
+    fi
+# Restore timestamp of CBR file to new CBZ file.
+    touch -r $WORKDIR/__STAMP "$NEWNAME"
+    rm -rf $WORKDIR
+done
