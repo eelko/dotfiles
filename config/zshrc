@@ -15,3 +15,5 @@ source_if_exists "$HOME/.fzf.zsh"
 source_if_exists "$HOME/.rvm/scripts/rvm"
 
 source_if_exists "$HOME/.sdkman/bin/sdkman-init.sh"
+
+source_if_exists "$HOME/.nvm/nvm.sh"
