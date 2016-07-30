@@ -42,6 +42,21 @@ bindkey '^s' history-incremental-pattern-search-backward
 zmodload zsh/complist                                        # manually load completion module
 bindkey -M menuselect '^[[z' reverse-menu-complete           # enable shift-tab in completion menu
 
+# variables
+export EDITOR='vim'
+export LANG='en_US.UTF-8'
+export LC_ALL='en_US.UTF-8'
+export SHELL='/bin/zsh'
+export TERM='xterm-256color'
+export WORDCHARS="" # characters to be considered part of a word. empty forces kill-word to stop at -, /, etc.
+
+export PATH="$HOME/.bin:$PATH"
+
+if [[ "$(uname)" = 'Darwin' ]]; then
+  export PATH="/usr/local/bin:$PATH"
+  export TOMCAT_HOME=$(brew --prefix tomcat)/libexec
+fi
+
 # aliases
 alias h='history | grep -i'
 alias vi='vim'
@@ -57,19 +72,4 @@ fi
 if [[ $(uname) = 'Linux' ]]; then
   alias pbcopy='xclip -selection clipboard'
   alias pbpaste='xclip -selection clipboard -o'
-fi
-
-# variables
-export EDITOR='vim'
-export LANG='en_US.UTF-8'
-export LC_ALL='en_US.UTF-8'
-export SHELL='/bin/zsh'
-export TERM='xterm-256color'
-export WORDCHARS="" # characters to be considered part of a word. empty forces kill-word to stop at -, /, etc.
-
-export PATH="$HOME/.bin:$PATH"
-
-if [[ "$(uname)" = 'Darwin' ]]; then
-  export TOMCAT_HOME=$(brew --prefix tomcat)/libexec
-  export PATH="/usr/local/bin:$PATH"
 fi
