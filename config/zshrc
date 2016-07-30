@@ -11,6 +11,7 @@ zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 source_if_exists "$HOME/.config/base16-shell/scripts/base16-tomorrow-night.sh"
 
 source_if_exists "$HOME/.fzf.zsh"
+export FZF_DEFAULT_COMMAND='(git ls-tree -r --name-only HEAD || ag -g '') 2> /dev/null'
 
 source_if_exists "$HOME/.rvm/scripts/rvm"
 
