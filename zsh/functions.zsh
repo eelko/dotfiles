@@ -38,9 +38,11 @@ function fe() {
 }
 
 function ff() {
-  local file=$(find ${1:-*} -path '*/\.*' -prune -o -type f -print 2> /dev/null | fzf-tmux) &&
-  echo "\"$file\" copied to clipboard."
-  echo $file | tr -d "\n" | pbcopy
+  local file=$(fzf-tmux --query="$query" --select-1 --exit-0)
+  if [[ -n "$file" ]]; then
+    echo "\"$file\" copied to clipboard."
+    echo $file | tr -d "\n" | pbcopy
+  fi
 }
 
 function fh() {
