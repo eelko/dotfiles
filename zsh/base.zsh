@@ -37,7 +37,7 @@ bindkey '^p' history-search-backward                         # match forward-his
 bindkey '^r' history-incremental-pattern-search-backward     # allow wildcards in bck-i-search
 
 unsetopt flowcontrol                                         # allows rebinding of ^s
-bindkey '^s' history-incremental-pattern-search-backward
+bindkey '^s' history-incremental-pattern-search-forward
 
 zmodload zsh/complist                                        # manually load completion module
 bindkey -M menuselect '^[[z' reverse-menu-complete           # enable shift-tab in completion menu
