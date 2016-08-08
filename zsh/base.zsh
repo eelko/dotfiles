@@ -42,6 +42,8 @@ bindkey '^s' history-incremental-pattern-search-forward
 zmodload zsh/complist                                        # manually load completion module
 bindkey -M menuselect '^[[z' reverse-menu-complete           # enable shift-tab in completion menu
 
+bindkey '^u' kill-region
+
 # variables
 export EDITOR='vim'
 export LANG='en_US.UTF-8'
