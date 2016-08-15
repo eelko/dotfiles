@@ -38,7 +38,18 @@ function fe() {
 }
 
 function ff() {
-  local file=$(fzf-tmux --query="$query" --select-1 --exit-0)
+  local query
+  local file
+
+  if [[ "$@" =~ (-[A-Za-z]) ]]; then
+    vimopts=${BASH_REMATCH[1]}
+    query=$(echo "${@%*$vimopts*}" | tr -d ' ')
+  else
+    query=$(echo "$@" | tr -d ' ')
+  fi
+
+  file=$(fzf-tmux --query="$query" --select-1 --exit-0)
+
   if [[ -n "$file" ]]; then
     echo "\"$file\" copied to clipboard."
     echo $file | tr -d "\n" | pbcopy
