@@ -60,6 +60,7 @@ if [[ "$(uname)" = 'Darwin' ]]; then
 fi
 
 # aliases
+alias history='fc -li 1'
 alias h='history | grep -i'
 alias vi='vim'
 
