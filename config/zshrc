@@ -14,6 +14,7 @@ source_if_exists "$HOME/.fzf.zsh"
 export FZF_DEFAULT_COMMAND='(git ls-tree -r --name-only HEAD || ag -g '') 2> /dev/null'
 
 source_if_exists "$HOME/.rvm/scripts/rvm"
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 source_if_exists "$HOME/.sdkman/bin/sdkman-init.sh"
 
