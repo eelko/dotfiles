@@ -106,3 +106,8 @@ function source_if_exists() {
   local script="$1"
   [[ -s $script ]] && source $script
 }
+
+function bin_exists() {
+  which "$1" > /dev/null 2>&1
+  return $?
+}

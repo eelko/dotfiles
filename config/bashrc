@@ -1,0 +1,47 @@
+source "$HOME/.dotfiles/bash/base.bash"
+source "$HOME/.dotfiles/bash/prompt.bash"
+source "$HOME/.dotfiles/zsh/functions.zsh"
+
+[ -s "$HOME/.bashrc.local.bash" ] && source "$HOME/.bashrc.local.bash"
+
+dircolors=$(dircolors >/dev/null 2>&1 && echo 'dircolors' || echo 'gdircolors')
+eval $($dircolors -b $HOME/.LS_COLORS/LS_COLORS)
+
+# base16
+source_if_exists "$HOME/.config/base16-shell/scripts/base16-tomorrow-night.sh"
+
+# fasd
+fasd_cache="$HOME/.fasd-init-bash"
+if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+  fasd --init posix-alias bash-hook bash-ccomp bash-ccomp-install >| "$fasd_cache"
+fi
+source "$fasd_cache"
+unset fasd_cache
+
+# fzf
+source_if_exists "$HOME/.fzf.bash"
+export FZF_DEFAULT_COMMAND='(git ls-tree -r --name-only HEAD || ag -g '') 2> /dev/null'
+
+# lazy loading helpers
+function lazy_load() {
+  binary_name="$1"
+  version_manager_name="$3"
+  load_script="$2"
+
+eval "$(cat <<EOF
+  function load_${binary_name}() {
+    if ! bin_exists "$binary_name"; then
+      echo 'Loading $version_manager_name...'
+      unalias $binary_name
+      source_if_exists "$load_script"
+    fi
+    [[ ! -z "\$@" ]] && $binary_name "\$@" || $binary_name
+  }
+  alias $binary_name='load_${binary_name} \$@'
+EOF
+)"
+}
+
+lazy_load "gradle" "$HOME/.sdkman/bin/sdkman-init.sh" "SDKMAN"
+lazy_load "node" "$HOME/.nvm/nvm.sh" "NVM"
+lazy_load "rvm" "$HOME/.rvm/scripts/rvm" "RVM"

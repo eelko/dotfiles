@@ -1,0 +1,5 @@
+set completion-ignore-case on
+set show-all-if-ambiguous on
+
+"\C-p":history-search-backward
+"\C-n":history-search-forward
