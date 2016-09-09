@@ -55,4 +55,20 @@ function parse_git_dirty {
   fi
 }
 
-export PS1="\n\[\e[34m\]\w\[\e[m\] \e[38;5;243m\`parse_git_branch\`\e[0m\n\\[\e[35m\]❯\[\e[m\] \[$(tput sgr0)\]"
+function prompt_current_dir() {
+  echo "\[\e[34m\]\w\[\e[m\]"
+}
+
+function prompt_git_branch() {
+  echo "\e[38;5;243m\`parse_git_branch\`\e[0m"
+}
+
+function prompt_current_time() {
+  echo "\e[38;5;247m\t\e[0m"
+}
+
+function prompt_arrow() {
+  echo "\[\e[35m\]❯\[\e[m\]"
+}
+
+export PS1="\n$(prompt_current_dir) $(prompt_git_branch)\n$(prompt_arrow) "
