@@ -60,6 +60,16 @@ function fh() {
   eval $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
 }
 
+function fl() {
+  local file
+  if [[ -e "$1" ]]; then
+    less "$1"
+  else
+    file=$(fzf-tmux --query="$1" --select-1 --exit-0)
+    [ -n "$file" ] && less "$file"
+  fi
+}
+
 function flac2mp3() {
   for f in **/*.flac
     do ffmpeg -i "$f" -ab 320k -map_metadata 0 -id3v2_version 3 "${f[@]/%flac/mp3}"
