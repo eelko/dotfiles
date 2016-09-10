@@ -1,75 +1,3 @@
-function status_msg() {
-  printf "\033[1;34m:\033[0m\033[1;37m %s\033[0m\n" "$1"
-}
-
-function error_msg() {
-  printf "\033[1;31m\xe2\x9c\x98 %s\033[0m\n" "$1"
-}
-
-function ok_msg() {
-  printf "\033[1;32m\xe2\x9c\x93 %s\033[0m\n" "$1"
-}
-
-function warn_msg() {
-  printf "\033[1;33m%s\033[0m\n" "$1"
-}
-
-function fd() {
-  local dir
-  dir=$(find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf-tmux +m) &&
-  cd "$dir"
-}
-
-function fe() {
-  local vimopts
-  local query
-  local result
-
-  if [[ "$@" =~ (-[A-Za-z]) ]]; then
-    vimopts=${BASH_REMATCH[1]}
-    query=$(echo "${@%*$vimopts*}" | tr -d ' ')
-  else
-    query=$(echo "$@" | tr -d ' ')
-  fi
-
-  result=($(fzf-tmux --query="$query" --multi --select-1 --exit-0))
-
-  [ -n "$result" ] && ${EDITOR:-vim} $result $vimopts
-}
-
-function ff() {
-  local query
-  local file
-
-  if [[ "$@" =~ (-[A-Za-z]) ]]; then
-    vimopts=${BASH_REMATCH[1]}
-    query=$(echo "${@%*$vimopts*}" | tr -d ' ')
-  else
-    query=$(echo "$@" | tr -d ' ')
-  fi
-
-  file=$(fzf-tmux --query="$query" --select-1 --exit-0)
-
-  if [[ -n "$file" ]]; then
-    echo "\"$file\" copied to clipboard."
-    echo $file | tr -d "\n" | pbcopy
-  fi
-}
-
-function fh() {
-  eval $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
-}
-
-function fl() {
-  local file
-  if [[ -e "$1" ]]; then
-    less "$1"
-  else
-    file=$(fzf-tmux --query="$1" --select-1 --exit-0)
-    [ -n "$file" ] && less "$file"
-  fi
-}
-
 function flac2mp3() {
   for f in **/*.flac
     do ffmpeg -i "$f" -ab 320k -map_metadata 0 -id3v2_version 3 "${f[@]/%flac/mp3}"
@@ -96,13 +24,9 @@ function setjava() {
   java -version
 }
 
-# function cd() {
-#   if [[ -z $* ]]; then
-#     builtin cd && l
-#   else
-#     builtin cd "$*" && l
-#   fi
-# }
+function cd() {
+  builtin cd "$@" && l
+}
 
 function playjs() {
   local playground="play.$$.js"
@@ -121,3 +45,5 @@ function bin_exists() {
   which "$1" > /dev/null 2>&1
   return $?
 }
+
+source "$HOME/.dotfiles/zsh/fzf-functions.zsh"
