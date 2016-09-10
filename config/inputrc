@@ -3,3 +3,5 @@ set show-all-if-ambiguous on
 
 "\C-p":history-search-backward
 "\C-n":history-search-forward
+"\C-i":menu-complete
+"\e[Z":menu-complete-backward
