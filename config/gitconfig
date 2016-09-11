@@ -8,7 +8,7 @@
   dc = diff --cached
   df = diff
   st = status -sb
-  lg = log --graph --abbrev-commit --pretty=format:'%C(yellow)%h%Creset |%C(bold red)%d%Creset %s %Cgreen(%ar) %C(cyan)<%an>%Creset'
+  lg = log --graph --format='%C(yellow)%h%C(auto)%d%C(reset) %s %C(green)(%ar) %C(cyan)<%an>%C(reset)'
   wc = !git whatchanged -1 $1
   changed-files = !git whatchanged $1 -1 | grep '^:' | awk '{print $NF}'
   conflicted-files = !git ls-files --unmerged | cut -f2 | sort -u
