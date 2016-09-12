@@ -29,11 +29,11 @@ function cd() {
 }
 
 function playjs() {
-  local playground="play.$$.js"
+  load_node '-v'
+  playground="play.$$.js"
   tmux rename-window $playground
-  tmux send-keys "vim /tmp/$playground" 'C-m'
-  tmux split-window -h 'node'
-  tmux last-pane
+  vim "/tmp/$playground"
+  tmux setw automatic-rename
 }
 
 function source_if_exists() {
