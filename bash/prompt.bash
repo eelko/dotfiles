@@ -1,4 +1,5 @@
-function prompt_pure_check_git_arrows() {
+# get arrows indicating if branch is ahead/behind remote (adapted from https://github.com/sindresorhus/pure)
+function prompt_git_arrows() {
   # reset git arrows
   prompt_pure_git_arrows=
 
@@ -19,40 +20,28 @@ function prompt_pure_check_git_arrows() {
   (( ${left:-0} > 0 )) && arrows+="${PURE_GIT_UP_ARROW:-⇡}"
 
   [[ -n $arrows ]] && prompt_pure_git_arrows=" ${arrows}"
-  echo $prompt_pure_git_arrows
+  echo "$prompt_pure_git_arrows"
 }
 
 # get current branch in git repo
 function parse_git_branch() {
-  BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
-  if [ ! "${BRANCH}" == "" ]
-  then
-    STAT=`parse_git_dirty`
-    ARROWS=`prompt_pure_check_git_arrows`
-    echo -e "${BRANCH}${STAT} \e[36m${ARROWS}"
-  else
-    echo ""
-  fi
+  local branch_name=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+
+  [[ ! -z "$branch_name" ]] && echo -e "$branch_name$(prompt_git_dirty) \e[36m$(prompt_git_arrows)" || echo ""
 }
 
-# get current status of git repo
-function parse_git_dirty {
-  status=`git status 2>&1 | tee`
-  dirty=`echo -n "${status}" 2> /dev/null | grep "modified:" &> /dev/null; echo "$?"`
-  untracked=`echo -n "${status}" 2> /dev/null | grep "Untracked files" &> /dev/null; echo "$?"`
-  ahead=`echo -n "${status}" 2> /dev/null | grep "Your branch is ahead of" &> /dev/null; echo "$?"`
-  newfile=`echo -n "${status}" 2> /dev/null | grep "new file:" &> /dev/null; echo "$?"`
-  renamed=`echo -n "${status}" 2> /dev/null | grep "renamed:" &> /dev/null; echo "$?"`
-  deleted=`echo -n "${status}" 2> /dev/null | grep "deleted:" &> /dev/null; echo "$?"`
-  bits=''
-  if [[ "${dirty}" == "0" || "${untracked}" == "0" || "${newfile}" == "0" || "${renamed}" == "0" || "${deleted}" == "0" ]]; then
-    bits="*${bits}"
-  fi
-  if [ ! "${bits}" == "" ]; then
-    echo "${bits}"
+# fastest possible way to check if repo is dirty (from https://github.com/sindresorhus/pure)
+# PURE_GIT_UNTRACKED_DIRTY will skip untracked files in dirtiness check (only useful on extremely huge repos)
+prompt_git_dirty() {
+  local untracked_dirty="${PURE_GIT_UNTRACKED_DIRTY:-1}"
+
+  if [[ "$untracked_dirty" == "0" ]]; then
+    command git diff --no-ext-diff --quiet --exit-code
   else
-    echo ""
+    test -z "$(command git status --porcelain --ignore-submodules -unormal)"
   fi
+
+  (( $? )) && echo "*"
 }
 
 function prompt_current_dir() {
