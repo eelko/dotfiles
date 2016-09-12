@@ -50,4 +50,5 @@ EOF
 lazy_load "gradle" "$HOME/.sdkman/bin/sdkman-init.sh" "SDKMAN"
 lazy_load "node" "$HOME/.nvm/nvm.sh" "NVM"
 lazy_load "nvm" "$HOME/.nvm/nvm.sh" "NVM"
+lazy_load "grunt" "$HOME/.nvm/nvm.sh" "NVM"
 lazy_load "rvm" "$HOME/.rvm/scripts/rvm" "RVM"
