@@ -29,9 +29,8 @@ alias h='history | grep -i'
 alias vi='vim'
 
 ls=$(gls >/dev/null 2>&1 && echo 'gls' || echo 'ls')
-alias ls="$ls -lh --color=always --group-directories-first"
-alias l='ls'
-alias la='ls -a'
+alias l="$ls -lh --color=always --group-directories-first"
+alias la='l -a'
 
 if [[ $(uname) = 'Darwin' ]]; then
   alias tree='tree -C'
