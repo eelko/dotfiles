@@ -27,7 +27,7 @@ function prompt_git_arrows() {
 function parse_git_branch() {
   local branch_name=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
 
-  [[ ! -z "$branch_name" ]] && echo -e "$branch_name$(prompt_git_dirty) \e[36m$(prompt_git_arrows)" || echo ""
+  [[ ! -z "$branch_name" ]] && echo -e "$branch_name$(prompt_git_dirty)\e[36m$(prompt_git_arrows)" || echo ""
 }
 
 # fastest possible way to check if repo is dirty (from https://github.com/sindresorhus/pure)
