@@ -13,6 +13,7 @@ shopt -s cmdhist # use one command per line
 
 # variables
 export EDITOR='vim'
+export GREP_OPTIONS='--color=auto'
 export LANG='en_US.UTF-8'
 export LC_ALL='en_US.UTF-8'
 export TERM='xterm-256color'
@@ -29,7 +30,7 @@ alias h='history | grep -i'
 alias vi='vim'
 
 ls=$(gls >/dev/null 2>&1 && echo 'gls' || echo 'ls')
-alias l="$ls -lh --color=always --group-directories-first"
+alias l="$ls -l -h --color=auto --group-directories-first"
 alias la='l -a'
 
 if [[ $(uname) = 'Darwin' ]]; then
