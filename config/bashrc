@@ -31,19 +31,23 @@ export FZF_DEFAULT_COMMAND='(git ls-tree -r --name-only HEAD || ag -g '') 2> /de
 # lazy loading helpers
 function lazy_load() {
   binary_name="$1"
-  version_manager_name="$3"
   load_script="$2"
+  version_manager_name="$3"
+  loader_fn="load_${binary_name}"
 
 eval "$(cat <<EOF
-  function load_${binary_name}() {
+  function ${loader_fn}() {
     if ! bin_exists "$binary_name"; then
       echo 'Loading $version_manager_name...'
       unalias $binary_name
       source_if_exists "$load_script"
     fi
+  }
+  function load_and_exec_${binary_name}() {
+    $loader_fn
     [[ ! -z "\$@" ]] && $binary_name "\$@" || $binary_name
   }
-  alias $binary_name='load_${binary_name} \$@'
+  alias $binary_name='load_and_exec_${binary_name} \$@'
 EOF
 )"
 }
