@@ -16,6 +16,7 @@ export EDITOR='vim'
 export GREP_OPTIONS='--color=auto'
 export LANG='en_US.UTF-8'
 export LC_ALL='en_US.UTF-8'
+export LESS='-r'
 export TERM='xterm-256color'
 
 export PATH="$HOME/.bin:$PATH"
@@ -31,7 +32,8 @@ alias vi='vim'
 
 ls=$(gls >/dev/null 2>&1 && echo 'gls' || echo 'ls')
 alias l="$ls -l -h --color=auto --group-directories-first"
-alias la='l -a'
+alias la='l -a --color=always | less'
+alias ll="l --color=always | less"
 
 if [[ $(uname) = 'Darwin' ]]; then
   alias tree='tree -C'
