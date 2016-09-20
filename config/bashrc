@@ -30,30 +30,41 @@ export FZF_DEFAULT_COMMAND='(git ls-tree -r --name-only HEAD || ag -g '') 2> /de
 
 # lazy loading helpers
 function lazy_load() {
-  binary_name="$1"
-  load_script="$2"
-  version_manager_name="$3"
-  loader_fn="load_${binary_name}"
+  load_script_id="$1"
+  load_script_path="$2"
+  load_triggers="$3"
+
+  load_fn="load_${load_script_id}"
+  load_and_run_fn="load_and_run_${load_script_id}"
+  triggers_array=($load_triggers)
+
+  for t in "${triggers_array[@]}"
+  do
+    alias "$t"="$load_and_run_fn \"$t\""
+  done
 
 eval "$(cat <<EOF
-  function ${loader_fn}() {
-    if ! bin_exists "$binary_name"; then
-      echo 'Loading $version_manager_name...'
-      unalias $binary_name
-      source_if_exists "$load_script"
+  function ${load_fn}() {
+    bin_name=\$( [ ! -z \$1 ] && echo \$1 || echo "${triggers_array[0]}" )
+    if ! bin_exists "\$bin_name"; then
+      echo 'Loading $load_script_id...'
+      for t in "${triggers_array[@]}"
+        do unalias \$t
+      done
+      source_if_exists "$load_script_path"
+      unset -f $load_fn $load_and_run_fn
     fi
   }
-  function load_and_exec_${binary_name}() {
-    $loader_fn
-    [[ ! -z "\$@" ]] && $binary_name "\$@" || $binary_name
+
+  function ${load_and_run_fn}() {
+    bin_name=\$1; arguments=\$2
+    $load_fn \$bin_name
+    [ ! -z "\$arguments" ] && \$bin_name "\$arguments" || \$bin_name
   }
-  alias $binary_name='load_and_exec_${binary_name} \$@'
 EOF
 )"
 }
 
-lazy_load "gradle" "$HOME/.sdkman/bin/sdkman-init.sh" "SDKMAN"
-lazy_load "node" "$HOME/.nvm/nvm.sh" "NVM"
-lazy_load "nvm" "$HOME/.nvm/nvm.sh" "NVM"
-lazy_load "grunt" "$HOME/.nvm/nvm.sh" "NVM"
-lazy_load "rvm" "$HOME/.rvm/scripts/rvm" "RVM"
+lazy_load "NVM"    "$HOME/.nvm/nvm.sh"                 "nvm grunt node"
+lazy_load "SDKMAN" "$HOME/.sdkman/bin/sdkman-init.sh"  "gradle"
+lazy_load "RVM"    "$HOME/.rvm/scripts/rvm"            "rvm"
