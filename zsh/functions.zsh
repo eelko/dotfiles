@@ -29,10 +29,10 @@ function cd() {
 }
 
 function playjs() {
-  load_node '-v'
+  bin_exists 'node' || load_NVM
   playground="play.$$.js"
   tmux rename-window $playground
-  vim "/tmp/$playground"
+  vim -c 'Codi' "/tmp/$playground"
   tmux setw automatic-rename
 }
 
