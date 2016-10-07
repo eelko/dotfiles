@@ -10,6 +10,7 @@ HISTTIMEFORMAT='%F %T ' # record timestamps
 PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r" # preserve bash history in multiple terminal windows
 shopt -s histappend # append history instead of rewriting it
 shopt -s cmdhist # use one command per line
+shopt -s globstar # enable double asterisk glob
 
 # variables
 export EDITOR='vim'
