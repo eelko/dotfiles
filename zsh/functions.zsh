@@ -46,4 +46,14 @@ function bin_exists() {
   return $?
 }
 
+function shorten() {
+  [[ "$#" -eq 0 ]] && echo -e "Usage:\n shorten [--quiet] [URL]" && return
+  for arg in $*; do
+    [[ "$arg" =~ ^http ]] && long_url="$arg"
+    [[ "$arg" =~ ^--[a-z]+ ]] && declare ${arg#--}=true
+  done
+  short_url=$(curl -Ss "http://api.bitly.com/v3/shorten?login=$BITLY_LOGIN&apiKey=$BITLY_API_KEY&longUrl=$long_url&format=txt") && echo "$short_url" | pbcopy
+  [[ -z "$quiet" ]] && echo "\"$short_url\" copied to clipboard." || echo $short_url
+}
+
 source "$HOME/.dotfiles/zsh/fzf-functions.zsh"
