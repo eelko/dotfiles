@@ -24,10 +24,6 @@ function setjava() {
   java -version
 }
 
-function cd() {
-  builtin cd "$@" && l
-}
-
 function playjs() {
   bin_exists 'node' || load_NVM
   playground="play.$$.js"
@@ -54,6 +50,14 @@ function shorten() {
   done
   short_url=$(curl -Ss "http://api.bitly.com/v3/shorten?login=$BITLY_LOGIN&apiKey=$BITLY_API_KEY&longUrl=$long_url&format=txt") && echo "$short_url" | pbcopy
   [[ -z "$quiet" ]] && echo "\"$short_url\" copied to clipboard." || echo $short_url
+}
+
+function read_nvmrc() {
+  [[ -f "$PWD/.nvmrc" ]] && ( eval "nvm use" || true ) || false
+}
+
+function cd() {
+  builtin cd "$@" && read_nvmrc || l
 }
 
 source "$HOME/.dotfiles/zsh/fzf-functions.zsh"
