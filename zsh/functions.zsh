@@ -60,4 +60,8 @@ function cd() {
   builtin cd "$@" && read_nvmrc || l
 }
 
+function growl() {
+  terminal-notifier -activate com.googlecode.iterm2 -title 'iTerm' -subtitle 'Command finished running:' -message "$@"
+}
+
 source "$HOME/.dotfiles/zsh/fzf-functions.zsh"
