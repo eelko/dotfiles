@@ -64,9 +64,7 @@ function growl() {
   terminal-notifier -activate com.googlecode.iterm2 -title 'iTerm' -subtitle 'Command finished running:' -message "$@"
 }
 
-function note() {
-  [[ -z "$1" ]] && echo -e "Usage:\n$ note <some title>" && return
-
+function new_note() {
   title="$(echo $@ | gsed -e 's/\b\(.\)/\u\1/g')"
   marker="$(echo $title | sed -e 's/./=/g')"
   header="$title\r$marker\r\r"
@@ -79,11 +77,19 @@ function note() {
     && tmux setw automatic-rename
 }
 
-function notes() {
+function list_notes() {
   builtin cd $NOTES_HOME
   chosen_note=$(find . -iname "*.md" -type f | sed -e "s/\.\///g" | fzf)
   [ ! -z "$chosen_note" ] && vim "$chosen_note"
   builtin cd - >/dev/null
+}
+
+function note() {
+  if [[ -z "$1" ]]; then
+    list_notes
+  else
+    new_note "$@"
+  fi
 }
 
 source "$HOME/.dotfiles/zsh/fzf-functions.zsh"
