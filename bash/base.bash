@@ -23,7 +23,6 @@ export TERM='xterm-256color'
 export PATH="$HOME/.bin:$PATH"
 
 if [[ "$(uname)" = 'Darwin' ]]; then
-  export PATH="/usr/local/bin:$PATH"
   export TOMCAT_HOME="/usr/local/opt/tomcat/libexec"
 fi
 
