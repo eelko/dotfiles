@@ -15,7 +15,7 @@ function fe() {
 
   result=($(fzf-tmux --query="$query" --multi --select-1 --exit-0))
 
-  [ -n "$result" ] && ${EDITOR:-vim} $result $vimopts
+  [ -n "$result" ] && ${EDITOR:-vim} "${result[@]}" $vimopts
 }
 
 # fv - open recent files using fasd
