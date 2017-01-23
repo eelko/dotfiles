@@ -28,6 +28,9 @@ unset fasd_cache
 source_if_exists "$HOME/.fzf.bash"
 export FZF_DEFAULT_COMMAND='(git ls-tree -r --name-only HEAD || ag -g '') 2> /dev/null'
 
+# load java
+setjava 8 &> /dev/null
+
 # lazy loading helpers
 function lazy_load() {
   load_script_id="$1"
