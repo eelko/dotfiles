@@ -19,9 +19,17 @@ function mp3split() {
 }
 
 function setjava() {
-  export JAVA_HOME=$(/usr/libexec/java_home -v 1.$1)
-  echo "JAVA_HOME=$JAVA_HOME"
-  java -version
+  for arg in $*; do
+    [[ "$arg" =~ ^--[a-z]+ ]] && declare ${arg#--}=true
+  done
+
+  export JAVA_HOME="$(/usr/libexec/java_home -v 1.$1)"
+  export PATH="$JAVA_HOME/bin:$PATH"
+
+  if [[ -z "$quiet" ]]; then
+    echo "JAVA_HOME=$JAVA_HOME"
+    java -version
+  fi
 }
 
 function playjs() {
