@@ -1,5 +1,6 @@
 # general options
 stty -ixon # disable flow control
+complete -d cd # cd tab completion only completes directories
 
 # history
 HISTFILESIZE=1000000 # allow a larger history file
