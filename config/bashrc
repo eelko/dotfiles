@@ -27,6 +27,7 @@ unset fasd_cache
 # fzf
 source_if_exists "$HOME/.fzf.bash"
 export FZF_DEFAULT_COMMAND='(git ls-tree -r --name-only HEAD || ag -g "") 2> /dev/null'
+export FZF_DEFAULT_OPTS='--multi --tiebreak=end --bind alt-a:select-all,alt-d:deselect-all,alt-t:toggle-all'
 
 # load java
 setjava 8 &> /dev/null
