@@ -68,6 +68,6 @@ EOF
 )"
 }
 
-lazy_load "NVM"    "$HOME/.nvm/nvm.sh"                 "nvm grunt node"
+lazy_load "NVM"    "$HOME/.nvm/nvm.sh"                 "nvm grunt node npm"
 lazy_load "SDKMAN" "$HOME/.sdkman/bin/sdkman-init.sh"  "gradle"
 lazy_load "RVM"    "$HOME/.rvm/scripts/rvm"            "rvm pod bundle gem"
