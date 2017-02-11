@@ -65,7 +65,7 @@ function read_nvmrc() {
 }
 
 function cd() {
-  builtin cd "$@" && read_nvmrc || l
+  builtin cd "$@" && l
 }
 
 function growl() {
