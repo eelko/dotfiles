@@ -1,7 +1,8 @@
 source "$HOME/.dotfiles/bash/base.bash"
 source "$HOME/.dotfiles/bash/prompt.bash"
-source "$HOME/.dotfiles/zsh/functions.zsh"
-source "$HOME/.dotfiles/zsh/fzf-functions.zsh"
+source "$HOME/.dotfiles/bash/functions.bash"
+source "$HOME/.dotfiles/functions.sh"
+source "$HOME/.dotfiles/fzf-functions.sh"
 
 # sensitive configs
 [ -s "$HOME/.bashrc.local.bash" ] && source "$HOME/.bashrc.local.bash"

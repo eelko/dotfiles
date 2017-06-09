@@ -1,13 +1,10 @@
 export ZPLUG_HOME=/usr/local/opt/zplug
 source $ZPLUG_HOME/init.zsh
 
-zplug "plugins/fasd", from:oh-my-zsh
-
 zplug "mafredri/zsh-async"
+zplug "plugins/fasd", from:oh-my-zsh
 zplug "sindresorhus/pure"
-
-zplug "zsh-users/zsh-completions"
-zplug "zsh-users/zsh-syntax-highlighting", nice:10
+zplug "zsh-users/zsh-syntax-highlighting"
 
 if ! zplug check --verbose; then
   printf "Install? [y/N]: "
@@ -16,7 +13,7 @@ if ! zplug check --verbose; then
   fi
 fi
 
-zplug load --verbose
+zplug load
 
 # zsh-users/zsh-syntax-highlighting
 ZSH_HIGHLIGHT_STYLES[alias]='fg=208,bold'

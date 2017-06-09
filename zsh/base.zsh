@@ -1,6 +1,5 @@
 # appearance
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
-RPROMPT="%{$fg[white]%}%*%{$reset_color%}"
 
 # history
 HISTSIZE=10000
@@ -15,16 +14,6 @@ setopt hist_verify              # don't execute immediately upon history expansi
 setopt inc_append_history       # write to the history file immediately, not when the shell exits
 setopt share_history            # share command history data
 
-# completion
-zstyle ':completion:*' group-name ''         # group suggestions by type
-zstyle ':completion:*' format '%B- %d%b'     # prefix groups with "-"
-zstyle ':completion:*' menu select           # enable interactive menu
-
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*' # case-insensitive, partial-word and then substring completion
-
-zstyle ':completion::complete:*' use-cache 1 # enable completion cache
-zstyle ':completion::complete:*' cache-path $ZSH_CACHE_DIR
-
 # key bindings
 bindkey -e
 
@@ -32,8 +21,13 @@ autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '^x^e' edit-command-line                             # edit command line in $EDITOR
 
-bindkey '^n' history-search-forward                          # match back-history with typed chars
-bindkey '^p' history-search-backward                         # match forward-history with typed chars
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^n" down-line-or-beginning-search                   # match back-history with typed chars
+bindkey "^p" up-line-or-beginning-search                     # match forward-history with typed chars
+
 bindkey '^r' history-incremental-pattern-search-backward     # allow wildcards in bck-i-search
 
 unsetopt flowcontrol                                         # allows rebinding of ^s
@@ -46,28 +40,26 @@ bindkey '^u' kill-region
 
 # variables
 export EDITOR='vim'
+export GREP_OPTIONS='--color=auto'
 export LANG='en_US.UTF-8'
 export LC_ALL='en_US.UTF-8'
-export SHELL='/bin/zsh'
+export LESS='-R'
 export TERM='xterm-256color'
-export WORDCHARS="" # characters to be considered part of a word. empty forces kill-word to stop at -, /, etc.
-
 export PATH="$HOME/.bin:$PATH"
+export PATH="/usr/local/bin:$PATH"
 
 if [[ "$(uname)" = 'Darwin' ]]; then
-  export PATH="/usr/local/bin:$PATH"
-  export TOMCAT_HOME=$(brew --prefix tomcat)/libexec
+  export TOMCAT_HOME="/usr/local/opt/tomcat/libexec"
 fi
 
 # aliases
-alias history='fc -li 1'
 alias h='history | grep -i'
 alias vi='vim'
 
 ls=$(gls >/dev/null 2>&1 && echo 'gls' || echo 'ls')
-alias ls="$ls -lh --color=always --group-directories-first"
-alias l='ls'
-alias la='ls -a'
+alias l="$ls -l -h --color=auto --group-directories-first"
+alias la='l -a --color=always | less'
+alias ll="l --color=always | less"
 
 if [[ $(uname) = 'Darwin' ]]; then
   alias tree='tree -C'

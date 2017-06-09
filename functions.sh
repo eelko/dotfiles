@@ -1,15 +1,18 @@
+# Convert all .flac files (within directpry) to mp3
 function flac2mp3() {
   for f in **/*.flac
     do ffmpeg -i "$f" -ab 320k -map_metadata 0 -id3v2_version 3 "${f[@]/%flac/mp3}"
   done
 }
 
+# Convert all .m4a files (within directpry) to mp3
 function m4a2mp3() {
   for f in **/*.m4a
     do ffmpeg -i "$f" -codec:v copy -codec:a libmp3lame -q:a 2 "${f%.m4a}.mp3"
   done
 }
 
+# Split .mp3 by given start/end time
 function mp3split() {
   input=$1
   start=$2
@@ -18,6 +21,7 @@ function mp3split() {
   ffmpeg -i $input -vn -acodec copy -ss $start -t $end $output
 }
 
+# Helper to dynamically set a chosen Java version
 function setjava() {
   for arg in $*; do
     [[ "$arg" =~ ^--[a-z]+ ]] && declare ${arg#--}=true
@@ -32,6 +36,7 @@ function setjava() {
   fi
 }
 
+# Create a node REPL using Codi
 function playjs() {
   bin_exists 'node' || load_NVM
   playground="play.$$.js"
@@ -40,16 +45,20 @@ function playjs() {
   tmux setw automatic-rename
 }
 
+# Source file if it exists
 function source_if_exists() {
   local script="$1"
   [[ -s $script ]] && source $script
 }
 
+# Helper to check wether a bin exists
 function bin_exists() {
   which "$1" > /dev/null 2>&1
   return $?
 }
 
+# Create short URLs
+# Usage: shorten [full url]
 function shorten() {
   [[ "$#" -eq 0 ]] && echo -e "Usage:\n shorten [--quiet] [URL]" && return
   for arg in $*; do
@@ -60,18 +69,25 @@ function shorten() {
   [[ -z "$quiet" ]] && echo "\"$short_url\" copied to clipboard." || echo $short_url
 }
 
+# Read .nvmrc if it exists
 function read_nvmrc() {
   [[ -f "$PWD/.nvmrc" ]] && ( eval "nvm use" || true ) || false
 }
 
+# Enter directory and list contents
 function cd() {
   builtin cd "$@" && l
 }
 
+# Wrapper for terminal notifications
 function growl() {
   terminal-notifier -activate com.googlecode.iterm2 -title 'iTerm' -subtitle 'Command finished running:' -message "$@"
 }
 
+# Note taking helpers
+# Usage:
+# $ note
+# $ note [note name]
 function new_note() {
   title="$(echo $@ | gsed -e 's/\b\(.\)/\u\1/g')"
   marker="$(echo $title | sed -e 's/./=/g')"
@@ -98,42 +114,6 @@ function note() {
   else
     new_note "$@"
   fi
-}
-
-function lazy_load() {
-  load_script_id="$1"
-  load_script_path="$2"
-  load_triggers="$3"
-
-  load_fn="load_${load_script_id}"
-  load_and_run_fn="load_and_run_${load_script_id}"
-  triggers_array=($load_triggers)
-
-  for t in "${triggers_array[@]}"
-  do
-    alias "$t"="$load_and_run_fn \"$t\""
-  done
-
-eval "$(cat <<EOF
-  function ${load_fn}() {
-    bin_name=\$( [ ! -z \$1 ] && echo \$1 || echo "${triggers_array[0]}" )
-    if ! bin_exists "\$bin_name"; then
-      echo 'Loading $load_script_id...'
-      for t in "${triggers_array[@]}"
-        do unalias \$t
-      done
-      source_if_exists "$load_script_path"
-      unset -f $load_fn $load_and_run_fn
-    fi
-  }
-
-  function ${load_and_run_fn}() {
-    bin_name=\$1
-    $load_fn \$bin_name
-    \$bin_name "\${@:2}"
-  }
-EOF
-)"
 }
 
 # Codi
