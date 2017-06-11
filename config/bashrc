@@ -7,16 +7,19 @@ source "$HOME/.dotfiles/fzf-functions.sh"
 # sensitive configs
 [ -s "$HOME/.bashrc.local.bash" ] && source "$HOME/.bashrc.local.bash"
 
-# better colors
-dircolors=$(dircolors >/dev/null 2>&1 && echo 'dircolors' || echo 'gdircolors')
-eval $($dircolors -b $HOME/.LS_COLORS/LS_COLORS)
+# background and colors
+if [[ "$TERM_BACKGROUND" = 'light' ]]; then
+  source_if_exists "$HOME/.config/base16-shell/scripts/base16-default-light.sh"
+else
+  source_if_exists "$HOME/.config/base16-shell/scripts/base16-tomorrow-night.sh"
+
+  dircolors_bin=$(dircolors >/dev/null 2>&1 && echo 'dircolors' || echo 'gdircolors')
+  eval $($dircolors_bin -b $HOME/.LS_COLORS/LS_COLORS)
+fi
 
 # completion
 source_if_exists "/usr/local/opt/git/etc/bash_completion.d/git-completion.bash"
 complete -o default -o nospace -W "$(grep '^Host ' $HOME/.ssh/config | awk '{print $2}')" scp sftp ssh # complete ssh hosts
-
-# base16
-source_if_exists "$HOME/.config/base16-shell/scripts/base16-tomorrow-night.sh"
 
 # fasd
 fasd_cache="$HOME/.fasd-init-bash"
@@ -29,7 +32,7 @@ unset fasd_cache
 # fzf
 source_if_exists "$HOME/.fzf.bash"
 export FZF_DEFAULT_COMMAND='(git ls-tree -r --name-only HEAD || ag -g "") 2> /dev/null'
-export FZF_DEFAULT_OPTS='--multi --tiebreak=end --bind alt-a:select-all,alt-d:deselect-all,alt-t:toggle-all'
+export FZF_DEFAULT_OPTS="--multi --tiebreak=end --bind alt-a:select-all,alt-d:deselect-all,alt-t:toggle-all --color=${TERM_BACKGROUND:-dark}"
 
 # lazy loaders
 lazy_load "NVM"    "$HOME/.nvm/nvm.sh"                 "nvm grunt node npm"
