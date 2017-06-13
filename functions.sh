@@ -116,9 +116,9 @@ function note() {
   fi
 }
 
-# Codi
-# Usage: codi [filetype] [filename]
-codi() {
+# REPL powered by Codi
+# Usage: repl [filetype] [filename]
+repl() {
   local syntax="${1:-python}"
   shift
   vim -c \
