@@ -16,7 +16,4 @@ find $DOTFILES_HOME/config/* -maxdepth 0 -exec bash -c 'ln -snv {} ~/.$(basename
 ~/.tmux/plugins/tpm/bin/install_plugins
 
 # install fzf
-~/.fzf/install --no-key-bindings --no-completion --no-update-rc
-
-# install zplug
-curl -sL zplug.sh/installer | zsh
+~/.fzf/install --no-completion --no-update-rc
