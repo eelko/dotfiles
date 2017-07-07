@@ -7,15 +7,18 @@ source "$HOME/.dotfiles/fzf-functions.sh"
 # sensitive configs
 [ -s "$HOME/.bashrc.local.bash" ] && source "$HOME/.bashrc.local.bash"
 
-# background and colors
+# base16 colors
 if [[ "$TERM_BACKGROUND" = 'light' ]]; then
   source_if_exists "$HOME/.config/base16-shell/scripts/base16-default-light.sh"
-else
+elif [[ "$TERM_BACKGROUND" = 'dark' ]]; then
   source_if_exists "$HOME/.config/base16-shell/scripts/base16-tomorrow-night.sh"
-
-  dircolors_bin=$(dircolors >/dev/null 2>&1 && echo 'dircolors' || echo 'gdircolors')
-  eval $($dircolors_bin -b $HOME/.LS_COLORS/LS_COLORS)
+else
+  source_if_exists "$HOME/.config/base16-shell/scripts/base16-onedark.sh"
 fi
+
+# better dircolors
+dircolors_bin=$(dircolors >/dev/null 2>&1 && echo 'dircolors' || echo 'gdircolors')
+eval $($dircolors_bin -b $HOME/.LS_COLORS/LS_COLORS)
 
 # completion
 source_if_exists "/usr/local/opt/git/etc/bash_completion.d/git-completion.bash"
