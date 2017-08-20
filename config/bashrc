@@ -18,15 +18,15 @@ fi
 
 # better dircolors
 dircolors_bin=$(dircolors >/dev/null 2>&1 && echo 'dircolors' || echo 'gdircolors')
-eval $($dircolors_bin -b $HOME/.LS_COLORS/LS_COLORS)
+eval "$("$dircolors_bin" -b "$HOME/.LS_COLORS/LS_COLORS")"
 
 # completion
 source_if_exists "/usr/local/opt/git/etc/bash_completion.d/git-completion.bash"
-complete -o default -o nospace -W "$(grep '^Host ' $HOME/.ssh/config | awk '{print $2}')" scp sftp ssh # complete ssh hosts
+complete -o default -o nospace -W "$(grep '^Host ' "$HOME/.ssh/config" | awk '{print $2}')" scp sftp ssh # complete ssh hosts
 
 # fasd
 fasd_cache="$HOME/.fasd-init-bash"
-if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+if [ "$(command -v fasd)" -nt "$fasd_cache" ] || [ ! -s "$fasd_cache" ]; then
   fasd --init posix-alias bash-hook bash-ccomp bash-ccomp-install >| "$fasd_cache"
 fi
 source "$fasd_cache"
