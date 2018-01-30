@@ -3,6 +3,12 @@
 set -o nounset
 set -o errexit
 
+REQUIREMENTS=("fasd" "gdircolors" "reattach-to-user-namespace" "rg" "tmux" "tree")
+for bin in "${REQUIREMENTS[@]}"
+do
+	[[ -n $(which "$bin") ]] || (echo "Error: $bin is not installed" && exit 1)
+done
+
 DOTFILES_REPO="https://github.com/obxhdx/dotfiles"
 DOTFILES_HOME="$HOME/.dotfiles"
 
