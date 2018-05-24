@@ -9,11 +9,9 @@ source "$HOME/.dotfiles/fzf-functions.sh"
 
 # base16 colors
 if [[ "$TERM_BACKGROUND" = 'light' ]]; then
-  source_if_exists "$HOME/.config/base16-shell/scripts/base16-default-light.sh"
-elif [[ "$TERM_BACKGROUND" = 'dark' ]]; then
-  source_if_exists "$HOME/.config/base16-shell/scripts/base16-tomorrow-night.sh"
-else
-  source_if_exists "$HOME/.config/base16-shell/scripts/base16-onedark.sh"
+  source_if_exists "$HOME/.config/base16-shell/scripts/base16-gruvbox-light-hard.sh"
+elif [[ -z "$TERM_BACKGROUND" || "$TERM_BACKGROUND" = 'dark' ]]; then
+  source_if_exists "$HOME/.config/base16-shell/scripts/base16-gruvbox-dark-soft.sh"
 fi
 
 # better dircolors
