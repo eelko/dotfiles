@@ -76,7 +76,9 @@ function read_nvmrc() {
 
 # Enter directory and list contents
 function cd() {
-  builtin cd "$@" && l
+  [ -n "$1" ] && builtin cd "$1" || builtin cd
+  l
+  [ -n "$TMUX" ] && tmux setenv TMUX_"$(tmux display -p "#I")"_PWD $PWD
 }
 
 # Wrapper for terminal notifications
