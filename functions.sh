@@ -21,6 +21,13 @@ function mp3split() {
   ffmpeg -i $input -vn -acodec copy -ss $start -t $end $output
 }
 
+# Extract text from pdf
+function pdf2txt() {
+  for input in "$@"; do
+    gs -dBATCH -dNOPAUSE -sDEVICE=txtwrite -sOutputFile="${input//pdf/txt}" "$input"
+  done
+}
+
 # Helper to dynamically set a chosen Java version
 function setjava() {
   for arg in $*; do
