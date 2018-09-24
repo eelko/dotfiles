@@ -137,3 +137,7 @@ repl() {
     hi NonText ctermfg=0 |\
     Codi $syntax" "$@"
 }
+
+joinby() {
+  paste -sd "$1" -
+}
