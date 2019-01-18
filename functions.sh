@@ -28,6 +28,19 @@ function pdf2txt() {
   done
 }
 
+# Extract text from pdf
+function pdf2img() {
+  local -r input="$1"
+  local -r output_format="${2:-jpg}"
+  # -flatten option will combine all images into one
+  convert -verbose -density 150 -trim "$1" -quality 100 -sharpen 0x1.0 "out.$output_format"
+}
+
+# Merge multiple pdf into one
+function mergepdf() {
+  gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=out.pdf "$1"
+}
+
 # Helper to dynamically set a chosen Java version
 function setjava() {
   for arg in $*; do
