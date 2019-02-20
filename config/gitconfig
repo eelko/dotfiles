@@ -14,6 +14,7 @@
   conflicted-files = !git ls-files --unmerged | cut -f2 | sort -u
   count-commits = !git log --color=always -z | perl -ln0e 'print unless /git-svn-id/' | grep 'commit' | wc -l | sed 's/ //g'
   dcommit-dry-run = !git svn dcommit --dry-run | sed 1d | awk '{print $3}' | xargs git whatchanged --no-walk
+  assumed-unchanged = !git ls-files -v | grep '^h'
 [color]
   branch = auto
   diff = auto
