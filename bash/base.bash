@@ -13,7 +13,6 @@ shopt -s globstar # enable double asterisk glob
 
 # variables
 export EDITOR='vim'
-export GREP_OPTIONS='--color=auto'
 export LANG='en_US.UTF-8'
 export LC_ALL='en_US.UTF-8'
 export LESS='-R'
@@ -25,6 +24,7 @@ if [[ "$(uname)" = 'Darwin' ]]; then
 fi
 
 # aliases
+alias grep='grep --color'
 alias h='history | grep -i'
 alias vi='vim'
 
