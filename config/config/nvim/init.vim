@@ -184,7 +184,8 @@ Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins', 'on': [] }
 Plug 'sirver/ultisnips', { 'on': [] }
 Plug 'tpope/vim-endwise'
 
-" Lint
+" Linting & Formatting
+Plug 'tpope/vim-sleuth'
 Plug 'w0rp/ale', { 'on': [] }
 
 " Misc
