@@ -188,8 +188,11 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-sleuth'
 Plug 'w0rp/ale', { 'on': [] }
 
-" Misc
+" Navigation
 Plug 'junegunn/vim-slash'
+Plug 'valloric/MatchTagAlways'
+
+" Misc
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'mhinz/vim-signify'
 Plug 'obxhdx/vim-action-mapper'
