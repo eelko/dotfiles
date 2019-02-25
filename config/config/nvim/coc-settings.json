@@ -1,0 +1,8 @@
+{
+  "diagnostic.displayByAle": true,
+  "suggest.noselect": false,
+  "snippets.extends": {
+    "javascriptreact": ["javascript"],
+    "typescript": ["javascript"]
+  }
+}

@@ -180,7 +180,7 @@ Plug 'sjl/badwolf'
 " Code Completion
 Plug 'honza/vim-snippets', { 'on': [] }
 Plug 'jiangmiao/auto-pairs'
-Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins', 'on': [] }
+Plug 'neoclide/coc.nvim', { 'on': [], 'tag': '*', 'do': { -> coc#util#install()} }
 Plug 'sirver/ultisnips', { 'on': [] }
 Plug 'tpope/vim-endwise'
 
@@ -212,7 +212,8 @@ call plug#end()
 " On-demand Loading {{{
 augroup LoadCompletionPlugins
   autocmd!
-  autocmd InsertEnter * call plug#load('ale', 'deoplete.nvim', 'ultisnips', 'vim-snippets')
+  autocmd InsertEnter * call plug#load('ale', 'coc.nvim', 'ultisnips', 'vim-snippets')
+        \| if &ft =~ 'javascript' | execute 'DisableAutoHighlightWord' | endif
         \| echom 'Snippets + Completion plugins loaded!'
         \| autocmd! LoadCompletionPlugins
 augroup END
@@ -249,28 +250,102 @@ autocmd User MapActions call MapAction('FindAndReplaceWithoutWordBoundary', '<le
 "}}}
 
 " Ale {{{
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_filetype_changed = 0
+let g:ale_lint_on_insert_leave = 1
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 1
+
 let g:ale_sign_error = '●'
 let g:ale_sign_warning = '●'
-let g:ale_lint_on_text_changed = 1
-let g:ale_lint_on_insert_leave = 1
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_filetype_changed = 0
 
-au ColorScheme * hi ALEErrorSign ctermfg=red guifg=red
-au ColorScheme * hi ALEWarningSign ctermfg=yellow guifg=orange
+let g:ale_warn_about_trailing_whitespace = 1
+let g:ale_virtualtext_cursor = 1
+
+function s:TweakAleColors()
+  hi ALEErrorSign ctermfg=red guifg=red
+  hi ALEWarningSign ctermfg=yellow guifg=orange
+  hi ALEVirtualTextError guibg=NONE guifg=red
+  hi ALEVirtualTextWarning guibg=NONE guifg=yellow
+  hi ALEVirtualTextInfo guibg=NONE guifg=cyan
+  hi ALEWarning guifg=grey
+endfunction
+autocmd ColorScheme * call s:TweakAleColors()
 " }}}
 
 " AutoHighlightWord {{{
-au ColorScheme * hi! AutoHighlightWord ctermbg=238 guibg=#444444
+autocmd ColorScheme * hi! AutoHighlightWord ctermbg=238 guibg=#444444
 set updatetime=500 " Make CursorHold trigger faster
 " }}}
+
+" CoC {{{
+" if hidden not set, TextEdit might fail.
+set hidden
+
+" always show signcolumns
+set signcolumn=yes
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * if exists('*CocActionAsync')
+      \| silent call CocActionAsync('highlight')
+      \| endif
+
+" Use <C-n> to trigger completion menu
+inoremap <silent><expr> <C-n> coc#refresh()
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K for show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+vmap <leader>a <Plug>(coc-codeaction-selected)
+nmap <leader>a <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <leader>ac <Plug>(coc-codeaction)
+
+" Fix autofix problem of current line
+nmap <leader>qf <Plug>(coc-fix-current)
+
+" Find symbol of current document
+nnoremap <silent> <space>o :<C-u>CocList outline<cr>
+
+" AutoHighlightWord compatibility
+hi! link CocHighlightText AutoHighlightWord
+
+" UltiSnips compatibility
+let g:UltiSnipsExpandTrigger='<Nop>'
+let g:UltiSnipsJumpForwardTrigger = '<TAB>'
+let g:UltiSnipsJumpBackwardTrigger = '<S-TAB>'
+let g:coc_snippet_next = '<TAB>'
+let g:coc_snippet_prev = '<S-TAB>'
+
+autocmd CompleteDone * if pumvisible() == 0 | pclose | endif
+autocmd VimEnter * inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<TAB>"
+"}}}
 
 " Color Scheme {{{
 function! SanitizeColors()
   hi ColorColumn ctermbg=237 guibg=#3a3a3a
   hi CursorLine ctermbg=237 term=NONE cterm=NONE guibg=#3a3a3a
   hi LineNr ctermbg=NONE guibg=NONE
+  hi MatchParen guibg=NONE
   hi Normal guibg=NONE
   hi Pmenu ctermbg=13 ctermfg=black guibg=#d7afff guifg=black
   hi SignColumn guibg=NONE
@@ -338,12 +413,6 @@ let g:signify_sign_changedelete      = g:signify_sign_change
 " Slash {{{
 nnoremap <silent> <plug>(slash-after) :execute 'match IncSearch /\c\%'.virtcol('.').'v\%'.line('.').'l'.@/.'/'<CR>
 autocmd CursorMoved * call map(filter(getmatches(), 'v:val.group == "IncSearch"'), { k, v -> matchdelete(v.id) })
-"}}}
-
-" UltiSnips {{{
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 "}}}
 
 "}}}
