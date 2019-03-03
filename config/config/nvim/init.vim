@@ -11,8 +11,6 @@ set listchars=tab:».,trail:⌴,extends:❯,precedes:❮,nbsp:° " Unprintable c
 set number " Display line numbers
 set pumheight=8 " Limit completion menu height
 set statusline=%<\ %t\ %h%m%r%=%-14.(%l,%c%V%)\ %P\ 
-set winhighlight=Normal:ActiveWindow,NormalNC:InactiveWindow " Dim inactive windows
-hi! link InactiveWindow ColorColumn
 " }}}
 
 " Folding " {{{
@@ -349,6 +347,7 @@ function! SanitizeColors()
   hi Normal guibg=NONE
   hi Pmenu ctermbg=13 ctermfg=black guibg=#d7afff guifg=black
   hi SignColumn guibg=NONE
+  hi! link NormalNC ColorColumn
 
   if g:colors_name == 'badwolf'
     hi Noise guifg=#949494
