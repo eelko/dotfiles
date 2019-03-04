@@ -77,6 +77,14 @@ nnoremap <silent> p p`]
 
 " Pase in visual mode doesn't yank
 xnoremap p pgvy
+
+" Easily navigate through location list
+nmap ]q :lnext<CR>
+nmap [q :lprev<CR>
+
+" C-n/p also cycle through command history
+cmap <C-p> <Up>
+cmap <C-n> <Down>
 " }}}
 
 " Functions and Commands "{{{
