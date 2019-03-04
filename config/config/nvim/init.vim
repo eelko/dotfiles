@@ -8,7 +8,6 @@ set cursorline " Highlight current line
 set guicursor=a:hor25-blinkon10,i:ver25-blinkon10 " Switch cursor shape between vertical/underline bar (Insert/Normal)
 set list " Show unprintable characters
 set listchars=tab:».,trail:⌴,extends:❯,precedes:❮,nbsp:° " Unprintable characters
-set nowrap " Disable line wrapping
 set number " Display line numbers
 set pumheight=8 " Limit completion menu height
 set statusline=%<\ %t\ %h%m%r%=%-14.(%l,%c%V%)\ %P\ 
@@ -18,6 +17,14 @@ set statusline=%<\ %t\ %h%m%r%=%-14.(%l,%c%V%)\ %P\
 set foldmethod=indent " Fold based on indent
 set nofoldenable " Do not fold by default
 " }}}
+
+" Formatting " {{{
+set expandtab " Use spaces instead of tabs
+set nowrap " Disable line wrapping
+set shiftwidth=2 " Number of spaces used for indentation
+set softtabstop=2 " Makes <BS> (backspace key) treat two spaces like a tab
+set tabstop=2 " Number of spaces for each <Tab>
+"}}}
 
 " Searching " {{{
 set ignorecase " Ignore case sensitivity
