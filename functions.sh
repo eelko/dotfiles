@@ -56,15 +56,6 @@ function setjava() {
   fi
 }
 
-# Create a node REPL using Codi
-function playjs() {
-  bin_exists 'node' || load_NVM
-  playground="play.$$.js"
-  tmux rename-window $playground
-  vim -c 'Codi' "/tmp/$playground"
-  tmux setw automatic-rename
-}
-
 # Source file if it exists
 function source_if_exists() {
   local script="$1"
@@ -140,15 +131,11 @@ function note() {
 
 # REPL powered by Codi
 repl() {
-  [[ "$#" -eq 0 ]] && echo -e "Usage:\n repl <filetype> <(optional) filename>" && return
-  local syntax="$1"
-  shift
-  vim -c \
-    "set buftype=nofile laststatus=0 noruler nonumber norelativenumber |\
-    hi ColorColumn ctermbg=NONE |\
-    hi VertSplit ctermbg=NONE |\
-    hi NonText ctermfg=0 |\
-    Codi $syntax" "$@"
+  [[ "$#" -eq 0 ]] && echo -e "Usage:\n repl <filetype>" && return
+  local -r filetype="$1"
+  tmux rename-window "REPL [$filetype]"
+  vim -c "setlocal buftype=nofile signcolumn=no | let g:indentLine_char=' ' | Codi $1"
+  tmux setw automatic-rename
 }
 
 joinby() {
