@@ -350,7 +350,18 @@ let g:coc_snippet_next = '<TAB>'
 let g:coc_snippet_prev = '<S-TAB>'
 
 autocmd CompleteDone * if pumvisible() == 0 | pclose | endif
-autocmd VimEnter * inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<TAB>"
+
+autocmd VimEnter * inoremap <silent><expr> <TAB>
+      \ pumvisible() ?  "<C-y>" :
+      \ coc#expandableOrJumpable() ? coc#rpc#request('doKeymap', ['snippets-expand-jump', '']) :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
 "}}}
 
 " Color Scheme {{{
