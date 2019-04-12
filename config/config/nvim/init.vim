@@ -217,7 +217,6 @@ Plug 'tpope/vim-surround'
 
 " Tools
 Plug 'christoomey/vim-tmux-navigator'
-Plug '~/.fzf', { 'on': ['FzBuffers', 'FzCommands', 'FzFiles', 'FzHistory', 'FzAg'] }
 Plug 'junegunn/fzf.vim', { 'on': ['FzBuffers', 'FzCommands', 'FzFiles', 'FzHistory', 'FzAg'] }
 Plug 'metakirby5/codi.vim', { 'on': 'Codi' }
 
@@ -396,6 +395,7 @@ let g:deoplete#enable_at_startup = 1
 "}}}
 
 " FZF {{{
+set rtp+=/usr/local/opt/fzf
 let g:fzf_command_prefix = 'Fz'
 let g:fzf_files_options  = '--tiebreak=end' " Prioritize matches that are closer to the end of the string
 nnoremap <Leader>b :FzBuffers<CR>
