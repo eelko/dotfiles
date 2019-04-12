@@ -217,7 +217,7 @@ Plug 'tpope/vim-surround'
 
 " Tools
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'junegunn/fzf.vim', { 'on': ['FzBuffers', 'FzCommands', 'FzFiles', 'FzHistory', 'FzAg'] }
+Plug 'junegunn/fzf.vim', { 'on': ['FzBuffers', 'FzCommands', 'FzFiles', 'FzHistory', 'FzLines'] }
 Plug 'metakirby5/codi.vim', { 'on': 'Codi' }
 
 call plug#end()
@@ -402,6 +402,7 @@ nnoremap <Leader>b :FzBuffers<CR>
 nnoremap <Leader>c :FzCommands<CR>
 nnoremap <Leader>f :FzFiles<CR>
 nnoremap <Leader>h :FzHistory<CR>
+nnoremap <Leader>l :FzLines<CR>
 " }}}
 
 " GutenTags {{{
