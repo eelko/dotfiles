@@ -362,13 +362,14 @@ function! SanitizeColors()
   hi Normal guibg=NONE
   hi Pmenu ctermbg=13 ctermfg=black guibg=#d7afff guifg=black
   hi SignColumn guibg=NONE
+  hi Visual ctermbg=238 guibg=#626262
   hi! link NormalNC ColorColumn
 
   if g:colors_name == 'badwolf'
     hi Noise guifg=#949494
     hi NonText guibg=NONE
     hi SignifySignAdd guifg=#B8BB26 guibg=#3A3A3A
-    hi VertSplit guibg=NONE guifg=#585858
+    hi VertSplit guibg=#262626 guifg=#262626
     hi parens guifg=#9e9e9e
   endif
 endf
