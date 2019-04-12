@@ -139,12 +139,12 @@ function note() {
 }
 
 # REPL powered by Codi
-# Usage: repl [filetype] [filename]
 repl() {
-  local syntax="${1:-python}"
+  [[ "$#" -eq 0 ]] && echo -e "Usage:\n repl <filetype> <(optional) filename>" && return
+  local syntax="$1"
   shift
   vim -c \
-    "set bt=nofile ls=0 noru nonu nornu |\
+    "set buftype=nofile laststatus=0 noruler nonumber norelativenumber |\
     hi ColorColumn ctermbg=NONE |\
     hi VertSplit ctermbg=NONE |\
     hi NonText ctermfg=0 |\
