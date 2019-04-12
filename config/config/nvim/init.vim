@@ -78,10 +78,6 @@ nnoremap <silent> p p`]
 " Pase in visual mode doesn't yank
 xnoremap p pgvy
 
-" Easily navigate through location list
-nmap ]q :lnext<CR>
-nmap [q :lprev<CR>
-
 " C-n/p also cycle through command history
 cmap <C-p> <Up>
 cmap <C-n> <Down>
@@ -338,6 +334,10 @@ nmap <leader>qf <Plug>(coc-fix-current)
 
 " Find symbol of current document
 nnoremap <silent> <space>o :<C-u>CocList outline<cr>
+
+" Use `[q` and `]q` for navigate diagnostics
+nmap <silent> [q <Plug>(coc-diagnostic-prev)
+nmap <silent> ]q <Plug>(coc-diagnostic-next)
 
 " AutoHighlightWord compatibility
 hi! link CocHighlightText AutoHighlightWord
