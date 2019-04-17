@@ -151,8 +151,6 @@ fun! s:GitAnnotate() "{{{
   " unlock when annotate buffer closes
   autocmd BufHidden git-annotate windo set nocursorbind noscrollbind
 endf
-
-autocmd BufEnter git-annotate DimInactiveOff
 command! GitAnnotate :call s:GitAnnotate()
 
 fun! s:GitBlameCommit(cmd) abort
