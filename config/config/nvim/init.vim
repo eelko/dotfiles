@@ -200,6 +200,9 @@ Plug 'w0rp/ale', { 'on': [] }
 
 " Navigation
 Plug 'junegunn/vim-slash'
+Plug 'ryanoasis/vim-devicons', { 'on': ['NERDTreeFind', 'NERDTreeToggle'] }
+Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeFind', 'NERDTreeToggle'] }
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': ['NERDTreeFind', 'NERDTreeToggle'] }
 Plug 'valloric/MatchTagAlways'
 
 " Misc
@@ -422,6 +425,19 @@ let g:gutentags_file_list_command = 'git ls-files'
 
 " IndentLine {{{
 let g:indentLine_char = get(g:, 'indentLine_char', '┊')
+" }}}
+
+" NERDTree {{{
+let NERDTreeMinimalUI = 1
+map <silent> <Leader>nt :NERDTreeToggle<CR>
+map <silent> <Leader>nf :NERDTreeFind<CR>
+autocmd FileType nerdtree setlocal signcolumn=no
+
+let g:NERDTreeFileExtensionHighlightFullName = 1
+let g:NERDTreeExactMatchHighlightFullName = 1
+let g:NERDTreePatternMatchHighlightFullName = 1
+let g:NERDTreeHighlightFolders = 1
+let g:NERDTreeHighlightFoldersFullName = 1
 " }}}
 
 " Signify {{{
