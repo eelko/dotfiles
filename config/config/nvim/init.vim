@@ -299,15 +299,6 @@ autocmd CursorHold * if exists('*CocActionAsync')
       \| silent call CocActionAsync('highlight')
       \| endif
 
-" Use <C-n> to trigger completion menu
-inoremap <silent><expr> <C-n> coc#refresh()
-
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
 " Use K for show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -319,21 +310,30 @@ function! s:show_documentation()
   endif
 endfunction
 
+" Use <C-n> to trigger completion menu
+inoremap <silent><expr> <C-n> coc#refresh()
+
+" Remap keys for gotos
+nmap <silent> <leader>cd <Plug>(coc-definition)
+nmap <silent> <leader>ctd <Plug>(coc-type-definition)
+nmap <silent> <leader>ci <Plug>(coc-implementation)
+nmap <silent> <leader>cr <Plug>(coc-references)
+
 " Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
+nmap <leader>crn <Plug>(coc-rename)
 
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-vmap <leader>a <Plug>(coc-codeaction-selected)
-nmap <leader>a <Plug>(coc-codeaction-selected)
+vmap <leader>ca <Plug>(coc-codeaction-selected)
+nmap <leader>ca <Plug>(coc-codeaction-selected)
 
 " Remap for do codeAction of current line
-nmap <leader>ac <Plug>(coc-codeaction)
+nmap <leader>caa <Plug>(coc-codeaction)
 
 " Fix autofix problem of current line
-nmap <leader>qf <Plug>(coc-fix-current)
+nmap <leader>cf <Plug>(coc-fix-current)
 
 " Find symbol of current document
-nnoremap <silent> <space>o :<C-u>CocList outline<cr>
+nnoremap <silent> <space>co :<C-u>CocList outline<cr>
 
 " Use `[q` and `]q` for navigate diagnostics
 nmap <silent> [q <Plug>(coc-diagnostic-prev)
