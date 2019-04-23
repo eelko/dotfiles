@@ -2,70 +2,47 @@
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 
 # history
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=100000
+SAVEHIST=100000
+setopt BANG_HIST                 # Treat the '!' character specially during expansion.
+setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
+setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
+setopt SHARE_HISTORY             # Share history between all sessions.
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history.
+setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
+setopt HIST_FIND_NO_DUPS         # Do not display a line previously found.
+setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space.
+setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file.
+setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
+setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
 
-setopt append_history
-setopt extended_history         # save each command's beginning timestamp and the duration to the history file
-setopt hist_expire_dups_first   # allow dups, but expire old ones when I hit HISTSIZE
-setopt hist_ignore_dups         # ignore duplication command history list
-setopt hist_ignore_space        # ignore entry when first character on the line is a space
-setopt hist_verify              # don't execute immediately upon history expansion
-setopt inc_append_history       # write to the history file immediately, not when the shell exits
-setopt share_history            # share command history data
+# case insensitive tab completion
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 
-# key bindings
+# use emacs mode
 bindkey -e
 
-autoload -U edit-command-line
-zle -N edit-command-line
-bindkey '^x^e' edit-command-line                             # edit command line in $EDITOR
+# C-U kills from cursor to BOL
+bindkey '^U' kill-region
 
-autoload -U up-line-or-beginning-search
+# cycle through command history matching typed characters
 autoload -U down-line-or-beginning-search
+autoload -U up-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
-bindkey "^n" down-line-or-beginning-search                   # match back-history with typed chars
-bindkey "^p" up-line-or-beginning-search                     # match forward-history with typed chars
+bindkey '^N' down-line-or-beginning-search
+bindkey '^P' up-line-or-beginning-search
 
-bindkey '^r' history-incremental-pattern-search-backward     # allow wildcards in bck-i-search
+# edit command line in $EDITOR
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^X^E' edit-command-line
 
-unsetopt flowcontrol                                         # allows rebinding of ^s
-bindkey '^s' history-incremental-pattern-search-forward
+# enable S-Tab in completion menu
+zmodload zsh/complist
+bindkey '^[[Z' reverse-menu-complete
 
-zmodload zsh/complist                                        # manually load completion module
-bindkey -M menuselect '^[[z' reverse-menu-complete           # enable shift-tab in completion menu
-
-bindkey '^u' kill-region
-
-# variables
-export EDITOR='vim'
-export GREP_OPTIONS='--color=auto'
-export LANG='en_US.UTF-8'
-export LC_ALL='en_US.UTF-8'
-export LESS='-R'
-export TERM='xterm-256color'
-export PATH="$HOME/.bin:$PATH"
-export PATH="/usr/local/bin:$PATH"
-
-if [[ "$(uname)" = 'Darwin' ]]; then
-  export TOMCAT_HOME="/usr/local/opt/tomcat/libexec"
-fi
-
-# aliases
-alias h='history | grep -i'
-alias vi='vim'
-
-ls=$(gls >/dev/null 2>&1 && echo 'gls' || echo 'ls')
-alias l="$ls -l -h --color=auto --group-directories-first"
-alias la='l -a --color=always | less'
-alias ll="l --color=always | less"
-
-if [[ $(uname) = 'Darwin' ]]; then
-  alias tree='tree -C'
-fi
-
-if [[ $(uname) = 'Linux' ]]; then
-  alias pbcopy='xclip -selection clipboard'
-  alias pbpaste='xclip -selection clipboard -o'
-fi
+# use bash-style word functions
+autoload -U select-word-style
+select-word-style bash

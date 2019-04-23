@@ -1,20 +1,27 @@
 source "$HOME/.dotfiles/zsh/base.zsh"
 source "$HOME/.dotfiles/zsh/plugins.zsh"
+source "$HOME/.dotfiles/common.sh"
 source "$HOME/.dotfiles/functions.sh"
 source "$HOME/.dotfiles/fzf-functions.sh"
 
 # sensitive configs
 [ -s "$HOME/.zshrc.local.zsh" ] && source "$HOME/.zshrc.local.zsh"
 
+# base16 colors
+if [[ "$TERM_BACKGROUND" = 'light' ]]; then
+  source_if_exists "$HOME/.config/base16-shell/scripts/base16-gruvbox-light-hard.sh"
+elif [[ -z "$TERM_BACKGROUND" || "$TERM_BACKGROUND" = 'dark' ]]; then
+  source_if_exists "$HOME/.config/base16-shell/scripts/base16-gruvbox-dark-soft.sh"
+fi
+
 # better colors
 dircolors=$(dircolors >/dev/null 2>&1 && echo 'dircolors' || echo 'gdircolors')
 eval $($dircolors -b $HOME/.LS_COLORS/LS_COLORS)
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 
-# base16
-source_if_exists "$HOME/.config/base16-shell/scripts/base16-tomorrow-night.sh"
-
 # fzf
-source_if_exists "$HOME/.fzf.bash"
-export FZF_DEFAULT_COMMAND='(git ls-tree -r --name-only HEAD || ag -g "") 2> /dev/null'
-export FZF_DEFAULT_OPTS='--multi --tiebreak=end --bind alt-a:select-all,alt-d:deselect-all,alt-t:toggle-all'
+source_if_exists "$HOME/.fzf.zsh"
+export FZF_DEFAULT_COMMAND='(git ls-tree -r --name-only HEAD || rg --files --no-ignore --hidden --follow) 2> /dev/null'
+export FZF_DEFAULT_OPTS="--multi --tiebreak=end --bind alt-a:select-all,alt-d:deselect-all,alt-t:toggle-all --color=${TERM_BACKGROUND:-dark} --history=$HOME/.fzf_history"
+export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
