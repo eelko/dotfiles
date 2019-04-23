@@ -11,6 +11,7 @@ set listchars=tab:».,trail:⌴,extends:❯,precedes:❮,nbsp:° " Unprintable c
 set number " Display line numbers
 set pumheight=8 " Limit completion menu height
 set statusline=%<\ %t\ %h%m%r%=%-14.(%l,%c%V%)\ %P\ 
+autocmd VimResized * wincmd = " Resize all splits when host window is resized
 " }}}
 
 " Folding " {{{
