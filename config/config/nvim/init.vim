@@ -366,7 +366,9 @@ function! SanitizeColors()
   hi LineNr ctermbg=NONE guibg=NONE
   hi MatchParen guibg=NONE
   hi Normal guibg=NONE
-  hi Pmenu ctermbg=13 ctermfg=black guibg=#d7afff guifg=black
+  hi Pmenu ctermfg=15 ctermbg=236 guifg=#f8f6f2 guibg=#484A55
+  hi PmenuSbar ctermbg=236 guibg=#2B2C31
+  hi PmenuThumb ctermbg=236 guibg=grey
   hi SignColumn guibg=NONE
   hi Visual ctermbg=238 guibg=#626262
   hi! link NormalNC ColorColumn
