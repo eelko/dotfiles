@@ -5,6 +5,7 @@ set mouse=a " Enable mouse
 
 " Appearance " {{{
 set cursorline " Highlight current line
+set fillchars+=vert:\  " No vertical split separator
 set guicursor=a:hor25-blinkon10,i:ver25-blinkon10 " Switch cursor shape between vertical/underline bar (Insert/Normal)
 set list " Show unprintable characters
 set listchars=tab:».,trail:⌴,extends:❯,precedes:❮,nbsp:° " Unprintable characters
@@ -379,8 +380,9 @@ function! SanitizeColors()
     hi Noise guifg=#949494
     hi NonText guibg=NONE
     hi SignifySignAdd guifg=#B8BB26 guibg=#3A3A3A
-    hi VertSplit guibg=#262626 guifg=#262626
     hi parens guifg=#9e9e9e
+    hi IncSearch guibg=magenta guifg=white gui=bold,reverse
+    hi Search guibg=magenta guifg=white
   endif
 endf
 
