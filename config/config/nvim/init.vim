@@ -411,11 +411,11 @@ let g:deoplete#enable_at_startup = 1
 set rtp+=/usr/local/opt/fzf
 let g:fzf_command_prefix = 'Fz'
 let g:fzf_files_options  = '--tiebreak=end' " Prioritize matches that are closer to the end of the string
-nnoremap <Leader>b :FzBuffers<CR>
-nnoremap <Leader>c :FzCommands<CR>
-nnoremap <Leader>f :FzFiles<CR>
-nnoremap <Leader>h :FzHistory<CR>
-nnoremap <Leader>l :FzLines<CR>
+nnoremap <Leader>fb :FzBuffers<CR>
+nnoremap <Leader>fc :FzCommands<CR>
+nnoremap <Leader>ff :FzFiles<CR>
+nnoremap <Leader>fh :FzHistory<CR>
+nnoremap <Leader>fl :FzLines<CR>
 " }}}
 
 " GutenTags {{{
