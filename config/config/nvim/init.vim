@@ -248,12 +248,7 @@ function! s:FindAndReplace(text, use_word_boundary)
   endif
 endfunction
 
-function! GrepWithFZF(text)
-  execute 'FzAg '.a:text
-endfunction
-
 autocmd! User MapActions
-autocmd User MapActions call MapAction('GrepWithFZF', '<leader>g')
 autocmd User MapActions call MapAction('FindAndReplaceWithWordBoundary', '<leader>r')
 autocmd User MapActions call MapAction('FindAndReplaceWithoutWordBoundary', '<leader><leader>r')
 "}}}
