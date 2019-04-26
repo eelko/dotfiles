@@ -1,8 +1,16 @@
-source "$HOME/.dotfiles/bash/base.bash"
-source "$HOME/.dotfiles/bash/prompt.bash"
-source "$HOME/.dotfiles/bash/functions.bash"
-source "$HOME/.dotfiles/functions.sh"
-source "$HOME/.dotfiles/fzf-functions.sh"
+export SHELL='/usr/local/bin/bash'
+
+for f in $HOME/.dotfiles/shell-commons/*; do source $f; done
+for f in $HOME/.dotfiles/bash/*; do source $f; done
+
+# prompt
+prompt="\n$(prompt_current_dir)"
+prompt+=" \e[38;5;243m\`prompt_git_branch\`\e[0m"
+prompt+="\e[38;5;243m\`prompt_git_dirty\`\e[0m"
+prompt+=" \e[36m\`prompt_git_arrows\`\e[0m"
+prompt+="\n$(prompt_arrow) "
+prompt+="$(printf '\e[4 q')"
+export PS1="$prompt"
 
 # sensitive configs
 [ -s "$HOME/.bashrc.local.bash" ] && source "$HOME/.bashrc.local.bash"
@@ -39,5 +47,4 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # lazy loaders
 lazy_load "NVM"    "$HOME/.nvm/nvm.sh"                 "nvm grunt node npm"
-lazy_load "SDKMAN" "$HOME/.sdkman/bin/sdkman-init.sh"  "gradle"
 lazy_load "RVM"    "$HOME/.rvm/scripts/rvm"            "rvm pod bundle gem"

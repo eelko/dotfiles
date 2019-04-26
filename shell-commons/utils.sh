@@ -1,3 +1,42 @@
+# Lazy loading helper
+# Usage:
+#   lazy_load "RVM" "$HOME/.rvm/scripts/rvm" "rvm pod bundle gem"
+function lazy_load() {
+  load_script_id="$1"
+  load_script_path="$2"
+  load_triggers="$3"
+
+  load_fn="load_${load_script_id}"
+  load_and_run_fn="load_and_run_${load_script_id}"
+  triggers_array=($(echo $load_triggers))
+
+  for t in "${triggers_array[@]}"
+  do
+    alias "$t"="$load_and_run_fn \"$t\""
+  done
+
+eval "$(cat <<EOF
+  function ${load_fn}() {
+    bin_name=\$( [ ! -z \$1 ] && echo \$1 || echo "${triggers_array[0]}" )
+    if ! bin_exists "\$bin_name"; then
+      echo 'Loading $load_script_id...'
+      for t in "\${triggers_array[@]}"
+        do unalias \$t
+      done
+      source_if_exists "$load_script_path"
+      unset -f $load_fn $load_and_run_fn
+    fi
+  }
+
+  function ${load_and_run_fn}() {
+    bin_name=\$1
+    $load_fn \$bin_name
+    \$bin_name "\${@:2}"
+  }
+EOF
+)"
+}
+
 # Convert all .flac files (within directpry) to mp3
 function flac2mp3() {
   for f in **/*.flac
@@ -64,7 +103,7 @@ function source_if_exists() {
 
 # Helper to check wether a bin exists
 function bin_exists() {
-  which "$1" > /dev/null 2>&1
+  command which "$1" > /dev/null 2>&1
   return $?
 }
 
@@ -138,6 +177,7 @@ repl() {
   tmux setw automatic-rename
 }
 
+# Join each line of output by given separator
 joinby() {
   paste -sd "$1" -
 }

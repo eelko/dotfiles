@@ -23,9 +23,19 @@ ZSH_HIGHLIGHT_STYLES[isearch]='fg=51,underline,bold'
 zle_highlight=(isearch:$ZSH_HIGHLIGHT_STYLES[isearch])
 
 # prompt
-local -r unwanted_segments=(package)
-local -r prompt_order=${SPACESHIP_PROMPT_ORDER[@]/$unwanted_segments}
-export SPACESHIP_PROMPT_ORDER=($(echo $prompt_order))
+SPACESHIP_PROMPT_ORDER=(
+  user          # Username section
+  dir           # Current directory section
+  host          # Hostname section
+  fast_git      # Git section (git_branch + git_status)
+  node          # Node.js section
+  ruby          # Ruby section
+  exec_time     # Execution time
+  line_sep      # Line break
+  jobs          # Background jobs indicator
+  exit_code     # Exit code section
+  char          # Prompt character
+)
 
 local -r magenta='#FF5F87'
 local -r green='#A8DE70'
@@ -41,3 +51,65 @@ export SPACESHIP_GIT_STATUS_SUFFIX=''
 export SPACESHIP_GIT_STATUS_COLOR=$orange
 export SPACESHIP_NODE_PREFIX='using '
 export SPACESHIP_NODE_COLOR=$green
+
+# branch name
+SPACESHIP_FAST_GIT_BRANCH_SHOW="${SPACESHIP_FAST_GIT_BRANCH_SHOW=true}"
+SPACESHIP_FAST_GIT_BRANCH_PREFIX="${SPACESHIP_FAST_GIT_BRANCH_PREFIX=" "}"
+SPACESHIP_FAST_GIT_BRANCH_SUFFIX="${SPACESHIP_FAST_GIT_BRANCH_SUFFIX=""}"
+SPACESHIP_FAST_GIT_BRANCH_COLOR="${SPACESHIP_FAST_GIT_BRANCH_COLOR="$magenta"}"
+
+spaceship_fast_git_branch() {
+  [[ $SPACESHIP_FAST_GIT_BRANCH_SHOW == false ]] && return
+
+  spaceship::is_git || return
+
+  local -r git_branch="$(prompt_git_branch)"
+
+  [[ -z $git_branch ]] && return
+
+  spaceship::section \
+    "$SPACESHIP_FAST_GIT_BRANCH_COLOR" \
+    "${SPACESHIP_FAST_GIT_BRANCH_PREFIX}${git_branch}${SPACESHIP_FAST_GIT_BRANCH_SUFFIX}"
+}
+
+# branch status
+SPACESHIP_FAST_GIT_STATUS_SHOW="${SPACESHIP_FAST_GIT_STATUS_SHOW=true}"
+SPACESHIP_FAST_GIT_STATUS_COLOR="${SPACESHIP_FAST_GIT_STATUS_COLOR="$orange"}"
+
+spaceship_fast_git_status() {
+  [[ $SPACESHIP_FAST_GIT_STATUS_SHOW == false ]] && return
+
+  spaceship::is_git || return
+
+  local -r git_status="$(prompt_git_dirty)$(prompt_git_arrows)"
+
+  [[ -z $git_status ]] && return
+
+  spaceship::section \
+    "$SPACESHIP_FAST_GIT_STATUS_COLOR" \
+    "$git_status"
+}
+
+# fast git
+SPACESHIP_FAST_GIT_SHOW="${SPACESHIP_FAST_GIT_SHOW=true}"
+SPACESHIP_FAST_GIT_PREFIX="${SPACESHIP_FAST_GIT_PREFIX="on "}"
+SPACESHIP_FAST_GIT_SUFFIX="${SPACESHIP_FAST_GIT_SUFFIX="$SPACESHIP_PROMPT_DEFAULT_SUFFIX"}"
+
+spaceship_fast_git() {
+  [[ $SPACESHIP_FAST_GIT_SHOW == false ]] && return
+
+  spaceship::is_git || return
+
+  local -r branch_name="$(spaceship_fast_git_branch)"
+  [[ -z $branch_name ]] && return
+  local -r branch_status="$(spaceship_fast_git_status)"
+
+  local git_info="$branch_name"
+  [[ -n $branch_status ]] && git_info+=" $branch_status"
+
+  spaceship::section \
+    'white' \
+    "$SPACESHIP_GIT_PREFIX" \
+    "${git_info}" \
+    "$SPACESHIP_GIT_SUFFIX"
+}
