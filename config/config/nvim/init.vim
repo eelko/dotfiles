@@ -427,6 +427,10 @@ let g:gutentags_file_list_command = 'git ls-files'
 let g:indentLine_char = get(g:, 'indentLine_char', '┊')
 " }}}
 
+" MatchTagAlways {{{
+autocmd VimEnter * let g:mta_filetypes['javascript.jsx'] = 1
+" }}}
+
 " NERDTree {{{
 let NERDTreeMinimalUI = 1
 map <silent> <Leader>nt :NERDTreeToggle<CR>
