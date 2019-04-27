@@ -1,36 +1,42 @@
+#!/usr/bin/env bash
+
 # Lazy loading helper
 # Usage:
 #   lazy_load "RVM" "$HOME/.rvm/scripts/rvm" "rvm pod bundle gem"
 function lazy_load() {
-  load_script_id="$1"
-  load_script_path="$2"
-  load_triggers="$3"
+  local -r load_script_id="$1"
+  local -r load_script_path="$2"
+  declare -ra trigger_list=($(echo $3))
+  local -r callback="$4"
 
-  load_fn="load_${load_script_id}"
-  load_and_run_fn="load_and_run_${load_script_id}"
-  triggers_array=($(echo $load_triggers))
+  local -r load_fn="load_${load_script_id}"
+  local -r load_and_run_fn="load_and_run_${load_script_id}"
 
-  for t in "${triggers_array[@]}"
-  do
-    alias "$t"="$load_and_run_fn \"$t\""
+  for t in "${trigger_list[@]}"; do
+    if ! bin_exists "$t"; then
+      export "$(echo "$t" | awk '{print toupper($0)}')_DIR"="$(dirname $load_script_path)"
+      alias "$t"="$load_and_run_fn \"$t\""
+    fi
   done
 
 eval "$(cat <<EOF
   function ${load_fn}() {
-    bin_name=\$( [ ! -z \$1 ] && echo \$1 || echo "${triggers_array[0]}" )
+    local -r bin_name="\$1"
     if ! bin_exists "\$bin_name"; then
-      echo 'Loading $load_script_id...'
-      for t in "\${triggers_array[@]}"
-        do unalias \$t
+      echo -n 'Loading $load_script_id... '
+      for a in ${trigger_list[@]}; do
+        alias "\$a" 2>/dev/null >/dev/null && unalias "\$a"
       done
-      source_if_exists "$load_script_path"
+      source "$load_script_path"
       unset -f $load_fn $load_and_run_fn
     fi
   }
 
   function ${load_and_run_fn}() {
-    bin_name=\$1
+    local -r bin_name=\$1
     $load_fn \$bin_name
+    echo 'done!'
+    if typeset -f "$callback" > /dev/null; then eval $callback; fi
     \$bin_name "\${@:2}"
   }
 EOF
