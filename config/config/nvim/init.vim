@@ -429,6 +429,7 @@ let g:gutentags_file_list_command = 'git ls-files'
 " }}}
 
 " IndentLine {{{
+let g:indentLine_faster = 1
 let g:indentLine_char = get(g:, 'indentLine_char', '┊')
 " }}}
 
