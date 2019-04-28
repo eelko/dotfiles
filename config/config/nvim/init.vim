@@ -286,6 +286,8 @@ set updatetime=500 " Make CursorHold trigger faster
 " }}}
 
 " CoC {{{
+let g:coc_node_path = expand("$LATEST_NODE_PATH")
+
 " if hidden not set, TextEdit might fail.
 set hidden
 
@@ -359,7 +361,6 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
 "}}}
 
 " Color Scheme {{{
