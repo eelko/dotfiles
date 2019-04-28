@@ -190,7 +190,7 @@ Plug 'sjl/badwolf'
 " Code Completion
 Plug 'honza/vim-snippets', { 'on': [] }
 Plug 'jiangmiao/auto-pairs'
-Plug 'neoclide/coc.nvim', { 'on': [], 'tag': '*', 'do': { -> coc#util#install()} }
+Plug 'neoclide/coc.nvim', { 'on': [], 'tag': '*', 'do': './install.sh' }
 Plug 'sirver/ultisnips', { 'on': [] }
 Plug 'tpope/vim-endwise'
 
