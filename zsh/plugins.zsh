@@ -43,14 +43,16 @@ local -r yellow='#FFD95C'
 local -r orange='#FE9861'
 local -r purple='#AB9BF5'
 local -r cyan='#74DCE9'
-export SPACESHIP_DIR_COLOR=$purple
-export SPACESHIP_CHAR_SUFFIX=' '
-export SPACESHIP_GIT_BRANCH_COLOR=$magenta
-export SPACESHIP_GIT_STATUS_PREFIX=' '
-export SPACESHIP_GIT_STATUS_SUFFIX=''
-export SPACESHIP_GIT_STATUS_COLOR=$orange
-export SPACESHIP_NODE_PREFIX='using '
-export SPACESHIP_NODE_COLOR=$green
+local -r node_green='#66CC33'
+local -r ruby_red='#CB064D'
+
+SPACESHIP_CHAR_SUFFIX=' '
+SPACESHIP_DIR_COLOR="$purple"
+SPACESHIP_NODE_COLOR="$node_green"
+SPACESHIP_NODE_SYMBOL=' '
+SPACESHIP_RUBY_COLOR="$ruby_red"
+SPACESHIP_RUBY_PREFIX=''
+SPACESHIP_RUBY_SYMBOL=' '
 
 # git branch name
 SPACESHIP_FAST_GIT_BRANCH_SHOW="${SPACESHIP_FAST_GIT_BRANCH_SHOW=true}"
