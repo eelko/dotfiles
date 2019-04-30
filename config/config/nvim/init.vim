@@ -440,15 +440,18 @@ autocmd VimEnter * let g:mta_filetypes['javascript.jsx'] = 1
 
 " NERDTree {{{
 let NERDTreeMinimalUI = 1
+let NERDTreeDirArrowExpandable=' '
+let NERDTreeDirArrowCollapsible=' '
 map <silent> <Leader>nt :NERDTreeToggle<CR>
 map <silent> <Leader>nf :NERDTreeFind<CR>
-autocmd FileType nerdtree setlocal signcolumn=no
+autocmd FileType nerdtree setlocal signcolumn=no | DisableAutoHighlightWord
 
-let g:NERDTreeFileExtensionHighlightFullName = 1
-let g:NERDTreeExactMatchHighlightFullName = 1
-let g:NERDTreePatternMatchHighlightFullName = 1
-let g:NERDTreeHighlightFolders = 1
-let g:NERDTreeHighlightFoldersFullName = 1
+hi NERDTreeCWD cterm=NONE ctermfg=196 gui=NONE guifg=#ff2c4b
+hi NERDTreeExecFile guifg=darkorange
+hi NERDTreeOpenable cterm=NONE ctermfg=darkgray gui=NONE guifg=darkgray
+hi link NERDTreeClosable Identifier
+hi link NERDTreeDir NERDTreeOpenable
+hi link NERDTreeDirSlash NERDTreeOpenable
 " }}}
 
 " Signify {{{
