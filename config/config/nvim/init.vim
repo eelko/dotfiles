@@ -269,7 +269,7 @@ let g:ale_sign_warning = '●'
 let g:ale_warn_about_trailing_whitespace = 1
 let g:ale_virtualtext_cursor = 1
 
-function s:TweakAleColors()
+function! s:TweakAleColors()
   hi ALEErrorSign ctermfg=red guifg=red
   hi ALEWarningSign ctermfg=yellow guifg=orange
   hi ALEVirtualTextError guibg=NONE guifg=red
