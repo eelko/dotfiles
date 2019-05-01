@@ -444,6 +444,7 @@ let NERDTreeDirArrowCollapsible=' '
 map <silent> <Leader>nt :NERDTreeToggle<CR>
 map <silent> <Leader>nf :NERDTreeFind<CR>
 autocmd FileType nerdtree setlocal signcolumn=no | DisableAutoHighlightWord
+autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 hi NERDTreeCWD cterm=NONE ctermfg=196 gui=NONE guifg=#ff2c4b
 hi NERDTreeExecFile guifg=darkorange
