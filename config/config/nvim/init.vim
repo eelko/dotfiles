@@ -391,7 +391,7 @@ function! SanitizeColors()
   autocmd InsertLeave * hi StatusLine cterm=NONE ctermfg=232 ctermbg=white gui=NONE guifg=#000000 guibg=white
 endf
 
-autocmd BufEnter,InsertEnter,InsertLeave * syn match parens /[][(){}]/
+autocmd BufEnter,InsertEnter,InsertLeave * if !exists("b:NERDTree") | syn match parens /[][(){}]/ | endif
 autocmd ColorScheme * call SanitizeColors()
 
 try
