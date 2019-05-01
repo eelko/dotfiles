@@ -385,10 +385,10 @@ function! SanitizeColors()
     hi Search guibg=magenta guifg=white
   endif
 
-  hi StatusLine cterm=NONE ctermfg=232 ctermbg=white gui=NONE guifg=#000000 guibg=white
-  hi StatusLineNC cterm=NONE ctermfg=15 ctermbg=238 gui=NONE guifg=#ffffff guibg=#45413b
-  autocmd InsertEnter * hi StatusLine cterm=NONE ctermfg=232 ctermbg=39 gui=NONE guifg=#000000 guibg=#268bd2
-  autocmd InsertLeave * hi StatusLine cterm=NONE ctermfg=232 ctermbg=white gui=NONE guifg=#000000 guibg=white
+  hi StatusLine cterm=NONE ctermfg=232 ctermbg=white gui=NONE guifg=black guibg=#EEEEEE
+  hi StatusLineNC cterm=NONE ctermfg=15 ctermbg=238 gui=NONE guifg=white guibg=#45413B
+  autocmd InsertEnter * hi StatusLine cterm=NONE ctermfg=232 ctermbg=39 gui=NONE guifg=black guibg=#268BD2
+  autocmd InsertLeave * hi StatusLine cterm=NONE ctermfg=232 ctermbg=white gui=NONE guifg=black guibg=#EEEEEE
 endf
 
 autocmd BufEnter,InsertEnter,InsertLeave * if !exists("b:NERDTree") | syn match parens /[][(){}]/ | endif
