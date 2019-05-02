@@ -281,6 +281,7 @@ autocmd ColorScheme * call s:TweakAleColors()
 
 " AutoHighlightWord {{{
 autocmd ColorScheme * hi! AutoHighlightWord ctermbg=238 guibg=#444444
+autocmd FileType nerdtree,qf DisableAutoHighlightWord
 set updatetime=500 " Make CursorHold trigger faster
 " }}}
 
@@ -444,7 +445,7 @@ let NERDTreeDirArrowExpandable=' '
 let NERDTreeDirArrowCollapsible=' '
 map <silent> <Leader>nt :NERDTreeToggle<CR>
 map <silent> <Leader>nf :NERDTreeFind<CR>
-autocmd FileType nerdtree setlocal signcolumn=no | DisableAutoHighlightWord
+autocmd FileType nerdtree setlocal signcolumn=no
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 hi NERDTreeCWD cterm=NONE ctermfg=196 gui=NONE guifg=#ff2c4b
