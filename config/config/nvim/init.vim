@@ -215,7 +215,7 @@ Plug 'tpope/vim-surround'
 
 " Tools
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'junegunn/fzf.vim', { 'on': ['FzBuffers', 'FzCommands', 'FzFiles', 'FzHistory', 'FzLines'] }
+Plug 'junegunn/fzf.vim', { 'on': ['FzBuffers', 'FzCommands', 'FzFiles', 'FzHistory', 'FzLines', 'FzRg'] }
 Plug 'metakirby5/codi.vim', { 'on': 'Codi' }
 
 call plug#end()
@@ -419,6 +419,7 @@ let g:fzf_files_options  = '--tiebreak=end' " Prioritize matches that are closer
 nnoremap <Leader>fb :FzBuffers<CR>
 nnoremap <Leader>fc :FzCommands<CR>
 nnoremap <Leader>ff :FzFiles<CR>
+nnoremap <Leader>fg :FzRg 
 nnoremap <Leader>fh :FzHistory<CR>
 nnoremap <Leader>fl :FzLines<CR>
 " }}}
