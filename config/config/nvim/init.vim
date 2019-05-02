@@ -12,7 +12,6 @@ set list " Show unprintable characters
 set listchars=tab:».,trail:⌴,extends:❯,precedes:❮,nbsp:° " Unprintable characters
 set number " Display line numbers
 set pumheight=8 " Limit completion menu height
-autocmd VimResized * wincmd = " Resize all splits when host window is resized
 " }}}
 
 " Folding " {{{
@@ -84,6 +83,15 @@ xnoremap p pgvy
 cmap <C-p> <Up>
 cmap <C-n> <Down>
 " }}}
+
+" Automatic commands"{{{
+autocmd VimResized * wincmd = " Resize all splits when host window is resized
+
+augroup QuickfixAutoClose
+  autocmd!
+  autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix" | q | endif
+augroup END
+"}}}
 
 " Functions and Commands "{{{
 
