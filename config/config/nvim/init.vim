@@ -82,6 +82,16 @@ xnoremap p pgvy
 " C-n/p also cycle through command history
 cmap <C-p> <Up>
 cmap <C-n> <Down>
+
+" Quickly navigate quickfix windows
+nnoremap [L :lfirst<CR>
+nnoremap [Q :cfirst<CR>
+nnoremap [l :lprevious<CR>
+nnoremap [q :cprevious<CR>
+nnoremap ]L :llast<CR>
+nnoremap ]Q :clast<CR>
+nnoremap ]l :lnext<CR>
+nnoremap ]q :cnext<CR>
 " }}}
 
 " Automatic commands"{{{
@@ -342,10 +352,6 @@ nmap <leader>cf <Plug>(coc-fix-current)
 
 " Find symbol of current document
 nnoremap <silent> <space>co :<C-u>CocList outline<cr>
-
-" Use `[q` and `]q` for navigate diagnostics
-nmap <silent> [q <Plug>(coc-diagnostic-prev)
-nmap <silent> ]q <Plug>(coc-diagnostic-next)
 
 " AutoHighlightWord compatibility
 hi! link CocHighlightText AutoHighlightWord
