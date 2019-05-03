@@ -283,13 +283,15 @@ let g:ale_sign_error = '●'
 let g:ale_sign_warning = '●'
 let g:ale_warn_about_trailing_whitespace = 1
 let g:ale_virtualtext_cursor = 1
+let g:ale_virtualtext_prefix = '➜  '
 
 function! s:TweakAleColors()
   hi ALEErrorSign ctermfg=red guifg=red
+  hi ALEInfoSign ctermfg=cyan guifg=cyan
   hi ALEWarningSign ctermfg=yellow guifg=orange
   hi ALEVirtualTextError guibg=NONE guifg=red
-  hi ALEVirtualTextWarning guibg=NONE guifg=yellow
   hi ALEVirtualTextInfo guibg=NONE guifg=cyan
+  hi ALEVirtualTextWarning guibg=NONE guifg=yellow
   hi ALEWarning guifg=grey
 endfunction
 autocmd ColorScheme * call s:TweakAleColors()
