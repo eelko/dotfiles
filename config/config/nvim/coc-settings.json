@@ -1,5 +1,7 @@
 {
+  "coc.preferences.useQuickfixForLocations": true,
   "diagnostic.displayByAle": true,
+  "diagnostic.refreshAfterSave": true,
   "suggest.noselect": false,
   "snippets.extends": {
     "javascriptreact": ["javascript"],
