@@ -298,7 +298,6 @@ autocmd ColorScheme * call s:TweakAleColors()
 " }}}
 
 " AutoHighlightWord {{{
-autocmd ColorScheme * hi! AutoHighlightWord ctermbg=238 guibg=#444444
 autocmd FileType nerdtree,qf DisableAutoHighlightWord
 set updatetime=500 " Make CursorHold trigger faster
 " }}}
