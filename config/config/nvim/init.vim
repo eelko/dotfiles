@@ -220,7 +220,7 @@ Plug 'w0rp/ale', { 'on': [] }
 Plug 'junegunn/vim-slash'
 Plug 'ryanoasis/vim-devicons', { 'on': ['NERDTreeFind', 'NERDTreeToggle'] }
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeFind', 'NERDTreeToggle'] }
-Plug 'valloric/MatchTagAlways'
+Plug 'valloric/MatchTagAlways', { 'for': ['html', 'javascript.jsx', 'xml'] }
 
 " Misc
 Plug 'ludovicchabant/vim-gutentags'
@@ -449,7 +449,8 @@ let g:indentLine_char = get(g:, 'indentLine_char', '┊')
 " }}}
 
 " MatchTagAlways {{{
-autocmd VimEnter * let g:mta_filetypes['javascript.jsx'] = 1
+let g:mta_filetypes = {}
+let g:mta_filetypes['javascript.jsx'] = 1
 " }}}
 
 " NERDTree {{{
