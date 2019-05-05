@@ -3,8 +3,8 @@ export SHELL='/usr/local/bin/zsh'
 for f in $HOME/.dotfiles/shell-commons/*; do source $f; done
 for f in $HOME/.dotfiles/zsh/*; do source $f; done
 
-# prompt
-PS1+="$(printf '\e[4 q')"
+# change cursor shape to underscore
+PS1="$(print -n -- "\e[4 q")$PS1"
 
 # sensitive configs
 [ -s "$HOME/.zshrc.local.zsh" ] && source "$HOME/.zshrc.local.zsh"
