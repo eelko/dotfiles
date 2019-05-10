@@ -395,7 +395,7 @@ function! SanitizeColors()
 
   hi StatusLine cterm=NONE ctermfg=232 ctermbg=white gui=NONE guifg=black guibg=#EEEEEE
   hi StatusLineNC cterm=NONE ctermfg=15 ctermbg=238 gui=NONE guifg=white guibg=#45413B
-  autocmd InsertEnter * hi StatusLine cterm=NONE ctermfg=232 ctermbg=39 gui=NONE guifg=black guibg=#268BD2
+  autocmd InsertEnter * hi StatusLine cterm=NONE ctermfg=117 ctermbg=24 gui=NONE guifg=#87dfff guibg=#005f87
   autocmd InsertLeave * hi StatusLine cterm=NONE ctermfg=232 ctermbg=white gui=NONE guifg=black guibg=#EEEEEE
 endf
 
