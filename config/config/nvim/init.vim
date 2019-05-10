@@ -242,7 +242,6 @@ call plug#end()
 augroup LoadCompletionPlugins
   autocmd!
   autocmd InsertEnter * call plug#load('ale', 'coc.nvim', 'ultisnips', 'vim-snippets')
-        \| if &ft =~ 'javascript' | execute 'DisableAutoHighlightWord' | endif
         \| echom 'Snippets + Completion plugins loaded!'
         \| autocmd! LoadCompletionPlugins
 augroup END
@@ -310,11 +309,6 @@ set hidden
 
 " always show signcolumns
 set signcolumn=yes
-
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * if exists('*CocActionAsync')
-      \| silent call CocActionAsync('highlight')
-      \| endif
 
 " Use K for show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
