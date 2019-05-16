@@ -2,6 +2,8 @@
   "coc.preferences.useQuickfixForLocations": true,
   "diagnostic.displayByAle": true,
   "diagnostic.refreshAfterSave": true,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "es5",
   "suggest.noselect": false,
   "snippets.extends": {
     "javascriptreact": ["javascript"],
