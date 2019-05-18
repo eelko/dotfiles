@@ -304,6 +304,22 @@ set updatetime=500 " Make CursorHold trigger faster
 " CoC {{{
 let g:coc_node_path = expand("$LATEST_NODE_PATH")
 
+" Prettier command (requires coc-prettier)
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
+
+" Echo method signatures
+function! s:ShowCodeSignature()
+  if exists('*CocActionAsync') && &ft =~ 'javascript'
+    call CocActionAsync('showSignatureHelp')
+  endif
+endfunction
+
+augroup ShowCodeSignature
+  autocmd!
+  autocmd User CocJumpPlaceholder call <SID>ShowCodeSignature()
+  autocmd InsertEnter * call <SID>ShowCodeSignature()
+augroup END
+
 " if hidden not set, TextEdit might fail.
 set hidden
 
@@ -311,9 +327,9 @@ set hidden
 set signcolumn=yes
 
 " Use K for show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent> K :call <SID>ShowDocumentation()<CR>
 
-function! s:show_documentation()
+function! s:ShowDocumentation()
   if &filetype == 'vim'
     execute 'h '.expand('<cword>')
   else
