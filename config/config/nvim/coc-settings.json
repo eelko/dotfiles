@@ -1,4 +1,5 @@
 {
+  "coc.preferences.formatOnSaveFiletypes": ["css", "javascript", "javascriptreact", "json"],
   "coc.preferences.useQuickfixForLocations": true,
   "diagnostic.displayByAle": true,
   "diagnostic.refreshAfterSave": true,
