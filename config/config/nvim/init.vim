@@ -452,6 +452,7 @@ let g:mta_filetypes['javascript.jsx'] = 1
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrowExpandable=' '
 let NERDTreeDirArrowCollapsible=' '
+let NERDTreeWinSize = '40'
 map <silent> <Leader>nt :NERDTreeToggle<CR>
 map <silent> <Leader>nf :NERDTreeFind<CR>
 autocmd FileType nerdtree setlocal signcolumn=no
