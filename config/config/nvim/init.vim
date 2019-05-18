@@ -238,12 +238,16 @@ Plug 'metakirby5/codi.vim', { 'on': 'Codi' }
 
 call plug#end()
 
-" On-demand Loading {{{
+" Lazy Loading {{{
+function s:LoadCompletionPlugins()
+  call plug#load('ale', 'coc.nvim', 'ultisnips', 'vim-snippets')
+  echom 'Snippets + Completion plugins loaded!'
+endfunction
+
 augroup LoadCompletionPlugins
   autocmd!
-  autocmd InsertEnter * call plug#load('ale', 'coc.nvim', 'ultisnips', 'vim-snippets')
-        \| echom 'Snippets + Completion plugins loaded!'
-        \| autocmd! LoadCompletionPlugins
+  autocmd TextChanged * call <SID>LoadCompletionPlugins() | autocmd! LoadCompletionPlugins
+  autocmd TextChangedI * call <SID>LoadCompletionPlugins() | autocmd! LoadCompletionPlugins
 augroup END
 " }}}
 
@@ -277,7 +281,7 @@ let g:ale_lint_on_enter = 0
 let g:ale_lint_on_filetype_changed = 0
 let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_text_changed = 'normal'
 let g:ale_sign_error = '●'
 let g:ale_sign_warning = '●'
 let g:ale_warn_about_trailing_whitespace = 1
