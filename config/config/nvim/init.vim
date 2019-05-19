@@ -239,7 +239,7 @@ Plug 'metakirby5/codi.vim', { 'on': 'Codi' }
 call plug#end()
 
 " Lazy Loading {{{
-function s:LoadCompletionPlugins()
+function! s:LoadCompletionPlugins()
   call plug#load('ale', 'coc.nvim', 'ultisnips', 'vim-snippets')
   echom 'Snippets + Completion plugins loaded!'
 endfunction
@@ -252,6 +252,8 @@ augroup END
 " }}}
 
 " ActionMapper {{{
+autocmd! User MapActions
+
 function! FindAndReplaceWithWordBoundary(text)
   let l:use_word_boundary = 1
   execute s:FindAndReplace(a:text, l:use_word_boundary)
@@ -271,9 +273,20 @@ function! s:FindAndReplace(text, use_word_boundary)
   endif
 endfunction
 
-autocmd! User MapActions
 autocmd User MapActions call MapAction('FindAndReplaceWithWordBoundary', '<leader>r')
 autocmd User MapActions call MapAction('FindAndReplaceWithoutWordBoundary', '<leader><leader>r')
+
+function! DebugLog(text)
+  let l:supported_languages = ['javascript', 'javascript.jsx']
+  if index(l:supported_languages, &ft) < 0
+    return
+  endif
+  execute "normal o"
+  execute "normal iconsole.log('==> ".substitute(a:text, "'", '"', 'g')."', ".a:text.");"
+endfunction
+
+autocmd User MapActions call MapAction('DebugLog', '<leader>l')
+
 "}}}
 
 " Ale {{{
