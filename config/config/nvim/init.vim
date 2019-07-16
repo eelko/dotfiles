@@ -499,6 +499,10 @@ hi link NERDTreeDir NERDTreeOpenable
 hi link NERDTreeDirSlash NERDTreeOpenable
 " }}}
 
+" Polyglot {{{
+let g:vim_markdown_conceal = 0
+"}}}
+
 " Signify {{{
 hi SignifySignAdd ctermfg=green ctermbg=NONE guifg=#B8BB26 guibg=NONE
 hi SignifySignChange ctermfg=yellow ctermbg=NONE guifg=#FABD30 guibg=NONE
