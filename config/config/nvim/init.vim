@@ -493,7 +493,7 @@ let NERDTreeDirArrowExpandable=' '
 let NERDTreeDirArrowCollapsible=' '
 let NERDTreeWinSize = '40'
 map <silent> <Leader>nt :NERDTreeToggle<CR>
-map <silent> <Leader>nf :NERDTreeFind<CR>
+map <silent> <Leader>nf :execute('NERDTreeFind') \| normal zz<CR>
 autocmd FileType nerdtree setlocal signcolumn=no
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
