@@ -240,7 +240,6 @@ Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
 
 " Tools
-Plug 'christoomey/vim-tmux-navigator'
 Plug 'junegunn/fzf.vim', { 'on': ['FzBuffers', 'FzCommands', 'FzFiles', 'FzHistory', 'FzLines', 'FzRg'] }
 Plug 'metakirby5/codi.vim', { 'on': 'Codi' }
 
