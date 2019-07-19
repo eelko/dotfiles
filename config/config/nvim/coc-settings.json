@@ -1,13 +1,13 @@
 {
-  "coc.preferences.formatOnSaveFiletypes": ["css", "javascript", "javascriptreact", "json"],
+  "coc.preferences.formatOnSaveFiletypes": ["css", "javascript", "json"],
   "coc.preferences.useQuickfixForLocations": true,
   "diagnostic.displayByAle": true,
   "diagnostic.refreshAfterSave": true,
-  "prettier.singleQuote": true,
-  "prettier.trailingComma": "es5",
-  "suggest.noselect": false,
+  "javascript.validate.enable": false,
   "snippets.extends": {
     "javascriptreact": ["javascript"],
     "typescript": ["javascript"]
-  }
+  },
+  "suggest.noselect": false,
+  "tsserver.npm": "~/.fnm/aliases/default/bin/npm"
 }
