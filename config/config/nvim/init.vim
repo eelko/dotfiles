@@ -227,6 +227,7 @@ Plug 'w0rp/ale', { 'on': [] }
 Plug 'pgdouyon/vim-evanesco'
 Plug 'ryanoasis/vim-devicons', { 'on': ['NERDTreeFind', 'NERDTreeToggle'] }
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeFind', 'NERDTreeToggle'] }
+Plug 'tpope/vim-projectionist'
 Plug 'valloric/MatchTagAlways', { 'for': ['html', 'javascript.jsx', 'xml'] }
 
 " Misc
@@ -517,6 +518,12 @@ hi link NERDTreeDirSlash NERDTreeOpenable
 
 " Polyglot {{{
 let g:vim_markdown_conceal = 0
+"}}}
+
+" Projectionist {{{
+nnoremap <Leader>aa :A<CR>
+nnoremap <Leader>as :AS<CR>
+nnoremap <Leader>av :AV<CR>
 "}}}
 
 " Signify {{{
