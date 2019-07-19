@@ -215,7 +215,7 @@ Plug 'sjl/badwolf'
 " Code Completion
 Plug 'honza/vim-snippets', { 'on': [] }
 Plug 'jiangmiao/auto-pairs'
-Plug 'neoclide/coc.nvim', { 'on': ['CocAction', 'CocCommand', 'CocList'], 'tag': '*', 'do': './install.sh' }
+Plug 'neoclide/coc.nvim', { 'on': ['CocAction', 'CocCommand', 'CocList'], 'tag': '*', 'branch': 'release' }
 Plug 'sirver/ultisnips', { 'on': [] }
 Plug 'tpope/vim-endwise'
 
