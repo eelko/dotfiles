@@ -207,6 +207,7 @@ endif
 call plug#begin('~/.vim/plugins')
 
 " Appearance
+Plug 'ap/vim-buftabline'
 Plug 'sheerun/vim-polyglot'
 Plug 'yggdroot/indentLine'
 Plug 'sjl/badwolf'
@@ -322,6 +323,15 @@ autocmd ColorScheme * call s:TweakAleColors()
 " AutoHighlightWord {{{
 autocmd FileType nerdtree,qf DisableAutoHighlightWord
 set updatetime=500 " Make CursorHold trigger faster
+" }}}
+
+" BufTabline {{{
+let g:buftabline_show = 1
+let g:buftabline_indicators = 1
+hi BufTabLineCurrent ctermbg=203 ctermfg=232 guibg=#ff5f5f guifg=#080808
+hi BufTabLineActive ctermbg=236 ctermfg=203 guibg=#303030 guifg=#ff5f5f
+hi BufTabLineHidden ctermbg=236 guibg=#303030 guifg=#D5C4A1
+hi BufTabLineFill ctermbg=236 guibg=#303030 guifg=#D5C4A1
 " }}}
 
 " CoC {{{
