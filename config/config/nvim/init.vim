@@ -193,6 +193,12 @@ nmap <leader>sg :call <SID>SyntaxGroupsForWordUnderCursor()<CR>
 
 "}}}
 
+" Sensitive/Temporary settings " {{{
+if filereadable(expand('~/.vimrc.local.vim'))
+  source ~/.vimrc.local.vim
+endif
+" }}}
+
 " Third-Party Plugins {{{
 if empty(glob('~/.vim/plugins'))
   autocmd VimEnter * PlugInstall
