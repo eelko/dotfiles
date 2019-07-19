@@ -224,7 +224,7 @@ Plug 'tpope/vim-sleuth'
 Plug 'w0rp/ale', { 'on': [] }
 
 " Navigation
-Plug 'junegunn/vim-slash'
+Plug 'pgdouyon/vim-evanesco'
 Plug 'ryanoasis/vim-devicons', { 'on': ['NERDTreeFind', 'NERDTreeToggle'] }
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeFind', 'NERDTreeToggle'] }
 Plug 'valloric/MatchTagAlways', { 'for': ['html', 'javascript.jsx', 'xml'] }
@@ -529,11 +529,6 @@ let g:signify_sign_delete            = '│'
 let g:signify_sign_delete_first_line = '│'
 let g:signify_sign_change            = '│'
 let g:signify_sign_changedelete      = g:signify_sign_change
-"}}}
-
-" Slash {{{
-nnoremap <silent> <plug>(slash-after) :execute 'match IncSearch /\c\%'.virtcol('.').'v\%'.line('.').'l'.@/.'/'<CR>
-autocmd CursorMoved * call map(filter(getmatches(), 'v:val.group == "IncSearch"'), { k, v -> matchdelete(v.id) })
 "}}}
 
 "}}}
