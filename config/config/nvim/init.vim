@@ -520,6 +520,7 @@ let g:vim_markdown_conceal = 0
 "}}}
 
 " Projectionist {{{
+let g:projectionist_ignore_term = 1
 nnoremap <Leader>aa :A<CR>
 nnoremap <Leader>as :AS<CR>
 nnoremap <Leader>av :AV<CR>
