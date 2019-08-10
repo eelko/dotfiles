@@ -113,6 +113,16 @@ command! -nargs=1 -range=% Align :execute "<line1>,<line2>!sed 's/" . <f-args> .
 command! StripTrailingWhitespaces :call <SID>ExecPreservingCursorPos('%s/\s\+$//e')
 " }}}
 
+fun! s:CloseBuffer() "{{{
+  if bufname('$') =~ '^term://'
+    silent! bdelete!
+  else
+    bnext | silent! bdelete#
+  endif
+endfunction
+nnoremap <silent> <Leader>d :call <SID>CloseBuffer()<CR>
+"}}}
+
 fun! s:CloseHiddenBuffers() "{{{
   let open_buffers = []
 
