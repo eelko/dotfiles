@@ -224,9 +224,8 @@ Plug 'tpope/vim-sleuth'
 Plug 'w0rp/ale', { 'on': [] }
 
 " Navigation
+Plug 'justinmk/vim-dirvish'
 Plug 'pgdouyon/vim-evanesco'
-Plug 'ryanoasis/vim-devicons', { 'on': ['NERDTreeFind', 'NERDTreeToggle'] }
-Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeFind', 'NERDTreeToggle'] }
 Plug 'tpope/vim-projectionist'
 Plug 'valloric/MatchTagAlways', { 'for': ['html', 'javascript.jsx', 'xml'] }
 
@@ -321,7 +320,7 @@ autocmd ColorScheme * call s:TweakAleColors()
 " }}}
 
 " AutoHighlightWord {{{
-autocmd FileType nerdtree,qf DisableAutoHighlightWord
+autocmd FileType netrw,qf,dirvish DisableAutoHighlightWord
 set updatetime=500 " Make CursorHold trigger faster
 " }}}
 
@@ -469,6 +468,14 @@ nmap gcc <Plug>CommentaryLine
 let g:deoplete#enable_at_startup = 1
 "}}}
 
+" Dirvish "{{{
+let g:dirvish_mode = ':sort ,^.*[\/],'
+let g:loaded_netrwPlugin = 1
+command! -nargs=? -complete=dir Explore Dirvish <args>
+command! -nargs=? -complete=dir Sexplore belowright split | silent Dirvish <args>
+command! -nargs=? -complete=dir Vexplore leftabove vsplit | silent Dirvish <args>
+"}}}
+
 " FZF {{{
 set rtp+=/usr/local/opt/fzf
 let g:fzf_command_prefix = 'Fz'
@@ -495,24 +502,6 @@ let g:indentLine_bufTypeExclude = ['help']
 " MatchTagAlways {{{
 let g:mta_filetypes = {}
 let g:mta_filetypes['javascript.jsx'] = 1
-" }}}
-
-" NERDTree {{{
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrowExpandable=' '
-let NERDTreeDirArrowCollapsible=' '
-let NERDTreeWinSize = '40'
-map <silent> <Leader>nt :NERDTreeToggle<CR>
-map <silent> <Leader>nf :execute('NERDTreeFind') \| normal zz<CR>
-autocmd FileType nerdtree setlocal signcolumn=no
-autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-hi NERDTreeCWD cterm=NONE ctermfg=196 gui=NONE guifg=#ff2c4b
-hi NERDTreeExecFile guifg=darkorange
-hi NERDTreeOpenable cterm=NONE ctermfg=darkgray gui=NONE guifg=darkgray
-hi link NERDTreeClosable Identifier
-hi link NERDTreeDir NERDTreeOpenable
-hi link NERDTreeDirSlash NERDTreeOpenable
 " }}}
 
 " Polyglot {{{
