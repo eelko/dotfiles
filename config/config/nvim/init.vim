@@ -114,7 +114,7 @@ command! StripTrailingWhitespaces :call <SID>ExecPreservingCursorPos('%s/\s\+$//
 " }}}
 
 fun! s:CloseBuffer() "{{{
-  if bufname('$') =~ '^term://'
+  if bufname('%') =~ '^term://'
     silent! bdelete!
   else
     bnext | silent! bdelete#
