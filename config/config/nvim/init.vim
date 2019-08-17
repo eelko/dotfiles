@@ -226,7 +226,6 @@ Plug 'sjl/badwolf'
 Plug 'honza/vim-snippets', { 'on': [] }
 Plug 'jiangmiao/auto-pairs'
 Plug 'neoclide/coc.nvim', { 'on': ['CocAction', 'CocCommand', 'CocList'], 'tag': '*', 'branch': 'release' }
-Plug 'sirver/ultisnips', { 'on': [] }
 Plug 'tpope/vim-endwise'
 
 " Linting & Formatting
@@ -256,7 +255,7 @@ call plug#end()
 
 " Lazy Loading {{{
 function! s:LoadCompletionPlugins()
-  call plug#load('ale', 'coc.nvim', 'ultisnips', 'vim-snippets')
+  call plug#load('ale', 'coc.nvim', 'vim-snippets')
   echom 'Snippets + Completion plugins loaded!'
 endfunction
 
@@ -408,9 +407,6 @@ nnoremap <silent> <space>co :<C-u>CocList outline<cr>
 hi! link CocHighlightText AutoHighlightWord
 
 " UltiSnips compatibility
-let g:UltiSnipsExpandTrigger='<Nop>'
-let g:UltiSnipsJumpForwardTrigger = '<TAB>'
-let g:UltiSnipsJumpBackwardTrigger = '<S-TAB>'
 let g:coc_snippet_next = '<TAB>'
 let g:coc_snippet_prev = '<S-TAB>'
 
