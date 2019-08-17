@@ -506,8 +506,9 @@ let g:indentLine_bufTypeExclude = ['help']
 " }}}
 
 " MatchTagAlways {{{
-let g:mta_filetypes = {}
-let g:mta_filetypes['javascript.jsx'] = 1
+au VimEnter *
+      \| let g:mta_filetypes['javascript'] = 1
+      \| let g:mta_filetypes['javascript.jsx'] = 1
 " }}}
 
 " Polyglot {{{
