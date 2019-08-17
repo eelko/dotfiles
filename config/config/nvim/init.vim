@@ -226,7 +226,7 @@ Plug 'sjl/badwolf'
 Plug 'honza/vim-snippets', { 'on': [] }
 Plug 'jiangmiao/auto-pairs'
 Plug 'neoclide/coc.nvim', { 'on': ['CocAction', 'CocCommand', 'CocList'], 'tag': '*', 'branch': 'release' }
-Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-endwise', { 'on': [] }
 
 " Linting & Formatting
 Plug 'tpope/vim-sleuth'
@@ -255,7 +255,7 @@ call plug#end()
 
 " Lazy Loading {{{
 function! s:LoadCompletionPlugins()
-  call plug#load('ale', 'coc.nvim', 'vim-snippets')
+  call plug#load('ale', 'coc.nvim', 'vim-endwise', 'vim-snippets')
   echom 'Snippets + Completion plugins loaded!'
 endfunction
 
