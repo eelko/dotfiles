@@ -266,8 +266,7 @@ endfunction
 
 augroup LoadCompletionPlugins
   autocmd!
-  autocmd TextChanged * call <SID>LoadCompletionPlugins() | autocmd! LoadCompletionPlugins
-  autocmd TextChangedI * call <SID>LoadCompletionPlugins() | autocmd! LoadCompletionPlugins
+  autocmd CursorHold * call <SID>LoadCompletionPlugins() | autocmd! LoadCompletionPlugins
 augroup END
 " }}}
 
