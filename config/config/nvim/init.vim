@@ -362,7 +362,7 @@ endfunction
 augroup ShowCodeSignature
   autocmd!
   autocmd User CocJumpPlaceholder call <SID>ShowCodeSignature()
-  autocmd InsertEnter * call <SID>ShowCodeSignature()
+  autocmd CursorHoldI * call <SID>ShowCodeSignature()
 augroup END
 
 " if hidden not set, TextEdit might fail.
