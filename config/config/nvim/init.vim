@@ -238,8 +238,10 @@ Plug 'tpope/vim-sleuth'
 Plug 'w0rp/ale', { 'on': [] }
 
 " Navigation
-Plug 'justinmk/vim-dirvish'
 Plug 'pgdouyon/vim-evanesco'
+Plug 'ryanoasis/vim-devicons', { 'on': ['NERDTreeFind', 'NERDTreeToggle'] }
+Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeFind', 'NERDTreeToggle'] }
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': ['NERDTreeFind', 'NERDTreeToggle'] }
 Plug 'tpope/vim-projectionist'
 Plug 'valloric/MatchTagAlways', { 'for': ['html', 'javascript.jsx', 'xml'] }
 
@@ -333,7 +335,7 @@ autocmd ColorScheme * call s:TweakAleColors()
 " }}}
 
 " AutoHighlightWord {{{
-autocmd FileType netrw,qf,dirvish DisableAutoHighlightWord
+autocmd FileType netrw,qf DisableAutoHighlightWord
 set updatetime=500 " Make CursorHold trigger faster
 " }}}
 
@@ -457,7 +459,6 @@ function! SanitizeColors()
   autocmd InsertLeave * hi StatusLine cterm=NONE ctermfg=232 ctermbg=white gui=NOne guifg=#3a3a3a guibg=#d5c4a1
 endf
 
-autocmd BufEnter,InsertEnter,InsertLeave * if !exists("b:NERDTree") | syn match parens /[][(){}]/ | endif
 autocmd ColorScheme * call SanitizeColors()
 
 try
@@ -476,14 +477,6 @@ nmap gcc <Plug>CommentaryLine
 
 " Deoplete {{{
 let g:deoplete#enable_at_startup = 1
-"}}}
-
-" Dirvish "{{{
-let g:dirvish_mode = ':sort ,^.*[\/],'
-let g:loaded_netrwPlugin = 1
-command! -nargs=? -complete=dir Explore Dirvish <args>
-command! -nargs=? -complete=dir Sexplore belowright split | silent Dirvish <args>
-command! -nargs=? -complete=dir Vexplore leftabove vsplit | silent Dirvish <args>
 "}}}
 
 " FZF {{{
@@ -513,6 +506,34 @@ let g:indentLine_bufTypeExclude = ['help']
 au VimEnter *
       \| let g:mta_filetypes['javascript'] = 1
       \| let g:mta_filetypes['javascript.jsx'] = 1
+" }}}
+
+" NERDTree {{{
+let g:loaded_netrwPlugin = 1
+let g:NERDTreeMinimalUI = 1
+let g:NERDTreeWinSize = '35'
+let g:NERDTreeShowHidden = 1
+let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
+let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
+let g:DevIconsEnableFoldersOpenClose = 1
+let g:NERDTreeMapActivateNode = '<CR>'
+
+autocmd FileType nerdtree setlocal signcolumn=no | DisableAutoHighlightWord
+autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif " close vim when nerdtree is the only open buffer
+
+hi NERDTreeOpenable cterm=NONE ctermfg=darkgray gui=NONE guifg=darkgray
+hi link NERDTreeDir NERDTreeOpenable
+hi link NERDTreeDirSlash NERDTreeOpenable
+
+fun! s:OpenNERDTree()
+  if empty(bufname('%')) || &ft == 'nerdtree'
+    NERDTreeToggle
+  else
+    NERDTreeFind
+    normal zz
+  endif
+endfunction
+map <silent> - :call <SID>OpenNERDTree()<CR>
 " }}}
 
 " Polyglot {{{
