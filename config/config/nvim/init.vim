@@ -33,7 +33,6 @@ set smartcase " Enable case-smart searching (overrides ignorecase)
 " }}}
 
 " Terminal {{{
-set shellcmdflag=-ic " allow vim to run user defined scripts
 autocmd TermOpen * setlocal signcolumn=no nonumber ft=
 "}}}
 
