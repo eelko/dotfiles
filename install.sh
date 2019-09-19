@@ -3,10 +3,10 @@
 set -o nounset
 set -o errexit
 
-REQUIREMENTS=("fasd" "gdircolors" "reattach-to-user-namespace" "rg" "tmux" "tree")
+REQUIREMENTS=("fasd" "fzf" "gdircolors" "rg" "tmux" "tree")
 for bin in "${REQUIREMENTS[@]}"
 do
-	[[ -n $(which "$bin") ]] || (echo "Error: $bin is not installed" && exit 1)
+  [[ -n $(command -v "$bin") ]] || (echo "Error: $bin is not installed" && exit 1)
 done
 
 DOTFILES_REPO="https://github.com/obxhdx/dotfiles"
@@ -20,6 +20,3 @@ find $DOTFILES_HOME/config/* -maxdepth 0 -exec bash -c 'ln -snv {} ~/.$(basename
 
 # install tmux plugins
 ~/.tmux/plugins/tpm/bin/install_plugins
-
-# install fzf
-~/.fzf/install --no-completion --no-update-rc
