@@ -239,9 +239,9 @@ Plug 'w0rp/ale', { 'on': [] }
 
 " Navigation
 Plug 'pgdouyon/vim-evanesco'
-Plug 'ryanoasis/vim-devicons', { 'on': ['NERDTreeFind', 'NERDTreeToggle'] }
-Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeFind', 'NERDTreeToggle'] }
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': ['NERDTreeFind', 'NERDTreeToggle'] }
+Plug 'ryanoasis/vim-devicons'
+Plug 'scrooloose/nerdtree'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'tpope/vim-projectionist'
 Plug 'valloric/MatchTagAlways', { 'for': ['html', 'javascript.jsx', 'xml'] }
 
