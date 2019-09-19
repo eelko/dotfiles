@@ -1,5 +1,6 @@
 " General Options " {{{
 set wildmenu " Enable command line completion menu
+set wildoptions=tagfile " Use classic completion menu instead of floating window
 set mouse=a " Enable mouse
 set noshowmode " Don't show edit mode in command bar
 " }}}
