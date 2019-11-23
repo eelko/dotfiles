@@ -179,7 +179,7 @@ repl() {
   [[ "$#" -eq 0 ]] && echo -e "Usage:\n repl <filetype>" && return
   local -r filetype="$1"
   tmux rename-window "REPL [$filetype]"
-  vim -c "setlocal buftype=nofile signcolumn=no | let g:indentLine_char=' ' | Codi $1"
+  nvim -c "setlocal buftype=nofile signcolumn=no | let g:indentLine_char=' ' | Codi $1"
   tmux setw automatic-rename
 }
 
