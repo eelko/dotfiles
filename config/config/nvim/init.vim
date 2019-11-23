@@ -7,7 +7,6 @@ set noshowmode " Don't show edit mode in command bar
 
 " Appearance " {{{
 set cursorline " Highlight current line
-set fillchars+=vert:\  " No vertical split separator
 set guicursor=a:hor25-blinkon10,i:ver25-blinkon10 " Switch cursor shape between vertical/underline bar (Insert/Normal)
 set list " Show unprintable characters
 set listchars=tab:».,trail:⌴,extends:❯,precedes:❮,nbsp:° " Unprintable characters
@@ -447,6 +446,7 @@ function! SanitizeColors()
   hi SignColumn guibg=NONE
   hi Visual ctermbg=238 guibg=#626262
   hi! link NormalNC ColorColumn
+  hi! link VertSplit LineNr
 
   if g:colors_name == 'badwolf'
     hi Noise guifg=#949494
