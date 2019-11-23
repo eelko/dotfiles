@@ -457,8 +457,8 @@ function! SanitizeColors()
     hi Search guibg=magenta guifg=white
   endif
 
-  hi StatusLine cterm=NONE ctermfg=232 ctermbg=white gui=NONE guifg=#3a3a3a guibg=#d5c4a1
-  hi StatusLineNC cterm=NONE ctermfg=15 ctermbg=238 gui=NONE guifg=white guibg=#45413b
+  hi StatusLine ctermfg=232 ctermbg=white guifg=#3a3a3a guibg=#d5c4a1
+  hi StatusLineNC ctermfg=15 ctermbg=238 guifg=white guibg=#45413b
   autocmd InsertEnter * hi StatusLine cterm=NONE ctermfg=117 ctermbg=24 gui=NONE guifg=#87dfff guibg=#005f87
   autocmd InsertLeave * hi StatusLine cterm=NONE ctermfg=232 ctermbg=white gui=NOne guifg=#3a3a3a guibg=#d5c4a1
 endf
