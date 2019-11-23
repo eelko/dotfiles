@@ -485,19 +485,49 @@ let g:deoplete#enable_at_startup = 1
 
 " FZF {{{
 set rtp+=/usr/local/opt/fzf
+let g:fzf_colors = {
+      \ 'border': ['bg', 'Pmenu'],
+      \ 'bg': ['bg', 'Pmenu'],
+      \ 'bg+': ['bg', 'Pmenu'],
+      \ 'fg+': ['fg', 'Error'],
+      \ }
 let g:fzf_command_prefix = 'Fz'
-let g:fzf_files_options  = '--tiebreak=end' " Prioritize matches that are closer to the end of the string
-nnoremap <Leader>fb :FzBuffers<CR>
-nnoremap <Leader>fc :FzCommands<CR>
-nnoremap <Leader>ff :FzFiles<CR>
-nnoremap <Leader>fg :FzRg 
-nnoremap <Leader>fh :FzHistory<CR>
-nnoremap <Leader>fl :FzLines<CR>
-" }}}
+let g:fzf_files_options = '--tiebreak=end --layout=reverse --margin=1,1 --color=bg+:-1,hl:#D75F87,hl+:#D75F87'
+let g:fzf_layout = { 'window': 'call FloatingFZF()' }
 
-" GutenTags {{{
-let g:gutentags_ctags_tagfile = '.tags'
-let g:gutentags_file_list_command = 'git ls-files'
+function! FzfFilesWrapper()
+  if !exists('*fzf#vim#files')
+    call plug#load('fzf.vim')
+  endif
+  call fzf#vim#files('.', {'options': '--prompt "> "'})
+endfunction
+
+function! FloatingFZF()
+  let buf = nvim_create_buf(v:false, v:true)
+  call setbufvar(buf, '&signcolumn', 'no')
+
+  let width = &columns * 2 / 3
+  let height = (&lines  * 1 / 3) + 1
+  let horizontal = &columns * 2 / 3 / 4
+  let vertical = &lines / 3 - 2
+
+  let opts = {
+        \ 'relative': 'editor',
+        \ 'row': vertical,
+        \ 'col': horizontal,
+        \ 'width': width,
+        \ 'height': height,
+        \ }
+
+  call nvim_open_win(buf, v:true, opts)
+endfunction
+
+nnoremap <silent> <Leader>fb :FzBuffers<CR>
+nnoremap <silent> <Leader>fc :FzCommands<CR>
+nnoremap <silent> <Leader>ff :call FzfFilesWrapper()<CR>
+nnoremap <silent> <Leader>fg :FzRg 
+nnoremap <silent> <Leader>fh :FzHistory<CR>
+nnoremap <silent> <Leader>fl :FzLines<CR>
 " }}}
 
 " IndentLine {{{
