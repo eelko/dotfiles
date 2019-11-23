@@ -252,7 +252,8 @@ call plug#end()
 " Lazy Loading {{{
 function! s:LoadCompletionPlugins()
   call plug#load('ale', 'coc.nvim', 'vim-endwise', 'vim-snippets')
-  echom 'Snippets + Completion plugins loaded!'
+  IndentLinesReset
+  echom 'Linting and completion plugins loaded.'
 endfunction
 
 augroup LoadCompletionPlugins
