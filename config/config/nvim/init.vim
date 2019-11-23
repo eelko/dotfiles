@@ -59,7 +59,6 @@ nnoremap <Leader>P "+P
 nnoremap <Leader>w :write<CR>
 nnoremap <Leader>x :xit<CR>
 nnoremap <Leader>q :quit<CR>
-nnoremap <Leader>d :bnext<bar>bdelete#<CR>
 
 " Expand %% to file path
 cnoremap %% <C-R>=expand('%:h').'/'<CR>
@@ -116,16 +115,6 @@ command! -nargs=1 -range=% Align :execute "<line1>,<line2>!sed 's/" . <f-args> .
 " StripTrailingWhitespaces command {{{
 command! StripTrailingWhitespaces :call <SID>ExecPreservingCursorPos('%s/\s\+$//e')
 " }}}
-
-fun! s:CloseBuffer() "{{{
-  if bufname('%') =~ '^term://'
-    silent! bdelete!
-  else
-    bnext | silent! bdelete#
-  endif
-endfunction
-nnoremap <silent> <Leader>d :call <SID>CloseBuffer()<CR>
-"}}}
 
 fun! s:CloseHiddenBuffers() "{{{
   let open_buffers = []
@@ -237,6 +226,7 @@ Plug 'tpope/vim-sleuth'
 Plug 'w0rp/ale', { 'on': [] }
 
 " Navigation
+Plug 'moll/vim-bbye'
 Plug 'pgdouyon/vim-evanesco'
 Plug 'ryanoasis/vim-devicons'
 Plug 'scrooloose/nerdtree'
@@ -341,6 +331,17 @@ autocmd ColorScheme * call s:TweakAleColors()
 autocmd FileType netrw,qf DisableAutoHighlightWord
 set updatetime=500 " Make CursorHold trigger faster
 " }}}
+
+" Buffer Bye {{{
+fun! s:CloseBuffer()
+  if bufname('%') =~ '^term://\|VimTest'
+    silent! bdelete!
+  else
+    Bdelete
+  endif
+endfunction
+nnoremap <silent> <Leader>d :call <SID>CloseBuffer()<CR>
+"}}}
 
 " BufTabline {{{
 let g:buftabline_show = 1
