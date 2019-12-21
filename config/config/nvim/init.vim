@@ -214,13 +214,13 @@ call plug#begin('~/.vim/plugins')
 " Appearance
 Plug 'ap/vim-buftabline'
 Plug 'sheerun/vim-polyglot'
-Plug 'yggdroot/indentLine'
 Plug 'sjl/badwolf'
+Plug 'yggdroot/indentLine'
 
 " Code Completion
 Plug 'honza/vim-snippets', { 'on': [] }
 Plug 'jiangmiao/auto-pairs'
-Plug 'neoclide/coc.nvim', { 'on': ['CocAction', 'CocCommand', 'CocList'], 'tag': '*', 'branch': 'release' }
+Plug 'neoclide/coc.nvim', { 'on': ['CocAction', 'CocCommand', 'CocList'], 'branch': 'release' }
 Plug 'tpope/vim-endwise', { 'on': [] }
 
 " Linting & Formatting
@@ -230,24 +230,17 @@ Plug 'w0rp/ale', { 'on': [] }
 " Navigation
 Plug 'moll/vim-bbye'
 Plug 'pgdouyon/vim-evanesco'
-Plug 'ryanoasis/vim-devicons'
-Plug 'scrooloose/nerdtree'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'scrooloose/nerdtree' | Plug 'ryanoasis/vim-devicons' | Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'tpope/vim-projectionist'
-Plug 'valloric/MatchTagAlways', { 'for': ['html', 'javascript.jsx', 'xml'] }
+Plug 'yggdroot/LeaderF', { 'do': './install.sh' }
 
 " Misc
-Plug 'ludovicchabant/vim-gutentags'
 Plug 'mhinz/vim-signify'
 Plug 'obxhdx/vim-action-mapper'
 Plug 'obxhdx/vim-auto-highlight'
 Plug 'tpope/vim-commentary', { 'on': '<Plug>Commentary' }
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
-
-" Tools
-Plug 'junegunn/fzf.vim', { 'on': ['FzBuffers', 'FzCommands', 'FzFiles', 'FzHistory', 'FzLines', 'FzRg'] }
-Plug 'metakirby5/codi.vim', { 'on': 'Codi' }
 
 call plug#end()
 
@@ -267,6 +260,15 @@ augroup END
 " ActionMapper {{{
 autocmd! User MapActions
 
+function! s:FindAndReplace(text, use_word_boundary) " {{{
+  let l:pattern = a:use_word_boundary ? '<'.a:text.'>' : a:text
+  let l:new_text = input('Replace '.l:pattern.' with: ', a:text)
+
+  if len(l:new_text)
+    execute ',$s/\v'.l:pattern.'/'.l:new_text.'/gc'
+  endif
+endfunction
+
 function! FindAndReplaceWithWordBoundary(text)
   let l:use_word_boundary = 1
   execute s:FindAndReplace(a:text, l:use_word_boundary)
@@ -277,19 +279,11 @@ function! FindAndReplaceWithoutWordBoundary(text)
   execute s:FindAndReplace(a:text, l:use_word_boundary)
 endfunction
 
-function! s:FindAndReplace(text, use_word_boundary)
-  let l:pattern = a:use_word_boundary ? '<'.a:text.'>' : a:text
-  let l:new_text = input('Replace '.l:pattern.' with: ', a:text)
-
-  if len(l:new_text)
-    execute ',$s/\v'.l:pattern.'/'.l:new_text.'/gc'
-  endif
-endfunction
-
 autocmd User MapActions call MapAction('FindAndReplaceWithWordBoundary', '<leader>r')
 autocmd User MapActions call MapAction('FindAndReplaceWithoutWordBoundary', '<leader><leader>r')
+"}}}
 
-function! DebugLog(text)
+function! DebugLog(text) "{{{
   let l:supported_languages = ['javascript', 'javascript.jsx']
   if index(l:supported_languages, &ft) < 0
     return
@@ -299,7 +293,14 @@ function! DebugLog(text)
 endfunction
 
 autocmd User MapActions call MapAction('DebugLog', '<leader>l')
+"}}}
 
+function! GrepWithLeaderF(text) "{{{
+  execute('Leaderf rg '.a:text)
+endfunction
+
+autocmd User MapActions call MapAction('GrepWithLeaderF', '<Leader>g')
+"}}}
 "}}}
 
 " Ale {{{
@@ -486,64 +487,19 @@ map gc <Plug>Commentary
 nmap gcc <Plug>CommentaryLine
 " }}}
 
-" FZF {{{
-set rtp+=/usr/local/opt/fzf
-let g:fzf_colors = {
-      \ 'border': ['bg', 'Pmenu'],
-      \ 'bg': ['bg', 'Pmenu'],
-      \ 'bg+': ['bg', 'Pmenu'],
-      \ 'fg+': ['fg', 'Error'],
-      \ }
-let g:fzf_command_prefix = 'Fz'
-let g:fzf_files_options = '--tiebreak=end --layout=reverse --margin=1,1 --color=bg+:-1,hl:#D75F87,hl+:#D75F87'
-let g:fzf_layout = { 'window': 'call FloatingFZF()' }
-
-function! FzfFilesWrapper()
-  if !exists('*fzf#vim#files')
-    call plug#load('fzf.vim')
-  endif
-  call fzf#vim#files('.', {'options': '--prompt "> "'})
-endfunction
-
-function! FloatingFZF()
-  let buf = nvim_create_buf(v:false, v:true)
-  call setbufvar(buf, '&signcolumn', 'no')
-
-  let width = &columns * 2 / 3
-  let height = (&lines  * 1 / 3) + 1
-  let horizontal = &columns * 2 / 3 / 4
-  let vertical = &lines / 3 - 2
-
-  let opts = {
-        \ 'relative': 'editor',
-        \ 'row': vertical,
-        \ 'col': horizontal,
-        \ 'width': width,
-        \ 'height': height,
-        \ }
-
-  call nvim_open_win(buf, v:true, opts)
-endfunction
-
-nnoremap <silent> <Leader>fb :FzBuffers<CR>
-nnoremap <silent> <Leader>fc :FzCommands<CR>
-nnoremap <silent> <Leader>ff :call FzfFilesWrapper()<CR>
-nnoremap <silent> <Leader>fg :FzRg 
-nnoremap <silent> <Leader>fh :FzHistory<CR>
-nnoremap <silent> <Leader>fl :FzLines<CR>
-" }}}
-
 " IndentLine {{{
 let g:indentLine_faster = 1
 let g:indentLine_char = get(g:, 'indentLine_char', '┊')
 let g:indentLine_bufTypeExclude = ['help']
 " }}}
 
-" MatchTagAlways {{{
-au VimEnter *
-      \| let g:mta_filetypes['javascript'] = 1
-      \| let g:mta_filetypes['javascript.jsx'] = 1
-" }}}
+" LeaderF {{{
+let g:Lf_HideHelp = 1
+let g:Lf_PreviewInPopup = 1
+let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2" }
+let g:Lf_WindowPosition = 'popup'
+nnoremap <Leader>m :Leaderf mru<CR>
+"}}}
 
 " NERDTree {{{
 let g:loaded_netrwPlugin = 1
@@ -582,7 +538,6 @@ let g:vim_markdown_conceal = 0
 "}}}
 
 " Projectionist {{{
-let g:projectionist_ignore_term = 1
 nnoremap <Leader>aa :A<CR>
 nnoremap <Leader>as :AS<CR>
 nnoremap <Leader>av :AV<CR>
