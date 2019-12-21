@@ -110,13 +110,14 @@ augroup END
 
 " Functions and Commands "{{{
 
-" Align command (format text in columns) {{{
-command! -nargs=1 -range=% Align :execute "<line1>,<line2>!sed 's/" . <f-args> . "/@". <f-args> . "/g' | column -s@ -t"
+command! -nargs=1 -range=% Align :execute "<line1>,<line2>!sed 's/" . <f-args> . "/@". <f-args> . "/g' | column -s@ -t" "{{{
 "}}}
 
-" StripTrailingWhitespaces command {{{
-command! StripTrailingWhitespaces :call <SID>ExecPreservingCursorPos('%s/\s\+$//e')
-" }}}
+command! -nargs=0 -range SortLine <line1>,<line2>call setline('.',join(sort(split(getline('.'),' ')),' ')) "{{{
+"}}}
+
+command! StripTrailingWhitespaces :call <SID>ExecPreservingCursorPos('%s/\s\+$//e') "{{{
+"}}}
 
 fun! s:CloseHiddenBuffers() "{{{
   let open_buffers = []
