@@ -33,7 +33,9 @@ set smartcase " Enable case-smart searching (overrides ignorecase)
 " }}}
 
 " Terminal {{{
-autocmd TermOpen * setlocal signcolumn=no nonumber ft=
+if has('nvim')
+  autocmd TermOpen * setlocal signcolumn=no nonumber ft=
+endif
 "}}}
 
 " Key mappings " {{{
