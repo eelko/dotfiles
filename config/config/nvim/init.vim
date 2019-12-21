@@ -335,7 +335,6 @@ autocmd ColorScheme * call s:TweakAleColors()
 " }}}
 
 " AutoHighlightWord {{{
-autocmd FileType netrw,qf DisableAutoHighlightWord
 set updatetime=500 " Make CursorHold trigger faster
 " }}}
 
@@ -556,14 +555,16 @@ let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
 let g:DevIconsEnableFoldersOpenClose = 1
 let g:NERDTreeMapActivateNode = '<CR>'
 
-autocmd FileType nerdtree setlocal signcolumn=no | DisableAutoHighlightWord
+autocmd FileType nerdtree setlocal signcolumn=no
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif " close vim when nerdtree is the only open buffer
 
+hi NERDTreeExecFile guifg=#8FBCBB
+hi NERDTreeFlags guifg=#B48EAD
 hi NERDTreeOpenable cterm=NONE ctermfg=darkgray gui=NONE guifg=darkgray
 hi link NERDTreeDir NERDTreeOpenable
 hi link NERDTreeDirSlash NERDTreeOpenable
 
-fun! s:OpenNERDTree()
+fun! s:NERDTreeFindWrapper()
   if empty(bufname('%')) || &ft == 'nerdtree'
     NERDTreeToggle
   else
@@ -571,7 +572,9 @@ fun! s:OpenNERDTree()
     normal zz
   endif
 endfunction
-map <silent> - :call <SID>OpenNERDTree()<CR>
+
+map <silent> <Leader>nf :call <SID>NERDTreeFindWrapper()<CR>
+map <silent> <Leader>nt :NERDTreeToggle<CR>
 " }}}
 
 " Polyglot {{{
