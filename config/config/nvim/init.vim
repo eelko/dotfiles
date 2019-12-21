@@ -485,10 +485,6 @@ map gc <Plug>Commentary
 nmap gcc <Plug>CommentaryLine
 " }}}
 
-" Deoplete {{{
-let g:deoplete#enable_at_startup = 1
-"}}}
-
 " FZF {{{
 set rtp+=/usr/local/opt/fzf
 let g:fzf_colors = {
