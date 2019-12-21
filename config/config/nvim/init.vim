@@ -216,7 +216,7 @@ call plug#begin('~/.vim/plugins')
 Plug 'ap/vim-buftabline'
 Plug 'sheerun/vim-polyglot'
 Plug 'sjl/badwolf'
-Plug 'yggdroot/indentLine'
+Plug 'yggdroot/indentLine', { 'on': [] }
 
 " Code Completion
 Plug 'honza/vim-snippets', { 'on': [] }
@@ -225,36 +225,36 @@ Plug 'neoclide/coc.nvim', { 'on': ['CocAction', 'CocCommand', 'CocList'], 'branc
 Plug 'tpope/vim-endwise', { 'on': [] }
 
 " Linting & Formatting
-Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-sleuth', { 'on': [] }
 Plug 'w0rp/ale', { 'on': [] }
 
 " Navigation
-Plug 'moll/vim-bbye'
-Plug 'pgdouyon/vim-evanesco'
+Plug 'moll/vim-bbye', { 'on': ['Bdelete'] }
+Plug 'pgdouyon/vim-evanesco', { 'on': [] }
 Plug 'scrooloose/nerdtree' | Plug 'ryanoasis/vim-devicons' | Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'tpope/vim-projectionist'
-Plug 'yggdroot/LeaderF', { 'do': './install.sh' }
+Plug 'tpope/vim-projectionist', { 'on': [] }
+Plug 'yggdroot/LeaderF', { 'on': [], 'do': './install.sh' }
 
 " Misc
-Plug 'mhinz/vim-signify'
+Plug 'mhinz/vim-signify', { 'on': [] }
 Plug 'obxhdx/vim-action-mapper'
-Plug 'obxhdx/vim-auto-highlight'
+Plug 'obxhdx/vim-auto-highlight', { 'on': [] }
 Plug 'tpope/vim-commentary', { 'on': '<Plug>Commentary' }
-Plug 'tpope/vim-rsi'
-Plug 'tpope/vim-surround'
+Plug 'tpope/vim-rsi', { 'on': [] }
+Plug 'tpope/vim-surround', { 'on': [] }
 
 call plug#end()
 
 " Lazy Loading {{{
-function! s:LoadCompletionPlugins()
-  call plug#load('ale', 'coc.nvim', 'vim-endwise', 'vim-snippets')
+function! s:LoadPlugins()
+  call plug#load('LeaderF', 'ale', 'coc.nvim', 'indentLine', 'vim-auto-highlight', 'vim-endwise', 'vim-evanesco', 'vim-projectionist', 'vim-rsi', 'vim-signify', 'vim-sleuth', 'vim-snippets', 'vim-surround')
   IndentLinesReset
-  echom 'Linting and completion plugins loaded.'
+  echom 'All plugins loaded.'
 endfunction
 
-augroup LoadCompletionPlugins
+augroup LoadPlugins
   autocmd!
-  autocmd CursorHold * call <SID>LoadCompletionPlugins() | autocmd! LoadCompletionPlugins
+  autocmd CursorHold * call <SID>LoadPlugins() | autocmd! LoadPlugins
 augroup END
 " }}}
 
