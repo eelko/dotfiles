@@ -152,42 +152,6 @@ fun! s:ExecPreservingCursorPos(command) "{{{
 endf
 " }}}
 
-fun! s:GitAnnotate() "{{{
-  " save cursor position
-  let l:current_line = line('.')
-  normal gg
-
-  " create annotate buffer
-  execute 'vnew | 0read !git annotate '.expand('%')." | awk '{print $1,$2,$3}' | sed -E 's/\\( ?//g'"
-  " adjust buffer width to longest line
-  execute 'vertical resize '.max(map(getline(1,'$'), 'len(v:val)'))
-  " delete last line
-  execute 'normal Gddgg'
-
-  " configure annotate buffer
-  setlocal bufhidden=hide buftype=nofile nobuflisted nonumber noswapfile nomodifiable statusline=git-annotate
-  silent! file git-annotate
-  nnoremap <buffer> <silent> <CR> :<C-U>exe <SID>GitBlameCommit((&splitbelow ? "botright" : "topleft")." new")<CR>
-
-  " lock cursor and scroll
-  windo setlocal cursorbind scrollbind
-  windo execute 'normal '.l:current_line.'Gzz'
-  wincmd h
-
-  " unlock when annotate buffer closes
-  autocmd BufHidden git-annotate windo set nocursorbind noscrollbind
-endf
-command! GitAnnotate :call s:GitAnnotate()
-
-fun! s:GitBlameCommit(cmd) abort
-  let l:hash = expand('<cword>')
-  execute a:cmd
-  execute 'read !git show '.l:hash
-  execute 'setlocal statusline=Commit\ '.l:hash
-  setlocal bufhidden=hide buftype=nofile nobuflisted nonumber noswapfile filetype=diff nomodifiable
-endf
-"}}}
-
 fun! s:SyntaxGroupsForWordUnderCursor() "{{{
   if !exists('*synstack')
     return
