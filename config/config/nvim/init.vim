@@ -230,7 +230,7 @@ function! s:FindAndReplace(text, use_word_boundary) " {{{
   let l:new_text = input('Replace '.l:pattern.' with: ', a:text)
 
   if len(l:new_text)
-    execute ',$s/\v'.l:pattern.'/'.l:new_text.'/gc'
+    call <SID>ExecPreservingCursorPos(',$s/\v'.l:pattern.'/'.l:new_text.'/gc')
   endif
 endfunction
 
