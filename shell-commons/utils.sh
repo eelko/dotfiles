@@ -130,6 +130,22 @@ function read_nvmrc() {
   [[ -f "$PWD/.nvmrc" ]] && ( eval "nvm use" || true ) || false
 }
 
+# Returns current directory name (only last two words of kebab-cased name)
+current_dir_abbreviated() {
+  basename "$PWD" | awk -F- '{if (NF>1) {print $(NF-1)"-"$NF} else {print $NF}}'
+}
+
+# Zsh hook - runs before executing a command
+preexec() {
+  local -r current_cmd_abbreviated="$(echo "$1" | awk '{print $1}')" # only executable name
+  tmux rename-window "$(current_dir_abbreviated):$current_cmd_abbreviated"
+}
+
+# Zsh hook - runs before displaying the prompt
+precmd() {
+  tmux rename-window "$(current_dir_abbreviated)"
+}
+
 # Enter directory and list contents
 function cd() {
   [ -n "$1" ] && builtin cd "$1" || builtin cd
