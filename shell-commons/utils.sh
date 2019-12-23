@@ -121,12 +121,16 @@ current_dir_abbreviated() {
 # Zsh hook - runs before executing a command
 preexec() {
   local -r current_cmd_abbreviated="$(echo "$1" | awk '{print $1}')" # only executable name
-  tmux rename-window "$(current_dir_abbreviated):$current_cmd_abbreviated"
+  if [[ $(tmux list-panes | wc -l) -eq 1 ]]; then
+    tmux rename-window "$(current_dir_abbreviated):$current_cmd_abbreviated"
+  fi
 }
 
 # Zsh hook - runs before displaying the prompt
 precmd() {
-  tmux rename-window "$(current_dir_abbreviated)"
+  if [[ $(tmux list-panes | wc -l) -eq 1 ]]; then
+    tmux rename-window "$(current_dir_abbreviated)"
+  fi
 }
 
 # Enter directory and list contents
