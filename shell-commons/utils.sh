@@ -113,23 +113,6 @@ function bin_exists() {
   return $?
 }
 
-# Create short URLs
-# Usage: shorten [full url]
-function shorten() {
-  [[ "$#" -eq 0 ]] && echo -e "Usage:\n shorten [--quiet] [URL]" && return
-  for arg in $*; do
-    [[ "$arg" =~ ^http ]] && long_url="$arg"
-    [[ "$arg" =~ ^--[a-z]+ ]] && declare ${arg#--}=true
-  done
-  short_url=$(curl -Ss "http://api.bitly.com/v3/shorten?login=$BITLY_LOGIN&apiKey=$BITLY_API_KEY&longUrl=$long_url&format=txt" | jq '.data.url' | tr -d '"') && echo "$short_url" | pbcopy
-  [[ -z "$quiet" ]] && echo "\"$short_url\" copied to clipboard." || echo $short_url
-}
-
-# Read .nvmrc if it exists
-function read_nvmrc() {
-  [[ -f "$PWD/.nvmrc" ]] && ( eval "nvm use" || true ) || false
-}
-
 # Returns current directory name (only last two words of kebab-cased name)
 current_dir_abbreviated() {
   basename "$PWD" | awk -F- '{if (NF>1) {print $(NF-1)"-"$NF} else {print $NF}}'
@@ -151,43 +134,6 @@ function cd() {
   [ -n "$1" ] && builtin cd "$1" || builtin cd
   l
   [ -n "$TMUX" ] && tmux setenv TMUX_"$(tmux display -p "#I")"_PWD $PWD
-}
-
-# Wrapper for terminal notifications
-function growl() {
-  terminal-notifier -activate com.googlecode.iterm2 -title 'iTerm' -subtitle 'Command finished running:' -message "$@"
-}
-
-# Note taking helpers
-# Usage:
-# $ note
-# $ note [note name]
-function new_note() {
-  title="$(echo $@ | gsed -e 's/\b\(.\)/\u\1/g')"
-  marker="$(echo $title | sed -e 's/./=/g')"
-  header="$title\r$marker\r\r"
-
-  file_name="$(date +%Y-%m-%d)_$(echo $title | gsed -e 's/\(.*\)/\L\1/' -e 's/\s/-/g')"
-  file_path="$NOTES_HOME/$file_name.md"
-
-  tmux rename-window "$title" \
-    && [ -f "$file_path" ] && vim "$file_path" || vim "$file_path" -c "normal i$(echo -e $header)" \
-    && tmux setw automatic-rename
-}
-
-function list_notes() {
-  builtin cd $NOTES_HOME
-  chosen_note=$(find . -iname "*.md" -type f | sed -e "s/\.\///g" | fzf)
-  [ ! -z "$chosen_note" ] && vim "$chosen_note"
-  builtin cd - >/dev/null
-}
-
-function note() {
-  if [[ -z "$1" ]]; then
-    list_notes
-  else
-    new_note "$@"
-  fi
 }
 
 # REPL powered by Codi
