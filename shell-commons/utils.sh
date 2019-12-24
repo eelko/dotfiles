@@ -1,5 +1,47 @@
 #!/usr/bin/env bash
 
+# Pane name format: "<current dir name>:<currend command>"
+update_tmux_pane_name() {
+  [ -n "$TMUX" ] || return
+
+  local -r current_path=$(basename "$(tmux display-message -p '#{pane_current_path}')")
+  local -r current_dir_name=$(echo "$current_path" | awk -F- '{if (NF>1) {print $(NF-1)"-"$NF} else {print $NF}}') # only last two words of kebab-cased names
+
+  if [[ -n "$1" ]]; then
+    # called by preexec zsh hook; $1 has entire command with arguments
+    current_cmd="$(echo "$1" | awk '{print $1}')" # get only executable name
+  else
+    # called either by precmd zsh hook or pane-focus-in tmux hook
+    current_cmd=$(tmux display-message -p '#{pane_current_command}')
+  fi
+
+  if [[ ! $current_cmd =~ (tmux|zsh) ]]; then
+    tmux rename-window "$current_dir_name:$current_cmd"
+  else
+    tmux rename-window "$current_dir_name"
+  fi
+}
+
+# Tmux hook - runs when pane gains focus
+[ -n "$TMUX" ] && tmux set-hook pane-focus-in 'run-shell "exec $SHELL -ic update_tmux_pane_name"'
+
+# Zsh hook - runs before executing a command
+preexec() {
+  update_tmux_pane_name "$1"
+}
+
+# Zsh hook - runs before displaying the prompt
+precmd() {
+  update_tmux_pane_name
+}
+
+# Enter directory and list contents
+function cd() {
+  [ -n "$1" ] && builtin cd "$1" || builtin cd
+  l
+  [ -n "$TMUX" ] && tmux setenv TMUX_"$(tmux display -p "#I")"_PWD $PWD
+}
+
 # Lazy loading helper
 # Usage:
 #   lazy_load "RVM" "$HOME/.rvm/scripts/rvm" "rvm pod bundle gem"
@@ -111,46 +153,6 @@ function source_if_exists() {
 function bin_exists() {
   command which "$1" > /dev/null 2>&1
   return $?
-}
-
-# Pane name format: "<current dir name>:<currend command>"
-update_tmux_pane_name() {
-  local -r current_path=$(basename "$(tmux display-message -p '#{pane_current_path}')")
-  local -r current_dir_name=$(echo "$current_path" | awk -F- '{if (NF>1) {print $(NF-1)"-"$NF} else {print $NF}}') # only last two words of kebab-cased names
-
-  if [[ -n "$1" ]]; then
-    # called by preexec zsh hook; $1 has entire command with arguments
-    current_cmd="$(echo "$1" | awk '{print $1}')" # get only executable name
-  else
-    # called either by precmd zsh hook or pane-focus-in tmux hook
-    current_cmd=$(tmux display-message -p '#{pane_current_command}')
-  fi
-
-  if [[ ! $current_cmd =~ (tmux|zsh) ]]; then
-    tmux rename-window "$current_dir_name:$current_cmd"
-  else
-    tmux rename-window "$current_dir_name"
-  fi
-}
-
-# Tmux hook - runs when pane gains focus
-tmux set-hook pane-focus-in 'run-shell "exec $SHELL -ic update_tmux_pane_name"'
-
-# Zsh hook - runs before executing a command
-preexec() {
-  update_tmux_pane_name "$1"
-}
-
-# Zsh hook - runs before displaying the prompt
-precmd() {
-  update_tmux_pane_name
-}
-
-# Enter directory and list contents
-function cd() {
-  [ -n "$1" ] && builtin cd "$1" || builtin cd
-  l
-  [ -n "$TMUX" ] && tmux setenv TMUX_"$(tmux display -p "#I")"_PWD $PWD
 }
 
 # REPL powered by Codi
