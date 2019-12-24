@@ -113,24 +113,37 @@ function bin_exists() {
   return $?
 }
 
-# Returns current directory name (only last two words of kebab-cased name)
-current_dir_abbreviated() {
-  basename "$PWD" | awk -F- '{if (NF>1) {print $(NF-1)"-"$NF} else {print $NF}}'
+# Pane name format: "<current dir name>:<currend command>"
+update_tmux_pane_name() {
+  local -r current_path=$(basename "$(tmux display-message -p '#{pane_current_path}')")
+  local -r current_dir_name=$(echo "$current_path" | awk -F- '{if (NF>1) {print $(NF-1)"-"$NF} else {print $NF}}') # only last two words of kebab-cased names
+
+  if [[ -n "$1" ]]; then
+    # called by preexec zsh hook; $1 has entire command with arguments
+    current_cmd="$(echo "$1" | awk '{print $1}')" # get only executable name
+  else
+    # called either by precmd zsh hook or pane-focus-in tmux hook
+    current_cmd=$(tmux display-message -p '#{pane_current_command}')
+  fi
+
+  if [[ ! $current_cmd =~ (tmux|zsh) ]]; then
+    tmux rename-window "$current_dir_name:$current_cmd"
+  else
+    tmux rename-window "$current_dir_name"
+  fi
 }
+
+# Tmux hook - runs when pane gains focus
+tmux set-hook pane-focus-in 'run-shell "exec $SHELL -ic update_tmux_pane_name"'
 
 # Zsh hook - runs before executing a command
 preexec() {
-  local -r current_cmd_abbreviated="$(echo "$1" | awk '{print $1}')" # only executable name
-  if [[ $(tmux list-panes | wc -l) -eq 1 ]]; then
-    tmux rename-window "$(current_dir_abbreviated):$current_cmd_abbreviated"
-  fi
+  update_tmux_pane_name "$1"
 }
 
 # Zsh hook - runs before displaying the prompt
 precmd() {
-  if [[ $(tmux list-panes | wc -l) -eq 1 ]]; then
-    tmux rename-window "$(current_dir_abbreviated)"
-  fi
+  update_tmux_pane_name
 }
 
 # Enter directory and list contents
