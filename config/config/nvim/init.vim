@@ -170,10 +170,6 @@ endif
 " }}}
 
 " Third-Party Plugins {{{
-if empty(glob('~/.vim/plugins'))
-  autocmd VimEnter * PlugInstall
-endif
-
 call plug#begin('~/.vim/plugins')
 
 " Appearance
