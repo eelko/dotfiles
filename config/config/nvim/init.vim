@@ -200,14 +200,14 @@ Plug 'mhinz/vim-signify', { 'on': [] }
 Plug 'obxhdx/vim-action-mapper'
 Plug 'obxhdx/vim-auto-highlight', { 'on': [] }
 Plug 'tpope/vim-commentary', { 'on': '<Plug>Commentary' }
-Plug 'tpope/vim-rsi', { 'on': [] }
+Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround', { 'on': [] }
 
 call plug#end()
 
 " Lazy Loading {{{
 function! s:LoadPlugins()
-  call plug#load('LeaderF', 'ale', 'coc.nvim', 'indentLine', 'vim-auto-highlight', 'vim-endwise', 'vim-evanesco', 'vim-projectionist', 'vim-rsi', 'vim-signify', 'vim-sleuth', 'vim-snippets', 'vim-surround')
+  call plug#load('LeaderF', 'ale', 'coc.nvim', 'indentLine', 'vim-auto-highlight', 'vim-endwise', 'vim-evanesco', 'vim-projectionist', 'vim-signify', 'vim-sleuth', 'vim-snippets', 'vim-surround')
   IndentLinesReset
   echom 'All plugins loaded.'
 endfunction
