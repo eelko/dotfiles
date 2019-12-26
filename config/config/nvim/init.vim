@@ -195,7 +195,7 @@ Plug 'w0rp/ale', { 'on': [] }
 " Navigation
 Plug 'moll/vim-bbye', { 'on': ['Bdelete'] }
 Plug 'pgdouyon/vim-evanesco', { 'on': [] }
-Plug 'scrooloose/nerdtree' | Plug 'ryanoasis/vim-devicons' | Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-projectionist', { 'on': [] }
 Plug 'yggdroot/LeaderF', { 'on': [], 'do': './install.sh' }
 
@@ -471,19 +471,11 @@ let g:loaded_netrwPlugin = 1
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeWinSize = '35'
 let g:NERDTreeShowHidden = 1
-let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
-let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
-let g:DevIconsEnableFoldersOpenClose = 1
 let g:NERDTreeMapActivateNode = '<CR>'
 
-autocmd FileType nerdtree setlocal signcolumn=no
-autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif " close vim when nerdtree is the only open buffer
+autocmd FileType nerdtree DisableAutoHighlightWord
 
-hi NERDTreeExecFile guifg=#8FBCBB
-hi NERDTreeFlags guifg=#B48EAD
-hi NERDTreeOpenable cterm=NONE ctermfg=darkgray gui=NONE guifg=darkgray
-hi link NERDTreeDir NERDTreeOpenable
-hi link NERDTreeDirSlash NERDTreeOpenable
+hi NERDTreeClosable guifg=cyan
 
 fun! s:NERDTreeFindWrapper()
   if empty(bufname('%')) || &ft == 'nerdtree'
