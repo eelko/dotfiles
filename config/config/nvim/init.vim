@@ -97,6 +97,9 @@ nnoremap ]L :llast<CR>
 nnoremap ]Q :clast<CR>
 nnoremap ]l :lnext<CR>
 nnoremap ]q :cnext<CR>
+
+" Cleverly close buffers (based on reddit.com/em9qvv)
+nnoremap <expr><Leader>d (bufnr('%') == getbufinfo({'buflisted': 1})[-1].bufnr ? ':bp' : ':bn').'<bar>bd #<CR>'
 " }}}
 
 " Automatic commands"{{{
@@ -189,7 +192,6 @@ Plug 'tpope/vim-sleuth', { 'on': [] }
 Plug 'w0rp/ale', { 'on': [] }
 
 " Navigation
-Plug 'moll/vim-bbye', { 'on': ['Bdelete'] }
 Plug 'pgdouyon/vim-evanesco', { 'on': [] }
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-projectionist', { 'on': [] }
@@ -297,17 +299,6 @@ autocmd ColorScheme * call s:TweakAleColors()
 " AutoHighlightWord {{{
 set updatetime=500 " Make CursorHold trigger faster
 " }}}
-
-" Buffer Bye {{{
-fun! s:CloseBuffer()
-  if bufname('%') =~ '^term://\|VimTest'
-    silent! bdelete!
-  else
-    Bdelete
-  endif
-endfunction
-nnoremap <silent> <Leader>d :call <SID>CloseBuffer()<CR>
-"}}}
 
 " BufTabline {{{
 let g:buftabline_show = 1
