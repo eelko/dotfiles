@@ -60,7 +60,7 @@ nnoremap <Leader>P "+P
 " Faster way to save/quit
 nnoremap <Leader>w :write<CR>
 nnoremap <Leader>x :xit<CR>
-nnoremap <Leader>q :quit<CR>
+nnoremap <Leader>q :qall<CR>
 
 " Expand %% to file path
 cnoremap %% <C-R>=expand('%:h').'/'<CR>
