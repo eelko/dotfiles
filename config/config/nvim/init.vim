@@ -265,20 +265,18 @@ autocmd User MapActions call MapAction('GrepWithLeaderF', '<Leader>g')
 "}}}
 
 " Ale {{{
+let g:ale_fixers = { 'javascript': ['prettier', 'prettier_eslint', 'eslint'] }
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_filetype_changed = 0
 let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 'normal'
+let g:ale_linters_ignore = { 'javascript': ['tsserver'], 'javascript.jsx': ['tsserver'] }
 let g:ale_sign_error = '●'
 let g:ale_sign_warning = '●'
-let g:ale_warn_about_trailing_whitespace = 1
 let g:ale_virtualtext_cursor = 1
 let g:ale_virtualtext_prefix = '➜  '
-let g:ale_linters_ignore = {
-      \ 'javascript': ['tsserver'],
-      \ 'javascript.jsx': ['tsserver'],
-      \}
+let g:ale_warn_about_trailing_whitespace = 1
 
 " Use [g and ]g to navigate diagnostics
 nmap <silent> [g <Plug>(ale_previous_wrap)
@@ -323,9 +321,6 @@ hi BufTabLineFill ctermbg=236 guibg=#303030 guifg=#D5C4A1
 " CoC {{{
 let g:coc_node_path = expand("$LATEST_NODE_PATH")
 
-" Prettier command (requires coc-prettier)
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
-
 " Echo method signatures
 function! s:ShowCodeSignature()
   if exists('*CocActionAsync') && &ft =~ 'javascript'
@@ -361,9 +356,9 @@ inoremap <silent><expr> <C-n> coc#refresh()
 
 " Remap keys for gotos
 nmap <silent> <leader>cd <Plug>(coc-definition)
-nmap <silent> <leader>ctd <Plug>(coc-type-definition)
+nmap <silent> <leader>ct <Plug>(coc-type-definition)
 nmap <silent> <leader>ci <Plug>(coc-implementation)
-nmap <silent> <leader>cr <Plug>(coc-references)
+nmap <silent> <leader>cf <Plug>(coc-references)
 
 " Remap for rename current word
 nmap <leader>crn <Plug>(coc-rename)
@@ -371,18 +366,6 @@ nmap <leader>crn <Plug>(coc-rename)
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
 vmap <leader>ca <Plug>(coc-codeaction-selected)
 nmap <leader>ca <Plug>(coc-codeaction-selected)
-
-" Remap for do codeAction of current line
-nmap <leader>caa <Plug>(coc-codeaction)
-
-" Fix autofix problem of current line
-nmap <leader>cf <Plug>(coc-fix-current)
-
-" Find symbol of current document
-nnoremap <silent> <space>co :<C-u>CocList outline<cr>
-
-" AutoHighlightWord compatibility
-hi! link CocHighlightText AutoHighlightWord
 
 " UltiSnips compatibility
 let g:coc_snippet_next = '<TAB>'
