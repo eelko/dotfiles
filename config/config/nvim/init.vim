@@ -185,7 +185,6 @@ Plug 'yggdroot/indentLine', { 'on': [] }
 Plug 'honza/vim-snippets', { 'on': [] }
 Plug 'jiangmiao/auto-pairs'
 Plug 'neoclide/coc.nvim', { 'on': ['CocAction', 'CocCommand', 'CocList'], 'branch': 'release' }
-Plug 'tpope/vim-endwise', { 'on': [] }
 
 " Linting & Formatting
 Plug 'tpope/vim-sleuth', { 'on': [] }
@@ -209,7 +208,7 @@ call plug#end()
 
 " Lazy Loading {{{
 function! s:LoadPlugins()
-  call plug#load('LeaderF', 'ale', 'coc.nvim', 'indentLine', 'vim-auto-highlight', 'vim-endwise', 'vim-evanesco', 'vim-projectionist', 'vim-signify', 'vim-sleuth', 'vim-snippets', 'vim-surround')
+  call plug#load('LeaderF', 'ale', 'coc.nvim', 'indentLine', 'vim-auto-highlight', 'vim-evanesco', 'vim-projectionist', 'vim-signify', 'vim-sleuth', 'vim-snippets', 'vim-surround')
   IndentLinesReset
   echom 'All plugins loaded.'
 endfunction
