@@ -444,7 +444,9 @@ let g:Lf_HideHelp = 1
 let g:Lf_PreviewInPopup = 1
 let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2" }
 let g:Lf_WindowPosition = 'popup'
-nnoremap <Leader>m :Leaderf mru<CR>
+let g:Lf_ShortcutF = '<Leader>ff'
+nnoremap <Leader>fh :Leaderf mru<CR>
+nnoremap <Leader>fl :Leaderf line<CR>
 "}}}
 
 " NERDTree {{{
