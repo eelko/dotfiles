@@ -271,17 +271,13 @@ let g:ale_lint_on_enter = 0
 let g:ale_lint_on_filetype_changed = 0
 let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_on_text_changed = 0
 let g:ale_linters_ignore = { 'javascript': ['tsserver'], 'javascript.jsx': ['tsserver'] }
+let g:ale_set_quickfix = 1
 let g:ale_sign_error = '●'
 let g:ale_sign_warning = '●'
 let g:ale_virtualtext_cursor = 1
 let g:ale_virtualtext_prefix = '➜  '
-let g:ale_warn_about_trailing_whitespace = 1
-
-" Use [g and ]g to navigate diagnostics
-nmap <silent> [g <Plug>(ale_previous_wrap)
-nmap <silent> ]g <Plug>(ale_next_wrap)
 
 function! s:TweakAleColors()
   hi ALEErrorSign ctermfg=red guifg=red
