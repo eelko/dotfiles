@@ -295,6 +295,13 @@ autocmd ColorScheme * call s:TweakAleColors()
 set updatetime=500 " Make CursorHold trigger faster
 " }}}
 
+" Auto-Pairs {{{
+let g:AutoPairsShortcutToggle = ''
+let g:AutoPairsShortcutFastWrap = ''
+let g:AutoPairsShortcutJump = ''
+let g:AutoPairsShortcutBackInsert = ''
+"}}}
+
 " BufTabline {{{
 let g:buftabline_show = 1
 let g:buftabline_indicators = 1
