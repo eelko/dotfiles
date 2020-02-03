@@ -194,7 +194,7 @@ Plug 'w0rp/ale', { 'on': [] }
 Plug 'pgdouyon/vim-evanesco', { 'on': [] }
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-projectionist', { 'on': [] }
-Plug 'yggdroot/LeaderF', { 'on': [], 'do': './install.sh' }
+Plug 'yggdroot/LeaderF', { 'on': ['Leaderf'], 'do': './install.sh' }
 
 " Misc
 Plug 'mhinz/vim-signify', { 'on': [] }
@@ -208,7 +208,7 @@ call plug#end()
 
 " Lazy Loading {{{
 function! s:LoadPlugins()
-  call plug#load('LeaderF', 'ale', 'coc.nvim', 'indentLine', 'vim-auto-highlight', 'vim-evanesco', 'vim-projectionist', 'vim-signify', 'vim-sleuth', 'vim-snippets', 'vim-surround')
+  call plug#load('ale', 'coc.nvim', 'indentLine', 'vim-auto-highlight', 'vim-evanesco', 'vim-projectionist', 'vim-signify', 'vim-sleuth', 'vim-snippets', 'vim-surround')
   IndentLinesReset
   echom 'All plugins loaded.'
 endfunction
@@ -438,11 +438,16 @@ let g:indentLine_bufTypeExclude = ['help']
 " LeaderF {{{
 let g:Lf_HideHelp = 1
 let g:Lf_PreviewInPopup = 1
+let g:Lf_PreviewResult = { 'Line': 1 }
 let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2" }
 let g:Lf_WindowPosition = 'popup'
-let g:Lf_ShortcutF = '<Leader>ff'
+nnoremap <Leader>fb :Leaderf buffer<CR>
+nnoremap <Leader>fc :Leaderf command<CR>
+nnoremap <Leader>ff :Leaderf file<CR>
 nnoremap <Leader>fh :Leaderf mru<CR>
 nnoremap <Leader>fl :Leaderf line<CR>
+nnoremap <Leader>fs :Leaderf rg<CR>
+command! -nargs=* Grep :execute 'Leaderf rg '.<q-args>
 "}}}
 
 " NERDTree {{{
