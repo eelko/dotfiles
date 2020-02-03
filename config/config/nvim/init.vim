@@ -266,7 +266,6 @@ autocmd User MapActions call MapAction('GrepWithLeaderF', '<Leader>g')
 "}}}
 
 " Ale {{{
-let g:ale_fixers = { 'javascript': ['prettier', 'prettier_eslint', 'eslint'] }
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_filetype_changed = 0
 let g:ale_lint_on_insert_leave = 0
