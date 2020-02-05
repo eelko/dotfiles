@@ -37,8 +37,11 @@ precmd() {
 
 # Enter directory and list contents
 function cd() {
-  [ -n "$1" ] && builtin cd "$1" || builtin cd
-  l
+  if [[ -n "$1" ]]; then
+    builtin cd "$1" && l
+  else
+    builtin cd && l
+  fi
   [ -n "$TMUX" ] && tmux setenv TMUX_"$(tmux display -p "#I")"_PWD $PWD
 }
 
