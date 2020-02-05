@@ -1,4 +1,5 @@
 #!/bin/bash
 
-git submodule update --recursive
+git submodule foreach git pull origin master
 git pull --rebase
+vim +PlugUpgrade +PlugUpdate +qall
