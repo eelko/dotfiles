@@ -3,7 +3,6 @@ export EDITOR='nvim'
 export LANG='en_US.UTF-8'
 export LC_ALL='en_US.UTF-8'
 export LESS='-R'
-export TERM='xterm-256color'
 export PATH="/usr/local/bin:$HOME/.bin:$PATH"
 
 if [[ "$(uname)" = 'Darwin' ]]; then
