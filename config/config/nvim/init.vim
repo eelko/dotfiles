@@ -173,6 +173,12 @@ endif
 " }}}
 
 " Third-Party Plugins {{{
+let VIM_PLUG_DIR='~/.dotfiles/config/config/nvim/autoload/plug.vim'
+if empty(glob(VIM_PLUG_DIR))
+  execute 'silent !curl -fLo '.VIM_PLUG_DIR.' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 call plug#begin('~/.vim/plugins')
 
 " Appearance
