@@ -436,6 +436,7 @@ let g:indentLine_bufTypeExclude = ['help']
 " }}}
 
 " LeaderF {{{
+let g:Lf_CommandMap = { '<Left>': ['<C-b>'], '<Right>': ['<C-f>'], '<Home>': ['<C-a>'], '<End>': ['<C-e>'] }
 let g:Lf_HideHelp = 1
 let g:Lf_PreviewInPopup = 1
 let g:Lf_PreviewResult = { 'Line': 1 }
