@@ -200,6 +200,7 @@ Plug 'tpope/vim-sleuth', { 'on': [] }
 Plug 'w0rp/ale', { 'on': [] }
 
 " Navigation
+Plug 'christoomey/vim-tmux-navigator'
 Plug 'pgdouyon/vim-evanesco', { 'on': [] }
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-projectionist', { 'on': [] }
