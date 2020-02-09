@@ -32,4 +32,8 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 eval "`fnm env --multi`"
 
 # rvm
-source "$HOME/.rvm/scripts/rvm"
+RVM_DIR="$HOME/.rvm/scripts/rvm"
+[ -d "$RVM_DIR" ] && source "$RVM_DIR"
+
+# Full Python 3 support
+export PATH='/usr/local/opt/python/libexec/bin':$PATH

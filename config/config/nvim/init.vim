@@ -173,13 +173,16 @@ endif
 " }}}
 
 " Third-Party Plugins {{{
-let VIM_PLUG_DIR='~/.dotfiles/config/config/nvim/autoload/plug.vim'
-if empty(glob(VIM_PLUG_DIR))
-  execute 'silent !curl -fLo '.VIM_PLUG_DIR.' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+let VIMPLUG_DIR='~/.dotfiles/config/config/nvim/autoload/plug.vim'
+let PLUGINS_DIR='~/.vim/plugins'
+
+if empty(glob(VIMPLUG_DIR)) || empty(glob(PLUGINS_DIR))
+  execute '!curl -fLo '.VIMPLUG_DIR.' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  execute '!python -m pip install --user --upgrade pynvim'
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-call plug#begin('~/.vim/plugins')
+call plug#begin(PLUGINS_DIR)
 
 " Appearance
 Plug 'ap/vim-buftabline'
