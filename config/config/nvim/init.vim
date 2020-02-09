@@ -101,6 +101,11 @@ nnoremap ]q :cnext<CR>
 " Cleverly close buffers (based on reddit.com/em9qvv)
 nnoremap <expr><Leader>d (bufnr('%') == getbufinfo({'buflisted': 1})[-1].bufnr ? ':bp' : ':bn').'<bar>bd #<CR>'
 
+" More natural split opening
+nnoremap <silent> <C-w>s :rightbelow split<CR>
+nnoremap <silent> <C-w>v :rightbelow vsplit<CR>
+nnoremap <silent> <C-w>n :rightbelow vnew<CR>
+
 " Resize splits with purpose
 augroup SaveWindowSize
   autocmd!
