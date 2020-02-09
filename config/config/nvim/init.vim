@@ -100,6 +100,18 @@ nnoremap ]q :cnext<CR>
 
 " Cleverly close buffers (based on reddit.com/em9qvv)
 nnoremap <expr><Leader>d (bufnr('%') == getbufinfo({'buflisted': 1})[-1].bufnr ? ':bp' : ':bn').'<bar>bd #<CR>'
+
+" Resize splits with purpose
+augroup SaveWindowSize
+  autocmd!
+  autocmd VimEnter,VimResized * let full_width = winwidth(0)
+  autocmd VimEnter,VimResized * let full_height = winheight(0)
+augroup END
+
+nnoremap <silent> <C-w>+ :execute 'resize ' . (winheight(0) + (full_height / 4))<CR>
+nnoremap <silent> <C-w>- :execute 'resize ' . (winheight(0) - (full_height / 4))<CR>
+nnoremap <silent> <C-w>> :execute 'vertical resize ' . (winwidth(0) + (full_width / 4))<CR>
+nnoremap <silent> <C-w>< :execute 'vertical resize ' . (winwidth(0) - (full_width / 4))<CR>
 " }}}
 
 " Automatic commands"{{{
