@@ -425,7 +425,7 @@ function! SanitizeColors()
     hi IncSearch guibg=lightgreen guifg=black gui=bold
     hi Noise guifg=#949494
     hi NonText guibg=NONE
-    hi Search guibg=magenta guifg=white gui=NONE
+    hi Search guibg=magenta guifg=white
     hi SignifySignAdd guifg=#B8BB26 guibg=#3A3A3A
     hi parens guifg=#9e9e9e
   endif
