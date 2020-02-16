@@ -57,10 +57,10 @@ nnoremap <Leader>p "+p
 " Paste clipboard contents before cursor
 nnoremap <Leader>P "+P
 
-" Faster way to save/quit
+" Save/exit quicker
+nnoremap <Leader>q :qall<CR>
 nnoremap <Leader>w :write<CR>
 nnoremap <Leader>x :xit<CR>
-nnoremap <Leader>q :qall<CR>
 
 " Expand %% to file path
 cnoremap %% <C-R>=expand('%:h').'/'<CR>
@@ -119,12 +119,23 @@ nnoremap <silent> <C-w>> :execute 'vertical resize ' . (winwidth(0) + (full_widt
 nnoremap <silent> <C-w>< :execute 'vertical resize ' . (winwidth(0) - (full_width / 4))<CR>
 " }}}
 
-" Automatic commands"{{{
-autocmd VimResized * wincmd = " Resize all splits when host window is resized
+" Auto commands {{{
+augroup AutoResizeSplits
+  autocmd!
+  " Resize all splits when host window is resized
+  autocmd VimResized * wincmd =
+augroup END
+
+augroup AutoSave
+  autocmd!
+  " Auto save buffers when focus is lost, like modern editors
+  autocmd BufLeave,FocusLost * if !empty(bufname('%')) && &modified | write | endif
+augroup END
 
 augroup QuickfixAutoClose
   autocmd!
-  autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix" | q | endif
+  " Close vim when quickfix is the only open buffer
+  autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), '&buftype') == 'quickfix' | quit | endif
 augroup END
 "}}}
 
