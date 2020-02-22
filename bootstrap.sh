@@ -6,7 +6,9 @@ set -o errexit
 DOTFILES_HOME="$HOME/.dotfiles"
 
 # Homebrew
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+if [[ -z "$(command -v brew)" ]]; then
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
 
 # System dependencies
 # shellcheck disable=SC2046
@@ -18,9 +20,15 @@ brew cask install $(paste -sd ' ' - < ./DEPENDENCIES.cask)
 git submodule update --init --recursive
 git submodule foreach git pull origin master
 
-# Tmux plugins
-~/.tmux/plugins/tpm/bin/install_plugins
-
 # Symlink config files
 # shellcheck disable=SC2086
 find $DOTFILES_HOME/config/* -maxdepth 0 -exec bash -c 'ln -snv $1 ~/.$(basename $1)' _ {} \;
+
+# FZF keybindings
+yes | /usr/local/opt/fzf/install
+
+# Python3 bindings for Vim
+python3 -m pip install --user --upgrade pynvim
+
+# Tmux plugins
+~/.tmux/plugins/tpm/bin/install_plugins

@@ -206,7 +206,7 @@ let PLUGINS_DIR='~/.vim/plugins'
 
 if empty(glob(VIMPLUG_DIR)) || empty(glob(PLUGINS_DIR))
   execute '!curl -fLo '.VIMPLUG_DIR.' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  execute '!python -m pip install --user --upgrade pynvim'
+  execute '!python3 -m pip install --user --upgrade pynvim'
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
