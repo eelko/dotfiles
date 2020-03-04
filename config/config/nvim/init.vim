@@ -296,7 +296,7 @@ autocmd User MapActions call MapAction('DebugLog', '<leader>l')
 "}}}
 
 function! GrepWithLeaderF(text) "{{{
-  execute('Leaderf rg '.a:text)
+  execute('Leaderf rg '.expand('$LEADERF_GREP_OPTS').' '.a:text)
 endfunction
 
 autocmd User MapActions call MapAction('GrepWithLeaderF', '<Leader>g')
@@ -485,8 +485,7 @@ nnoremap <Leader>fc :Leaderf command<CR>
 nnoremap <Leader>ff :Leaderf file<CR>
 nnoremap <Leader>fh :Leaderf mru<CR>
 nnoremap <Leader>fl :Leaderf line<CR>
-nnoremap <Leader>fs :Leaderf rg<CR>
-command! -nargs=* Grep :execute 'Leaderf rg '.<q-args>
+command! -nargs=* Grep :execute 'Leaderf rg '.expand('$LEADERF_GREP_OPTS').' '.<q-args>
 "}}}
 
 " NERDTree {{{
