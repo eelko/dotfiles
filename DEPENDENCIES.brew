@@ -14,6 +14,7 @@ gnu-sed
 gnupg
 gnutls
 grep
+imagemagick
 jq
 neovim
 ripgrep
