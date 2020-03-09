@@ -2,4 +2,4 @@
 
 git submodule foreach git pull origin master
 git pull --rebase
-$EDITOR +PlugUpgrade +PlugUpdate +qall
+$EDITOR +PlugUpgrade +PlugUpdate +'call LoadPlugins()' +CocUpdateSync +qall

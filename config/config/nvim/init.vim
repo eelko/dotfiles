@@ -245,7 +245,7 @@ Plug 'tpope/vim-surround', { 'on': [] }
 call plug#end()
 
 " Lazy Loading {{{
-function! s:LoadPlugins()
+function! LoadPlugins()
   call plug#load('ale', 'coc.nvim', 'indentLine', 'vim-auto-highlight', 'vim-evanesco', 'vim-projectionist', 'vim-signify', 'vim-sleuth', 'vim-snippets', 'vim-surround')
   IndentLinesReset
   echom 'All plugins loaded.'
@@ -253,7 +253,7 @@ endfunction
 
 augroup LoadPlugins
   autocmd!
-  autocmd CursorHold * call <SID>LoadPlugins() | autocmd! LoadPlugins
+  autocmd CursorHold * call LoadPlugins() | autocmd! LoadPlugins
 augroup END
 " }}}
 
