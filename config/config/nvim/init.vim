@@ -495,7 +495,7 @@ let g:NERDTreeWinSize = '35'
 let g:NERDTreeShowHidden = 1
 let g:NERDTreeMapActivateNode = '<CR>'
 
-autocmd FileType nerdtree DisableAutoHighlightWord
+autocmd FileType nerdtree silent! DisableAutoHighlightWord
 
 hi NERDTreeClosable guifg=cyan
 
