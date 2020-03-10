@@ -269,12 +269,12 @@ function! s:FindAndReplace(text, use_word_boundary) " {{{
   endif
 endfunction
 
-function! FindAndReplaceWithWordBoundary(text)
+function! FindAndReplaceWithWordBoundary(text, ...)
   let l:use_word_boundary = 1
   execute s:FindAndReplace(a:text, l:use_word_boundary)
 endfunction
 
-function! FindAndReplaceWithoutWordBoundary(text)
+function! FindAndReplaceWithoutWordBoundary(text, ...)
   let l:use_word_boundary = 0
   execute s:FindAndReplace(a:text, l:use_word_boundary)
 endfunction
@@ -283,7 +283,7 @@ autocmd User MapActions call MapAction('FindAndReplaceWithWordBoundary', '<leade
 autocmd User MapActions call MapAction('FindAndReplaceWithoutWordBoundary', '<leader><leader>r')
 "}}}
 
-function! DebugLog(text) "{{{
+function! DebugLog(text, ...) "{{{
   let l:supported_languages = ['javascript', 'javascript.jsx']
   if index(l:supported_languages, &ft) < 0
     return
@@ -295,8 +295,10 @@ endfunction
 autocmd User MapActions call MapAction('DebugLog', '<leader>l')
 "}}}
 
-function! GrepWithLeaderF(text) "{{{
-  execute('Leaderf rg '.expand('$LEADERF_GREP_OPTS').' '.a:text)
+function! GrepWithLeaderF(text, type) "{{{
+  let l:base_cmd = 'Leaderf rg '.expand('$LEADERF_GREP_OPTS')
+  let l:pattern = index(['v', ''], a:type) >= 0 ? a:text : '"\b'.a:text.'\b"'
+  execute(l:base_cmd.' '.l:pattern)
 endfunction
 
 autocmd User MapActions call MapAction('GrepWithLeaderF', '<Leader>g')
