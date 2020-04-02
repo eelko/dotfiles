@@ -402,6 +402,7 @@ nmap <silent> <leader>cd <Plug>(coc-definition)
 nmap <silent> <leader>ct <Plug>(coc-type-definition)
 nmap <silent> <leader>ci <Plug>(coc-implementation)
 nmap <silent> <leader>cf <Plug>(coc-references)
+nmap <silent> <leader>co :<C-u>CocList outline<CR>
 
 " Remap for rename current word
 nmap <leader>crn <Plug>(coc-rename)
