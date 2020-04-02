@@ -233,7 +233,6 @@ Plug 'yggdroot/indentLine', { 'on': [] }
 
 " Code Completion
 Plug 'honza/vim-snippets', { 'on': [] }
-Plug 'jiangmiao/auto-pairs'
 Plug 'neoclide/coc.nvim', { 'on': ['CocAction', 'CocCommand', 'CocList'], 'branch': 'release' }
 
 " Linting & Formatting
@@ -346,13 +345,6 @@ autocmd ColorScheme * call s:TweakAleColors()
 set updatetime=500 " Make CursorHold trigger faster
 " }}}
 
-" Auto-Pairs {{{
-let g:AutoPairsShortcutToggle = ''
-let g:AutoPairsShortcutFastWrap = ''
-let g:AutoPairsShortcutJump = ''
-let g:AutoPairsShortcutBackInsert = ''
-"}}}
-
 " BufTabline {{{
 let g:buftabline_show = 1
 let g:buftabline_indicators = 1
@@ -412,6 +404,9 @@ nmap <leader>crn <Plug>(coc-rename)
 vmap <leader>ca <Plug>(coc-codeaction-selected)
 nmap <leader>ca <Plug>(coc-codeaction-selected)
 
+" Notify coc that <CR> has been pressed (for coc-pairs to auto-indent on Enter)
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<C-r>=coc#on_enter()\<CR>"
+
 " UltiSnips compatibility
 let g:coc_snippet_next = '<TAB>'
 let g:coc_snippet_prev = '<S-TAB>'
@@ -451,9 +446,9 @@ function! SanitizeColors()
     hi IncSearch guibg=lightgreen guifg=black gui=bold
     hi Noise guifg=#949494
     hi NonText guibg=NONE
-    hi! link Search IncSearch
     hi SignifySignAdd guifg=#B8BB26 guibg=#3A3A3A
     hi parens guifg=#9e9e9e
+    hi! link Search IncSearch
   endif
 
   hi StatusLineNormal cterm=NONE ctermfg=232 ctermbg=15  gui=NONE guifg=#3a3a3a guibg=#d5c4a1
