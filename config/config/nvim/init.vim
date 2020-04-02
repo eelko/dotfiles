@@ -188,6 +188,7 @@ fun! s:ExecPreservingCursorPos(command) "{{{
 
   " Do the business
   execute a:command
+  call histadd('cmd', a:command)
 
   " Restore previous search history and cursor position
   let @/=_s
