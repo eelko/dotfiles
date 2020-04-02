@@ -493,8 +493,9 @@ let g:Lf_WindowPosition = 'popup'
 nnoremap <Leader>fb :Leaderf buffer<CR>
 nnoremap <Leader>fc :Leaderf command<CR>
 nnoremap <Leader>ff :Leaderf file<CR>
-nnoremap <Leader>fh :Leaderf mru<CR>
+nnoremap <Leader>fh :Leaderf help<CR>
 nnoremap <Leader>fl :Leaderf line<CR>
+nnoremap <Leader>fr :Leaderf mru<CR>
 command! -nargs=* Grep :execute 'Leaderf rg '.expand('$LEADERF_GREP_OPTS').' '.<q-args>
 "}}}
 
