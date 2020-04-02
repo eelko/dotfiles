@@ -229,7 +229,6 @@ Plug 'w0rp/ale', { 'on': [] }
 
 " Navigation
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'pgdouyon/vim-evanesco', { 'on': [] }
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-projectionist', { 'on': [] }
 Plug 'yggdroot/LeaderF', { 'on': ['Leaderf'], 'do': './install.sh' }
@@ -246,7 +245,7 @@ call plug#end()
 
 " Lazy Loading {{{
 function! LoadPlugins()
-  call plug#load('ale', 'coc.nvim', 'indentLine', 'vim-auto-highlight', 'vim-evanesco', 'vim-projectionist', 'vim-signify', 'vim-sleuth', 'vim-snippets', 'vim-surround')
+  call plug#load('ale', 'coc.nvim', 'indentLine', 'vim-auto-highlight', 'vim-projectionist', 'vim-signify', 'vim-sleuth', 'vim-snippets', 'vim-surround')
   IndentLinesReset
   echom 'All plugins loaded.'
 endfunction
@@ -438,7 +437,7 @@ function! SanitizeColors()
     hi IncSearch guibg=lightgreen guifg=black gui=bold
     hi Noise guifg=#949494
     hi NonText guibg=NONE
-    hi Search guibg=magenta guifg=white
+    hi! link Search IncSearch
     hi SignifySignAdd guifg=#B8BB26 guibg=#3A3A3A
     hi parens guifg=#9e9e9e
   endif
