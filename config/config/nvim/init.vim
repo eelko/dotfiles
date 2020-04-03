@@ -349,9 +349,9 @@ set updatetime=500 " Make CursorHold trigger faster
 let g:buftabline_show = 1
 let g:buftabline_indicators = 1
 hi BufTabLineCurrent ctermbg=203 ctermfg=232 guibg=#ff5f5f guifg=#080808
-hi BufTabLineActive ctermbg=236 ctermfg=203 guibg=#303030 guifg=#ff5f5f
-hi BufTabLineHidden ctermbg=236 guibg=#303030 guifg=#D5C4A1
-hi BufTabLineFill ctermbg=236 guibg=#303030 guifg=#D5C4A1
+hi BufTabLineActive ctermbg=236 ctermfg=203 guibg=#3a3a3a guifg=#ff5f5f
+hi BufTabLineHidden ctermbg=236 guibg=#3a3a3a guifg=#D5C4A1
+hi BufTabLineFill ctermbg=236 guibg=#3a3a3a guifg=#D5C4A1
 " }}}
 
 " CoC {{{
@@ -427,8 +427,7 @@ endfunction
 
 " Color Scheme {{{
 function! SanitizeColors()
-  hi ColorColumn ctermbg=237 guibg=#3a3a3a
-  hi CursorLine ctermbg=237 term=NONE cterm=NONE guibg=#3a3a3a
+  hi CursorLine ctermbg=238 term=NONE cterm=NONE guibg=#444444
   hi LineNr ctermbg=NONE guibg=NONE
   hi MatchParen guibg=NONE
   hi Normal guibg=NONE
@@ -436,9 +435,10 @@ function! SanitizeColors()
   hi PmenuSbar ctermbg=236 guibg=#2B2C31
   hi PmenuThumb ctermbg=236 guibg=grey
   hi SignColumn guibg=NONE
+  hi VertSplit ctermfg=237 ctermbg=237 guifg=#3a3a3a guibg=#3a3a3a
   hi Visual ctermbg=238 guibg=#626262
+  hi! link ColorColumn CursorLine
   hi! link NormalNC ColorColumn
-  hi! link VertSplit LineNr
 
   if g:colors_name == 'badwolf'
     hi DiffAdd guibg=#143800
@@ -453,7 +453,7 @@ function! SanitizeColors()
 
   hi StatusLineNormal cterm=NONE ctermfg=232 ctermbg=15  gui=NONE guifg=#3a3a3a guibg=#d5c4a1
   hi StatusLineInsert cterm=NONE ctermfg=117 ctermbg=24  gui=NONE guifg=#87dfff guibg=#005f87
-  hi StatusLineNC     cterm=NONE ctermfg=15  ctermbg=238 gui=NONE guifg=#ffffff guibg=#45413b
+  hi StatusLineNC     cterm=NONE ctermfg=15  ctermbg=238 gui=NONE guifg=#d5c4a1 guibg=#3a3a3a
 
   hi! link StatusLine StatusLineNormal
 
