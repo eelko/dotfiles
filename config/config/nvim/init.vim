@@ -388,7 +388,10 @@ set statusline=%<%f\ %{LintStatus()}%*%{&ft=='help'?'ïŸ–\ \ ':''}%{&modified?'ïš
 " }}}
 
 " AutoHighlightWord {{{
+let g:auto_highlight#disabled_filetypes = ['nerdtree', 'qf']
 set updatetime=500 " Make CursorHold trigger faster
+" Tweak color after plugin is lazily loaded on demand:
+autocmd! User vim-auto-highlight hi AutoHighlightWord ctermbg=238 guibg=darkslategray
 " }}}
 
 " BufTabline {{{
@@ -553,8 +556,6 @@ let g:NERDTreeMinimalUI = 1
 let g:NERDTreeWinSize = '35'
 let g:NERDTreeShowHidden = 1
 let g:NERDTreeMapActivateNode = '<CR>'
-
-autocmd FileType nerdtree silent! DisableAutoHighlightWord
 
 hi NERDTreeClosable guifg=cyan
 
