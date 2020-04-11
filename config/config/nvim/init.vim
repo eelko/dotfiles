@@ -258,7 +258,6 @@ call plug#end()
 " Lazy Loading {{{
 function! LoadPlugins()
   call plug#load('ale', 'coc.nvim', 'indentLine', 'vim-auto-highlight', 'vim-projectionist', 'vim-signify', 'vim-sleuth', 'vim-snippets', 'vim-surround')
-  IndentLinesReset
   echom 'All plugins loaded.'
 endfunction
 
@@ -528,6 +527,8 @@ nmap gcc <Plug>CommentaryLine
 let g:indentLine_faster = 1
 let g:indentLine_char = get(g:, 'indentLine_char', '┊')
 let g:indentLine_bufTypeExclude = ['help']
+" Enable after plugin is lazily loaded on demand:
+autocmd! User indentLine IndentLinesEnable
 " }}}
 
 " LeaderF {{{
