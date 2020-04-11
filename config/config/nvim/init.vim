@@ -329,16 +329,63 @@ let g:ale_sign_warning = '●'
 let g:ale_virtualtext_cursor = 1
 let g:ale_virtualtext_prefix = '➜  '
 
-function! s:TweakAleColors()
-  hi ALEErrorSign ctermfg=red guifg=red
-  hi ALEInfoSign ctermfg=cyan guifg=cyan
-  hi ALEWarningSign ctermfg=yellow guifg=orange
-  hi ALEVirtualTextError guibg=NONE guifg=red
-  hi ALEVirtualTextInfo guibg=NONE guifg=cyan
-  hi ALEVirtualTextWarning guibg=NONE guifg=yellow
-  hi ALEWarning guifg=grey
+nmap ]d <Plug>(ale_next)
+nmap [d <Plug>(ale_previous)
+
+autocmd ColorScheme * hi ALEErrorSign ctermfg=red guifg=red
+      \| hi ALEInfoSign ctermfg=cyan guifg=cyan
+      \| hi ALEWarningSign ctermfg=yellow guifg=orange
+      \| hi ALEVirtualTextError guibg=NONE guifg=red
+      \| hi ALEVirtualTextInfo guibg=NONE guifg=cyan
+      \| hi ALEVirtualTextWarning guibg=NONE guifg=yellow
+      \| hi ALEWarning guifg=grey
+
+function! s:NumberToSuperscript(number) abort
+  if a:number > 9
+    return '⁹⁺'
+  endif
+  return {
+    \ 0: '⁰',
+    \ 1: '¹',
+    \ 2: '²',
+    \ 3: '³',
+    \ 4: '⁴',
+    \ 5: '⁵',
+    \ 6: '⁶',
+    \ 7: '⁷',
+    \ 8: '⁸',
+    \ 9: '⁹',
+    \ }[a:number]
 endfunction
-autocmd ColorScheme * call s:TweakAleColors()
+
+function! LintStatus() abort
+  if get(g:, 'lint_status', 0) == 0
+    return ''
+  endif
+
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+
+  if g:lint_status == 1
+    return '  '
+  elseif l:counts.total == 0
+    return '  '
+  else
+    return printf(' %s  %s ', s:NumberToSuperscript(all_non_errors), s:NumberToSuperscript(all_errors))
+  endif
+endfunction
+
+augroup LintProgress
+  autocmd!
+  autocmd BufReadPost *    let g:lint_status = 0 " Not started
+  autocmd User ALELintPre  let g:lint_status = 1 " In progress
+  autocmd User ALEFixPre   let g:lint_status = 1 " In progress
+  autocmd User ALELintPost let g:lint_status = 2 " Finished
+  autocmd User ALEFixPost  let g:lint_status = 2 " Finished
+augroup END
+
+set statusline=%<%f\ %{LintStatus()}%*%{&ft=='help'?'\ \ ':''}%{&modified?'':''}%{&readonly?'':''}%=%-14.(%l,%c%V%)\ %P
 " }}}
 
 " AutoHighlightWord {{{
