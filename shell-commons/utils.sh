@@ -131,21 +131,6 @@ function mergepdf() {
   gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=out.pdf "$1"
 }
 
-# Helper to dynamically set a chosen Java version
-function setjava() {
-  for arg in $*; do
-    [[ "$arg" =~ ^--[a-z]+ ]] && declare ${arg#--}=true
-  done
-
-  export JAVA_HOME="$(/usr/libexec/java_home -v 1.$1)"
-  export PATH="$JAVA_HOME/bin:$PATH"
-
-  if [[ -z "$quiet" ]]; then
-    echo "JAVA_HOME=$JAVA_HOME"
-    java -version
-  fi
-}
-
 # Source file if it exists
 function source_if_exists() {
   local script="$1"
