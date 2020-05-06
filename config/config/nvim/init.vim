@@ -365,22 +365,27 @@ function! LintStatus() abort
   let l:all_errors = l:counts.error + l:counts.style_error
   let l:all_non_errors = l:counts.total - l:all_errors
 
+  let b:linted = get(b:, 'linted', v:false)
+
   if g:lint_status == 1
     return '  '
-  elseif l:counts.total == 0
+  elseif b:linted && l:counts.total == 0
     return '  '
-  else
+  elseif l:counts.total > 0
+    let b:linted = v:true
     return printf(' %s  %s ', s:NumberToSuperscript(all_non_errors), s:NumberToSuperscript(all_errors))
+  else
+    return ''
   endif
 endfunction
 
 augroup LintProgress
   autocmd!
-  autocmd BufReadPost *    let g:lint_status = 0 " Not started
-  autocmd User ALELintPre  let g:lint_status = 1 " In progress
-  autocmd User ALEFixPre   let g:lint_status = 1 " In progress
-  autocmd User ALELintPost let g:lint_status = 2 " Finished
-  autocmd User ALEFixPost  let g:lint_status = 2 " Finished
+  autocmd BufReadPost *    let g:lint_status = 0  " Not started
+  autocmd User ALELintPre  let g:lint_status = 1  " In progress
+  autocmd User ALEFixPre   let g:lint_status = 1  " In progress
+  autocmd User ALELintPost let g:lint_status = 2  " Finished
+  autocmd User ALEFixPost  let g:lint_status = 2  " Finished
 augroup END
 
 set statusline=%<%f\ %{LintStatus()}%*%{&ft=='help'?'\ \ ':''}%{&modified?'':''}%{&readonly?'':''}%=%-14.(%l,%c%V%)\ %P
