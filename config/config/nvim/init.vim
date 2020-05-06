@@ -241,9 +241,10 @@ Plug 'w0rp/ale', { 'on': [] }
 
 " Navigation
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'junegunn/fzf', { 'on': [ 'BLines', 'Buffers', 'Commands', 'GFiles', 'Helptags', 'History' ], 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim', { 'on': [ 'BLines', 'Buffers', 'Commands', 'GFiles', 'Helptags', 'History' ] }
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-projectionist', { 'on': [] }
-Plug 'yggdroot/LeaderF', { 'on': ['Leaderf'], 'do': './install.sh' }
 
 " Misc
 Plug 'mhinz/vim-signify', { 'on': [] }
@@ -257,7 +258,19 @@ call plug#end()
 
 " Lazy Loading {{{
 function! LoadPlugins()
-  call plug#load('ale', 'coc.nvim', 'indentLine', 'vim-auto-highlight', 'vim-projectionist', 'vim-signify', 'vim-sleuth', 'vim-snippets', 'vim-surround')
+  call plug#load(
+        \ 'ale',
+        \ 'coc.nvim',
+        \ 'fzf',
+        \ 'fzf.vim',
+        \ 'indentLine',
+        \ 'vim-auto-highlight',
+        \ 'vim-projectionist',
+        \ 'vim-signify',
+        \ 'vim-sleuth',
+        \ 'vim-snippets',
+        \ 'vim-surround'
+        \ )
   echom 'All plugins loaded.'
 endfunction
 
@@ -305,13 +318,13 @@ endfunction
 autocmd User MapActions call MapAction('DebugLog', '<leader>l')
 "}}}
 
-function! GrepWithLeaderF(text, type) "{{{
-  let l:base_cmd = 'Leaderf rg '.expand('$LEADERF_GREP_OPTS')
-  let l:pattern = index(['v', ''], a:type) >= 0 ? a:text : '"\b'.a:text.'\b"'
+function! GrepWithMotion(text, type) "{{{
+  let l:base_cmd = 'Rg '
+  let l:pattern = empty(trim(a:text)) ? '' : index(['v', ''], a:type) >= 0 ? a:text : '\b'.a:text.'\b'
   execute(l:base_cmd.' '.l:pattern)
 endfunction
 
-autocmd User MapActions call MapAction('GrepWithLeaderF', '<Leader>g')
+autocmd User MapActions call MapAction('GrepWithMotion', '<Leader>g')
 "}}}
 "}}}
 
@@ -531,6 +544,28 @@ map gc <Plug>Commentary
 nmap gcc <Plug>CommentaryLine
 " }}}
 
+" FZF {{{
+let g:fzf_layout = { 'window': { 'width': 0.7, 'height': 0.4 } }
+let g:projectionist_ignore_term = 1 " workaround for slownes when fzf and projectionist are enabled
+
+nnoremap <Leader>fb :Buffers<CR>
+nnoremap <Leader>ff :GFiles<CR>
+nnoremap <Leader>fh :Helptags<CR>
+nnoremap <Leader>fl :BLines<CR>
+nnoremap <Leader>fr :History<CR>
+nnoremap <Leader>x :Commands<CR>
+
+function! RipgrepFzf(query)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always '.expand('$LEADERF_GREP_OPTS').' --smart-case %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec))
+endfunction
+
+command! -nargs=* -bang Rg call RipgrepFzf(<q-args>)
+"}}}
+
 " IndentLine {{{
 let g:indentLine_faster = 1
 let g:indentLine_char = get(g:, 'indentLine_char', '┊')
@@ -538,22 +573,6 @@ let g:indentLine_bufTypeExclude = ['help']
 " Enable after plugin is lazily loaded on demand:
 autocmd! User indentLine IndentLinesEnable
 " }}}
-
-" LeaderF {{{
-let g:Lf_CommandMap = { '<Left>': ['<C-b>'], '<Right>': ['<C-f>'], '<Home>': ['<C-a>'], '<End>': ['<C-e>'] }
-let g:Lf_HideHelp = 1
-let g:Lf_PreviewInPopup = 1
-let g:Lf_PreviewResult = { 'Line': 1 }
-let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2" }
-let g:Lf_WindowPosition = 'popup'
-nnoremap <Leader>fb :Leaderf buffer<CR>
-nnoremap <Leader>fc :Leaderf command<CR>
-nnoremap <Leader>ff :Leaderf file<CR>
-nnoremap <Leader>fh :Leaderf help<CR>
-nnoremap <Leader>fl :Leaderf line<CR>
-nnoremap <Leader>fr :Leaderf mru<CR>
-command! -nargs=* Grep :execute 'Leaderf rg '.expand('$LEADERF_GREP_OPTS').' '.<q-args>
-"}}}
 
 " NERDTree {{{
 let g:NERDTreeDirArrowCollapsible = '◢'
