@@ -226,6 +226,7 @@ call plug#begin(PLUGINS_DIR)
 
 " Appearance
 Plug 'ap/vim-buftabline'
+Plug 'ryanoasis/vim-devicons'
 Plug 'sheerun/vim-polyglot'
 Plug 'sjl/badwolf'
 Plug 'yggdroot/indentLine', { 'on': [] }
@@ -555,13 +556,28 @@ command! -nargs=* Grep :execute 'Leaderf rg '.expand('$LEADERF_GREP_OPTS').' '.<
 "}}}
 
 " NERDTree {{{
-let g:loaded_netrwPlugin = 1
-let g:NERDTreeMinimalUI = 1
-let g:NERDTreeWinSize = '35'
-let g:NERDTreeShowHidden = 1
+let g:NERDTreeDirArrowCollapsible = '◢'
+let g:NERDTreeDirArrowExpandable = ''
 let g:NERDTreeMapActivateNode = '<CR>'
+let g:NERDTreeMinimalUI = 1
+let g:NERDTreeShowHidden = 1
+let g:NERDTreeStatusline = 'NERDTree '
+let g:NERDTreeWinSize = '35'
+let g:loaded_netrwPlugin = 1
+
+" DevIcons integration
+let g:DevIconsDefaultFolderOpenSymbol = ''
+let g:DevIconsEnableFoldersOpenClose = 1
+let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
+let g:WebDevIconsNerdTreeBeforeGlyphPadding = ''
+let g:WebDevIconsUnicodeDecorateFileNodesDefaultSymbol = ''
 
 hi NERDTreeClosable guifg=cyan
+hi NERDTreeDir gui=bold guifg=deeppink
+hi NERDTreeFile guifg=lightgray
+hi NERDTreeFlags guifg=palevioletred
+hi! link NERDTreeDirSlash NERDTreeFlags
+hi! link NERDTreeOpenable NERDTreeFlags
 
 fun! s:NERDTreeFindWrapper()
   if empty(bufname('%')) || &ft == 'nerdtree'
