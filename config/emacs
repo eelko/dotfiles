@@ -1,0 +1,774 @@
+(defun obxhdx/enable-startup-hacks ()
+  "Collected hacks to improve Emacs startup time.
+
+Inspired by:
+• Preventing unwanted buffers from opening: URL `https://unix.stackexchange.com/a/152151'
+• Advanced Techniques for Reducing Emacs Startup Time: URL `https://blog.d46.us/advanced-emacs-startup'
+• How is Doom Emacs so fast: URL `https://www.reddit.com/r/emacs/comments/f3ed3r/how_is_doom_emacs_so_damn_fast'
+• How does Doom start up so quickly: URL `https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-does-doom-start-up-so-quickly'"
+
+  ;; Use a hook so the message doesn't get clobbered by other messages.
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (message "Emacs ready in %s with %d garbage collections."
+                       (format "%.2f seconds"
+                               (float-time
+                                (time-subtract after-init-time before-init-time)))
+                       gcs-done)))
+
+  ;; Avoid garbage collection during startup
+  (defun obxhdx/defer-garbage-collection-h ()
+    (setq gc-cons-threshold most-positive-fixnum
+          gc-cons-percentage 0.6))
+  (obxhdx/defer-garbage-collection-h)
+
+  (defun obxhdx/restore-garbage-collection-h ()
+    (run-at-time
+     1 nil (lambda () (setq gc-cons-threshold 20000000 ; 16mb
+                            gc-cons-percentage 0.1))))
+
+  (add-hook 'minibuffer-setup-hook #'obxhdx/defer-garbage-collection-h)
+  (add-hook 'minibuffer-exit-hook #'obxhdx/restore-garbage-collection-h)
+
+  ;; Restore garbage collection values
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (obxhdx/restore-garbage-collection-h)))
+
+  ;; Unset file-name-handler-alist temporarily
+  (defvar obxhdx/initial-file-name-handler-alist file-name-handler-alist)
+  (setq file-name-handler-alist nil)
+
+  ;; Restore file-name-handler-alist after startup
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (setq file-name-handler-alist obxhdx/initial-file-name-handler-alist)))
+
+  ;; Remove command line options that aren't relevant to our current OS; means
+  ;; slightly less to process at startup.
+  (defconst IS-MAC (eq system-type 'darwin))
+  (defconst IS-LINUX (eq system-type 'gnu/linux))
+  (unless IS-MAC (setq command-line-ns-option-alist nil))
+  (unless IS-LINUX (setq command-line-x-option-alist nil))
+
+  ;; Starting text-mode at startup circumvents a couple startup optimizations
+  ;; (by eager-loading a couple packages associated with text modes, like flyspell)
+  (setq initial-major-mode 'fundamental-mode
+        initial-scratch-message "")
+
+  ;; Emacs resizes the (GUI) frame when your newly set font is larger (or smaller)
+  ;; than the system default. This seems to add 0.4-1s to startup.
+  (setq frame-inhibit-implied-resize t))
+
+(obxhdx/enable-startup-hacks)
+
+;;; General Settings
+(global-display-line-numbers-mode) ; Show line numbers
+(global-hl-line-mode) ; Highlight current line
+(show-paren-mode) ; Highlight matching parenthesis
+(toggle-scroll-bar -1) ; No scroll bar
+(tool-bar-mode -1) ; No tool bar
+(unless (display-graphic-p) (menu-bar-mode -1)) ; No menu bar on terminal
+
+(setq auto-save-default nil) ; No #auto-save# files
+(setq custom-file "~/.emacs.d/custom.el") ; 'Customize' auto-save location
+(setq frame-title-format "%b") ; Display file name in title bar
+(setq inhibit-startup-buffer-menu t) ;; Don't show *Buffer list* when opening multiple files at the same time
+(setq inhibit-startup-message t) ; No startup message
+(setq make-backup-files nil) ; No backup~ files
+(setq ring-bell-function 'ignore) ; No audible bell
+(setq vc-follow-symlinks t) ; Follow symlinks without asking
+
+(setq-default indent-tabs-mode nil) ; Make indentation commands use space only (never tab character)
+(setq-default truncate-lines t) ; No line wrapping
+
+;; Show only one active window when opening multiple files at the same time
+(add-hook 'window-setup-hook 'delete-other-windows)
+
+;; No more typing the whole yes or no
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; Save buffers when focus is lost
+(defun obxhdx/save-buffer-if-modified (&optional buffer)
+  "Saves a file-visitting buffer if it's modified."
+  (when (and (buffer-file-name buffer)
+             (buffer-modified-p buffer))
+    (save-buffer buffer)))
+(defun obxhdx/save-all-modified-buffers ()
+  "Iterates over all buffers in all windows calling `obxhdx/save-buffer-if-modified'"
+  (walk-windows (lambda (w)
+                  (with-current-buffer (window-buffer w)
+                    (obxhdx/save-buffer-if-modified)))))
+(add-hook 'focus-out-hook 'obxhdx/save-all-modified-buffers)
+
+;; Toggle fullscreen like iTerm
+(defvar obxhdx/toggle-fullscreen-key-seq
+  (cond ((eq window-system 'mac) "M-RET")
+        ((eq window-system 'ns) "s-<return>")))
+(global-set-key (kbd obxhdx/toggle-fullscreen-key-seq) 'toggle-frame-fullscreen)
+
+;; MacOS key layout compatibility
+(setq mac-option-modifier 'meta) ;; Allow readline key bindings with alt/option (eg A-b / A-f)
+(global-set-key (kbd "M-v") 'yank) ; Paste with cmd-v
+
+;;; Package Settings
+(require 'package)
+
+;; Add MELPA as packages source
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+(package-initialize)
+
+;; Manage packages with use-package
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+;; Keep packages up to date
+(use-package auto-package-update
+  :ensure t
+  :defer 10
+  :config
+  (setq auto-package-update-prompt-before-update t
+        auto-package-update-delete-old-versions t
+        auto-package-update-hide-results t)
+  (auto-package-update-maybe))
+
+;; Theme
+(use-package doom-themes
+  :ensure t
+  :config
+  (setq doom-themes-enable-bold t ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-one t)
+  (doom-themes-treemacs-config) ; icons and other tweaks visual tweaks
+  (doom-themes-org-config) ; corrects (and improves) org-mode's native fontification
+  (custom-theme-set-faces 'doom-one
+                          `(hl-line ((t :background "#444444"))) ; current line more noticeable
+                          `(line-number ((t :foreground "#666462"))) ; line numbers more noticeable
+                          `(line-number-current-line ((t :foreground "yellow"
+                                                         :background "#282c34"))) ; current line number more noticeable
+                          `(region ((t :background "#626262"))) ; visual selections more noticeable
+                          `(doom-modeline-bar ((t :background "#ff5f5f")))
+                          ))
+
+;; Modeline
+(use-package doom-modeline
+  :ensure t
+  ;; :custom (doom-modeline-bar-width 0) ; thinner bar so it doesn't get confused with git-gutter marker
+  :config
+  (setq doom-modeline-modal-icon nil) ; single char as modal indicator
+  (doom-modeline-mode))
+
+;; Solaire
+(use-package solaire-mode
+  :ensure t
+  :hook
+  ((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
+  (minibuffer-setup . solaire-mode-in-minibuffer)
+  :config
+  (setq solaire-mode-remap-fringe nil)
+  (setq solaire-mode-remap-line-numbers t)
+  (solaire-global-mode)
+  (solaire-mode-swap-bg))
+
+;; 😈
+(use-package evil
+  :ensure t
+  :demand t
+  :init
+  (setq evil-kill-on-visual-paste nil ; Paste in visual mode doesn't yank
+        evil-search-module 'evil-search
+        evil-want-keybinding nil)
+  :config
+  (setq evil-shift-width 2)
+  (evil-mode)
+
+  ;; treat fn names like "my/function-name" as a single word
+  (modify-syntax-entry ?- "w" emacs-lisp-mode-syntax-table)
+  (modify-syntax-entry ?_ "w" emacs-lisp-mode-syntax-table)
+  (modify-syntax-entry ?/ "w" emacs-lisp-mode-syntax-table)
+
+  ;; Manual key bindings
+  (define-key key-translation-map (kbd "ESC") (kbd "C-g")) ; Esc as C-g
+  ;; (define-key xref--button-map    (kbd "RET") #'xref-goto-xref)
+
+  (defun obxhdx/treemacs-find-file ()
+    "Open Treemacs pointing to the current file and select Treemacs window."
+    (interactive)
+    (treemacs-find-file)
+    (treemacs-select-window))
+
+  (defun obxhdx/force-global-keybindings (&optional key-definitions
+                                                    evil-states
+                                                    keymap-names)
+    "One function to bind them all.
+
+key-definitions is a list of key combinations to bind.
+evil-states is a list of evil states where a key will be bound.
+keymap-names is a list of existing keymaps where a key combination will be bound to."
+
+    (unless key-definitions
+      (setq key-definitions
+            '(("SPC d"   . kill-this-buffer)
+              ("SPC p"   . evil-paste-after)
+              ("SPC q"   . kill-emacs)
+              ("SPC w"   . save-buffer)
+              ("SPC y"   . evil-yank)
+              ;; counsel
+              ("SPC f b" . counsel-switch-buffer)
+              ("SPC f f" . counsel-projectile)
+              ("SPC f l" . swiper)
+              ("SPC x"   . counsel-M-x)
+              ;; projectile-ripgrep
+              ("SPC g"   . projectile-ripgrep)
+              ("SPC a a" . projectile-toggle-between-implementation-and-test)
+              ("SPC a v" . (lambda ()
+                             (interactive)
+                             (split-window-right)
+                             (other-window 1)
+                             (projectile-toggle-between-implementation-and-test)))
+              ;; treemacs
+              ("SPC n f" . obxhdx/treemacs-find-file)
+              ("SPC n t" . treemacs)
+              ("SPC f w" . treemacs-switch-workspace))))
+
+    (unless evil-states
+      (setq evil-states'(normal visual)))
+
+    (unless keymap-names
+      (setq keymap-names '(global dired-mode-map ripgrep-search-mode-map)))
+
+    (defvar evil-define-key-string-format
+      "(evil-define-key '%s '%s (kbd \"%s\") #'%s)")
+
+    (dolist (state evil-states)
+      (dolist (keymap-name keymap-names)
+        (dolist (key-def key-definitions)
+          (eval (car (read-from-string
+                      (format evil-define-key-string-format
+                              state
+                              keymap-name
+                              (car key-def)
+                              (cdr key-def)))))
+          ;; (message evil-define-key-string-format state keymap-name (car key-def) (cdr key-def))
+          ))))
+  (obxhdx/force-global-keybindings)
+
+  :bind
+  ("C-n" . next-buffer)
+  ("C-p" . previous-buffer)
+  (:map evil-normal-state-map
+        ("C-u" . evil-scroll-up)
+        ("C-d" . evil-scroll-down))
+  (:map minibuffer-local-map ; after pressing M-:
+        ;; Readline fixes
+        ("C-h" . delete-backward-char)
+        ("C-u" . backward-kill-sentence)
+        ("C-w" . backward-kill-word))
+  (:map evil-insert-state-map
+        ;; Readline fixes
+        ("C-a" . beginning-of-line)
+        ("C-b" . backward-char)
+        ("C-d" . delete-forward-char)
+        ("C-e" . end-of-line)
+        ("C-f" . forward-char)
+        ("C-h" . delete-backward-char)
+        ("C-k" . kill-sentence)
+        ("C-u" . backward-kill-sentence)
+        ("C-w" . backward-kill-word))
+  (:map evil-ex-search-keymap ; after pressing "/" in normal mode
+        ;; Readline fixes
+        ("C-a" . beginning-of-line)
+        ("C-b" . backward-char)
+        ("C-d" . delete-forward-char)
+        ("C-e" . end-of-line)
+        ("C-f" . forward-char)
+        ("C-h" . delete-backward-char)
+        ("C-k" . kill-sentence)
+        ("C-u" . backward-kill-sentence)
+        ("C-w" . backward-kill-word))
+  (:map evil-ex-completion-map ; after pressing ":" in normal mode
+        ("C-j" . exit-minibuffer)
+        ;; Readline fixes
+        ("C-a" . beginning-of-line)
+        ("C-b" . backward-char)
+        ("C-d" . delete-forward-char)
+        ("C-e" . end-of-line)
+        ("C-f" . forward-char)
+        ("C-h" . delete-backward-char)
+        ("C-k" . kill-sentence)
+        ("C-u" . backward-kill-sentence)
+        ("C-w" . backward-kill-word)))
+
+;; Port of tpope/vim-commentary
+(use-package evil-commentary
+  :ensure t
+  :after evil
+  :config (evil-commentary-mode))
+
+;; Port of tpope/vim-surround
+(use-package evil-surround
+  :ensure t
+  :after evil
+  :config (global-evil-surround-mode))
+
+;; Visual star search for Evil
+(use-package evil-visualstar
+  :ensure t
+  :after evil
+  :config (global-evil-visualstar-mode))
+
+;; Ivy as main completion framework
+(use-package ivy
+  :ensure t
+  :defer 1
+  :bind (:map ivy-minibuffer-map
+              ("C-d" . delete-forward-char)
+              ("C-h" . delete-backward-char)
+              ("C-k" . kill-sentence)
+              ("C-n" . next-line)
+              ("C-p" . previous-line)
+              ("C-u" . backward-kill-sentence)
+              ("C-w" . evil-delete-backward-word)
+              ("M-v" . yank))
+  :config (setq ivy-use-virtual-buffers t ; Add recent files or bookmarks to ivy-switch-buffer
+                enable-recursive-minibuffers t ; Allow minibuffer commands while in minibuffer
+                ivy-re-builders-alist '((t . ivy--regex-fuzzy)))) ; Enable fuzzy matching
+
+;; Ivy on a popup window
+(use-package posframe
+  :ensure t
+  :after ivy)
+
+(use-package ivy-posframe
+  :ensure t
+  :after posframe
+  :custom-face (ivy-posframe-border ((t (:background "#000"))))
+  :config
+  (setq ivy-posframe-display-functions-alist
+        '((swiper          . ivy-display-function-fallback)
+          (counsel-M-x     . ivy-posframe-display-at-frame-center)
+          (t               . ivy-posframe-display-at-frame-center)))
+  (setq ivy-posframe-parameters
+        '((internal-border-width . 3)))
+  (ivy-posframe-mode))
+
+;; Ivy-powered i-search
+(use-package swiper
+  :ensure t
+  :after ivy)
+
+;; Fuzzy matching for native funcions like M-x and switch-buffer
+(use-package counsel
+  :ensure t
+  :after ivy
+  :config (counsel-mode))
+
+;; Sort counsel-M-x entries by last used
+(use-package prescient
+  :ensure t
+  :after counsel)
+
+(use-package ivy-prescient
+  :ensure t
+  :after prescient
+  :config
+  ;; (setq prescient-filter-method '(fuzzy initialism regexp))
+  (prescient-persist-mode)
+  (ivy-prescient-mode))
+
+;; Highlight symbols under cursor
+(use-package highlight-thing
+  :ensure t
+  :defer t
+  :hook (prog-mode . highlight-thing-mode)
+  :config (set-face-background 'highlight-thing "#2F4F4F"))
+
+;; Automatically pair braces and quotes
+(use-package autopair
+  :ensure t
+  :defer t
+  :hook ((prog-mode . autopair-global-mode)
+         (ielm-mode . autopair-global-mode)))
+
+;; Git gutter
+(use-package git-gutter
+  :ensure t
+  :defer t
+  :hook ((markdown-mode . git-gutter-mode)
+         (prog-mode . git-gutter-mode)
+         (conf-mode . git-gutter-mode))
+  :bind (:map evil-normal-state-map
+              ("]c" . git-gutter:next-hunk)
+              ("[c" . git-gutter:previous-hunk))
+  :config (setq git-gutter:update-interval 1
+                git-gutter:window-width 2
+                git-gutter:ask-p nil))
+
+(use-package git-gutter-fringe
+  :ensure t
+  :after git-gutter
+  :demand fringe-helper
+  :config
+  ;; places the git gutter outside the margins.
+  (setq-default fringes-outside-margins t)
+  ;; thin fringe bitmaps
+  (define-fringe-bitmap 'git-gutter-fr:added [224]
+    nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:modified [224]
+    nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240]
+    nil nil 'bottom))
+
+;; Command history
+(use-package savehist
+  :ensure t
+  :config
+  (savehist-mode)
+  (setq savehist-additional-variables
+        '(search-ring regexp-search-ring)))
+
+;; Rainbow parenthesis
+(use-package rainbow-delimiters
+  :ensure t
+  :defer t
+  :hook ((prog-mode . rainbow-delimiters-mode)
+         (ielm-mode . rainbow-delimiters-mode)))
+
+;; Highlight surrounding parentheses
+(use-package highlight-parentheses
+  :ensure t
+  :hook ((prog-mode . highlight-parentheses-mode)
+         (ielm-mode . highlight-parentheses-mode)))
+
+;; Syntax checking
+(use-package flycheck
+  :ensure t
+  :defer t
+  :hook (prog-mode . flycheck-mode)
+  :bind (:map evil-normal-state-map
+              ("]d" . flycheck-next-error)
+              ("[d" . flycheck-previous-error))
+  :config
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+  (setq flycheck-check-syntax-automatically '(mode-enabled save idle-change))
+  (setq flycheck-indication-mode 'right-fringe) ; show markers on right fringe
+  (define-fringe-bitmap 'flycheck-fringe-bitmap-double-arrow ; left-pointing arrow as marker
+    [16 48 112 240 112 48 16] nil nil 'center))
+
+;; Auto-complete
+(use-package company
+  :ensure t
+  :defer t
+  :hook (prog-mode . company-mode)
+  :bind
+  (:map evil-insert-state-map
+        ("TAB" . company-complete))
+  (:map company-active-map
+        ("C-w" . evil-delete-backward-word)
+        ("C-n" . company-select-next)
+        ("C-p" . company-select-previous)
+        ([tab] . company-complete-selection))
+  :config (setq company-idle-delay 0
+                company-minimum-prefix-length 1
+                company-selection-wrap-around t))
+
+;; Indent Guides
+(use-package highlight-indent-guides
+  :ensure t
+  :defer t
+  :hook (prog-mode . highlight-indent-guides-mode)
+  :config (setq highlight-indent-guides-method     'character
+                highlight-indent-guides-character  ?\┊
+                highlight-indent-guides-responsive 'top))
+
+;; Projectile
+(use-package projectile
+  :ensure t
+  :defer t
+  :bind-keymap ("C-c p" . projectile-command-map)
+  :hook (prog-mode . projectile-mode)
+  :config
+  (projectile-register-project-type 'npm '("package.json")
+                                    :compile "npm install"
+                                    :test "npm test"
+                                    :run "npm start"
+                                    :test-suffix "-spec"))
+
+;; Project aware grepping with RG
+(use-package projectile-ripgrep
+  :ensure t
+  :after projectile
+  :bind
+  (:map evil-normal-state-map
+        ("]m" . next-error) ; next match
+        ("[m" . previous-error))) ; previous match
+
+;; Enhance projectile functions with counsel
+(use-package counsel-projectile
+  :ensure t
+  :after projectile)
+
+;; File Explorer
+(use-package treemacs
+  :ensure t
+  :defer t
+  :bind (:map treemacs-mode-map
+              ("C-j" . treemacs-RET-action)
+              ("x"   . treemacs-collapse-parent-node))
+  :config
+  (setq doom-themes-treemacs-theme t)
+  (obxhdx/force-global-keybindings nil '(treemacs) '(treemacs-mode-map))
+
+  (defun obxhdx/treemacs-workspace-title ()
+    "Display the current workspace title at the top of Treemacs file explorer.
+
+    Taken from: URL `https://andreyorst.gitlab.io/posts/2020-05-01-dynamic-title-for-treemacs-workspace/'"
+    (let ((bg (face-attribute 'default :background))
+          (fg (face-attribute 'default :foreground)))
+      (face-remap-add-relative 'header-line
+                               :background bg :foreground fg
+                               :box `(:line-width ,(/ (line-pixel-height) 2) :color ,bg)))
+    (setq header-line-format
+          '((:eval
+             (let* ((text (treemacs-workspace->name (treemacs-current-workspace)))
+                    (extra-align (+ (/ (length text) 2) 1))
+                    (width (- (/ (window-width) 2) extra-align)))
+               (concat (make-string width ?\s) text))))))
+
+  :hook ((treemacs-mode . obxhdx/treemacs-workspace-title)
+         (treemacs-mode . (lambda() (display-line-numbers-mode -1)))))
+
+;; Vim motions on treemacs
+(use-package treemacs-evil
+  :ensure t
+  :after treemacs evil)
+
+;; Tabs
+(use-package centaur-tabs
+  :ensure t
+  :demand t
+  :bind (:map evil-normal-state-map
+              ("C-n" . (lambda ()
+                         (interactive)
+                         (if (not (centaur-tabs-forward-tab))
+                             (centaur-tabs-forward))))
+              ("C-p" . (lambda ()
+                         (interactive)
+                         (if (not (centaur-tabs-backward-tab))
+                             (centaur-tabs-backward)))))
+  :config
+  (defun centaur-tabs-buffer-groups ()
+    (list
+     (cond
+      ((string-equal "*" (substring (buffer-name) 0 1))
+       "Emacs")
+      ((string-match "term" (buffer-name))
+       "Terminal")
+      ((memq major-mode '(helpful-mode
+                          help-mode))
+       "Help")
+      (t
+       (centaur-tabs-get-group-name (current-buffer))))))
+
+  (setq centaur-tabs-style "bar"
+        centaur-tabs-height 32
+        centaur-tabs-set-icons t
+        centaur-tabs-set-bar 'over
+        centaur-tabs-gray-out-icons 'buffer)
+  (centaur-tabs-headline-match)
+  (column-number-mode)
+  (centaur-tabs-mode))
+
+;; Better terminal
+(use-package vterm
+  :ensure t
+  :defer t
+  :commands vterm
+  :bind (:map vterm-mode-map
+              ;; Readline fixes
+              ("C-h"   . vterm-send-backspace)
+              ("C-u"   . vterm-send-C-u)
+              ("C-w"   . vterm-send-meta-backspace)
+              ;; Navigate splits tmux-navigator style
+              ("C-c x" . (lambda () (interactive) (kill-this-buffer) (delete-window)))
+              ("M-h"   . windmove-left)
+              ("M-l"   . windmove-right)
+              ("M-k"   . windmove-up)
+              ("M-j"   . windmove-down))
+  :hook (vterm-mode . (lambda ()
+                        ;; No fringes
+                        (setq-local left-fringe-width 0)
+                        (setq-local right-fringe-width 0)
+                        ;; No tabs
+                        (centaur-tabs-local-mode)
+                        ;; No hl-line
+                        (make-variable-buffer-local 'global-hl-line-mode)
+                        (setq global-hl-line-mode nil)
+                        ;; No line numbers
+                        (display-line-numbers-mode -1)
+                        ;; No Evil
+                        (evil-emacs-state)))
+
+  :config
+  (setq vterm-shell "/usr/local/bin/zsh")
+  ;; Allow files to be opened directly from vterm
+  (push (list "open-file"
+              (lambda (path)
+                (if-let* ((buf (find-file-noselect path))
+                          (window (display-buffer-use-some-window buf nil)))
+                    (select-window window)
+                  (message "Failed to open file: %s" path))))
+        vterm-eval-cmds)
+
+  :init
+  (defun obxhdx/open-terminal-at-right ()
+    "Opens a right slipt with a new vterm session."
+    (interactive)
+    (split-window-horizontally)
+    (other-window 1)
+    (vterm))
+
+  (defun obxhdx/open-terminal-at-bottom ()
+    "Opens a bottom slipt with a new vterm session."
+    (interactive)
+    (split-window-vertically)
+    (other-window 1)
+    (vterm))
+
+  ;; Create split term buffers like Tmux
+  (define-key key-translation-map (kbd "C-SPC") (kbd "C-c")) ; C-SPC as C-c
+  (global-set-key (kbd "C-c v") 'obxhdx/open-terminal-at-right)
+  (global-set-key (kbd "C-c s") 'obxhdx/open-terminal-at-bottom)
+
+  ;; Navigate buffers like Tmux
+  (global-set-key (kbd "M-h") 'windmove-left)
+  (global-set-key (kbd "M-l") 'windmove-right)
+  (global-set-key (kbd "M-k") 'windmove-up)
+  (global-set-key (kbd "M-j") 'windmove-down))
+
+;; Which Key
+(use-package which-key
+  :ensure t
+  :config (which-key-mode))
+
+;; Elisp support
+(use-package elisp-slime-nav
+  :ensure t
+  :hook ((emacs-lisp-mode . elisp-slime-nav-mode)
+         (ielm-mode . elisp-slime-nav-mode)))
+
+;; Gradle support
+(use-package groovy-mode
+  :ensure t
+  :defer t)
+
+;; JavaScript support
+(use-package js2-mode
+  :ensure t
+  :mode ("\\.js\\'" . js2-mode)
+  :interpreter "node"
+  :config
+  (obxhdx/set-node-path)
+  (setq js2-basic-offset 2)) ; indent with 2 spaces
+
+(defun obxhdx/set-node-path ()
+  "Append the path to nodejs to exec-path and PATH environment variable."
+  (defvar node-path (concat (getenv "HOME") "/.fnm/aliases/latest/bin"))
+  (setq exec-path (append exec-path (list node-path)))
+  (setenv "PATH" (concat (getenv "PATH") ":" node-path)))
+
+(use-package add-node-modules-path
+  :ensure t
+  :hook ((js2-mode . add-node-modules-path)
+         (typescript-mode . add-node-modules-path)
+         (web-mode . add-node-modules-path)))
+
+(use-package prettier-js
+  :ensure t
+  :hook ((js2-mode . prettier-js-mode)
+         (typescript-mode . prettier-js-mode)
+         (web-mode . prettier-js-mode)))
+
+;; JSON support
+(use-package json-mode
+  :ensure t
+  :defer t)
+
+;; PHP
+(use-package php-mode
+  :ensure t
+  :defer t)
+
+;; Shell Script support
+(setq sh-basic-offset 2) ; indent with 2 spaces
+
+;; TypeScript support
+(use-package tide
+  :ensure t
+  :hook ((typescript-mode . obxhdx/setup-tide)
+         (typescript-mode . lsp-deferred)
+         (before-save . tide-format-before-save))
+  :mode ("\\.tsx\\'" . typescript-mode)
+  :config (setq tide-format-options '(:indentSize 2)))
+
+(defun obxhdx/setup-tide ()
+  (interactive)
+  (obxhdx/set-node-path)
+  ;; setup tide
+  (tide-setup)
+  ;; enable flycheck
+  (flycheck-mode +1)
+  ;; print code hints on echo area
+  (eldoc-mode +1)
+  ;; highlight symbols via tide only
+  (highlight-thing-mode -1)
+  (setq lsp-enable-symbol-highlighting nil)
+  (tide-hl-identifier-mode +1)
+  ;; enable auto-completion
+  (setq company-tooltip-align-annotations t) ; aligns annotation to the right hand side
+  (company-mode +1))
+
+;; Web development support
+(use-package web-mode
+  :ensure t
+  :mode (("\\.jsx\\'" . web-mode)
+         ("\\.tsx\\'" . web-mode)
+         ("\\.vue\\'" . web-mode))
+  :hook ((web-mode . obxhdx/setup-tide)
+         (web-mode . lsp-deferred))
+  :config
+  (setq web-mode-markup-indent-offset 2) ; indent HTML with 2 spaces
+  (setq web-mode-css-indent-offset 2) ; indent CSS with 2 spaces
+  (setq web-mode-code-indent-offset 2)) ; indent code with 2 spaces
+
+;; LSP
+(use-package lsp-mode
+  :ensure t
+  :defer t
+  :bind (:map evil-normal-state-map
+              ("C-]" . lsp-find-definition)
+              ("M-." . lsp-find-definition))
+  :commands (lsp lsp-deferred)
+  :hook ((lsp-mode  . lsp-enable-which-key-integration)
+         (html-mode . lsp-deferred)
+         (json-mode . lsp-deferred)
+         (js2-mode  . lsp-deferred)
+         (php-mode  . lsp-deferred))
+  :init (setq lsp-keymap-prefix "C-l")
+  :config
+  (highlight-thing-mode -1) ; highlight symbols via lsp only
+  (flycheck-add-next-checker 'lsp 'javascript-eslint))
+
+(use-package lsp-ui
+  :ensure t
+  :after lsp-mode
+  :commands lsp-ui-mode)
+
+;;; Sensitive/Temporary settings
+(defvar-local local-config-file "~/.emacs.local.el")
+(if (file-exists-p local-config-file)
+    (load-file local-config-file))
+
+;;; vim: ft=lisp
