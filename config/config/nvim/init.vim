@@ -583,6 +583,8 @@ let g:NERDTreeShowHidden = 1
 let g:NERDTreeStatusline = 'NERDTree '
 let g:NERDTreeWinSize = '35'
 let g:loaded_netrwPlugin = 1
+" Custom mappings
+let NERDTreeMapCustomOpen = '<C-j>'
 
 " DevIcons integration
 let g:DevIconsDefaultFolderOpenSymbol = ''
