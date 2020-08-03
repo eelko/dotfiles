@@ -80,7 +80,7 @@ vnoremap <silent> y y`]
 vnoremap <silent> p p`]
 nnoremap <silent> p p`]
 
-" Pase in visual mode doesn't yank
+" Paste in visual mode doesn't yank
 xnoremap p pgvy
 
 " C-n/p also cycle through command history
