@@ -48,6 +48,7 @@ local -r node_green='#66CC33'
 local -r ruby_red='#CB064D'
 
 SPACESHIP_CHAR_SUFFIX=' '
+SPACESHIP_CHAR_SYMBOL='>'
 SPACESHIP_DIR_COLOR="$purple"
 SPACESHIP_NODE_COLOR="$node_green"
 SPACESHIP_NODE_SYMBOL=' '
