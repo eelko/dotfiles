@@ -1,4 +1,13 @@
 .DS_Store
 .tags
-config/config/
 config/tmux/plugins/
+
+# ignore everything inside
+config/config/*
+config/config/nvim/*
+# but skip the folders themselves
+!config/config/
+!config/config/nvim/
+# so that we can skip nvim's config files
+!config/config/nvim/coc-settings.json
+!config/config/nvim/init.vim
