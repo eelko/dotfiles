@@ -25,3 +25,5 @@
   helper = osxkeychain
 [push]
   default = nothing
+[pull]
+  ff = only
