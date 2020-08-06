@@ -570,11 +570,11 @@ let g:fzf_layout = { 'window': { 'width': 0.7, 'height': 0.4 } }
 let g:projectionist_ignore_term = 1 " workaround for slownes when fzf and projectionist are enabled
 
 nnoremap <Leader>fb :Buffers<CR>
+nnoremap <Leader>fc :Commands<CR>
 nnoremap <Leader>ff :GFiles<CR>
 nnoremap <Leader>fh :Helptags<CR>
 nnoremap <Leader>fl :BLines<CR>
 nnoremap <Leader>fr :History<CR>
-nnoremap <Leader>x :Commands<CR>
 "}}}
 
 " IndentLine {{{
