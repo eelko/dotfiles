@@ -233,6 +233,7 @@ Plug 'yggdroot/indentLine', { 'on': [] }
 
 " Code Completion
 Plug 'honza/vim-snippets', { 'on': [] }
+Plug 'jiangmiao/auto-pairs'
 Plug 'neoclide/coc.nvim', { 'on': ['CocAction', 'CocCommand', 'CocList'], 'branch': 'release' }
 
 " Linting & Formatting
@@ -412,6 +413,13 @@ set updatetime=500 " Make CursorHold trigger faster
 autocmd! User vim-auto-highlight hi AutoHighlightWord ctermbg=238 guibg=darkslategray
 " }}}
 
+" Auto-Pairs {{{
+let g:AutoPairsShortcutToggle = ''
+let g:AutoPairsShortcutFastWrap = ''
+let g:AutoPairsShortcutJump = ''
+let g:AutoPairsShortcutBackInsert = ''
+"}}}
+
 " BufTabline {{{
 let g:buftabline_show = 1
 let g:buftabline_indicators = 1
@@ -471,8 +479,8 @@ nmap <leader>crn <Plug>(coc-rename)
 vmap <leader>ca <Plug>(coc-codeaction-selected)
 nmap <leader>ca <Plug>(coc-codeaction-selected)
 
-" Notify coc that <CR> has been pressed (for coc-pairs to auto-indent on Enter)
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<C-r>=coc#on_enter()\<CR>"
+" " Notify coc that <CR> has been pressed (for coc-pairs to auto-indent on Enter)
+" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<C-r>=coc#on_enter()\<CR>"
 
 " UltiSnips compatibility
 let g:coc_snippet_next = '<TAB>'
