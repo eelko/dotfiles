@@ -64,10 +64,6 @@ nnoremap <Leader>x :xit<CR>
 " Expand %% to file path
 cnoremap %% <C-R>=expand('%:h').'/'<CR>
 
-" Find/replace
-noremap <Leader>r :%s/\C\<<C-r>=expand("<cword>")<CR>\>/<C-r>=expand("<cword>")<CR>/gc<left><left><left>
-noremap <Leader><Leader>r :%s/\C<C-r>=expand("<cword>")<CR>/<C-r>=expand("<cword>")<CR>/gc<left><left><left>
-
 " Select last pasted text
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
@@ -87,15 +83,17 @@ xnoremap p pgvy
 cmap <C-p> <Up>
 cmap <C-n> <Down>
 
-" Quickly navigate quickfix windows
-nnoremap [L :lfirst<CR>
-nnoremap [Q :cfirst<CR>
-nnoremap [l :lprevious<CR>
-nnoremap [q :cprevious<CR>
-nnoremap ]L :llast<CR>
-nnoremap ]Q :clast<CR>
-nnoremap ]l :lnext<CR>
-nnoremap ]q :cnext<CR>
+" Quickly navigate locationlist items
+nnoremap <silent> [l :lprevious<CR>
+nnoremap <silent> ]l :lnext<CR>
+nnoremap <silent> [L :lfirst<CR>
+nnoremap <silent> ]L :llast<CR>
+
+" Quickly navigate quickfix items
+nnoremap <silent> [q :cprevious<CR>
+nnoremap <silent> ]q :cnext<CR>
+nnoremap <silent> [Q :cfirst<CR>
+nnoremap <silent> ]Q :clast<CR>
 
 " Cleverly close buffers (based on reddit.com/em9qvv)
 nnoremap <expr><Leader>d (bufnr('%') == getbufinfo({'buflisted': 1})[-1].bufnr ? ':bp' : ':bn').'<bar>bd #<CR>'
@@ -128,6 +126,9 @@ vnoremap <silent> # :<C-U>
   \gvy?<C-R>=&ic?'\c':'\C'<CR><C-R><C-R>=substitute(
   \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
   \gVzv:call setreg('"', old_reg, old_regtype)<CR>
+
+" Easily clear search matches
+nnoremap <silent> <Leader><Leader> :noh<CR>
 " }}}
 
 " Auto commands {{{
@@ -152,14 +153,11 @@ augroup END
 
 " Functions and Commands "{{{
 
-command! -nargs=1 -range=% Align :execute "<line1>,<line2>!sed 's/" . <f-args> . "/@". <f-args> . "/g' | column -s@ -t" "{{{
-"}}}
+command! -nargs=1 -range=% Align :execute "<line1>,<line2>!sed 's/" . <f-args> . "/@". <f-args> . "/g' | column -s@ -t"
 
-command! -nargs=0 -range SortLine <line1>,<line2>call setline('.',join(sort(split(getline('.'),' ')),' ')) "{{{
-"}}}
+command! -nargs=0 -range SortLine <line1>,<line2>call setline('.',join(sort(split(getline('.'),' ')),' '))
 
-command! StripTrailingWhitespaces :call <SID>ExecPreservingCursorPos('%s/\s\+$//e') "{{{
-"}}}
+command! StripTrailingWhitespaces :call <SID>ExecPreservingCursorPos('%s/\s\+$//e')
 
 fun! s:CloseHiddenBuffers() "{{{
   let open_buffers = []
@@ -204,6 +202,28 @@ endf
 nmap <leader>sg :call <SID>SyntaxGroupsForWordUnderCursor()<CR>
 "}}}
 
+" Instant grep + quickfix {{{
+" Source: https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3
+if executable('rg')
+  set grepprg=rg\ --vimgrep
+endif
+
+function! Grep(...)
+  return system(join([&grepprg] + [expand(join(a:000, ' '))], ' '))
+endfunction
+
+command! -nargs=+ -complete=file_in_path -bar Grep  cgetexpr Grep(<f-args>)
+command! -nargs=+ -complete=file_in_path -bar LGrep lgetexpr Grep(<f-args>)
+
+cnoreabbrev <expr> grep  (getcmdtype() ==# ':' && getcmdline() ==# 'grep')  ? 'Grep'  : 'grep'
+cnoreabbrev <expr> lgrep (getcmdtype() ==# ':' && getcmdline() ==# 'lgrep') ? 'LGrep' : 'lgrep'
+
+augroup quickfix
+  autocmd!
+  autocmd QuickFixCmdPost cgetexpr nested cwindow
+  autocmd QuickFixCmdPost lgetexpr nested lwindow
+augroup END
+"}}}
 "}}}
 
 " Sensitive/Temporary settings " {{{
@@ -248,6 +268,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-projectionist', { 'on': [] }
 
 " Misc
+Plug 'itchyny/vim-qfedit'
 Plug 'mhinz/vim-signify', { 'on': [] }
 Plug 'obxhdx/vim-action-mapper'
 Plug 'obxhdx/vim-auto-highlight', { 'on': [] }
@@ -288,8 +309,9 @@ augroup END
 " ActionMapper {{{
 autocmd! User MapActions
 
-function! s:FindAndReplace(text, use_word_boundary) " {{{
-  let l:pattern = a:use_word_boundary ? '<'.a:text.'>' : a:text
+function! FindAndReplace(text, type) " {{{
+  let l:use_word_boundary = index(['v', '^V'], a:type) < 0
+  let l:pattern = l:use_word_boundary ? '<'.a:text.'>' : a:text
   let l:new_text = input('Replace '.l:pattern.' with: ', a:text)
 
   if len(l:new_text)
@@ -297,18 +319,7 @@ function! s:FindAndReplace(text, use_word_boundary) " {{{
   endif
 endfunction
 
-function! FindAndReplaceWithWordBoundary(text, ...)
-  let l:use_word_boundary = 1
-  execute s:FindAndReplace(a:text, l:use_word_boundary)
-endfunction
-
-function! FindAndReplaceWithoutWordBoundary(text, ...)
-  let l:use_word_boundary = 0
-  execute s:FindAndReplace(a:text, l:use_word_boundary)
-endfunction
-
-autocmd User MapActions call MapAction('FindAndReplaceWithWordBoundary', '<leader>r')
-autocmd User MapActions call MapAction('FindAndReplaceWithoutWordBoundary', '<leader><leader>r')
+autocmd User MapActions call MapAction('FindAndReplace', '<Leader>r')
 "}}}
 
 function! DebugLog(text, ...) "{{{
@@ -324,9 +335,7 @@ autocmd User MapActions call MapAction('DebugLog', '<leader>l')
 "}}}
 
 function! GrepWithMotion(text, type) "{{{
-  let l:base_cmd = 'Rg '
-  let l:pattern = empty(trim(a:text)) ? '' : index(['v', ''], a:type) >= 0 ? a:text : '\b'.a:text.'\b'
-  execute(l:base_cmd.' '.l:pattern)
+  execute('Grep '.a:text)
 endfunction
 
 autocmd User MapActions call MapAction('GrepWithMotion', '<Leader>g')
@@ -566,16 +575,6 @@ nnoremap <Leader>fh :Helptags<CR>
 nnoremap <Leader>fl :BLines<CR>
 nnoremap <Leader>fr :History<CR>
 nnoremap <Leader>x :Commands<CR>
-
-function! RipgrepFzf(query)
-  let command_fmt = 'rg --column --line-number --no-heading --color=always '.expand('$LEADERF_GREP_OPTS').' --smart-case %s || true'
-  let initial_command = printf(command_fmt, shellescape(a:query))
-  let reload_command = printf(command_fmt, '{q}')
-  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec))
-endfunction
-
-command! -nargs=* -bang Rg call RipgrepFzf(<q-args>)
 "}}}
 
 " IndentLine {{{
