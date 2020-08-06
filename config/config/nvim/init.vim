@@ -554,6 +554,7 @@ catch | endtry
 " Commentary {{{
 map gc <Plug>Commentary
 nmap gcc <Plug>CommentaryLine
+autocmd FileType lisp setlocal commentstring=;;\ %s " fix lisp comment strings
 " }}}
 
 " FZF {{{
