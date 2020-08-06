@@ -522,12 +522,11 @@ function! SanitizeColors()
   if g:colors_name == 'badwolf'
     hi DiffAdd guibg=#143800
     hi DiffDelete guibg=#380000
-    hi IncSearch guibg=lightgreen guifg=black gui=bold
     hi Noise guifg=#949494
     hi NonText guibg=NONE
+    hi QuickFixLine gui=NONE guibg=#32302f
     hi SignifySignAdd guifg=#B8BB26 guibg=#3A3A3A
     hi parens guifg=#9e9e9e
-    hi! link Search IncSearch
   endif
 
   hi StatusLineNormal cterm=NONE ctermfg=232 ctermbg=15  gui=NONE guifg=#3a3a3a guibg=#d5c4a1
