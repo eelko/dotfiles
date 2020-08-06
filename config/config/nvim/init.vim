@@ -255,6 +255,10 @@ Plug 'tpope/vim-commentary', { 'on': '<Plug>Commentary' }
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround', { 'on': [] }
 
+" Test Runners
+Plug 'benmills/vimux'
+Plug 'janko/vim-test'
+
 call plug#end()
 
 " Lazy Loading {{{
@@ -653,6 +657,14 @@ nnoremap <silent> <M-k> :TmuxNavigateUp<CR>
 nnoremap <silent> <M-l> :TmuxNavigateRight<CR>
 "}}}
 
+" VimTest {{{
+let test#strategy = 'vimux'
+nnoremap <Leader>tf :TestFile<CR>
+nnoremap <Leader>tl :TestLast<CR>
+nnoremap <Leader>tn :TestNearest<CR>
+nnoremap <Leader>ts :TestSuite<CR>
+nnoremap <Leader>tv :TestVisit<CR>
+"}}}
 "}}}
 
 " vim: set foldmethod=marker foldenable :
