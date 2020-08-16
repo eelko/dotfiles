@@ -10,3 +10,6 @@ which pip3 >/dev/null && pip3 install --upgrade pynvim
 
 # Update Neovim plugins
 $EDITOR +PlugUpgrade +PlugUpdate +CocUpdateSync +qall
+
+# Update Tmux plugins
+~/.tmux/plugins/tpm/bin/update_plugins all
