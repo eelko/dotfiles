@@ -24,6 +24,7 @@
   rmdir = true # push empty directory removals back to svn as directory deletes
 [credential]
   helper = osxkeychain
+  useHttpPath = true
 [push]
   default = nothing
 [pull]
