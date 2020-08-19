@@ -12,6 +12,7 @@ gnutls
 grep
 imagemagick
 jq
+lsd
 neovim
 ripgrep
 ruby
