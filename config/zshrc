@@ -36,8 +36,7 @@ export FZF_CTRL_T_OPTS='--preview "bat --style=numbers --color=always {} | head 
 eval "`fnm env --multi`"
 
 # rvm
-RVM_DIR="$HOME/.rvm/scripts/rvm"
-[ -d "$RVM_DIR" ] && source "$RVM_DIR"
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 # Full Python 3 support
 export PATH='/usr/local/opt/python/libexec/bin':$PATH
