@@ -324,7 +324,7 @@ autocmd User MapActions call MapAction('FindAndReplace', '<Leader>r')
 "}}}
 
 function! DebugLog(text, ...) "{{{
-  let l:supported_languages = ['javascript', 'javascript.jsx']
+  let l:supported_languages = ['javascript', 'javascript.jsx', 'typescript']
   if index(l:supported_languages, &ft) < 0
     return
   endif
