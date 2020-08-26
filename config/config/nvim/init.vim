@@ -535,7 +535,6 @@ function! SanitizeColors()
     hi Noise guifg=#949494
     hi NonText guibg=NONE
     hi QuickFixLine gui=NONE guibg=#32302f
-    hi SignifySignAdd guifg=#B8BB26 guibg=#3A3A3A
     hi parens guifg=#9e9e9e
   endif
 
@@ -637,9 +636,9 @@ nnoremap <Leader>av :AV<CR>
 "}}}
 
 " Signify {{{
-hi SignifySignAdd ctermfg=green ctermbg=NONE guifg=#B8BB26 guibg=NONE
-hi SignifySignChange ctermfg=yellow ctermbg=NONE guifg=#FABD30 guibg=NONE
-hi SignifySignDelete ctermfg=red ctermbg=NONE guifg=#FB4934 guibg=NONE
+hi SignifySignAdd ctermfg=green ctermbg=NONE guifg=#9BB76D guibg=NONE
+hi SignifySignChange ctermfg=cyan ctermbg=NONE guifg=#00AFFF guibg=NONE
+hi SignifySignDelete ctermfg=red ctermbg=NONE guifg=#FF5F5F guibg=NONE
 
 let g:signify_sign_add               = '│'
 let g:signify_sign_delete            = '│'
