@@ -8,6 +8,7 @@
     "javascriptreact": ["javascript"],
     "typescript": ["javascript"]
   },
+  "snippets.userSnippetsDirectory": "~/.config/nvim/snippets/",
   "suggest.noselect": false,
   "tsserver.npm": "~/.fnm/aliases/default/bin/npm"
 }
