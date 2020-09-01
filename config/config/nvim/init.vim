@@ -429,22 +429,19 @@ function! s:NumberToSuperscript(number) abort
 endfunction
 
 function! LintStatus() abort
-  if get(g:, 'lint_status', 0) == 0
+  if get(b:, 'lint_started', v:false) == v:false
     return ''
   endif
 
-  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:counts = ale#statusline#Count(bufnr('%'))
   let l:all_errors = l:counts.error + l:counts.style_error
   let l:all_non_errors = l:counts.total - l:all_errors
 
-  let b:linted = get(b:, 'linted', v:false)
-
-  if g:lint_status == 1
+  if ale#engine#IsCheckingBuffer(bufnr('%'))
     return '  '
-  elseif b:linted && l:counts.total == 0
+  elseif l:counts.total == 0
     return '  '
   elseif l:counts.total > 0
-    let b:linted = v:true
     return printf(' %s  %s ', s:NumberToSuperscript(all_non_errors), s:NumberToSuperscript(all_errors))
   else
     return ''
@@ -453,12 +450,10 @@ endfunction
 
 augroup LintProgress
   autocmd!
-  autocmd BufReadPost *    let g:lint_status = 0  " Not started
-  autocmd User ALELintPre  let g:lint_status = 1  " In progress
-  autocmd User ALEFixPre   let g:lint_status = 1  " In progress
-  autocmd User ALELintPost let g:lint_status = 2  " Finished
-  autocmd User ALEFixPost  let g:lint_status = 2  " Finished
+  autocmd User ALELintPre  let b:lint_started = v:true
+  autocmd User ALEFixPre   let b:lint_started = v:true
 augroup END
+
 " }}}
 
 " AutoHighlightWord {{{
