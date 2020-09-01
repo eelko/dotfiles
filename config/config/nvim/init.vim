@@ -386,6 +386,7 @@ autocmd User MapActions call MapAction('GrepWithMotion', '<Leader>g')
 "}}}
 
 " Ale {{{
+let g:ale_echo_msg_format = '%linter%(%code%): %s [%severity%]'
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_filetype_changed = 0
 let g:ale_lint_on_insert_leave = 0
