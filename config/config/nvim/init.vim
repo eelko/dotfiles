@@ -57,9 +57,9 @@ nnoremap <Leader>p "+p
 nnoremap <Leader>P "+P
 
 " Save/exit quicker
-nnoremap <Leader>q :qall<CR>
-nnoremap <Leader>w :write<CR>
-nnoremap <Leader>x :xit<CR>
+nnoremap <silent> <Leader>q :qall<CR>
+nnoremap <silent> <Leader>w :write<CR>
+nnoremap <silent> <Leader>x :xit<CR>
 
 " Expand %% to file path
 cnoremap %% <C-R>=expand('%:h').'/'<CR>
@@ -68,8 +68,8 @@ cnoremap %% <C-R>=expand('%:h').'/'<CR>
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 " Navigate buffers more easily
-nnoremap <C-n> :bnext<CR>
-nnoremap <C-p> :bprev<CR>
+nnoremap <silent> <C-n> :bnext<CR>
+nnoremap <silent> <C-p> :bprev<CR>
 
 " Automatically jump to end of pasted text
 vnoremap <silent> y y`]
@@ -199,7 +199,7 @@ fun! s:SyntaxGroupsForWordUnderCursor() "{{{
   endif
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endf
-nmap <leader>sg :call <SID>SyntaxGroupsForWordUnderCursor()<CR>
+nmap <silent> <leader>sg :call <SID>SyntaxGroupsForWordUnderCursor()<CR>
 "}}}
 
 " Instant grep + quickfix {{{
@@ -225,6 +225,48 @@ augroup quickfix
   autocmd QuickFixCmdPost lgetexpr nested lwindow
 augroup END
 "}}}
+"}}}
+
+" StatusLine {{{
+hi StatusLineNormal  cterm=bold ctermfg=232 ctermbg=15  gui=bold guifg=#3a3a3a guibg=#d5c4a1
+hi StatusLineInsert  cterm=bold ctermfg=117 ctermbg=24  gui=bold guifg=#87dfff guibg=#005f87
+hi StatusLineVisual  cterm=bold ctermfg=52  ctermbg=208 gui=bold guifg=#3a3a3a guibg=#ff8700
+hi StatusLineReplace cterm=bold ctermfg=217 ctermbg=88  gui=bold guifg=#ffafaf guibg=#870000
+hi StatusLineCommand cterm=bold ctermfg=225 ctermbg=53  gui=bold guifg=#ffd7ff guibg=#5f005f
+
+function! StatusLineRenderer()
+  let mode_colors = {
+        \ 'n':  'StatusLineNormal',
+        \ 'i':  'StatusLineInsert',
+        \ 'v':  'StatusLineVisual',
+        \ 'V':  'StatusLineVisual',
+        \ '': 'StatusLineVisual',
+        \ 'c':  'StatusLineCommand',
+        \ 'R':  'StatusLineReplace'
+        \ }
+
+  let hl = '%#' . get(mode_colors, mode(), 'StatusLineNC') . '#'
+
+  return hl
+        \ . '%<'
+        \ . '%f'
+        \ . ' %{LintStatus()}'
+        \ . '%{&ft=="help"?"\ \ ":""}'
+        \ . '%{&modified?"":""}'
+        \ . '%{&readonly?"":""}'
+        \ . '%='
+        \ . "%-14.(%l,%c%V%)"
+        \ .' %P'
+endfunction
+
+augroup StatusLine
+  autocmd!
+  autocmd VimEnter,WinEnter,BufWinEnter,BufDelete *
+        \ setlocal statusline& |
+        \ setlocal statusline=%!StatusLineRenderer()
+  autocmd VimLeave,WinLeave,BufWinLeave *
+        \ setlocal statusline&
+augroup END
 "}}}
 
 " Sensitive/Temporary settings " {{{
@@ -416,8 +458,6 @@ augroup LintProgress
   autocmd User ALELintPost let g:lint_status = 2  " Finished
   autocmd User ALEFixPost  let g:lint_status = 2  " Finished
 augroup END
-
-set statusline=%<%f\ %{LintStatus()}%*%{&ft=='help'?'\ \ ':''}%{&modified?'':''}%{&readonly?'':''}%=%-14.(%l,%c%V%)\ %P
 " }}}
 
 " AutoHighlightWord {{{
@@ -487,11 +527,11 @@ nmap <silent> <leader>cf <Plug>(coc-references)
 nmap <silent> <leader>co :<C-u>CocList outline<CR>
 
 " Remap for rename current word
-nmap <leader>crn <Plug>(coc-rename)
+nmap <silent> <leader>crn <Plug>(coc-rename)
 
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-vmap <leader>ca <Plug>(coc-codeaction-selected)
-nmap <leader>ca <Plug>(coc-codeaction-selected)
+vmap <silent> <leader>ca <Plug>(coc-codeaction-selected)
+nmap <silent> <leader>ca <Plug>(coc-codeaction-selected)
 
 " " Notify coc that <CR> has been pressed (for coc-pairs to auto-indent on Enter)
 " inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<C-r>=coc#on_enter()\<CR>"
@@ -524,6 +564,7 @@ function! SanitizeColors()
   hi PmenuSbar ctermbg=236 guibg=#2B2C31
   hi PmenuThumb ctermbg=236 guibg=grey
   hi SignColumn guibg=NONE
+  hi StatusLineNC cterm=bold ctermfg=15 ctermbg=238 gui=bold guifg=#d5c4a1 guibg=#3a3a3a
   hi VertSplit ctermfg=237 ctermbg=237 guifg=#3a3a3a guibg=#3a3a3a
   hi Visual ctermbg=238 guibg=#626262
   hi! link ColorColumn CursorLine
@@ -537,15 +578,6 @@ function! SanitizeColors()
     hi QuickFixLine gui=NONE guibg=#32302f
     hi parens guifg=#9e9e9e
   endif
-
-  hi StatusLineNormal cterm=NONE ctermfg=232 ctermbg=15  gui=NONE guifg=#3a3a3a guibg=#d5c4a1
-  hi StatusLineInsert cterm=NONE ctermfg=117 ctermbg=24  gui=NONE guifg=#87dfff guibg=#005f87
-  hi StatusLineNC     cterm=NONE ctermfg=15  ctermbg=238 gui=NONE guifg=#d5c4a1 guibg=#3a3a3a
-
-  hi! link StatusLine StatusLineNormal
-
-  autocmd InsertEnter * hi clear StatusLine | hi! link StatusLine StatusLineInsert
-  autocmd InsertLeave * hi clear StatusLine | hi! link StatusLine StatusLineNormal
 endf
 
 autocmd ColorScheme * call SanitizeColors()
@@ -569,12 +601,12 @@ autocmd FileType lisp setlocal commentstring=;;\ %s " fix lisp comment strings
 let g:fzf_layout = { 'window': { 'width': 0.7, 'height': 0.4 } }
 let g:projectionist_ignore_term = 1 " workaround for slownes when fzf and projectionist are enabled
 
-nnoremap <Leader>fb :Buffers<CR>
-nnoremap <Leader>fc :Commands<CR>
-nnoremap <Leader>ff :GFiles<CR>
-nnoremap <Leader>fh :Helptags<CR>
-nnoremap <Leader>fl :BLines<CR>
-nnoremap <Leader>fr :History<CR>
+nnoremap <silent> <Leader>fb :Buffers<CR>
+nnoremap <silent> <Leader>fc :Commands<CR>
+nnoremap <silent> <Leader>ff :GFiles<CR>
+nnoremap <silent> <Leader>fh :Helptags<CR>
+nnoremap <silent> <Leader>fl :BLines<CR>
+nnoremap <silent> <Leader>fr :History<CR>
 "}}}
 
 " IndentLine {{{
@@ -630,9 +662,9 @@ let g:vim_markdown_conceal_code_blocks = 0
 "}}}
 
 " Projectionist {{{
-nnoremap <Leader>aa :A<CR>
-nnoremap <Leader>as :AS<CR>
-nnoremap <Leader>av :AV<CR>
+nnoremap <silent> <Leader>aa :A<CR>
+nnoremap <silent> <Leader>as :AS<CR>
+nnoremap <silent> <Leader>av :AV<CR>
 "}}}
 
 " Signify {{{
