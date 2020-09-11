@@ -1,3 +1,4 @@
+alexjs
 bash
 bash-completion
 coreutils
@@ -15,6 +16,7 @@ imagemagick
 jq
 lsd
 neovim
+proselint
 railwaycat/emacsmacport/emacs-mac
 ripgrep
 ruby
@@ -23,5 +25,6 @@ shellcheck
 tmux
 tree
 vim
+write-good
 zplug
 zsh
