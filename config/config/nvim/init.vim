@@ -365,12 +365,25 @@ autocmd User MapActions call MapAction('FindAndReplace', '<Leader>r')
 "}}}
 
 function! DebugLog(text, ...) "{{{
-  let l:supported_languages = ['javascript', 'javascript.jsx', 'typescript']
-  if index(l:supported_languages, &ft) < 0
+  let javascript_template = "console.log('==> %s:', %s);"
+  let supported_languages = {
+        \   'javascript': javascript_template,
+        \   'javascript.jsx': javascript_template,
+        \   'javascriptreact': javascript_template,
+        \   'python': "print('==> %s:', %s)",
+        \   'ruby': 'puts ("==> %s: #{%s}")',
+        \   'typescript': javascript_template,
+        \   'typescript.jsx': javascript_template,
+        \   'typescriptreact': javascript_template,
+        \ }
+  let log_expression = get(supported_languages, &ft, '')
+
+  if empty(log_expression)
+    echohl ErrorMsg | echo 'DebugLog: filetype "'.&ft.'" not suppported.' | echohl None
     return
   endif
-  execute "normal o"
-  execute "normal iconsole.log('==> ".substitute(a:text, "'", '"', 'g')."', ".a:text.");"
+
+  execute "normal o".printf(log_expression, a:text, a:text)
 endfunction
 
 autocmd User MapActions call MapAction('DebugLog', '<leader>l')
