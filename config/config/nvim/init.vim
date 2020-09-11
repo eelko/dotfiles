@@ -157,7 +157,7 @@ command! -nargs=1 -range=% Align :execute "<line1>,<line2>!sed 's/" . <f-args> .
 
 command! -nargs=0 -range SortLine <line1>,<line2>call setline('.',join(sort(split(getline('.'),' ')),' '))
 
-command! StripTrailingWhitespaces :call <SID>ExecPreservingCursorPos('%s/\s\+$//e')
+command! StripTrailingWhitespaces :call <SID>exec_and_restore_cursor_position('%s/\s\+$//e')
 
 fun! s:CloseHiddenBuffers() "{{{
   let open_buffers = []
@@ -175,21 +175,11 @@ endf
 command! CloseHiddenBuffers call s:CloseHiddenBuffers()
 " }}}
 
-fun! s:ExecPreservingCursorPos(command) "{{{
-  " Taken from http://goo.gl/DJ7xA
-
-  " Save last search and cursor position
-  let _s=@/
-  let l = line('.')
-  let c = col('.')
-
-  " Do the business
-  execute a:command
+fun! s:exec_and_restore_cursor_position(command) "{{{
+  let l:current_view = winsaveview()
+  execute 'keeppatterns '.a:command
   call histadd('cmd', a:command)
-
-  " Restore previous search history and cursor position
-  let @/=_s
-  call cursor(l, c)
+  call winrestview(l:current_view)
 endf
 " }}}
 
@@ -358,7 +348,7 @@ function! FindAndReplace(text, type) " {{{
   let l:new_text = input('Replace '.l:pattern.' with: ', a:text)
 
   if len(l:new_text)
-    call <SID>ExecPreservingCursorPos(',$s/\v'.l:pattern.'/'.l:new_text.'/gc')
+    call <SID>exec_and_restore_cursor_position(',$s/\v'.l:pattern.'/'.l:new_text.'/gc')
   endif
 endfunction
 
