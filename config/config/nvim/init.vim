@@ -527,32 +527,20 @@ endfunction
 " Use <C-n> to trigger completion menu
 inoremap <silent><expr> <C-n> coc#refresh()
 
-" Remap keys for gotos
+" Go-to mappings
 nmap <silent> <leader>cd <Plug>(coc-definition)
 nmap <silent> <leader>ct <Plug>(coc-type-definition)
 nmap <silent> <leader>ci <Plug>(coc-implementation)
 nmap <silent> <leader>cf <Plug>(coc-references)
-nmap <silent> <leader>co :<C-u>CocList outline<CR>
-
-" Remap for rename current word
-nmap <silent> <leader>crn <Plug>(coc-rename)
-
-" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-vmap <silent> <leader>ca <Plug>(coc-codeaction-selected)
-nmap <silent> <leader>ca <Plug>(coc-codeaction-selected)
-
-" " Notify coc that <CR> has been pressed (for coc-pairs to auto-indent on Enter)
-" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<C-r>=coc#on_enter()\<CR>"
+nmap <silent> <leader>cr <Plug>(coc-rename)
 
 " UltiSnips compatibility
 let g:coc_snippet_next = '<TAB>'
 let g:coc_snippet_prev = '<S-TAB>'
 
-autocmd CompleteDone * if pumvisible() == 0 | pclose | endif
-
-autocmd VimEnter * inoremap <silent><expr> <TAB>
-      \ pumvisible() ?  "<C-y>" :
-      \ coc#expandableOrJumpable() ? coc#rpc#request('doKeymap', ['snippets-expand-jump', '']) :
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 
