@@ -10,6 +10,7 @@ gnu-sed
 gnupg
 gnutls
 grep
+htop
 imagemagick
 jq
 lsd
