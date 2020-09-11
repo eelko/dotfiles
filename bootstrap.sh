@@ -5,6 +5,11 @@ set -o errexit
 
 DOTFILES_HOME="$HOME/.dotfiles"
 
+if [[ $(pwd) != "$DOTFILES_HOME" ]]; then
+  echo "Please move this folder to ${DOTFILES_HOME} and re-run this script."
+  exit 1
+fi
+
 # Homebrew
 if [[ -z "$(command -v brew)" ]]; then
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -25,7 +30,7 @@ git submodule foreach git pull origin master
 find $DOTFILES_HOME/config/* -maxdepth 0 -exec bash -c 'ln -snv $1 ~/.$(basename $1)' _ {} \;
 
 # FZF keybindings
-yes | /usr/local/opt/fzf/install
+yes | /usr/local/opt/fzf/install --no-update-rc
 
 # Python3 bindings for Vim
 python3 -m pip install --user --upgrade pynvim
