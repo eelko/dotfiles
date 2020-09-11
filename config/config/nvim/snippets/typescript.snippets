@@ -24,21 +24,70 @@
 #
 # Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
 
-snippet c "const"
-const ${1:name} = ${2:value};
+snippet afb "Arrow Function with Body"
+	(${1}) => {
+		${2}
+	}
 
-snippet l "let"
-let ${1:name} = ${2:value};
+snippet afe "Arrow Function Expression"
+	(${1}) => ${2}
 
-snippet m "method"
-${1:method_name}(${2:params}) {
+snippet c "Constant"
+	const ${1:name} = ${2:value};
+
+snippet l "Variable"
+	let ${1:name} = ${2:value};
+
+snippet cd "console.dir()"
+	console.dir(${1:obj})
+
+snippet cl "console.log()"
+	console.log(${1:obj})
+
+snippet clv "console.log('==> foo', bar)"
+	console.log('==> ${1:marker}', ${2:${1}})
+
+snippet i "If Statement"
+	if (${1:condition}) {
+		${2}
+	}${3}
+
+snippet elif "Else-If Statement"
+	else if (${1:condition}) {
+		${2}
+	}${3}
+
+snippet el "Else Statement"
+	else {
+		${1}
+	}${1}
+
+snippet m "Class Method"
+	${1:method_name}(${2}) {
 		${3}
-}
+	}
 
-snippet pm "private method"
-private ${1:method_name}(${2:params}) {
+snippet n "New Instance"
+	new ${1:ClassName}(${2})${3}
+
+snippet pm "Private Class Method"
+	private ${1:method_name}(${2}) {
 		${3}
-}
+	}
 
-snippet th "throw exception"
-throw new Error('${1:description}')
+snippet switch
+	switch (${1:condition}) {
+		case ${2:when}:
+			${3}
+			break
+		${4}
+	}
+
+snippet case
+	case ${1:when}:
+		${2}
+		break
+	${3}
+
+snippet th "Throw Error"
+	throw new Error('${1:Something went wrong}')
