@@ -259,11 +259,7 @@ augroup StatusLine
 augroup END
 "}}}
 
-" Sensitive/Temporary settings " {{{
-if filereadable(expand('~/.vimrc.local.vim'))
-  source ~/.vimrc.local.vim
-endif
-" }}}
+"}}}
 
 " Third-Party Plugins {{{
 let VIMPLUG_DIR='~/.dotfiles/config/config/nvim/autoload/plug.vim'
@@ -312,6 +308,11 @@ Plug 'tpope/vim-surround', { 'on': [] }
 " Test Runners
 Plug 'benmills/vimux'
 Plug 'janko/vim-test'
+
+" Temporary settings/plugins, etc
+if filereadable(expand('~/.vimrc.local.vim'))
+  source ~/.vimrc.local.vim
+endif
 
 call plug#end()
 
