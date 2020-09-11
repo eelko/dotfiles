@@ -648,6 +648,10 @@ fun! s:NERDTreeFindWrapper()
   endif
 endfunction
 
+" Prevent buffer loads within nerdtree
+nnoremap <silent> <C-n> :if &filetype != 'nerdtree' <Bar> :bnext <Bar> endif<CR>
+nnoremap <silent> <C-p> :if &filetype != 'nerdtree' <Bar> :bprev <Bar> endif<CR>
+
 map <silent> <Leader>nf :call <SID>NERDTreeFindWrapper()<CR>
 map <silent> <Leader>nt :NERDTreeToggle<CR>
 " }}}
