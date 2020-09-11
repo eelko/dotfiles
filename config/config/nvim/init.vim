@@ -131,24 +131,32 @@ vnoremap <silent> # :<C-U>
 nnoremap <silent> <Leader><Leader> :noh<CR>
 " }}}
 
-" Auto commands {{{
+" Automatic commands {{{
+
+" Resize all splits when host window is resized
 augroup AutoResizeSplits
   autocmd!
-  " Resize all splits when host window is resized
   autocmd VimResized * wincmd =
 augroup END
 
+" Auto save buffers when focus is lost, like modern editors
 augroup AutoSave
   autocmd!
-  " Auto save buffers when focus is lost, like modern editors
   autocmd BufLeave,FocusLost * if !empty(bufname('%')) && &modified | write | endif
 augroup END
 
+" Close vim when quickfix is the only open buffer
 augroup QuickfixAutoClose
   autocmd!
-  " Close vim when quickfix is the only open buffer
   autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), '&buftype') == 'quickfix' | quit | endif
 augroup END
+
+" Remember cursor position
+augroup RememberCursorPosition
+  autocmd!
+  autocmd BufWinEnter * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"zv" | endif
+augroup END
+
 "}}}
 
 " Functions and Commands "{{{
