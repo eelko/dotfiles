@@ -600,9 +600,12 @@ let g:projectionist_ignore_term = 1 " workaround for slownes when fzf and projec
 nnoremap <silent> <Leader>fb :Buffers<CR>
 nnoremap <silent> <Leader>fc :Commands<CR>
 nnoremap <silent> <Leader>ff :GFiles<CR>
-nnoremap <silent> <Leader>fh :Helptags<CR>
+nnoremap <silent> <Leader>fh :History:<CR>
 nnoremap <silent> <Leader>fl :BLines<CR>
 nnoremap <silent> <Leader>fr :History<CR>
+
+" Find file using visual selection
+vnoremap <silent> <Leader>ff "py:execute ":FZF -q " . getreg("p")<CR>
 "}}}
 
 " IndentLine {{{
