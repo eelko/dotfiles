@@ -574,7 +574,14 @@ function! SanitizeColors()
     hi Noise guifg=#949494
     hi NonText guibg=NONE
     hi QuickFixLine gui=NONE guibg=#32302f
-    hi parens guifg=#9e9e9e
+    hi! link StatusLine StatusLineNormal
+    hi! link jsxBraces Noise
+    hi! link typescriptBraces Noise
+    hi! link typescriptParens Noise
+    hi! link typescriptImport Include
+    hi! link typescriptExport Include
+    hi! link typescriptVariable typescriptAliasKeyword
+    hi! link typescriptBOM Normal
   endif
 endf
 
