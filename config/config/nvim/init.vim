@@ -367,6 +367,7 @@ autocmd User MapActions call MapAction('FindAndReplace', '<Leader>r')
 function! DebugLog(text, ...) "{{{
   let javascript_template = "console.log('==> %s:', %s);"
   let supported_languages = {
+        \   'java': 'System.out.println("==> %s: " + %s);',
         \   'javascript': javascript_template,
         \   'javascript.jsx': javascript_template,
         \   'javascriptreact': javascript_template,
