@@ -352,8 +352,6 @@ augroup END
 " }}}
 
 " ActionMapper {{{
-autocmd! User MapActions
-
 function! FindAndReplace(text, type) " {{{
   let l:use_word_boundary = index(['v', '^V'], a:type) < 0
   let l:pattern = l:use_word_boundary ? '<'.a:text.'>' : a:text
