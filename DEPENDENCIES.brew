@@ -1,30 +1,33 @@
-alexjs
+# updated system packages
 bash
-bash-completion
+git
+grep
+ruby
+vim
+zsh
+
+# linters
+alexjs
+hadolint
+languagetool
+proselint
+shellcheck
+write-good
+yamllint
+
+# extra packages
 coreutils
 fasd
 fd
-ffmpeg
 fzf
-git
-gnu-sed
 gnupg
-gnutls
-grep
 htop
-imagemagick
 jq
 lsd
 neovim
-proselint
 railwaycat/emacsmacport/emacs-mac
 ripgrep
-ruby
 schniz/tap/fnm
-shellcheck
 tmux
 tree
-vim
-write-good
 zplug
-zsh

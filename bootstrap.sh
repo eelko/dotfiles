@@ -16,10 +16,10 @@ if [[ -z "$(command -v brew)" ]]; then
 fi
 
 # System dependencies
-# shellcheck disable=SC2046
-brew install $(paste -sd ' ' - < ./DEPENDENCIES.brew)
-# shellcheck disable=SC2046
-brew cask install $(paste -sd ' ' - < ./DEPENDENCIES.cask)
+# shellcheck disable=SC2046,SC2002
+brew install $(cat ./DEPENDENCIES.brew | grep -E -v '^(#|$)' | paste -sd ' ' -)
+# shellcheck disable=SC2046,SC2002
+brew cask install $(cat ./DEPENDENCIES.cask | grep -E -v '^(#|$)' | paste -sd ' ' -)
 
 # Init git submodules
 git submodule update --init --recursive
