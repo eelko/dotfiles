@@ -1,18 +1,21 @@
 [diff]
   tool = vimdiff
 [alias]
+  ; abbreviations
+  cb = checkout -b
   ci = commit -v
   co = checkout
   dc = diff --cached
   df = diff
+  rv = remote -v
   st = status -sb
   lg = log --oneline --decorate --format='%C(yellow)%h%C(auto)%d%C(reset) %s %C(green)(%ar) %C(cyan)<%an>%C(reset)'
   wc = !git whatchanged -1 $1
+  ; functions
+  assumed-unchanged = !git ls-files -v | grep '^h'
   changed-files = !git whatchanged $1 -1 | grep '^:' | awk '{print $NF}'
   conflicted-files = !git ls-files --unmerged | cut -f2 | sort -u
-  count-commits = !git log --color=always -z | perl -ln0e 'print unless /git-svn-id/' | grep 'commit' | wc -l | sed 's/ //g'
   dcommit-dry-run = !git svn dcommit --dry-run | sed 1d | awk '{print $3}' | xargs git whatchanged --no-walk
-  assumed-unchanged = !git ls-files -v | grep '^h'
   list-submodules = !git config --file .gitmodules --get-regexp path | awk '{ print $2 }'
 [color]
   branch = auto
