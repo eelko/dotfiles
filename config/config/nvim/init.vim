@@ -287,8 +287,8 @@ Plug 'sjl/badwolf'
 Plug 'yggdroot/indentLine', { 'on': [] }
 
 " Code Completion
-Plug 'jiangmiao/auto-pairs'
 Plug 'neoclide/coc.nvim', { 'on': ['CocAction', 'CocCommand', 'CocList'], 'branch': 'release' }
+Plug 'tmsvg/pear-tree'
 
 " Linting & Formatting
 Plug 'tpope/vim-sleuth', { 'on': [] }
@@ -325,11 +325,11 @@ call plug#end()
 function! LoadPlugins()
   call plug#load(
         \ 'ale',
-        \ 'auto-pairs',
         \ 'coc.nvim',
         \ 'fzf',
         \ 'fzf.vim',
         \ 'indentLine',
+        \ 'pear-tree',
         \ 'vim-auto-highlight',
         \ 'vim-projectionist',
         \ 'vim-qfedit',
@@ -474,13 +474,6 @@ set updatetime=500 " Make CursorHold trigger faster
 " Tweak color after plugin is lazily loaded on demand:
 autocmd! User vim-auto-highlight hi AutoHighlightWord ctermbg=238 guibg=darkslategray
 " }}}
-
-" Auto-Pairs {{{
-let g:AutoPairsShortcutToggle = ''
-let g:AutoPairsShortcutFastWrap = ''
-let g:AutoPairsShortcutJump = ''
-let g:AutoPairsShortcutBackInsert = ''
-"}}}
 
 " BufTabline {{{
 let g:buftabline_show = 1
@@ -667,6 +660,17 @@ nnoremap <silent> <C-p> :if &filetype != 'nerdtree' <Bar> :bprev <Bar> endif<CR>
 map <silent> <Leader>nf :call <SID>NERDTreeFindWrapper()<CR>
 map <silent> <Leader>nt :NERDTreeToggle<CR>
 " }}}
+
+" pear-tree {{{
+autocmd FileType typescriptreact
+                  \ let b:pear_tree_pairs = extend(deepcopy(g:pear_tree_pairs), {
+                  \ '<*>': {'closer': '</*>',
+                  \         'not_if': [],
+                  \         'not_like': '/$',
+                  \         'until': '[^a-zA-Z0-9-._]'
+                  \        }
+                  \ }, 'keep')
+"}}}
 
 " Polyglot {{{
 let g:vim_markdown_conceal = 0
