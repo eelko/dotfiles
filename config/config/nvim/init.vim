@@ -289,7 +289,6 @@ Plug 'sjl/badwolf'
 Plug 'yggdroot/indentLine', { 'on': [] }
 
 " Code Completion
-Plug 'honza/vim-snippets', { 'on': [] }
 Plug 'jiangmiao/auto-pairs'
 Plug 'neoclide/coc.nvim', { 'on': ['CocAction', 'CocCommand', 'CocList'], 'branch': 'release' }
 
@@ -338,7 +337,6 @@ function! LoadPlugins()
         \ 'vim-qfedit',
         \ 'vim-signify',
         \ 'vim-sleuth',
-        \ 'vim-snippets',
         \ 'vim-surround',
         \ 'vim-test',
         \ 'vimux',
