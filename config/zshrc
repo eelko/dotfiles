@@ -34,9 +34,16 @@ export FZF_CTRL_T_OPTS='--preview "bat --style=numbers --color=always {} | head 
 
 # fnm
 eval "`fnm env --multi`"
+export LATEST_NODE_PATH="$HOME/.fnm/aliases/latest/bin/node"
 
 # rvm
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+# sdkman
+sdkman_init() {
+  init_script="$HOME/.sdkman/bin/sdkman-init.sh"
+  [[ -s "$init_script" ]] && source "$init_script" || echo "$init_script is not a script."
+}
 
 # Full Python 3 support
 export PATH='/usr/local/opt/python/libexec/bin':$PATH

@@ -49,7 +49,7 @@ function cd() {
   else
     builtin cd && eval "l"
   fi
-  [ -n "$TMUX" ] && tmux setenv TMUX_"$(tmux display -p "#I")"_PWD $PWD
+  [ -n "$TMUX" ] && tmux setenv TMUX_"$(tmux display -p "#I")"_PWD "$PWD"
 }
 
 # Lazy loading helper
@@ -79,7 +79,11 @@ eval "$(cat <<EOF
       for a in ${trigger_list[@]}; do
         alias "\$a" 2>/dev/null >/dev/null && unalias "\$a"
       done
-      source "$load_script_path"
+      if [[ -s "$load_script_path" ]]; then
+        source "$load_script_path"
+      else
+        echo "\nError: Path \"$load_script_path\" is not a script."
+      fi
       unset -f $load_fn $load_and_run_fn
     fi
   }
@@ -115,7 +119,7 @@ function mp3split() {
   start=$2
   end=$3
   output="${input%.mp3}_${start//:/}_${end//:/}.mp3"
-  ffmpeg -i $input -vn -acodec copy -ss $start -t $end $output
+  ffmpeg -i "$input" -vn -acodec copy -ss "$start" -t "$end" "$output"
 }
 
 # Extract text from pdf
@@ -150,16 +154,21 @@ function bin_exists() {
   return $?
 }
 
-# REPL powered by Codi
-repl() {
-  [[ "$#" -eq 0 ]] && echo -e "Usage:\n repl <filetype>" && return
-  local -r filetype="$1"
-  tmux rename-window "REPL [$filetype]"
-  nvim -c "setlocal buftype=nofile signcolumn=no | let g:indentLine_char=' ' | Codi $1"
-  tmux setw automatic-rename
-}
-
 # Join each line of output by given separator
 joinby() {
   paste -sd "$1" -
+}
+
+# Search/replace
+replace() {
+  [[ "$#" -ne 2 ]] && echo -e "Usage:\n$ replace <pattern> <replacement>" && return
+  local -r pattern="$1"
+  local -r replacement="$2"
+  local -r matching_files=($(rg $pattern -l 2>/dev/null))
+
+  [[ -n "$matching_files" ]] || ( echo "No occurrences of \"$pattern\" found" && return )
+
+  for file in "${matching_files[@]}"; do
+    $EDITOR -c "%s/\v$pattern/$replacement/gc" -c 'wq' "$file"
+  done
 }

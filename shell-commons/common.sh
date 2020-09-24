@@ -3,21 +3,15 @@ export EDITOR='nvim'
 export LANG='en_US.UTF-8'
 export LC_ALL='en_US.UTF-8'
 export LESS='-R'
-export PATH="/usr/local/bin:$HOME/.bin:$PATH"
-
-if [[ "$(uname)" = 'Darwin' ]]; then
-  export TOMCAT_HOME="/usr/local/opt/tomcat/libexec"
-fi
+export PATH="$HOME/.bin:$PATH"
 
 # aliases
-alias grep='grep --color'
-alias h='history | grep -i'
-alias vi='vim'
-
-ls=$(gls >/dev/null 2>&1 && echo 'gls' || echo 'ls')
-alias l="$ls -l -h --color=auto --group-directories-first"
-alias la='l -a --color=always | less'
-alias ll="l --color=always | less"
+if [[ -n "$(command -v lsd)" ]]; then
+  alias l='lsd -l --group-dirs=first --date relative'
+else
+  ls=$(gls >/dev/null 2>&1 && echo 'gls' || echo 'ls')
+  alias l="$ls -l -h --color=auto --group-directories-first"
+fi
 
 if [[ $(uname) = 'Darwin' ]]; then
   alias tree='tree -C'
@@ -27,3 +21,7 @@ if [[ $(uname) = 'Linux' ]]; then
   alias pbcopy='xclip -selection clipboard'
   alias pbpaste='xclip -selection clipboard -o'
 fi
+
+alias grep='grep --color'
+alias la='l -a --color=always | less'
+alias ll="l --color=always | less"
