@@ -298,14 +298,14 @@ Plug 'tpope/vim-sleuth', { 'on': [] }
 Plug 'w0rp/ale', { 'on': [] }
 
 " Navigation
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'junegunn/fzf', { 'on': [ 'BLines', 'Buffers', 'Commands', 'GFiles', 'Helptags', 'History' ], 'do': { -> fzf#install() } }
+Plug 'christoomey/vim-tmux-navigator', { 'on': ['TmuxNavigateLeft', 'TmuxNavigateRight', 'TmuxNavigateUp', 'TmuxNavigateDown'] }
+Plug 'junegunn/fzf', { 'on': [ 'FZF', 'BLines', 'Buffers', 'Commands', 'GFiles', 'Helptags', 'History' ], 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim', { 'on': [ 'BLines', 'Buffers', 'Commands', 'GFiles', 'Helptags', 'History' ] }
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-projectionist', { 'on': [] }
 
 " Misc
-Plug 'itchyny/vim-qfedit'
+Plug 'itchyny/vim-qfedit', { 'on': [] }
 Plug 'mhinz/vim-signify', { 'on': [] }
 Plug 'obxhdx/vim-action-mapper'
 Plug 'obxhdx/vim-auto-highlight', { 'on': [] }
@@ -314,8 +314,8 @@ Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround', { 'on': [] }
 
 " Test Runners
-Plug 'benmills/vimux'
-Plug 'janko/vim-test'
+Plug 'benmills/vimux', { 'on': [] }
+Plug 'janko/vim-test', { 'on': [] }
 
 " Temporary settings/plugins, etc
 if filereadable(expand('~/.vimrc.local.vim'))
@@ -328,22 +328,27 @@ call plug#end()
 function! LoadPlugins()
   call plug#load(
         \ 'ale',
+        \ 'auto-pairs',
         \ 'coc.nvim',
         \ 'fzf',
         \ 'fzf.vim',
         \ 'indentLine',
         \ 'vim-auto-highlight',
         \ 'vim-projectionist',
+        \ 'vim-qfedit',
         \ 'vim-signify',
         \ 'vim-sleuth',
         \ 'vim-snippets',
-        \ 'vim-surround'
+        \ 'vim-surround',
+        \ 'vim-test',
+        \ 'vimux',
         \ )
-  echom 'All plugins loaded.'
+  echom 'Plugins will be loaded on CursorHold... Plugins loaded!'
 endfunction
 
 augroup LoadPlugins
   autocmd!
+  autocmd VimEnter * echo 'Plugins will be loaded on CursorHold...'
   autocmd CursorHold * call LoadPlugins() | autocmd! LoadPlugins
 augroup END
 " }}}
