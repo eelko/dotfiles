@@ -487,10 +487,10 @@ let g:AutoPairsShortcutBackInsert = ''
 " BufTabline {{{
 let g:buftabline_show = 1
 let g:buftabline_indicators = 1
-hi BufTabLineCurrent ctermbg=203 ctermfg=232 guibg=#ff5f5f guifg=#080808
-hi BufTabLineActive ctermbg=236 ctermfg=203 guibg=#3a3a3a guifg=#ff5f5f
-hi BufTabLineHidden ctermbg=236 guibg=#3a3a3a guifg=#D5C4A1
-hi BufTabLineFill ctermbg=236 guibg=#3a3a3a guifg=#D5C4A1
+hi BufTabLineCurrent cterm=bold ctermbg=203 ctermfg=232 gui=bold guibg=#ff5f5f guifg=#080808
+hi BufTabLineActive  cterm=bold ctermbg=236 ctermfg=203 gui=bold guibg=#3a3a3a guifg=#ff5f5f
+hi BufTabLineHidden  cterm=bold ctermbg=236             gui=bold guibg=#3a3a3a guifg=#D5C4A1
+hi BufTabLineFill    cterm=bold ctermbg=236             gui=bold guibg=#3a3a3a guifg=#D5C4A1
 " }}}
 
 " CoC {{{
