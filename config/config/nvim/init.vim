@@ -267,14 +267,12 @@ augroup StatusLine
 augroup END
 "}}}
 
-"}}}
-
 " Third-Party Plugins {{{
-let VIMPLUG_DIR='~/.dotfiles/config/config/nvim/autoload/plug.vim'
-let PLUGINS_DIR='~/.vim/plugins'
+let VIMPLUG = stdpath('config') . '/autoload/plug.vim'
+let PLUGINS_DIR = stdpath('config') . '/plugins'
 
-if empty(glob(VIMPLUG_DIR)) || empty(glob(PLUGINS_DIR))
-  execute '!curl -fLo '.VIMPLUG_DIR.' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+if !filereadable(expand(VIMPLUG)) || empty(glob(PLUGINS_DIR))
+  execute '!curl -fLo '.VIMPLUG.' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   execute '!python3 -m pip install --user --upgrade pynvim'
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
@@ -619,9 +617,11 @@ vnoremap <silent> <Leader>ff "py:execute ":FZF -q " . getreg("p")<CR>
 
 " IndentLine {{{
 let g:indentLine_faster = 1
-let g:indentLine_char = get(g:, 'indentLine_char', '┊')
-let g:indentLine_bufTypeExclude = ['help']
-" Enable after plugin is lazily loaded on demand:
+let g:indentLine_char = '┊'
+let g:indentLine_fileTypeExclude = ['help', 'nerdtree']
+" Enable after plugin is lazily loaded:
+" This is required because (for some reason) ale makes indent lines disappear
+" when it loads
 autocmd! User indentLine IndentLinesEnable
 " }}}
 
