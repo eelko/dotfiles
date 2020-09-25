@@ -736,9 +736,11 @@ key_bindings:
   # https://github.com/alacritty/alacritty/issues/93#issuecomment-334790547
   - { key: F,      mods: Alt,                chars: "\x1bf"           }
   - { key: B,      mods: Alt,                chars: "\x1bb"           }
+  - { key: Slash,  mods: Control,            chars: "\x1f"            }
   # https://github.com/alacritty/alacritty/issues/93#issuecomment-427592040
   - { key: D,      mods: Alt,                chars: "\x1bd"           }
   # Tmux integration
+  # https://arslan.io/2018/02/05/gpu-accelerated-terminal-alacritty/#make-alacritty-feel-like-iterm2
   - { key: D,      mods: Command,            chars: "\x00\x76"        } # split vertically
   - { key: D,      mods: Command|Shift,      chars: "\x00\x73"        } # split horizontally
   - { key: T,      mods: Command,            chars: "\x00\x63"        } # new pane
