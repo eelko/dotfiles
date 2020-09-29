@@ -165,6 +165,19 @@ command! -nargs=1 -range=% Align :execute "<line1>,<line2>!sed 's/" . <f-args> .
 
 command! -nargs=0 -range SortLine <line1>,<line2>call setline('.',join(sort(split(getline('.'),' ')),' '))
 
+function! GetVisualSelection()
+  " Why is this not a built-in Vim script function!?
+  let [line_start, column_start] = getpos("'<")[1:2]
+  let [line_end, column_end] = getpos("'>")[1:2]
+  let lines = getline(line_start, line_end)
+  if len(lines) == 0
+    return ''
+  endif
+  let lines[-1] = lines[-1][: column_end - (&selection == 'inclusive' ? 1 : 2)]
+  let lines[0] = lines[0][column_start - 1:]
+  return join(lines, "\n")
+endfunction
+
 command! StripTrailingWhitespaces :call <SID>exec_and_restore_cursor_position('%s/\s\+$//e')
 
 fun! s:CloseHiddenBuffers() "{{{
@@ -599,13 +612,14 @@ let g:projectionist_ignore_term = 1 " workaround for slownes when fzf and projec
 
 nnoremap <silent> <Leader>fb :Buffers<CR>
 nnoremap <silent> <Leader>fc :Commands<CR>
-nnoremap <silent> <Leader>ff :GFiles<CR>
+nnoremap <silent> <Leader>ff :Files<CR>
 nnoremap <silent> <Leader>fh :History:<CR>
 nnoremap <silent> <Leader>fl :BLines<CR>
 nnoremap <silent> <Leader>fr :History<CR>
 
-" Find file using visual selection
-vnoremap <silent> <Leader>ff "py:execute ":FZF -q " . getreg("p")<CR>
+" Visual selection mappings
+vnoremap <silent> <Leader>ff :<C-u>execute 'FZF -q ' . GetVisualSelection()<CR>
+vnoremap <silent> <Leader>fl :call fzf#vim#buffer_lines({'options': '-q ' . GetVisualSelection()})<CR>
 "}}}
 
 " IndentLine {{{
