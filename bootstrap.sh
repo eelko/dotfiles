@@ -15,11 +15,8 @@ if [[ -z "$(command -v brew)" ]]; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi
 
-# System dependencies
-# shellcheck disable=SC2046,SC2002
-brew install $(cat ./DEPENDENCIES.brew | grep -E -v '^(#|$)' | paste -sd ' ' -)
-# shellcheck disable=SC2046,SC2002
-brew cask install $(cat ./DEPENDENCIES.cask | grep -E -v '^(#|$)' | paste -sd ' ' -)
+# Homebrew dependencies
+brew bundle
 
 # Init git submodules
 git submodule update --init --recursive
