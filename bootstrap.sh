@@ -34,3 +34,6 @@ python3 -m pip install --user --upgrade pynvim
 
 # Tmux plugins
 ~/.tmux/plugins/tpm/bin/install_plugins
+
+# Neovim plugins
+nvim +PlugInstall +CocUpdateSync +qall
