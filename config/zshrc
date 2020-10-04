@@ -24,7 +24,7 @@ zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 # fzf
 source_if_exists "$HOME/.fzf.zsh"
 export FZF_DEFAULT_COMMAND='(git ls-tree -r --name-only HEAD || rg --files --no-ignore --hidden --follow) 2> /dev/null'
-export FZF_DEFAULT_OPTS="--multi --tiebreak=end --bind  'alt-a:select-all,alt-d:kill-word,alt-t:toggle-all,ctrl-j:accept,ctrl-k:kill-line,ctrl-n:down,ctrl-p:up' --color=${TERM_BACKGROUND:-dark} --history=$HOME/.fzf_history"
+export FZF_DEFAULT_OPTS="--multi --tiebreak=end --bind  'alt-a:select-all,alt-d:kill-word,alt-t:toggle-all,ctrl-j:accept,ctrl-k:kill-line,ctrl-n:down,ctrl-p:up,up:previous-history,down:next-history' --color=${TERM_BACKGROUND:-dark} --history=$HOME/.fzf_history"
 
 export FZF_ALT_C_COMMAND='(git ls-tree -d -r --name-only HEAD || fd --type d) 2> /dev/null'
 export FZF_ALT_C_OPTS='--preview "tree -C {} | head -200"'
