@@ -1,52 +1,7 @@
 export SHELL='/usr/local/bin/bash'
 
-for f in $HOME/.dotfiles/shell-commons/*; do source $f; done
+for f in $HOME/.dotfiles/shell/*; do source $f; done
 for f in $HOME/.dotfiles/bash/*; do source $f; done
 
-# prompt
-prompt="\n$(prompt_current_dir)"
-prompt+=" \e[38;5;243m\`prompt_git_branch\`\e[0m"
-prompt+="\e[38;5;243m\`prompt_git_dirty\`\e[0m"
-prompt+=" \e[36m\`prompt_git_arrows\`\e[0m"
-prompt+="\n$(prompt_arrow) "
-prompt+="$(printf '\e[4 q')"
-export PS1="$prompt"
-
-# sensitive configs
+# unversioned sensitive/temporary configs
 [ -s "$HOME/.bashrc.local.bash" ] && source "$HOME/.bashrc.local.bash"
-
-# base16 colors
-if [[ "$TERM_BACKGROUND" = 'light' ]]; then
-  source_if_exists "$HOME/.config/base16-shell/scripts/base16-gruvbox-light-hard.sh"
-elif [[ -z "$TERM_BACKGROUND" || "$TERM_BACKGROUND" = 'dark' ]]; then
-  source_if_exists "$HOME/.config/base16-shell/scripts/base16-gruvbox-dark-soft.sh"
-fi
-
-# better dircolors
-dircolors_bin=$(dircolors >/dev/null 2>&1 && echo 'dircolors' || echo 'gdircolors')
-eval "$("$dircolors_bin" -b "$HOME/.LS_COLORS/LS_COLORS")"
-
-# completion
-source_if_exists "/usr/local/opt/git/etc/bash_completion.d/git-completion.bash"
-complete -o default -o nospace -W "$(grep '^Host ' "$HOME/.ssh/config" | awk '{print $2}')" scp sftp ssh # complete ssh hosts
-
-# fasd
-fasd_cache="$HOME/.fasd-init-bash"
-if [ "$(command -v fasd)" -nt "$fasd_cache" ] || [ ! -s "$fasd_cache" ]; then
-  fasd --init posix-alias bash-hook bash-ccomp bash-ccomp-install >| "$fasd_cache"
-fi
-source "$fasd_cache"
-unset fasd_cache
-
-# fzf
-source_if_exists "$HOME/.fzf.bash"
-export FZF_DEFAULT_COMMAND='(git ls-tree -r --name-only HEAD || rg --files --no-ignore --hidden --follow) 2> /dev/null'
-export FZF_DEFAULT_OPTS="--multi --tiebreak=end --bind alt-a:select-all,alt-d:deselect-all,alt-t:toggle-all --color=${TERM_BACKGROUND:-dark}"
-export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-
-# fnm
-eval "`fnm env --multi`"
-
-# rvm
-source "$HOME/.rvm/scripts/rvm"

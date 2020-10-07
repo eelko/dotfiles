@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Get arrows indicating if branch is ahead/behind remote (adapted from https://github.com/sindresorhus/pure)
 prompt_git_arrows() {
   # reset git arrows

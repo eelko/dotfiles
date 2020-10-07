@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # general options
 stty -ixon # disable flow control
 complete -d cd # cd tab completion only completes directories

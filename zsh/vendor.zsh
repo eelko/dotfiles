@@ -117,3 +117,6 @@ spaceship_fast_git() {
     "${git_info}" \
     "$SPACESHIP_GIT_SUFFIX"
 }
+
+# change cursor shape to underscore
+PS1="$(print -n -- "\e[4 q")$PS1"

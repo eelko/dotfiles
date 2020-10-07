@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # environment variables
 export EDITOR='nvim'
 export LANG='en_US.UTF-8'

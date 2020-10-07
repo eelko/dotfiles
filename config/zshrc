@@ -1,56 +1,7 @@
 export SHELL='/usr/local/bin/zsh'
 
-for f in $HOME/.dotfiles/shell-commons/*; do source $f; done
+for f in $HOME/.dotfiles/shell/*; do source $f; done
 for f in $HOME/.dotfiles/zsh/*; do source $f; done
 
-# change cursor shape to underscore
-PS1="$(print -n -- "\e[4 q")$PS1"
-
-# sensitive configs
+# unversioned sensitive/temporary configs
 [ -s "$HOME/.zshrc.local.zsh" ] && source "$HOME/.zshrc.local.zsh"
-
-# base16 colors
-if [[ "$TERM_BACKGROUND" = 'light' ]]; then
-  source_if_exists "$HOME/.config/base16-shell/scripts/base16-gruvbox-light-hard.sh"
-elif [[ -z "$TERM_BACKGROUND" || "$TERM_BACKGROUND" = 'dark' ]]; then
-  source_if_exists "$HOME/.config/base16-shell/scripts/base16-gruvbox-dark-soft.sh"
-fi
-
-# better colors
-dircolors=$(dircolors >/dev/null 2>&1 && echo 'dircolors' || echo 'gdircolors')
-eval $($dircolors -b $HOME/.LS_COLORS/LS_COLORS)
-zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
-
-# fzf
-source_if_exists "$HOME/.fzf.zsh"
-export FZF_DEFAULT_COMMAND='(git ls-tree -r --name-only HEAD || rg --files --no-ignore --hidden --follow) 2> /dev/null'
-export FZF_DEFAULT_OPTS="--multi --tiebreak=end --bind  'alt-a:select-all,alt-d:kill-word,alt-t:toggle-all,ctrl-j:accept,ctrl-k:kill-line,ctrl-n:down,ctrl-p:up,up:previous-history,down:next-history' --color=${TERM_BACKGROUND:-dark} --history=$HOME/.fzf_history"
-
-export FZF_ALT_C_COMMAND='(git ls-tree -d -r --name-only HEAD || fd --type d) 2> /dev/null'
-export FZF_ALT_C_OPTS='--preview "tree -C {} | head -200"'
-
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_CTRL_T_OPTS='--preview "bat --style=numbers --color=always {} | head -200"'
-
-# fnm
-eval "`fnm env --multi`"
-export LATEST_NODE_PATH="$HOME/.fnm/aliases/latest/bin/node"
-
-# rvm
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-
-# sdkman
-sdkman_init() {
-  init_script="$HOME/.sdkman/bin/sdkman-init.sh"
-  [[ -s "$init_script" ]] && source "$init_script" || echo "$init_script is not a script."
-}
-
-# Full Python 3 support
-export PATH='/usr/local/opt/python/libexec/bin':$PATH
-
-# Emacs + vterm integration (jump between prompts with C-c C-n and C-c C-p)
-vterm_prompt_end() {
-  vterm_printf "51;A$(whoami)@$(hostname):$(pwd)";
-}
-setopt PROMPT_SUBST
-PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
