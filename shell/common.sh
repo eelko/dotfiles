@@ -7,6 +7,10 @@ export LC_ALL='en_US.UTF-8'
 export LESS='-R'
 export PATH="$HOME/.bin:$PATH"
 
+if [[ $(uname) = 'Darwin' ]]; then
+  export PATH="/usr/local/bin:$PATH"
+fi
+
 # aliases
 if [[ -n "$(command -v lsd)" ]]; then
   alias l='lsd -l --group-dirs=first --date relative'
