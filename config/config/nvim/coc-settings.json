@@ -14,15 +14,18 @@
   "coc.preferences.useQuickfixForLocations": true,
   "diagnostic.displayByAle": true,
   "diagnostic.refreshAfterSave": true,
-  "javascript.validate.enable": false,
+  "suggest.noselect": false,
   "python.jediEnabled": false,
+  "snippets.userSnippetsDirectory": "~/.config/nvim/snippets/",
   "snippets.extends": {
     "javascript": ["typescript"],
     "typescript": ["javascript"],
     "javascriptreact": ["javascript"],
     "typescriptreact": ["typescript"]
   },
-  "snippets.userSnippetsDirectory": "~/.config/nvim/snippets/",
-  "suggest.noselect": false,
-  "tsserver.npm": "~/.fnm/aliases/default/bin/npm"
+  "tsserver.npm": "~/.fnm/aliases/default/bin/npm",
+  "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+  "eslint.run": "onSave",
+  "eslint.autoFixOnSave": true
 }
