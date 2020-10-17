@@ -676,14 +676,23 @@ map <silent> <Leader>nt :NERDTreeToggle<CR>
 " }}}
 
 " pear-tree {{{
+let g:pear_tree_pairs = {
+      \ '"': {'closer': '"'},
+      \ '{': {'closer': '}'},
+      \ '''': {'closer': ''''},
+      \ '(': {'closer': ')'},
+      \ '[': {'closer': ']'},
+      \ '<': {'closer': '>'}
+      \ }
+
 autocmd FileType typescriptreact
-                  \ let b:pear_tree_pairs = extend(deepcopy(g:pear_tree_pairs), {
-                  \ '<*>': {'closer': '</*>',
-                  \         'not_if': [],
-                  \         'not_like': '/$',
-                  \         'until': '[^a-zA-Z0-9-._]'
-                  \        }
-                  \ }, 'keep')
+      \ let b:pear_tree_pairs = extend(deepcopy(g:pear_tree_pairs), {
+      \ '<*>': {'closer': '</*>',
+      \         'not_if': [],
+      \         'not_like': '/$',
+      \         'until': '[^a-zA-Z0-9-._]'
+      \        }
+      \ }, 'keep')
 "}}}
 
 " Polyglot {{{
