@@ -281,15 +281,21 @@ augroup END
 "}}}
 
 " Third-Party Plugins {{{
-let VIMPLUG = stdpath('config') . '/autoload/plug.vim'
-let PLUGINS_DIR = stdpath('config') . '/plugins'
 
-if !filereadable(expand(VIMPLUG)) || empty(glob(PLUGINS_DIR))
+" Auto-install vim-plug
+let VIMPLUG = stdpath('config') . '/autoload/plug.vim'
+if !filereadable(expand(VIMPLUG))
   execute '!curl -fLo '.VIMPLUG.' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   execute '!python3 -m pip install --user --upgrade pynvim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+" Auto-install missing plugins
+autocmd VimEnter *
+      \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+      \|   PlugInstall --sync | q | source $MYVIMRC
+      \| endif
+
+let PLUGINS_DIR = stdpath('config') . '/plugins'
 call plug#begin(PLUGINS_DIR)
 
 " Appearance
