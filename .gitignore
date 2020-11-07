@@ -10,5 +10,6 @@ config/config/nvim/*
 !config/config/nvim/
 # so that we can skip nvim's config files
 !config/config/nvim/coc-settings.json
+!config/config/nvim/init.lua
 !config/config/nvim/init.vim
 !config/config/nvim/snippets/

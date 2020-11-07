@@ -293,32 +293,32 @@ endif
 call plug#begin(PLUGINS_DIR)
 
 " Appearance
-Plug 'ap/vim-buftabline'
-Plug 'ryanoasis/vim-devicons'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'romgrk/barbar.nvim'
 Plug 'sheerun/vim-polyglot'
 Plug 'sjl/badwolf'
 Plug 'yggdroot/indentLine', { 'on': [] }
 
-" Code Completion
+" Completion, Linting, LSP, etc
 Plug 'neoclide/coc.nvim', { 'on': ['CocAction', 'CocCommand', 'CocList'], 'branch': 'release' }
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/nvim-treesitter-refactor'
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'nvim-treesitter/playground'
 Plug 'tmsvg/pear-tree'
-
-" Linting & Formatting
-Plug 'tpope/vim-sleuth', { 'on': [] }
 Plug 'w0rp/ale', { 'on': [] }
 
 " Navigation
 Plug 'christoomey/vim-tmux-navigator', { 'on': ['TmuxNavigateLeft', 'TmuxNavigateRight', 'TmuxNavigateUp', 'TmuxNavigateDown'] }
 Plug 'junegunn/fzf', { 'on': [ 'FZF', 'BLines', 'Buffers', 'Commands', 'GFiles', 'Helptags', 'History' ], 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim', { 'on': [ 'BLines', 'Buffers', 'Commands', 'GFiles', 'Helptags', 'History' ] }
-Plug 'scrooloose/nerdtree'
+Plug 'kyazdani42/nvim-tree.lua'
 Plug 'tpope/vim-projectionist', { 'on': [] }
 
 " Misc
 Plug 'itchyny/vim-qfedit', { 'on': [] }
 Plug 'mhinz/vim-signify', { 'on': [] }
 Plug 'obxhdx/vim-action-mapper'
-Plug 'obxhdx/vim-auto-highlight', { 'on': [] }
 Plug 'tpope/vim-commentary', { 'on': '<Plug>Commentary' }
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround', { 'on': [] }
@@ -343,11 +343,9 @@ function! LoadPlugins()
         \ 'fzf.vim',
         \ 'indentLine',
         \ 'pear-tree',
-        \ 'vim-auto-highlight',
         \ 'vim-projectionist',
         \ 'vim-qfedit',
         \ 'vim-signify',
-        \ 'vim-sleuth',
         \ 'vim-surround',
         \ 'vim-test',
         \ 'vimux',
@@ -481,11 +479,76 @@ augroup END
 
 " }}}
 
-" AutoHighlightWord {{{
-let g:auto_highlight#disabled_filetypes = ['nerdtree', 'qf']
-set updatetime=500 " Make CursorHold trigger faster
-" Tweak color after plugin is lazily loaded on demand:
-autocmd! User vim-auto-highlight hi AutoHighlightWord ctermbg=238 guibg=darkslategray
+" barbar {{{
+let bufferline = {}
+let bufferline.maximum_padding = 1
+let bufferline.animation = v:false
+
+" Magic buffer-picking mode
+nnoremap <silent> <C-s> :BufferPick<CR>
+" Move to previous/next
+autocmd VimEnter * nnoremap <silent> <C-p> :BufferPrevious<CR>
+autocmd VimEnter * nnoremap <silent> <C-n> :BufferNext<CR>
+" Close buffer
+nnoremap <silent> <Leader>d :BufferClose<CR>
+
+let g:icons = {
+      \ 'bufferline_separator_active':   '|',
+      \ 'bufferline_separator_inactive': '|',
+      \ }
+
+let s:base6       = '#73797e'
+let s:base7       = '#9ca0a4'
+let s:base8       = '#b1b1b1'
+let s:black       = '#1c1f24'
+let s:blue        = '#51afef'
+let s:dark_gray   = '#262626'
+let s:red         = '#ff6c6b'
+let s:warm_white  = '#d5c4a1'
+let s:yellow      = '#ecbe7b'
+
+function! s:hi(group, fg, bg, attr)
+  if a:fg != ""
+    exec "hi " . a:group . " guifg=" . a:fg
+  endif
+  if a:bg != ""
+    exec "hi " . a:group . " guibg=" . a:bg
+  endif
+  if a:attr != ""
+    exec "hi " . a:group . " gui=" . a:attr
+  endif
+endfunction
+
+function! TablineColors() abort
+  "      Current: current buffer
+  "      Visible: visible but not current buffer
+  "     Inactive: invisible but not current buffer
+  "         -Mod: when modified
+  "        -Sign: the separator between buffers
+  "      -Target: letter in buffer-picking mode
+  " BufferShadow: shadow in buffer-picking mode
+
+  call s:hi('TabLine',               s:base7,       'none',       'bold')
+  call s:hi('TabLineSel',            s:blue,        'none',       'bold')
+  call s:hi('TabLineFill',           'none',        s:dark_gray,  'bold')
+
+  call s:hi('BufferCurrent',         s:warm_white,  'none',       'bold')
+  call s:hi('BufferCurrentMod',      s:yellow,      'none',       'bold')
+  call s:hi('BufferCurrentSign',     s:blue,        'none',       'bold')
+  call s:hi('BufferCurrentTarget',   s:red,         'none',       'bold')
+
+  call s:hi('BufferVisible',         s:base8,       s:dark_gray,  'none')
+  call s:hi('BufferVisibleMod',      s:yellow,      s:dark_gray,  'bold')
+  call s:hi('BufferVisibleSign',     s:base6,       s:dark_gray,  'bold')
+  call s:hi('BufferVisibleTarget',   s:red,         s:dark_gray,  'bold')
+
+  call s:hi('BufferInactive',        s:base7,       s:dark_gray,  'none')
+  call s:hi('BufferInactiveMod',     s:yellow,      s:black,      'bold')
+  call s:hi('BufferInactiveSign',    s:dark_gray,   s:dark_gray,  'bold')
+  call s:hi('BufferInactiveTarget',  s:red,         s:dark_gray,  'bold')
+endfunction
+
+autocmd ColorScheme * call TablineColors()
 " }}}
 
 " BufTabline {{{
@@ -606,6 +669,17 @@ nmap gcc <Plug>CommentaryLine
 autocmd FileType lisp setlocal commentstring=;;\ %s " fix lisp comment strings
 " }}}
 
+" File Explorer {{{
+let g:lua_tree_ignore = ['.git']
+let g:lua_tree_follow = 1
+let g:lua_tree_git_hl = 1
+let g:lua_tree_indent_markers = 1
+map <silent> <Leader>nf :LuaTreeFindFile<CR>
+map <silent> <Leader>nt :LuaTreeToggle<CR>
+nnoremap <silent> <C-n> :if &filetype != 'LuaTree' <Bar> execute 'BufferNext' <Bar> endif<CR>
+nnoremap <silent> <C-p> :if &filetype != 'LuaTree' <Bar> execute 'BufferPrevious' <Bar> endif<CR>
+"}}}
+
 " FZF {{{
 let g:fzf_layout = { 'window': { 'width': 0.7, 'height': 0.4 } }
 let g:projectionist_ignore_term = 1 " workaround for slownes when fzf and projectionist are enabled
@@ -632,48 +706,6 @@ let g:indentLine_fileTypeExclude = ['help', 'nerdtree']
 autocmd! User indentLine IndentLinesEnable
 " }}}
 
-" NERDTree {{{
-let g:NERDTreeDirArrowCollapsible = '◢'
-let g:NERDTreeDirArrowExpandable = ''
-let g:NERDTreeMapActivateNode = '<CR>'
-let g:NERDTreeMinimalUI = 1
-let g:NERDTreeShowHidden = 1
-let g:NERDTreeStatusline = 'NERDTree '
-let g:NERDTreeWinSize = '35'
-let g:loaded_netrwPlugin = 1
-" Custom mappings
-let NERDTreeMapCustomOpen = '<C-j>'
-
-" DevIcons integration
-let g:DevIconsDefaultFolderOpenSymbol = ''
-let g:DevIconsEnableFoldersOpenClose = 1
-let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
-let g:WebDevIconsNerdTreeBeforeGlyphPadding = ''
-let g:WebDevIconsUnicodeDecorateFileNodesDefaultSymbol = ''
-
-hi NERDTreeClosable guifg=cyan
-hi NERDTreeDir gui=bold guifg=deeppink
-hi NERDTreeFile guifg=lightgray
-hi NERDTreeFlags guifg=palevioletred
-hi! link NERDTreeDirSlash NERDTreeFlags
-hi! link NERDTreeOpenable NERDTreeFlags
-
-fun! s:NERDTreeFindWrapper()
-  if empty(bufname('%')) || &ft == 'nerdtree'
-    NERDTreeToggle
-  else
-    NERDTreeFind
-    normal zz
-  endif
-endfunction
-
-" Prevent buffer loads within nerdtree
-nnoremap <silent> <C-n> :if &filetype != 'nerdtree' <Bar> :bnext <Bar> endif<CR>
-nnoremap <silent> <C-p> :if &filetype != 'nerdtree' <Bar> :bprev <Bar> endif<CR>
-
-map <silent> <Leader>nf :call <SID>NERDTreeFindWrapper()<CR>
-map <silent> <Leader>nt :NERDTreeToggle<CR>
-" }}}
 
 " pear-tree {{{
 let g:pear_tree_pairs = {
@@ -725,6 +757,12 @@ nnoremap <silent> <M-h> :TmuxNavigateLeft<CR>
 nnoremap <silent> <M-j> :TmuxNavigateDown<CR>
 nnoremap <silent> <M-k> :TmuxNavigateUp<CR>
 nnoremap <silent> <M-l> :TmuxNavigateRight<CR>
+"}}}
+
+" Tree-sitter {{{
+autocmd VimEnter * luafile $HOME/.config/nvim/init.lua
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
 "}}}
 
 " VimTest {{{
