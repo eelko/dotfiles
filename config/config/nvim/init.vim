@@ -239,11 +239,11 @@ augroup END
 "}}}
 
 " StatusLine {{{
-hi StatusLineNormal  cterm=bold ctermfg=232 ctermbg=15  gui=bold guifg=#3a3a3a guibg=#d5c4a1
-hi StatusLineInsert  cterm=bold ctermfg=117 ctermbg=24  gui=bold guifg=#87dfff guibg=#005f87
-hi StatusLineVisual  cterm=bold ctermfg=52  ctermbg=208 gui=bold guifg=#3a3a3a guibg=#ff8700
-hi StatusLineReplace cterm=bold ctermfg=217 ctermbg=88  gui=bold guifg=#ffafaf guibg=#870000
-hi StatusLineCommand cterm=bold ctermfg=225 ctermbg=53  gui=bold guifg=#ffd7ff guibg=#5f005f
+hi StatusLineNormal  gui=bold guifg=#3a3a3a guibg=#d5c4a1
+hi StatusLineInsert  gui=bold guifg=#87dfff guibg=#005f87
+hi StatusLineVisual  gui=bold guifg=#3a3a3a guibg=#ff8700
+hi StatusLineReplace gui=bold guifg=#ffafaf guibg=#870000
+hi StatusLineCommand gui=bold guifg=#ffd7ff guibg=#5f005f
 
 function! StatusLineRenderer()
   let mode_colors = {
@@ -431,9 +431,9 @@ let g:ale_virtualtext_prefix = '➜  '
 nmap ]d <Plug>(ale_next)
 nmap [d <Plug>(ale_previous)
 
-autocmd ColorScheme * hi ALEErrorSign ctermfg=red guifg=red
-      \| hi ALEInfoSign ctermfg=cyan guifg=cyan
-      \| hi ALEWarningSign ctermfg=yellow guifg=orange
+autocmd ColorScheme * hi ALEErrorSign guifg=red
+      \| hi ALEInfoSign guifg=cyan
+      \| hi ALEWarningSign guifg=orange
       \| hi ALEVirtualTextError guibg=NONE guifg=red
       \| hi ALEVirtualTextInfo guibg=NONE guifg=cyan
       \| hi ALEVirtualTextWarning guibg=NONE guifg=yellow
@@ -560,10 +560,10 @@ autocmd ColorScheme * call TablineColors()
 " BufTabline {{{
 let g:buftabline_show = 1
 let g:buftabline_indicators = 1
-hi BufTabLineCurrent cterm=bold ctermbg=203 ctermfg=232 gui=bold guibg=#ff5f5f guifg=#080808
-hi BufTabLineActive  cterm=bold ctermbg=236 ctermfg=203 gui=bold guibg=#3a3a3a guifg=#ff5f5f
-hi BufTabLineHidden  cterm=bold ctermbg=236             gui=bold guibg=#3a3a3a guifg=#D5C4A1
-hi BufTabLineFill    cterm=bold ctermbg=236             gui=bold guibg=#3a3a3a guifg=#D5C4A1
+hi BufTabLineCurrent gui=bold guibg=#ff5f5f guifg=#080808
+hi BufTabLineActive  gui=bold guibg=#3a3a3a guifg=#ff5f5f
+hi BufTabLineHidden  gui=bold guibg=#3a3a3a guifg=#D5C4A1
+hi BufTabLineFill    gui=bold guibg=#3a3a3a guifg=#D5C4A1
 " }}}
 
 " CoC {{{
@@ -627,19 +627,21 @@ endfunction
 
 " Color Scheme {{{
 function! SanitizeColors()
-  hi CursorLine ctermbg=238 term=NONE cterm=NONE guibg=#444444
-  hi LineNr ctermbg=NONE guibg=NONE
+  hi CursorLine guibg=#444444
+  hi LineNr guibg=NONE
   hi MatchParen guibg=NONE
   hi Normal guibg=NONE
-  hi Pmenu ctermfg=15 ctermbg=236 guifg=#f8f6f2 guibg=#484A55
-  hi PmenuSbar ctermbg=236 guibg=#2B2C31
-  hi PmenuThumb ctermbg=236 guibg=grey
+  hi Pmenu guifg=#f8f6f2 guibg=#484A55
+  hi PmenuSbar guibg=#2B2C31
+  hi PmenuThumb guibg=grey
   hi SignColumn guibg=NONE
-  hi StatusLineNC cterm=bold ctermfg=15 ctermbg=238 gui=bold guifg=#d5c4a1 guibg=#3a3a3a
-  hi VertSplit ctermfg=237 ctermbg=237 guifg=#3a3a3a guibg=#3a3a3a
-  hi Visual ctermbg=238 guibg=#626262
+  hi StatusLineNC gui=bold guifg=gray guibg=#262626
+  hi VertSplit guifg=#3a3a3a guibg=#3a3a3a
+  hi Visual guibg=#626262
   hi! link ColorColumn CursorLine
-  hi! link NormalNC ColorColumn
+
+  hi VertSplit guibg=#262626 guifg=#262626
+  hi NormalNC guibg=#3a3a3a
 
   if g:colors_name == 'badwolf'
     hi DiffAdd guibg=#143800
@@ -745,9 +747,9 @@ nnoremap <silent> <Leader>av :AV<CR>
 "}}}
 
 " Signify {{{
-hi SignifySignAdd ctermfg=green ctermbg=NONE guifg=#9BB76D guibg=NONE
-hi SignifySignChange ctermfg=cyan ctermbg=NONE guifg=#00AFFF guibg=NONE
-hi SignifySignDelete ctermfg=red ctermbg=NONE guifg=#FF5F5F guibg=NONE
+hi SignifySignAdd    guifg=#9BB76D guibg=NONE
+hi SignifySignChange guifg=#00AFFF guibg=NONE
+hi SignifySignDelete guifg=#FF5F5F guibg=NONE
 
 let g:signify_sign_add               = '│'
 let g:signify_sign_delete            = '│'
