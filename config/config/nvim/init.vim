@@ -686,6 +686,10 @@ let g:lua_tree_show_icons = {
     \ 'folders': 1,
     \ 'files': 1,
     \ }
+let g:lua_tree_icons = {
+    \ 'default': '',
+    \ 'symlink': '',
+    \ }
 map <silent> <Leader>nf :LuaTreeFindFile<CR>
 map <silent> <Leader>nt :LuaTreeToggle<CR>
 nnoremap <silent> <C-n> :if &filetype != 'LuaTree' <Bar> execute 'BufferNext' <Bar> endif<CR>
