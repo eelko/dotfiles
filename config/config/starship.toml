@@ -1,0 +1,110 @@
+format = """
+$username\
+$hostname\
+$shlvl\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+$hg_branch\
+$kubernetes\
+$docker_context\
+$package\
+$cmake\
+$dart\
+$dotnet\
+$elixir\
+$elm\
+$erlang\
+$golang\
+$helm\
+$java\
+$julia\
+$nim\
+$nodejs\
+$ocaml\
+$perl\
+$php\
+$purescript\
+$python\
+$ruby\
+$rust\
+$swift\
+$terraform\
+$zig\
+$nix_shell\
+$conda\
+$memory_usage\
+$aws\
+$gcloud\
+$openstack\
+$env_var\
+$crystal\
+$cmd_duration\
+$custom\
+$line_break\
+$lua\
+$jobs\
+$battery\
+$time\
+$status\
+$character"""
+
+# COLORS
+# cyan         #74DCE9
+# green        #A8DE70
+# magenta      #FF5F87
+# orange       #FE9861
+# purple       #AB9BF5
+# yellow       #FFD95C
+# java_brown   #82664E
+# k8s_blue     #0087FF
+# node_green   #66CC33
+# ruby_red     #CB064D
+
+[directory]
+style = 'bold fg:#AB9BF5'
+
+[git_branch]
+format = 'on [$symbol$branch]($style)'
+style = 'bold fg:#FF5F87'
+
+[git_commit]
+style = 'bold fg:#FE9861'
+
+[git_state]
+style = 'bold fg:#FE9861'
+
+[git_status]
+format = '([$all_status$ahead_behind]($style)) '
+style = 'bold fg:#FE9861'
+
+[java]
+format = '[$symbol $version]($style) '
+style = 'bold fg:#82664E'
+symbol = ''
+
+[kubernetes]
+disabled = true
+format = '[☸ $context $namespace]($style)'
+style = 'bold fg:#0087FF'
+
+[nodejs]
+format = '[$symbol $version]($style) '
+style = 'bold fg:#66CC33'
+symbol = ''
+
+[python]
+format = '[$symbol $version]($style) '
+style = 'bold yellow'
+symbol = ''
+
+[ruby]
+format = '[$symbol $version]($style) '
+style = 'bold fg:#CB064D'
+symbol = ''
+
+[character]
+error_symbol = '[>](bold red)'
+success_symbol = '[>](bold green)'

@@ -8,8 +8,9 @@ config/config/nvim/*
 # but skip the folders themselves
 !config/config/
 !config/config/nvim/
-# so that we can skip nvim's config files
+# so that it's possible to version a few specific files
 !config/config/nvim/coc-settings.json
 !config/config/nvim/init.lua
 !config/config/nvim/init.vim
 !config/config/nvim/snippets/
+!config/config/starship.toml

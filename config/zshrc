@@ -3,5 +3,10 @@ export SHELL='/usr/local/bin/zsh'
 for f in $HOME/.dotfiles/shell/*; do source $f; done
 for f in $HOME/.dotfiles/zsh/*; do source $f; done
 
+# prompt
+eval "$(starship init zsh)"
+change_cursor_shape() { print -n -- "\e[4 q" }
+precmd_functions+=(change_cursor_shape)
+
 # unversioned sensitive/temporary configs
 [ -s "$HOME/.zshrc.local.zsh" ] && source "$HOME/.zshrc.local.zsh"
