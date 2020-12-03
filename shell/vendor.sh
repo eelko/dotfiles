@@ -15,7 +15,7 @@ eval $($dircolors -b $HOME/.LS_COLORS/LS_COLORS)
 [[ "${SHELL##*/}" == 'zsh' ]] && zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 
 # fnm
-eval "`fnm env --multi`"
+eval "`fnm env`"
 export LATEST_NODE_PATH="$HOME/.fnm/aliases/latest/bin/node"
 
 # rvm
