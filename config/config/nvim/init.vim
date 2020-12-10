@@ -678,17 +678,21 @@ autocmd FileType lisp setlocal commentstring=;;\ %s " fix lisp comment strings
 " }}}
 
 " File Explorer {{{
-let g:lua_tree_ignore = ['.git']
+let g:lua_tree_bindings = {
+    \ 'close_node':      ['<S-CR>', '<BS>', 'x'],
+    \ 'cut':             [],
+    \ }
 let g:lua_tree_follow = 1
+let g:lua_tree_icons = {
+    \ 'default': '',
+    \ 'symlink': '',
+    \ }
+let g:lua_tree_ignore = ['.git']
 let g:lua_tree_indent_markers = 1
 let g:lua_tree_show_icons = {
     \ 'git': 0,
     \ 'folders': 1,
     \ 'files': 1,
-    \ }
-let g:lua_tree_icons = {
-    \ 'default': '',
-    \ 'symlink': '',
     \ }
 map <silent> <Leader>nf :LuaTreeFindFile<CR>
 map <silent> <Leader>nt :LuaTreeToggle<CR>
