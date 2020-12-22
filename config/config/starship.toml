@@ -63,11 +63,20 @@ $character"""
 # node_green   #66CC33
 # ruby_red     #CB064D
 
+[aws]
+disabled = true
+format = '[$symbol $profile(\($region\))]($style) '
+symbol = ' '
+
+[character]
+error_symbol = '[>](bold red)'
+success_symbol = '[>](bold green)'
+
 [directory]
 style = 'bold fg:#AB9BF5'
 
 [git_branch]
-format = 'on [$symbol$branch]($style)'
+format = '[$symbol$branch]($style)'
 style = 'bold fg:#FF5F87'
 
 [git_commit]
@@ -104,7 +113,3 @@ symbol = ''
 format = '[$symbol $version]($style) '
 style = 'bold fg:#CB064D'
 symbol = ''
-
-[character]
-error_symbol = '[>](bold red)'
-success_symbol = '[>](bold green)'
