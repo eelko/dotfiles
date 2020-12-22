@@ -32,3 +32,16 @@
   default = nothing
 [pull]
   ff = only
+
+# Delta as Diff Viewer
+[core]
+  pager = delta
+  ; pager = delta --side-by-side --file-style 'bold yellow' --file-decoration-style 'yellow box'
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  file-style = bold yellow
+  file-decoration-style = yellow box
+  line-numbers = true
+  line-numbers-left-format = "{nm}⋮ "
+  line-numbers-right-format = "{np} │"
