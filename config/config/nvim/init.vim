@@ -316,8 +316,8 @@ Plug 'w0rp/ale', { 'on': [] }
 
 " Navigation
 Plug 'christoomey/vim-tmux-navigator', { 'on': ['TmuxNavigateLeft', 'TmuxNavigateRight', 'TmuxNavigateUp', 'TmuxNavigateDown'] }
-Plug 'junegunn/fzf', { 'on': [ 'FZF', 'BLines', 'Buffers', 'Commands', 'GFiles', 'Helptags', 'History' ], 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim', { 'on': [ 'BLines', 'Buffers', 'Commands', 'GFiles', 'Helptags', 'History' ] }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'tpope/vim-projectionist', { 'on': [] }
 
@@ -345,8 +345,6 @@ function! LoadPlugins()
   call plug#load(
         \ 'ale',
         \ 'coc.nvim',
-        \ 'fzf',
-        \ 'fzf.vim',
         \ 'indentLine',
         \ 'pear-tree',
         \ 'vim-projectionist',
