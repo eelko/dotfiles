@@ -14,3 +14,4 @@ config/config/nvim/*
 !config/config/nvim/init.vim
 !config/config/nvim/snippets/
 !config/config/starship.toml
+!config/config/efm-langserver
