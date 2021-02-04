@@ -418,13 +418,18 @@ let g:ale_lint_on_enter = 0
 let g:ale_lint_on_filetype_changed = 0
 let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_text_changed = 1
 let g:ale_linters_ignore = { 'javascript': ['tsserver'], 'javascript.jsx': ['tsserver'] }
 let g:ale_set_quickfix = 1
 let g:ale_sign_error = '●'
 let g:ale_sign_warning = '●'
-let g:ale_virtualtext_cursor = 1
+" let g:ale_virtualtext_cursor = 1
 let g:ale_virtualtext_prefix = '➜  '
+
+let g:ale_echo_cursor = 0
+let g:ale_floating_preview = 1
+let g:ale_hover_to_floating_preview = 1
+let g:ale_detail_to_floating_preview = 1
 
 nmap ]d <Plug>(ale_next)
 nmap [d <Plug>(ale_previous)
@@ -586,6 +591,9 @@ set hidden
 " always show signcolumns
 set signcolumn=yes
 
+" A shade of read that is easier on the eyes
+hi CocErrorFLoat guifg=#ff355e
+
 " Use K for show documentation in preview window
 nnoremap <silent> K :call <SID>ShowDocumentation()<CR>
 
@@ -606,6 +614,11 @@ nmap <silent> <leader>ct <Plug>(coc-type-definition)
 nmap <silent> <leader>ci <Plug>(coc-implementation)
 nmap <silent> <leader>cf <Plug>(coc-references)
 nmap <silent> <leader>cr <Plug>(coc-rename)
+
+" Use `[d` and `]d` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [d <Plug>(coc-diagnostic-prev)
+nmap <silent> ]d <Plug>(coc-diagnostic-next)
 
 " UltiSnips compatibility
 let g:coc_snippet_next = '<TAB>'
@@ -629,17 +642,18 @@ function! SanitizeColors()
   hi LineNr guibg=NONE
   hi MatchParen guibg=NONE
   hi Normal guibg=NONE
+  hi NormalFloat guibg=#121212
+  hi NormalNC guibg=#3a3a3a
   hi Pmenu guifg=#f8f6f2 guibg=#484A55
   hi PmenuSbar guibg=#2B2C31
   hi PmenuThumb guibg=grey
   hi SignColumn guibg=NONE
   hi StatusLineNC gui=bold guifg=gray guibg=#262626
+  hi VertSplit guibg=#262626 guifg=#262626
   hi VertSplit guifg=#3a3a3a guibg=#3a3a3a
   hi Visual guibg=#626262
   hi! link ColorColumn CursorLine
-
-  hi VertSplit guibg=#262626 guifg=#262626
-  hi NormalNC guibg=#3a3a3a
+  hi! link Pmenu NormalFloat
 
   if g:colors_name == 'badwolf'
     hi DiffAdd guibg=#143800
@@ -786,31 +800,9 @@ require'nvim-treesitter.configs'.setup {
 
   -- highlight = {enable = true, disable = {}},
 
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = "<CR>",
-      node_incremental = "<CR>",
-      node_decremental = "<TAB>",
-    },
-  },
-
-  playground = {
-    enable = true
-  },
-
   refactor = {
     highlight_definitions = {
       enable = true,
-    },
-    -- highlight_current_scope = {
-    --   enable = false
-    -- },
-    smart_rename = {
-      enable = true,
-      keymaps = {
-        smart_rename = "grr",
-      },
     },
     navigation = {
       enable = true,
@@ -834,15 +826,6 @@ require'nvim-treesitter.configs'.setup {
         ["ab"] = "@block.outer",
       },
     },
-    -- swap = {
-    --   enable = true,
-    --   swap_next = {
-    --     ["<leader>a"] = "@parameter.inner",
-    --   },
-    --   swap_previous = {
-    --     ["<leader>A"] = "@parameter.inner",
-    --   },
-    -- },
     move = {
       enable = true,
       goto_next_start = {
