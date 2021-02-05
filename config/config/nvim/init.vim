@@ -591,7 +591,7 @@ function! LintStatus() abort
     return ''
   endif
 
-  let info_count = info['information']
+  let info_count = info['hint'] + info['information']
   let warning_count = info['warning']
   let error_count = info['error']
   let total_count = info_count + warning_count + error_count
