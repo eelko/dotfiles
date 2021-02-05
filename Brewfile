@@ -8,6 +8,7 @@ brew "zsh"
 
 # linters
 brew "alexjs"
+brew "efm-langserver"
 brew "hadolint"
 brew "languagetool"
 brew "proselint"
