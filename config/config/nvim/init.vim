@@ -312,7 +312,6 @@ Plug 'nvim-treesitter/nvim-treesitter-refactor'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'nvim-treesitter/playground'
 Plug 'tmsvg/pear-tree'
-Plug 'w0rp/ale', { 'on': [] }
 
 " Navigation
 Plug 'christoomey/vim-tmux-navigator', { 'on': ['TmuxNavigateLeft', 'TmuxNavigateRight', 'TmuxNavigateUp', 'TmuxNavigateDown'] }
@@ -343,7 +342,6 @@ call plug#end()
 " Lazy Loading {{{
 function! LoadPlugins()
   call plug#load(
-        \ 'ale',
         \ 'coc.nvim',
         \ 'indentLine',
         \ 'pear-tree',
@@ -411,87 +409,6 @@ endfunction
 autocmd User MapActions call MapAction('GrepWithMotion', '<Leader>g')
 "}}}
 "}}}
-
-" Ale {{{
-let g:ale_echo_msg_format = '%linter%(%code%): %s [%severity%]'
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_filetype_changed = 0
-let g:ale_lint_on_insert_leave = 0
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 1
-let g:ale_linters_ignore = { 'javascript': ['tsserver'], 'javascript.jsx': ['tsserver'] }
-let g:ale_set_quickfix = 1
-let g:ale_sign_error = '●'
-let g:ale_sign_warning = '●'
-" let g:ale_virtualtext_cursor = 1
-let g:ale_virtualtext_prefix = '➜  '
-
-let g:ale_echo_cursor = 0
-let g:ale_floating_preview = 1
-let g:ale_hover_to_floating_preview = 1
-let g:ale_detail_to_floating_preview = 1
-
-nmap ]d <Plug>(ale_next)
-nmap [d <Plug>(ale_previous)
-
-autocmd ColorScheme * hi ALEErrorSign guifg=red
-      \| hi ALEInfoSign guifg=cyan
-      \| hi ALEWarningSign guifg=orange
-      \| hi ALEVirtualTextError guibg=NONE guifg=red
-      \| hi ALEVirtualTextInfo guibg=NONE guifg=cyan
-      \| hi ALEVirtualTextWarning guibg=NONE guifg=yellow
-      \| hi ALEWarning guifg=grey
-
-function! s:NumberToSuperscript(number) abort
-  if a:number > 9
-    return '⁹⁺'
-  endif
-  return {
-    \ 0: '⁰',
-    \ 1: '¹',
-    \ 2: '²',
-    \ 3: '³',
-    \ 4: '⁴',
-    \ 5: '⁵',
-    \ 6: '⁶',
-    \ 7: '⁷',
-    \ 8: '⁸',
-    \ 9: '⁹',
-    \ }[a:number]
-endfunction
-
-function! s:RenderLintSign(count, sign) abort
-  return a:count == 0 ? '' : printf('%s%s ', a:sign, s:NumberToSuperscript(a:count))
-endfunction
-
-function! LintStatus() abort
-  let ok_sign = '  '
-  let info_sign = ' '
-  let warning_sign = ' '
-  let error_sign = ' '
-
-  let info = get(b:, 'coc_diagnostic_info', {})
-
-  if empty(info)
-    return ''
-  endif
-
-  let info_count = info['information']
-  let warning_count = info['warning']
-  let error_count = info['error']
-  let total_count = info_count + warning_count + error_count
-
-  if total_count == 0
-    return ok_sign
-  elseif total_count > 0
-    return s:RenderLintSign(info_count, info_sign)
-       \ . s:RenderLintSign(warning_count, warning_sign)
-       \ . s:RenderLintSign(error_count, error_sign)
-  else
-    return ''
-  endif
-endfunction
-" }}}
 
 " barbar {{{
 let bufferline = {}
@@ -638,6 +555,56 @@ inoremap <silent><expr> <TAB>
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+function! s:NumberToSuperscript(number) abort
+  if a:number > 9
+    return '⁹⁺'
+  endif
+  return {
+    \ 0: '⁰',
+    \ 1: '¹',
+    \ 2: '²',
+    \ 3: '³',
+    \ 4: '⁴',
+    \ 5: '⁵',
+    \ 6: '⁶',
+    \ 7: '⁷',
+    \ 8: '⁸',
+    \ 9: '⁹',
+    \ }[a:number]
+endfunction
+
+function! s:RenderLintSign(count, sign) abort
+  return a:count == 0 ? '' : printf('%s%s ', a:sign, s:NumberToSuperscript(a:count))
+endfunction
+
+function! LintStatus() abort
+  let ok_sign = '  '
+  let info_sign = ' '
+  let warning_sign = ' '
+  let error_sign = ' '
+
+  let info = get(b:, 'coc_diagnostic_info', {})
+
+  if empty(info)
+    return ''
+  endif
+
+  let info_count = info['information']
+  let warning_count = info['warning']
+  let error_count = info['error']
+  let total_count = info_count + warning_count + error_count
+
+  if total_count == 0
+    return ok_sign
+  elseif total_count > 0
+    return s:RenderLintSign(info_count, info_sign)
+       \ . s:RenderLintSign(warning_count, warning_sign)
+       \ . s:RenderLintSign(error_count, error_sign)
+  else
+    return ''
+  endif
 endfunction
 "}}}
 
