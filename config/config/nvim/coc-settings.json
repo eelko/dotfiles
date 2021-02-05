@@ -1,5 +1,4 @@
 {
-  "coc.preferences.formatOnInsertLeave": true,
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
     "html",
@@ -14,6 +13,7 @@
   "coc.preferences.useQuickfixForLocations": true,
   "diagnostic.displayByAle": false,
   "diagnostic.errorSign": "●",
+  "diagnostic.hintSign": "●",
   "diagnostic.infoSign": "●",
   "diagnostic.warningSign": "●",
   "eslint.autoFixOnSave": true,
@@ -28,5 +28,12 @@
   "snippets.userSnippetsDirectory": "~/.config/nvim/snippets/",
   "suggest.noselect": false,
   "tsserver.npm": "~/.fnm/aliases/default/bin/npm",
-  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+  "languageserver": {
+    "efm": {
+      "command": "efm-langserver",
+      "args": [],
+      "filetypes": ["*"]
+    }
+  }
 }
