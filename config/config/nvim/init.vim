@@ -460,32 +460,37 @@ function! s:NumberToSuperscript(number) abort
     \ }[a:number]
 endfunction
 
+function! s:RenderLintSign(count, sign) abort
+  return a:count == 0 ? '' : printf('%s%s ', a:sign, s:NumberToSuperscript(a:count))
+endfunction
+
 function! LintStatus() abort
-  if get(b:, 'lint_started', v:false) == v:false
+  let ok_sign = '  '
+  let info_sign = ' '
+  let warning_sign = ' '
+  let error_sign = ' '
+
+  let info = get(b:, 'coc_diagnostic_info', {})
+
+  if empty(info)
     return ''
   endif
 
-  let l:counts = ale#statusline#Count(bufnr('%'))
-  let l:all_errors = l:counts.error + l:counts.style_error
-  let l:all_non_errors = l:counts.total - l:all_errors
+  let info_count = info['information']
+  let warning_count = info['warning']
+  let error_count = info['error']
+  let total_count = info_count + warning_count + error_count
 
-  if ale#engine#IsCheckingBuffer(bufnr('%'))
-    return '  '
-  elseif l:counts.total == 0
-    return '  '
-  elseif l:counts.total > 0
-    return printf(' %s  %s ', s:NumberToSuperscript(all_non_errors), s:NumberToSuperscript(all_errors))
+  if total_count == 0
+    return ok_sign
+  elseif total_count > 0
+    return s:RenderLintSign(info_count, info_sign)
+       \ . s:RenderLintSign(warning_count, warning_sign)
+       \ . s:RenderLintSign(error_count, error_sign)
   else
     return ''
   endif
 endfunction
-
-augroup LintProgress
-  autocmd!
-  autocmd User ALELintPre  let b:lint_started = v:true
-  autocmd User ALEFixPre   let b:lint_started = v:true
-augroup END
-
 " }}}
 
 " barbar {{{
