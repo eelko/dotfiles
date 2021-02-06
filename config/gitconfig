@@ -36,7 +36,7 @@
 # Delta as Diff Viewer
 [core]
   ; pager = delta
-  pager = delta --side-by-side --file-style 'bold yellow' --file-decoration-style 'yellow box'
+  pager = delta --side-by-side --file-style 'bold yellow' --file-decoration-style 'yellow box' --paging always
 [interactive]
   diffFilter = delta --color-only
 [delta]
