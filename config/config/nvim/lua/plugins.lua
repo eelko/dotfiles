@@ -104,6 +104,7 @@ opt('g', 'indentLine_char', '┊')
 -- Auto Pairs
 paq 'tmsvg/pear-tree'
 opt('g', 'pear_tree_repeatable_expand', false)
+opt('g', 'pear_tree_ft_disabled', {''}) -- Disable when no filetype: workaround for new coc input prompt
 
 -- Tmux Integration
 paq 'christoomey/vim-tmux-navigator'
@@ -155,7 +156,7 @@ autocmd User MapActions call MapAction('FindAndReplace', '<Leader>r')
 
 function! DebugLog(text, ...)
  let javascript_template = "console.log('==> %s:', %s);"
- let supported_languages = { 'java': 'System.out.println("==> %s: " + %s);', 'javascript': javascript_template, 'javascript.jsx': j→
+ let supported_languages = { 'java': 'System.out.println("==> %s: " + %s);', 'javascript': javascript_template, 'javascript.jsx': javascript_template, 'javascriptreact': javascript_template, 'python': "print('==> %s:', %s)", 'ruby': 'puts ("==> %s: #{%s}")', 'typescript': javascript_template, 'typescript.jsx': javascript_template, 'typescriptreact': javascript_template }
  let log_expression = get(supported_languages, &ft, '')
 
  if empty(log_expression)
@@ -250,300 +251,111 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
--- Auto Completion
-paq 'hrsh7th/nvim-compe'
-opt('o', 'completeopt', 'menu,menuone,noselect')
-
-require('compe').setup {
-  enabled = true;
-  autocomplete = true;
-  debug = false;
-  min_length = 1;
-  preselect = 'always';
-  throttle_time = 80;
-  source_timeout = 200;
-  incomplete_delay = 400;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
-
-  source = {
-    path = true;
-    buffer = true;
-    calc = true;
-    vsnip = true;
-    nvim_lsp = true;
-    nvim_lua = true;
-    spell = true;
-    tags = true;
-    snippets_nvim = true;
-    treesitter = true;
-  };
-}
-
-local t = function(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
--- Use (s-)tab to:
---- move to prev/next item in completion menuone
---- jump to prev/next snippet's placeholder
-_G.tab_complete = function()
-  if fn.pumvisible() == 1 then
-    return t '<CR>'
-  elseif fn.call('vsnip#available', {1}) == 1 then
-    return t '<Plug>(vsnip-expand-or-jump)'
-  else
-    return t '<Tab>'
-  end
-end
-_G.s_tab_complete = function()
-  if fn.pumvisible() == 1 then
-    return t '<C-p>'
-  elseif fn.call('vsnip#jumpable', {-1}) == 1 then
-    return t '<Plug>(vsnip-jump-prev)'
-  else
-    return t '<S-Tab>'
-  end
-end
-
-map('i', '<CR>', "compe#confirm('<CR>')", {expr = true, noremap = false})
-map('i', '<Tab>', "v:lua.tab_complete()", {expr = true, noremap = false})
-map('s', '<Tab>', "v:lua.tab_complete()", {expr = true, noremap = false})
-map('i', '<S-Tab>', "v:lua.s_tab_complete()", {expr = true, noremap = false})
-map('s', '<S-Tab>', "v:lua.s_tab_complete()", {expr = true, noremap = false})
-
--- Snippets
-paq 'hrsh7th/vim-vsnip'
-paq 'hrsh7th/vim-vsnip-integ'
-opt('g', 'vsnip_filetypes', {javascriptreact={'javascript'}, typescript={'javascript'}, typescriptreact={'javascript'}})
-opt('g', 'vsnip_snippet_dir', fn.stdpath('config') .. '/snippets')
-
--- LSP
+-- CoC
+paq 'neoclide/coc.nvim'
+paq 'antoinemadec/coc-fzf'
+-- options
+opt('g', 'coc_node_path', fn.expand("$LATEST_NODE_PATH"))
 opt('w', 'signcolumn', 'yes')
-
-paq 'neovim/nvim-lspconfig'
-local nvim_lsp = require('lspconfig')
-local on_attach = function(client)
-  print(client.name .. ' language server started' );
-
-  -- Options
-  opt('b', 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Diagnostics Signs
-  fn.sign_define('LspDiagnosticsSignError', { text='', texthl='LspDiagnosticsSignError', linehl='', numhl='' })
-  fn.sign_define('LspDiagnosticsSignWarning', { text='', texthl='LspDiagnosticsSignWarning', linehl='', numhl='' })
-  fn.sign_define('LspDiagnosticsSignInformation', { text='', texthl='LspDiagnosticsSignInformation', linehl='', numhl='' })
-  fn.sign_define('LspDiagnosticsSignHint', { text='', texthl='LspDiagnosticsSignHint', linehl='', numhl='' })
-
-  -- Mappings
-  map('n', '<C-k>', ':lua vim.lsp.buf.signature_help()<CR>')
-  map('n', '<leader>ca', ':lua vim.lsp.buf.code_action()<CR>')
-  map('v', '<leader>ca', ':lua vim.lsp.buf.range_code_action()<CR>')
-  map('n', '<leader>cd', ':lua vim.lsp.buf.definition()<CR>')
-  map('n', '<leader>cf', ':lua vim.lsp.buf.references()<CR>')
-  map('n', '<leader>ci', ':lua vim.lsp.buf.implementation()<CR>')
-  map('n', '<leader>cr', ':lua vim.lsp.buf.rename()<CR>')
-  map('n', '<leader>cs', ':lua vim.lsp.buf.workspace_symbol()<CR>')
-  map('n', '<leader>ct', ':lua vim.lsp.buf.type_definition()<CR>')
-  map('n', '<leader>e', ':lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
-  map('n', 'K', ':lua vim.lsp.buf.hover()<CR>')
-  map('n', '[d', ':lua vim.lsp.diagnostic.goto_prev()<CR>')
-  map('n', ']d', ':lua vim.lsp.diagnostic.goto_next()<CR>')
-  -- map('n', '<space>cl', ':lua vim.lsp.diagnostic.set_loclist()<CR>')
-
-  -- Set autocommands conditional on server_capabilities
-  if client.resolved_capabilities.document_highlight then
-    exec([[
-      hi LspReferenceRead guibg=#002A3A
-      hi LspReferenceText guibg=#002A3A
-      hi LspReferenceWrite guibg=#002A3A
-      augroup lsp_document_highlight
-        autocmd!
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-    ]], false)
-  end
-
-  if client.resolved_capabilities.document_formatting then
-    -- cmd 'autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()' -- FIXME doesn't work
-    -- cmd 'autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting()' -- FIXME causes cursor to jump to beginning of file
-  end
-end
-
--- Enable LSP snippet support
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
--- Use a loop to conveniently both setup defined servers
--- and map buffer local keybindings when the language server attaches
-local servers = {
-  'bashls',
-  'cssls',
-  'dockerls',
-  'html',
-  'jsonls',
-  'pyls',
-  'tsserver'
-}
-
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-    on_attach = on_attach,
-    capabilities = capabilities
-  }
-end
-
---[[ paq 'tsuyoshicho/vim-efm-langserver-settings'
--- FIXME this requires less configuration than diagnosticls gut it's very unstable:
---- it makes lighbulb fire all the time
---- disabling code actions takes no effect
---- auto formatting stops working
-nvim_lsp.efm.setup {
-  initializationOptions = {
-    codeAction = false,
-  },
-} ]]
-
--- TODO replace all this with efm once it's more stable
-nvim_lsp.diagnosticls.setup {
-  on_attach=custom_attach,
-  filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'css', 'scss', 'markdown', 'sh' },
-  init_options = {
-    linters = {
-      eslint = {
-        command = 'eslint',
-        rootPatterns = { '.git' },
-        debounce = 100,
-        args = { '--stdin', '--stdin-filename', '%filepath', '--format', 'json' },
-        sourceName = 'eslint',
-        parseJson = {
-          errorsRoot = '[0].messages',
-          line = 'line',
-          column = 'column',
-          endLine = 'endLine',
-          endColumn = 'endColumn',
-          message = '[eslint] ${message} [${ruleId}]',
-          security = 'severity'
-        },
-        securities = {
-          [2] = 'error',
-          [1] = 'warning'
-        }
-      },
-      markdownlint = {
-        command = 'markdownlint',
-        rootPatterns = { '.git' },
-        isStderr = true,
-        debounce = 100,
-        args = { '--stdin' },
-        offsetLine = 0,
-        offsetColumn = 0,
-        sourceName = 'markdownlint',
-        securities = {
-          undefined = 'hint'
-        },
-        formatLines = 1,
-        formatPattern = {
-          '^.*:(\\d+)\\s+(.*)$',
-          {
-            line = 1,
-            column = -1,
-            message = 2,
-          }
-        }
-      }
-    },
-    filetypes = {
-      javascript = 'eslint',
-      javascriptreact = 'eslint',
-      typescript = 'eslint',
-      typescriptreact = 'eslint',
-      markdown = 'markdownlint',
-      pandoc = 'markdownlint'
-    },
-    formatters = {
-      prettierEslint = {
-        command = 'prettier-eslint',
-        rootPatterns = { '.git' },
-        args = { '%filepath' },
-      },
-      prettier = {
-        command = 'prettier',
-        rootPatterns = { '.git' },
-        args = { '--stdin-filepath', '%filename' }
-      }
-    },
-    formatFiletypes = {
-       css = 'prettier',
-       javascript = 'prettierEslint',
-       javascriptreact = 'prettierEslint',
-       json = 'prettier',
-       scss = 'prettier',
-       typescript = 'prettierEslint',
-       typescriptreact = 'prettierEslint'
-    }
-  }
-}
-
--- LSP statusline integration
-local function number_to_superscript(number)
-  if number > 9 then
-    return '⁹⁺'
-  end
-  superscript_map = { '⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹' }
-  return superscript_map[number+1]
-end
-
-local function render_sign(count, sign)
-  if count == 0 then
-    return ''
-  else
-    return string.format('%s%s ', sign, number_to_superscript(count))
-  end
-end
-
-function diagnostics_status()
-  if vim.tbl_isempty(vim.lsp.buf_get_clients(0)) then
-    -- No LSP client running
-    return ''
-  end
-
-  local error_count = vim.lsp.diagnostic.get_count(0, 'Error')
-  local warning_count = vim.lsp.diagnostic.get_count(0, 'Warning')
-  local info_count = vim.lsp.diagnostic.get_count(0, 'Information') + vim.lsp.diagnostic.get_count(0, 'Hint')
-  local total_count = error_count + warning_count + info_count
-
-  local ok_sign = '  '
-  local info_sign = ' '
-  local warning_sign = ' '
-  local error_sign = ' '
-
-  if total_count > 0 then
-    return render_sign(info_count, info_sign)
-        .. render_sign(warning_count, warning_sign)
-        .. render_sign(error_count, error_sign)
-  else
-    return ok_sign
-  end
-end
+-- mappings
+map('n', 'K', ':call ShowDocumentation()<CR>')
+map('i', '<C-n>', 'coc#refresh()', {expr = true}) -- Use <C-n> to trigger completion menu
 
 exec([[
-  function! DiagnosticsStatus()
-    return luaeval('diagnostics_status()')
+  " Echo method signatures
+  function! ShowCodeSignature()
+    if exists('*CocActionAsync') && &ft =~ '\(java\|type\)script\(react\)\?'
+      call CocActionAsync('showSignatureHelp')
+    endif
+  endfunction
+
+  augroup ShowCodeSignature
+    autocmd!
+    autocmd User CocJumpPlaceholder call ShowCodeSignature()
+    autocmd CursorHoldI * call ShowCodeSignature()
+  augroup END
+
+  " A shade of red that is easier on the eyes
+  hi CocErrorFLoat guifg=#FF7276
+
+  function! ShowDocumentation()
+    if &filetype == 'vim'
+      execute 'h '.expand('<cword>')
+    else
+      call CocAction('doHover')
+    endif
+  endfunction
+
+  " Go-to mappings
+  nmap <silent> <leader>cd <Plug>(coc-definition)
+  nmap <silent> <leader>ct <Plug>(coc-type-definition)
+  nmap <silent> <leader>ci <Plug>(coc-implementation)
+  nmap <silent> <leader>cf <Plug>(coc-references)
+  nmap <silent> <leader>cr <Plug>(coc-rename)
+
+  " Applying codeAction to the selected region
+  " Example: `<leader>caap` for current paragraph
+  xmap <silent> <leader>ca  <Plug>(coc-codeaction-selected)
+  nmap <silent> <leader>ca  <Plug>(coc-codeaction-selected)
+
+  " Applying codeAction to the current buffer
+  nmap <silent> <leader>caa  <Plug>(coc-codeaction)
+
+  " CocFzfList mappings
+  nmap <silent> <leader>cc :CocFzfList commands<CR>
+  nmap <silent> <leader>co :CocFzfList outline<CR>
+  nmap <silent> <leader>cs :CocFzfList symbols<CR>
+
+  " Use `[d` and `]d` to navigate diagnostics
+  " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+  nmap <silent> [d <Plug>(coc-diagnostic-prev)
+  nmap <silent> ]d <Plug>(coc-diagnostic-next)
+
+  " UltiSnips compatibility
+  let g:coc_snippet_next = '<TAB>'
+  let g:coc_snippet_prev = '<S-TAB>'
+
+  inoremap <silent><expr> <TAB> pumvisible() ? coc#_select_confirm() : coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" : CheckBackSpace() ? "\<TAB>" : coc#refresh()
+
+  function! CheckBackSpace() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
+
+  function! NumberToSuperscript(number) abort
+    if a:number > 9
+      return '⁹⁺'
+    endif
+    return { 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹', }[a:number]
+  endfunction
+
+  function! RenderLintSign(count, sign) abort
+    return a:count == 0 ? '' : printf('%s%s ', a:sign, NumberToSuperscript(a:count))
+  endfunction
+
+  function! DiagnosticsStatus() abort
+    let ok_sign = '  '
+    let info_sign = ' '
+    let warning_sign = ' '
+    let error_sign = ' '
+
+    let info = get(b:, 'coc_diagnostic_info', {})
+
+    if empty(info)
+      return ''
+    endif
+
+    let info_count = info['hint'] + info['information']
+    let warning_count = info['warning']
+    let error_count = info['error']
+    let total_count = info_count + warning_count + error_count
+
+    if total_count == 0
+      return ok_sign
+    elseif total_count > 0
+      return RenderLintSign(info_count, info_sign) . RenderLintSign(warning_count, warning_sign) . RenderLintSign(error_count, error_sign)
+    else
+      return ''
+    endif
   endfunction
 ]], false)
-
--- Light bulb sign for LSP code actions
-paq 'kosayoda/nvim-lightbulb'
-cmd 'autocmd CursorHold,CursorHoldI * lua require("nvim-lightbulb").update_lightbulb()'
-fn.sign_define("LightBulbSign", { text='', texthl='CursorLineNr', linehl='', numhl='' })
-
--- TODO
--- paq 'gfanto/fzf-lsp.nvim'
--- require('fzf_lsp').setup()
-
--- TODO
--- paq 'ojroques/nvim-lspfuzzy'
--- require('lspfuzzy').setup {}

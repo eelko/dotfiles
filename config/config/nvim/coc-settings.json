@@ -1,0 +1,68 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "html",
+    "java",
+    "javascript",
+    "json",
+    "jsonc",
+    "markdown",
+    "typescript",
+    "typescriptreact"
+  ],
+  "coc.preferences.formatOnType": true,
+  "coc.preferences.useQuickfixForLocations": true,
+  "diagnostic.errorSign": "",
+  "diagnostic.hintSign": "",
+  "diagnostic.infoSign": "",
+  "diagnostic.warningSign": "",
+  "eslint.autoFixOnSave": true,
+  "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+  "python.jediEnabled": false,
+  "snippets.extends": {
+    "javascript": ["typescript"],
+    "typescript": ["javascript"],
+    "javascriptreact": ["javascript"],
+    "typescriptreact": ["typescript"]
+  },
+  "snippets.userSnippetsDirectory": "~/.config/nvim/snippets/",
+  "snippets.textmateSnippetsRoots": ["~/.config/nvim/snippets/"],
+  "suggest.noselect": false,
+  "suggest.completionItemKindLabels": {
+    "class": "",
+    "color": "",
+    "constant": "",
+    "constructor": "襁",
+    "default": "",
+    "enum": "",
+    "enumMember": "",
+    "event": "鬒",
+    "field": "料",
+    "file": "",
+    "folder": "",
+    "function": "ƒ",
+    "interface": "",
+    "keyword": "綠",
+    "method": "",
+    "module": "",
+    "operator": "Ψ",
+    "property": "",
+    "reference": "渚",
+    "snippet": "",
+    "struct": "פּ",
+    "text": "",
+    "typeParameter": "",
+    "unit": "",
+    "value": "",
+    "variable": ""
+  },
+  "tsserver.npm": "~/.fnm/aliases/default/bin/npm",
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+  "languageserver": {
+    "efm": {
+      "command": "efm-langserver",
+      "args": [],
+      "filetypes": ["*"]
+    }
+  }
+}

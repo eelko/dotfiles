@@ -10,6 +10,7 @@ config/config/nvim/*
 !config/config/nvim/
 # so that it's possible to version a few specific files
 !config/config/efm-langserver
+!config/config/nvim/coc-settings.json
 !config/config/nvim/init.vim
 !config/config/nvim/lua/
 !config/config/nvim/snippets/
