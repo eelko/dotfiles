@@ -334,28 +334,27 @@ exec([[
   endfunction
 
   function! DiagnosticsStatus() abort
-    let ok_sign = '  '
-    let info_sign = ' '
-    let warning_sign = ' '
-    let error_sign = ' '
+    let diagnostics = get(b:, 'coc_diagnostic_info', {})
+    if empty(diagnostics) | return '' | endif
+    let msgs = []
 
-    let info = get(b:, 'coc_diagnostic_info', {})
-
-    if empty(info)
-      return ''
+    let info_and_hints = get(diagnostics, 'hint', 0) + get(diagnostics, 'information', 0)
+    if info_and_hints
+      call add(msgs, RenderLintSign(info_and_hints, '%#StatusLineDiagnosticsHintSign# '))
     endif
 
-    let info_count = info['hint'] + info['information']
-    let warning_count = info['warning']
-    let error_count = info['error']
-    let total_count = info_count + warning_count + error_count
-
-    if total_count == 0
-      return ok_sign
-    elseif total_count > 0
-      return RenderLintSign(info_count, info_sign) . RenderLintSign(warning_count, warning_sign) . RenderLintSign(error_count, error_sign)
-    else
-      return ''
+    if get(diagnostics, 'warning', 0)
+      call add(msgs, RenderLintSign(diagnostics['warning'], '%#StatusLineDiagnosticsWarnSign# '))
     endif
+
+    if get(diagnostics, 'error', 0)
+      call add(msgs, RenderLintSign(diagnostics['error'], '%#StatusLineDiagnosticsErrorSign# '))
+    endif
+
+    if empty(msgs)
+      call add(msgs, '%#StatusLineDiagnosticsClearSign#  ')
+    endif
+
+    return join(msgs, '')
   endfunction
 ]], false)

@@ -209,10 +209,6 @@ hi StatusLineVisual  gui=bold guifg=#3a3a3a guibg=#ff8700
 hi StatusLineReplace gui=bold guifg=#ffafaf guibg=#870000
 hi StatusLineCommand gui=bold guifg=#ffd7ff guibg=#5f005f
 
-function! DiagnosticsStatusPlaceholder()
-  return exists("*DiagnosticsStatus()") ? DiagnosticsStatus() : ''
-endfunction
-
 function! StatusLineRenderer()
   let mode_colors = {
         \ 'n':  'StatusLineNormal',
@@ -229,7 +225,7 @@ function! StatusLineRenderer()
   return hl
         \ . '%<'
         \ . '%f'
-        \ . ' %{DiagnosticsStatusPlaceholder()}'
+        \ . ' %{exists("*DiagnosticsStatus()") ? DiagnosticsStatus() : ""}'
         \ . '%{&ft=="help"?"\ \ ":""}'
         \ . '%{&modified?"":""}'
         \ . '%{&readonly?"":""}'
