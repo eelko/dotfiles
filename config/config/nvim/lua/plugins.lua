@@ -375,54 +375,5 @@ exec([[
   endfunction
 ]], false)
 
-paq 'hoob3rt/lualine.nvim'
-local lualine = require('lualine')
-lualine.theme = 'gruvbox'
-lualine.separator = '|'
-lualine.sections = {
-  lualine_a = { 'mode' },
-  lualine_b = {
-    function()
-      return [[%f%{&ft=="help"?"   ":""}%#StatusLineModSign#%{&mod?" ":""}%#lualine_b_normal#%{&ro?"":""}]]
-    end
-  },
-  lualine_c = {
-    function()
-      return vim.api.nvim_call_function("DiagnosticsStatus", {})
-    end
-  },
-  lualine_x = {  },
-  lualine_y = { 'progress' },
-  lualine_z = { 'location'  },
-}
-lualine.inactive_sections = {
-  lualine_a = {  },
-  lualine_b = {  },
-  lualine_c = { 'filename' },
-  lualine_x = { 'location' },
-  lualine_y = {  },
-  lualine_z = {   }
-}
-lualine.extensions = { 'fzf' }
-lualine.status()
-exec([[
-function! StatusLineColorTweaks() abort
-  hi! lualine_c_normal guibg=#504945
-
-  hi! link lualine_c_command lualine_c_normal
-  hi! link lualine_c_insert  lualine_c_normal
-  hi! link lualine_c_replace lualine_c_normal
-  hi! link lualine_c_visual  lualine_c_normal
-
-  hi! link CocInfoSign CocHintSign
-
-  hi! StatusLineDiagnosticsHintSign  guifg=#15aabf guibg=#504945
-  hi! StatusLineDiagnosticsWarnSign  guifg=#ff922b guibg=#504945
-  hi! StatusLineDiagnosticsErrorSign guifg=#ff0000 guibg=#504945
-  hi! StatusLineDiagnosticsClearSign guifg=#aeee00 guibg=#504945
-
-  hi! StatusLineModSign gui=bold guifg=#ff9eb8 guibg=#504945
-endfunction
-
-autocmd VimEnter * call StatusLineColorTweaks()
-]], false)
+-- Status Line
+paq { 'glepnir/galaxyline.nvim', branch = 'main' }
