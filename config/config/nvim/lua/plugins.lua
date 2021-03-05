@@ -117,7 +117,7 @@ map('n', '<m-l>', ':TmuxNavigateRight<CR>')
 -- File Explorer
 paq 'kyazdani42/nvim-web-devicons'
 paq 'kyazdani42/nvim-tree.lua'
-opt('g', 'nvim_tree_bindings', { close_node={'x'} })
+opt('g', 'nvim_tree_bindings', { close_node={'x'}, cut={} })
 opt('g', 'nvim_tree_follow', 1)
 opt('g', 'nvim_tree_git_hl', 0)
 opt('g', 'nvim_tree_icons', { default='', symlink='' })
