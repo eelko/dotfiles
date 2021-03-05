@@ -78,7 +78,7 @@ exec([[
 
 -- Language Pack
 paq 'sheerun/vim-polyglot'
-opt('g', 'vim_markdown_conceal', true)
+opt('g', 'vim_markdown_conceal', false)
 opt('g', 'vim_markdown_conceal_code_blocks', false)
 
 -- Git Gutter
