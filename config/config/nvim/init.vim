@@ -234,14 +234,14 @@ function! StatusLineRenderer()
         \ .' %P'
 endfunction
 
-augroup StatusLine
-  autocmd!
-  autocmd VimEnter,WinEnter *
-        \ setlocal statusline& |
-        \ setlocal statusline=%!StatusLineRenderer()
-  autocmd VimLeave,WinLeave *
-        \ setlocal statusline&
-augroup END
+" augroup StatusLine
+"   autocmd!
+"   autocmd VimEnter,WinEnter,BufEnter *
+"         \ setlocal statusline& |
+"         \ setlocal statusline=%!StatusLineRenderer()
+"   autocmd VimLeave,WinLeave,BufLeave *
+"         \ setlocal statusline&
+" augroup END
 
 " --- PLUGINS ---
 
