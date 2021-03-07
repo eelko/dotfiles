@@ -69,6 +69,17 @@ autocmd ColorScheme * call SanitizeColors()
 paq 'ap/vim-buftabline'
 opt('g', 'buftabline_show', true)
 opt('g', 'buftabline_indicators', true)
+opt('g', 'buftabline_numbers', 2)
+map('n', '<leader>1', '<Plug>BufTabLine.Go(1)', {noremap = false})
+map('n', '<leader>2', '<Plug>BufTabLine.Go(2)', {noremap = false})
+map('n', '<leader>3', '<Plug>BufTabLine.Go(3)', {noremap = false})
+map('n', '<leader>4', '<Plug>BufTabLine.Go(4)', {noremap = false})
+map('n', '<leader>5', '<Plug>BufTabLine.Go(5)', {noremap = false})
+map('n', '<leader>6', '<Plug>BufTabLine.Go(6)', {noremap = false})
+map('n', '<leader>7', '<Plug>BufTabLine.Go(7)', {noremap = false})
+map('n', '<leader>8', '<Plug>BufTabLine.Go(8)', {noremap = false})
+map('n', '<leader>9', '<Plug>BufTabLine.Go(9)', {noremap = false})
+map('n', '<leader>0', '<Plug>BufTabLine.Go(10)', {noremap = false})
 exec([[
   hi BufTabLineCurrent gui=bold guibg=#ff5f5f guifg=#080808
   hi BufTabLineActive  gui=bold guibg=#3a3a3a guifg=#ff5f5f
