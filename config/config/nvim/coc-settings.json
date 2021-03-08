@@ -18,6 +18,7 @@
   "diagnostic.warningSign": "",
   "eslint.autoFixOnSave": true,
   "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+  "Lua.diagnostics.globals": ["vim"],
   "python.jediEnabled": false,
   "snippets.extends": {
     "javascript": ["typescript"],
