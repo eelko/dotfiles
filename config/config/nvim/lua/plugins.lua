@@ -152,6 +152,8 @@ paq 'itchyny/vim-qfedit' -- Turn quickfix buffer editable
 paq 'tpope/vim-rsi' -- Readline keymaps for command bar
 paq 'tpope/vim-surround'
 
+paq { 'iamcco/markdown-preview.nvim', run = vim.fn['mkdp#util#install'] } -- Markdown previewer
+
 paq 'tpope/vim-projectionist'
 map('n', '<leader>aa', ':A<CR>')
 map('n', '<leader>as', ':AS<CR>')
