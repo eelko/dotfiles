@@ -8,7 +8,7 @@ export LESS='-R'
 export PATH="$HOME/.bin:$PATH"
 
 if [[ $(uname) = 'Darwin' ]]; then
-  export PATH="/usr/local/bin:$PATH"
+  export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 fi
 
 # aliases
