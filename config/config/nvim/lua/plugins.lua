@@ -154,6 +154,9 @@ paq 'tpope/vim-surround'
 
 paq { 'iamcco/markdown-preview.nvim', run = vim.fn['mkdp#util#install'] } -- Markdown previewer
 
+paq { 'kkoomen/vim-doge', run = vim.fn['doge#install'] } -- Documentation Generator
+opt('g', 'doge_enable_mappings', 0)
+
 paq 'tpope/vim-projectionist'
 map('n', '<leader>aa', ':A<CR>')
 map('n', '<leader>as', ':AS<CR>')
