@@ -1,4 +1,5 @@
 {
+  "Lua.diagnostics.globals": ["vim"],
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
     "html",
@@ -18,17 +19,23 @@
   "diagnostic.warningSign": "",
   "eslint.autoFixOnSave": true,
   "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
-  "Lua.diagnostics.globals": ["vim"],
+  "languageserver": {
+    "efm": {
+      "args": [],
+      "command": "efm-langserver",
+      "filetypes": ["*"]
+    }
+  },
+  "prettier.singleQuote": true,
   "python.jediEnabled": false,
   "snippets.extends": {
     "javascript": ["typescript"],
-    "typescript": ["javascript"],
     "javascriptreact": ["javascript"],
+    "typescript": ["javascript"],
     "typescriptreact": ["typescript"]
   },
-  "snippets.userSnippetsDirectory": "~/.config/nvim/snippets/",
   "snippets.textmateSnippetsRoots": ["~/.config/nvim/snippets/"],
-  "suggest.noselect": false,
+  "snippets.userSnippetsDirectory": "~/.config/nvim/snippets/",
   "suggest.completionItemKindLabels": {
     "class": "",
     "color": "",
@@ -57,13 +64,7 @@
     "value": "",
     "variable": ""
   },
+  "suggest.noselect": false,
   "tsserver.npm": "~/.fnm/aliases/default/bin/npm",
-  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
-  "languageserver": {
-    "efm": {
-      "command": "efm-langserver",
-      "args": [],
-      "filetypes": ["*"]
-    }
-  }
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true
 }
