@@ -23,8 +23,7 @@ export LATEST_NODE_PATH="$HOME/.fnm/aliases/latest/bin/node"
 
 # sdkman
 sdkman_init() {
-  init_script="$HOME/.sdkman/bin/sdkman-init.sh"
-  [[ -s "$init_script" ]] && source "$init_script" || echo "$init_script is not a script."
+  source_if_exists "$HOME/.sdkman/bin/sdkman-init.sh"
 }
 
 # Full Python 3 support
