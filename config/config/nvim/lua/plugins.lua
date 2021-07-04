@@ -130,9 +130,9 @@ paq 'kyazdani42/nvim-web-devicons'
 paq 'kyazdani42/nvim-tree.lua'
 local tree_cb = require('nvim-tree.config').nvim_tree_callback
 opt('g', 'nvim_tree_bindings', {
-  ['C'] = tree_cb('cd'),
-  ['u'] = tree_cb('dir_up'),
-  ['x'] = tree_cb('close_node'),
+  { key = 'C', cb = tree_cb('cd') },
+  { key = 'u', cb = tree_cb('dir_up') },
+  { key = 'x', cb = tree_cb('close_node') },
 })
 opt('g', 'nvim_tree_follow', 1)
 opt('g', 'nvim_tree_git_hl', 0)
