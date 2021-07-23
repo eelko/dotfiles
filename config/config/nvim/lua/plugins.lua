@@ -140,7 +140,7 @@ opt('g', 'nvim_tree_icons', { default='', symlink='' })
 opt('g', 'nvim_tree_ignore', { '.git' })
 opt('g', 'nvim_tree_indent_markers', 1)
 opt('g', 'nvim_tree_show_icons', { git=0, folders=1, files=1 })
-opt('g', 'nvim_tree_width_allow_resize', 1)
+opt('g', 'nvim_tree_auto_resize', 0)
 map('n', '<leader>nf', ':NvimTreeFindFile<CR>')
 map('n', '<leader>nt', ':NvimTreeToggle<CR>')
 
