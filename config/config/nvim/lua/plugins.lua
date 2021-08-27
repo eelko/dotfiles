@@ -151,6 +151,7 @@ paq 'tpope/vim-commentary'
 paq 'itchyny/vim-qfedit' -- Turn quickfix buffer editable
 paq 'tpope/vim-rsi' -- Readline keymaps for command bar
 paq 'tpope/vim-surround'
+paq 'tpope/vim-repeat'
 
 paq { 'iamcco/markdown-preview.nvim', run = vim.fn['mkdp#util#install'] } -- Markdown previewer
 
