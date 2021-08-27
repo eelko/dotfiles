@@ -6,7 +6,7 @@ local gls = gl.section
 gl.short_line_list = { 'NvimTree' }
 
 -- Colors
-local colors = {
+local dark_theme = {
   bg = 'black',
   inactive_bg = '#262626',
   blue = '#8be9fd',
@@ -19,6 +19,22 @@ local colors = {
   section_bg = '#38393f',
   yellow = '#f1fa8c',
 }
+
+local light_theme = {
+  bg = '#d5c4a1',
+  inactive_bg = '#262626',
+  blue = '#037f9a',
+  cyan = '#037f9a',
+  fg = '#3a3a3a',
+  green = '#035c19',
+  magenta = '#9b0058',
+  orange = '#9d5300',
+  red = '#900000',
+  section_bg = '#6f717d',
+  yellow = '#f1fa8c',
+}
+
+local colors = light_theme
 
 -- Local helper functions
 local has_width_gt = function(cols)
