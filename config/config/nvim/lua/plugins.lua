@@ -283,7 +283,7 @@ require'nvim-treesitter.configs'.setup {
 }
 
 -- CoC
-paq 'neoclide/coc.nvim'
+paq { 'neoclide/coc.nvim', branch = 'release' }
 paq 'antoinemadec/coc-fzf'
 -- options
 opt('g', 'coc_node_path', fn.expand("$LATEST_NODE_PATH"))
