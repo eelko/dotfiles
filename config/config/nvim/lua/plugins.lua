@@ -274,6 +274,14 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
+-- Treesitter Extras
+paq 'JoosepAlviste/nvim-ts-context-commentstring'
+require'nvim-treesitter.configs'.setup {
+  context_commentstring = {
+    enable = true,
+  }
+}
+
 -- CoC
 paq 'neoclide/coc.nvim'
 paq 'antoinemadec/coc-fzf'
