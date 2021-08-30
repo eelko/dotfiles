@@ -246,9 +246,7 @@ endfunction
 " --- PLUGINS ---
 
 lua require('plugins')
-lua require('obxhdx')
-" lua require('richin13')
-" lua require('mnabila')
+lua require('statusline')
 
 " --- TEMPORARY CONFIGS ---
 

@@ -13,22 +13,24 @@ local function opt(scope, key, value)
   scopes[scope][key] = value
 end
 
+-- Bootstrap package manager
 local install_path = fn.stdpath('data')..'/site/pack/packer/opt/paq-nvim'
 
 if fn.empty(fn.glob(install_path)) > 0 then
   cmd('!git clone https://github.com/savq/paq-nvim.git '..install_path)
-  cmd 'packadd paq-nvim'
 end
 
 cmd 'packadd paq-nvim'
+
 local paq = require('paq-nvim').paq
 paq { 'savq/paq-nvim', opt = true } -- Let Paq manage itself
 
 -- Colors
-paq 'sjl/badwolf'
+paq { 'sjl/badwolf' }
 cmd 'colorscheme badwolf'
 exec([[
 function! SanitizeColors()
+  hi Conceal guifg=gray
   hi CursorLine guibg=#444444
   hi LineNr guibg=NONE
   hi MatchParen guibg=NONE
@@ -65,8 +67,8 @@ endf
 autocmd ColorScheme * call SanitizeColors()
 ]], false)
 
--- Tabs
-paq 'ap/vim-buftabline'
+-- Tabline aesthetics
+paq { 'ap/vim-buftabline' }
 opt('g', 'buftabline_show', true)
 opt('g', 'buftabline_indicators', true)
 opt('g', 'buftabline_numbers', 2)
@@ -87,13 +89,13 @@ exec([[
   hi BufTabLineFill    gui=bold guibg=#3a3a3a guifg=#D5C4A1
 ]], false)
 
--- Language Pack
-paq 'sheerun/vim-polyglot'
+-- Language pack
+paq { 'sheerun/vim-polyglot' }
 opt('g', 'vim_markdown_conceal', false)
 opt('g', 'vim_markdown_conceal_code_blocks', false)
 
--- Git Gutter
-paq 'mhinz/vim-signify'
+-- Git sings on gutter
+paq { 'mhinz/vim-signify' }
 opt('g', 'signify_sign_show_count', false)
 opt('g', 'signify_priority', 5)
 opt('g', 'signify_sign_add', '│')
@@ -107,33 +109,35 @@ exec([[
   hi SignifySignDelete guifg=#FF5F5F guibg=NONE
 ]], false)
 
--- Indentation Guides
-paq 'yggdroot/indentLine'
+-- Indentation guides
+paq { 'yggdroot/indentLine' }
 opt('g', 'indentLine_faster', 1)
 opt('g', 'indentLine_char', '┊')
 
--- Auto Pairs
-paq 'tmsvg/pear-tree'
+-- Auto pairs
+paq { 'tmsvg/pear-tree' }
 opt('g', 'pear_tree_repeatable_expand', false)
 opt('g', 'pear_tree_ft_disabled', {''}) -- Disable when no filetype: workaround for new coc input prompt
 
--- Tmux Integration
-paq 'christoomey/vim-tmux-navigator'
+-- Tmux integration
+paq { 'christoomey/vim-tmux-navigator' }
 opt('g', 'tmux_navigator_no_mappings', true)
 map('n', '<m-h>', ':TmuxNavigateLeft<CR>')
 map('n', '<m-j>', ':TmuxNavigateDown<CR>')
 map('n', '<m-k>', ':TmuxNavigateUp<CR>')
 map('n', '<m-l>', ':TmuxNavigateRight<CR>')
 
--- File Explorer
-paq 'kyazdani42/nvim-web-devicons'
-paq 'kyazdani42/nvim-tree.lua'
+-- File explorer
+paq { 'kyazdani42/nvim-web-devicons' }
+paq { 'kyazdani42/nvim-tree.lua' }
+
 local tree_cb = require('nvim-tree.config').nvim_tree_callback
 opt('g', 'nvim_tree_bindings', {
   { key = 'C', cb = tree_cb('cd') },
   { key = 'u', cb = tree_cb('dir_up') },
   { key = 'x', cb = tree_cb('close_node') },
 })
+
 opt('g', 'nvim_tree_follow', 1)
 opt('g', 'nvim_tree_git_hl', 0)
 opt('g', 'nvim_tree_icons', { default='', symlink='' })
@@ -144,26 +148,41 @@ opt('g', 'nvim_tree_auto_resize', 0)
 map('n', '<leader>nf', ':NvimTreeFindFile<CR>')
 map('n', '<leader>nt', ':NvimTreeToggle<CR>')
 
--- Toggle Comments
-paq 'tpope/vim-commentary'
+-- Quickly comment code
+paq { 'tpope/vim-commentary' }
 
--- Misc
-paq 'itchyny/vim-qfedit' -- Turn quickfix buffer editable
-paq 'tpope/vim-rsi' -- Readline keymaps for command bar
-paq 'tpope/vim-surround'
-paq 'tpope/vim-repeat'
+-- Turn quickfix buffer editable
+paq { 'itchyny/vim-qfedit' }
 
-paq { 'iamcco/markdown-preview.nvim', run = vim.fn['mkdp#util#install'] } -- Markdown previewer
+-- Readline keymaps for command bar
+paq { 'tpope/vim-rsi' }
 
-paq { 'kkoomen/vim-doge', run = vim.fn['doge#install'] } -- Documentation Generator
+-- Quickly surround with quotes/parens/etc
+paq { 'tpope/vim-surround' }
+paq { 'tpope/vim-repeat' } -- Enable "." repeat for surround
+
+-- Markdown previewer
+paq { 'iamcco/markdown-preview.nvim', run = vim.fn['mkdp#util#install'] }
+
+-- Documentation generator
+paq { 'kkoomen/vim-doge', run = vim.fn['doge#install'] }
 opt('g', 'doge_enable_mappings', 0)
 
-paq 'tpope/vim-projectionist'
+-- Statusline aesthetics
+paq { 'glepnir/galaxyline.nvim', branch = 'main' }
+
+-- Faster text navigation
+paq { 'justinmk/vim-sneak' }
+opt('g', 'sneak#label', 1)
+
+-- Project configurations
+paq { 'tpope/vim-projectionist' }
 map('n', '<leader>aa', ':A<CR>')
 map('n', '<leader>as', ':AS<CR>')
 map('n', '<leader>av', ':AV<CR>')
 
-paq('obxhdx/vim-action-mapper')
+-- Actions with motions
+paq { 'obxhdx/vim-action-mapper' }
 exec([[
 function! FindAndReplace(text, type)
  let l:use_word_boundary = index(['v', '^V'], a:type) < 0
@@ -200,8 +219,8 @@ autocmd User MapActions call MapAction('GrepWithMotion', '<Leader>g')
 ]], false)
 
 -- FZF
-paq {'junegunn/fzf', hook='fzf#install()'}
-paq 'junegunn/fzf.vim'
+paq { 'junegunn/fzf', hook='fzf#install()' }
+paq { 'junegunn/fzf.vim' }
 opt('g', 'fzf_layout', { window = { width = 0.7, height = 0.4 } })
 opt('g', 'projectionist_ignore_term', 1)
 map('n', '<leader>fb', ':Buffers<CR>')
@@ -212,9 +231,9 @@ map('n', '<leader>fl', ':BLines<CR>')
 map('n', '<leader>fr', ':History<CR>')
 
 -- Treesitter
-paq {'nvim-treesitter/nvim-treesitter', hook=':TSUpdate'}
-paq 'nvim-treesitter/nvim-treesitter-textobjects'
-paq 'nvim-treesitter/nvim-treesitter-refactor'
+paq { 'nvim-treesitter/nvim-treesitter', hook=':TSUpdate' }
+paq { 'nvim-treesitter/nvim-treesitter-textobjects' }
+paq { 'nvim-treesitter/nvim-treesitter-refactor' }
 
 opt('w', 'foldmethod', 'expr')
 opt('w', 'foldexpr', 'nvim_treesitter#foldexpr()')
@@ -232,12 +251,6 @@ require('nvim-treesitter.configs').setup {
         goto_previous_usage = "[u",
       },
     },
-    --[[ smart_rename = {
-      enable = true,
-      keymaps = {
-        smart_rename = "<leader>cr",
-      },
-    }, ]] -- FIXME doesn't work very well
   },
 
   textobjects = {
@@ -274,8 +287,8 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
--- Treesitter Extras
-paq 'JoosepAlviste/nvim-ts-context-commentstring'
+-- Improved commentstring backed by Treesitter
+paq { 'JoosepAlviste/nvim-ts-context-commentstring' }
 require'nvim-treesitter.configs'.setup {
   context_commentstring = {
     enable = true,
@@ -284,11 +297,11 @@ require'nvim-treesitter.configs'.setup {
 
 -- CoC
 paq { 'neoclide/coc.nvim', branch = 'release' }
-paq 'antoinemadec/coc-fzf'
--- options
+paq { 'antoinemadec/coc-fzf' } -- CoC + FZF integration
+
 opt('g', 'coc_node_path', fn.expand("$LATEST_NODE_PATH"))
 opt('w', 'signcolumn', 'yes')
--- mappings
+
 map('n', 'K', ':call ShowDocumentation()<CR>')
 map('i', '<C-n>', 'coc#refresh()', {expr = true}) -- Use <C-n> to trigger completion menu
 
@@ -389,10 +402,3 @@ exec([[
     return join(msgs, '')
   endfunction
 ]], false)
-
--- Status Line
-paq { 'glepnir/galaxyline.nvim', branch = 'main' }
-
--- Faster text navigation
-paq { 'justinmk/vim-sneak' }
-opt('g', 'sneak#label', 1)
