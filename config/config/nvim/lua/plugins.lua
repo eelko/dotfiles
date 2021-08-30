@@ -220,7 +220,7 @@ opt('w', 'foldmethod', 'expr')
 opt('w', 'foldexpr', 'nvim_treesitter#foldexpr()')
 
 require('nvim-treesitter.configs').setup {
-  ensure_installed = "all",
+  ensure_installed = "maintained",
 
   refactor = {
     highlight_definitions = { enable = true },
