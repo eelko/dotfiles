@@ -392,3 +392,7 @@ exec([[
 
 -- Status Line
 paq { 'glepnir/galaxyline.nvim', branch = 'main' }
+
+-- Faster text navigation
+paq { 'justinmk/vim-sneak' }
+opt('g', 'sneak#label', 1)
