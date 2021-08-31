@@ -28,7 +28,7 @@ paq { 'savq/paq-nvim', opt = true } -- Let Paq manage itself
 -- Colors
 paq { 'sjl/badwolf' }
 cmd 'colorscheme badwolf'
-exec([[
+cmd([[
 function! SanitizeColors()
   hi Conceal guifg=gray
   hi CursorLine guibg=#444444
@@ -65,7 +65,7 @@ function! SanitizeColors()
 endf
 
 autocmd ColorScheme * call SanitizeColors()
-]], false)
+]])
 
 -- Tabline aesthetics
 paq { 'ap/vim-buftabline' }
@@ -82,12 +82,12 @@ map('n', '<leader>7', '<Plug>BufTabLine.Go(7)', {noremap = false})
 map('n', '<leader>8', '<Plug>BufTabLine.Go(8)', {noremap = false})
 map('n', '<leader>9', '<Plug>BufTabLine.Go(9)', {noremap = false})
 map('n', '<leader>0', '<Plug>BufTabLine.Go(10)', {noremap = false})
-exec([[
+cmd([[
   hi BufTabLineCurrent gui=bold guibg=#ff5f5f guifg=#080808
   hi BufTabLineActive  gui=bold guibg=#3a3a3a guifg=#ff5f5f
   hi BufTabLineHidden  gui=bold guibg=#3a3a3a guifg=#D5C4A1
   hi BufTabLineFill    gui=bold guibg=#3a3a3a guifg=#D5C4A1
-]], false)
+]])
 
 -- Language pack
 paq { 'sheerun/vim-polyglot' }
@@ -103,11 +103,11 @@ opt('g', 'signify_sign_delete', '│')
 opt('g', 'signify_sign_delete_first_line', '│')
 opt('g', 'signify_sign_change', '│')
 opt('g', 'signify_sign_changedelete', '│')
-exec([[
+cmd([[
   hi SignifySignAdd    guifg=#9BB76D guibg=NONE
   hi SignifySignChange guifg=#00AFFF guibg=NONE
   hi SignifySignDelete guifg=#FF5F5F guibg=NONE
-]], false)
+]])
 
 -- Indentation guides
 paq { 'yggdroot/indentLine' }
@@ -170,6 +170,7 @@ opt('g', 'doge_enable_mappings', 0)
 
 -- Statusline aesthetics
 paq { 'glepnir/galaxyline.nvim', branch = 'main' }
+require('statusline')
 
 -- Faster text navigation
 paq { 'justinmk/vim-sneak' }
@@ -183,7 +184,7 @@ map('n', '<leader>av', ':AV<CR>')
 
 -- Actions with motions
 paq { 'obxhdx/vim-action-mapper' }
-exec([[
+cmd([[
 function! FindAndReplace(text, type)
  let l:use_word_boundary = index(['v', '^V'], a:type) < 0
  let l:pattern = l:use_word_boundary ? '<'.a:text.'>' : a:text
@@ -216,7 +217,7 @@ function! GrepWithMotion(text, type) "{{{
 endfunction
 
 autocmd User MapActions call MapAction('GrepWithMotion', '<Leader>g')
-]], false)
+]])
 
 -- FZF
 paq { 'junegunn/fzf', hook='fzf#install()' }
@@ -297,16 +298,47 @@ require'nvim-treesitter.configs'.setup {
 
 -- CoC
 paq { 'neoclide/coc.nvim', branch = 'release' }
-paq { 'antoinemadec/coc-fzf' } -- CoC + FZF integration
 
-opt('g', 'coc_node_path', fn.expand("$LATEST_NODE_PATH"))
-opt('w', 'signcolumn', 'yes')
+opt('g', 'coc_node_path', fn.expand("$LATEST_NODE_PATH")) -- Custom node path
+opt('w', 'signcolumn', 'yes') -- Make sign column always visible even when empty
 
-map('n', 'K', ':call ShowDocumentation()<CR>')
-map('i', '<C-n>', 'coc#refresh()', {expr = true}) -- Use <C-n> to trigger completion menu
+cmd 'hi CocErrorFLoat guifg=#FF7276' -- A shade of red that is easier on the eyes
 
-exec([[
-  " Echo method signatures
+-- Enhanced keyword lookup
+map('n', 'K', ':call CocActionAsync("doHover")<CR>')
+
+-- Code navigation mappings
+map('n', '<leader>cd', '<Plug>(coc-definition)', {noremap = false})
+map('n', '<leader>ct', '<Plug>(coc-type-definition)', {noremap = false})
+map('n', '<leader>ci', '<Plug>(coc-implementation)', {noremap = false})
+map('n', '<leader>cf', '<Plug>(coc-references)', {noremap = false})
+map('n', '<leader>cr', '<Plug>(coc-rename)', {noremap = false})
+
+-- Applying codeAction to the selected region
+map('x', '<leader>ca', '<Plug>(coc-codeaction-selected)', {noremap = false})
+map('n', '<leader>ca', '<Plug>(coc-codeaction-selected)', {noremap = false})
+
+-- Applying codeAction to the current buffer
+map('n', '<leader>caa', '<Plug>(coc-codeaction)', {noremap = false})
+
+-- Easily navigate diagnostics
+-- Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+map('n', '[d', '<Plug>(coc-diagnostic-prev)', {noremap = false})
+map('n', ']d', '<Plug>(coc-diagnostic-next)', {noremap = false})
+
+-- Use Tab to trigger completion, snippet expansion and placeholder navigation
+opt('g', 'coc_snippet_next', '<TAB>')
+opt('g', 'coc_snippet_prev', '<S-TAB>')
+map('i', '<TAB>', 'pumvisible() ? coc#_select_confirm() : CheckBackSpace() ? "<TAB>" : coc#refresh()', {noremap = true, expr = true, silent = true})
+cmd([[
+  function! CheckBackSpace() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
+]])
+
+-- Echo method signatures on snippet expansion and in instert mode
+cmd([[
   function! ShowCodeSignature()
     if exists('*CocActionAsync') && &ft =~ '\(java\|type\)script\(react\)\?'
       call CocActionAsync('showSignatureHelp')
@@ -318,51 +350,10 @@ exec([[
     autocmd User CocJumpPlaceholder call ShowCodeSignature()
     autocmd CursorHoldI * call ShowCodeSignature()
   augroup END
+]])
 
-  " A shade of red that is easier on the eyes
-  hi CocErrorFLoat guifg=#FF7276
-
-  function! ShowDocumentation()
-    if &filetype == 'vim'
-      execute 'h '.expand('<cword>')
-    else
-      call CocAction('doHover')
-    endif
-  endfunction
-
-  " Go-to mappings
-  nmap <silent> <leader>cd <Plug>(coc-definition)
-  nmap <silent> <leader>ct <Plug>(coc-type-definition)
-  nmap <silent> <leader>ci <Plug>(coc-implementation)
-  nmap <silent> <leader>cf <Plug>(coc-references)
-  nmap <silent> <leader>cr <Plug>(coc-rename)
-
-  " Applying codeAction to the selected region
-  " Example: `<leader>caap` for current paragraph
-  xmap <silent> <leader>ca  <Plug>(coc-codeaction-selected)
-  nmap <silent> <leader>ca  <Plug>(coc-codeaction-selected)
-
-  " Applying codeAction to the current buffer
-  nmap <silent> <leader>caa  <Plug>(coc-codeaction)
-
-  " CocFzfList mappings
-  nmap <silent> <leader>cc :CocFzfList commands<CR>
-  nmap <silent> <leader>co :CocFzfList outline<CR>
-  nmap <silent> <leader>cs :CocFzfList symbols<CR>
-
-  " Use `[d` and `]d` to navigate diagnostics
-  " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-  nmap <silent> [d <Plug>(coc-diagnostic-prev)
-  nmap <silent> ]d <Plug>(coc-diagnostic-next)
-
-  " UltiSnips compatibility
-  let g:coc_snippet_next = '<TAB>'
-  let g:coc_snippet_prev = '<S-TAB>'
-
-  inoremap <silent><expr> <TAB> pumvisible() ? coc#_select_confirm() : coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" : CheckBackSpace() ? "\<TAB>" : coc#refresh()
-
-  function! CheckBackSpace() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-  endfunction
-]], false)
+-- CoC + FZF integration
+paq { 'antoinemadec/coc-fzf' }
+map('n', '<leader>cc', ':CocFzfList commands<CR>', {noremap = false})
+map('n', '<leader>co', ':CocFzfList outline<CR>', {noremap = false})
+map('n', '<leader>cs', ':CocFzfList symbols<CR>', {noremap = false})

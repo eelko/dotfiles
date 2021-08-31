@@ -204,7 +204,6 @@ augroup END
 " --- PLUGINS ---
 
 lua require('plugins')
-lua require('statusline')
 
 " --- TEMPORARY CONFIGS ---
 
