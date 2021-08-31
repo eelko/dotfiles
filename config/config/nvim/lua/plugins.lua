@@ -365,40 +365,4 @@ exec([[
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~# '\s'
   endfunction
-
-  function! NumberToSuperscript(number) abort
-    if a:number > 9
-      return '⁹⁺'
-    endif
-    return { 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹', }[a:number]
-  endfunction
-
-  function! RenderLintSign(count, sign) abort
-    return a:count == 0 ? '' : printf('%s%s ', a:sign, NumberToSuperscript(a:count))
-  endfunction
-
-  function! DiagnosticsStatus() abort
-    let diagnostics = get(b:, 'coc_diagnostic_info', {})
-    if empty(diagnostics) | return '' | endif
-    let msgs = []
-
-    let info_and_hints = get(diagnostics, 'hint', 0) + get(diagnostics, 'information', 0)
-    if info_and_hints
-      call add(msgs, RenderLintSign(info_and_hints, '%#StatusLineDiagnosticsHintSign# '))
-    endif
-
-    if get(diagnostics, 'warning', 0)
-      call add(msgs, RenderLintSign(diagnostics['warning'], '%#StatusLineDiagnosticsWarnSign# '))
-    endif
-
-    if get(diagnostics, 'error', 0)
-      call add(msgs, RenderLintSign(diagnostics['error'], '%#StatusLineDiagnosticsErrorSign# '))
-    endif
-
-    if empty(msgs)
-      call add(msgs, '%#StatusLineDiagnosticsClearSign#  ')
-    endif
-
-    return join(msgs, '')
-  endfunction
 ]], false)

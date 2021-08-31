@@ -201,48 +201,6 @@ augroup quickfix
   autocmd QuickFixCmdPost lgetexpr nested lwindow
 augroup END
 
-" --- STATUSLINE ---
-
-hi StatusLineNormal  gui=bold guifg=#3a3a3a guibg=#d5c4a1
-hi StatusLineInsert  gui=bold guifg=#87dfff guibg=#005f87
-hi StatusLineVisual  gui=bold guifg=#3a3a3a guibg=#ff8700
-hi StatusLineReplace gui=bold guifg=#ffafaf guibg=#870000
-hi StatusLineCommand gui=bold guifg=#ffd7ff guibg=#5f005f
-
-function! StatusLineRenderer()
-  let mode_colors = {
-        \ 'n':  'StatusLineNormal',
-        \ 'i':  'StatusLineInsert',
-        \ 'v':  'StatusLineVisual',
-        \ 'V':  'StatusLineVisual',
-        \ '': 'StatusLineVisual',
-        \ 'c':  'StatusLineCommand',
-        \ 'R':  'StatusLineReplace'
-        \ }
-
-  let hl = '%#' . get(mode_colors, mode(), 'StatusLineNC') . '#'
-
-  return hl
-        \ . '%<'
-        \ . '%f'
-        \ . ' %{exists("*DiagnosticsStatus()") ? DiagnosticsStatus() : ""}'
-        \ . '%{&ft=="help"?"\ \ ":""}'
-        \ . '%{&modified?"":""}'
-        \ . '%{&readonly?"":""}'
-        \ . '%='
-        \ . "%-14.(%l,%c%V%)"
-        \ .' %P'
-endfunction
-
-" augroup StatusLine
-"   autocmd!
-"   autocmd VimEnter,WinEnter,BufEnter *
-"         \ setlocal statusline& |
-"         \ setlocal statusline=%!StatusLineRenderer()
-"   autocmd VimLeave,WinLeave,BufLeave *
-"         \ setlocal statusline&
-" augroup END
-
 " --- PLUGINS ---
 
 lua require('plugins')
