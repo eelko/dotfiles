@@ -111,6 +111,9 @@ nnoremap <silent> ]q :cnext<CR>
 nnoremap <silent> [Q :cfirst<CR>
 nnoremap <silent> ]Q :clast<CR>
 
+" Give S-Tab some purpose
+inoremap <silent> <S-Tab> <C-h>
+
 " Cleverly close buffers (based on reddit.com/em9qvv)
 nnoremap <expr><Leader>d (bufnr('%') == getbufinfo({'buflisted': 1})[-1].bufnr ? ':bp' : ':bn').'<bar>bd #<CR>'
 
