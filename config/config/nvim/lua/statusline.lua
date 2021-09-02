@@ -1,6 +1,10 @@
-vim.cmd[[ au VimEnter * hi! StatusLine guifg=white guibg=#262626 ]]
+local present, gl = pcall(require, 'galaxyline')
 
-local gl = require('galaxyline')
+if not present then
+   return false
+end
+
+vim.cmd [[ au VimEnter * hi! StatusLine guifg=white guibg=#262626 ]]
 
 local gls = gl.section
 gl.short_line_list = { 'NvimTree' }

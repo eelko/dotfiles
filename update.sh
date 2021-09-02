@@ -18,4 +18,4 @@ which pip3 >/dev/null && pip3 install --upgrade pynvim
 ~/.tmux/plugins/tpm/bin/update_plugins all
 
 # Neovim plugins
-$EDITOR +PaqUpdate +qall
+nvim -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
