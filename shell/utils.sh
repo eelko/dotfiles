@@ -2,7 +2,7 @@
 
 # Pane name format: "<current dir name>:<currend command>"
 update_tmux_pane_name() {
-  [ -n "$TMUX" ] || return
+  [ -n "$(pgrep tmux)" ] || return
 
   local -r current_path=$(basename "$(tmux display-message -p '#{pane_current_path}')")
 
@@ -30,7 +30,7 @@ update_tmux_pane_name() {
 }
 
 # Tmux hook - runs when pane gains focus
-[ -n "$TMUX" ] && tmux set-hook pane-focus-in 'run-shell "exec $SHELL -ic update_tmux_pane_name"'
+[ -n "$(pgrep tmux)" ] && tmux set-hook pane-focus-in 'run-shell "exec $SHELL -ic update_tmux_pane_name"'
 
 # Zsh hook - runs before executing a command
 preexec() {
@@ -49,7 +49,7 @@ function cd() {
   else
     builtin cd && eval "l"
   fi
-  [ -n "$TMUX" ] && tmux setenv TMUX_"$(tmux display -p "#I")"_PWD "$PWD"
+  [ -n "$(pgrep tmux)" ] && tmux setenv TMUX_"$(tmux display -p "#I")"_PWD "$PWD"
 }
 
 # Lazy loading helper
