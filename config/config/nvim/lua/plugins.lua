@@ -397,4 +397,7 @@ return packer.startup(function()
   map('n', '<leader>cc', ':CocFzfList commands<CR>', {noremap = false})
   map('n', '<leader>co', ':CocFzfList outline<CR>', {noremap = false})
   map('n', '<leader>cs', ':CocFzfList symbols<CR>', {noremap = false})
+
+  -- Config pack for the efm LSP
+  use { 'tsuyoshicho/vim-efm-langserver-settings' }
 end)
