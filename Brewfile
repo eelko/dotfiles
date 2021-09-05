@@ -8,13 +8,11 @@ brew "vim"
 brew "zsh"
 
 # linters
-brew "alexjs"
 brew "efm-langserver"
 brew "hadolint"
-brew "languagetool"
-brew "proselint"
+brew "markdownlint-cli"
 brew "shellcheck"
-brew "write-good"
+brew "vale"
 brew "yamllint"
 
 # extra packages
