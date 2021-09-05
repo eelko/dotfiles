@@ -144,6 +144,7 @@ return packer.startup(function()
   use { 'tmsvg/pear-tree' }
   opt('g', 'pear_tree_repeatable_expand', false)
   opt('g', 'pear_tree_ft_disabled', {''}) -- Disable when no filetype: workaround for new coc input prompt
+  cmd 'au FileType * imap <buffer> <Space> <Plug>(PearTreeSpace)'
 
   -- Tmux integration
   use { 'christoomey/vim-tmux-navigator' }
