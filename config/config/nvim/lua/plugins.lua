@@ -400,4 +400,20 @@ return packer.startup(function()
 
   -- Config pack for the efm LSP
   use { 'tsuyoshicho/vim-efm-langserver-settings' }
+
+  -- Visual indicator when code acions are available
+  use { 'xiyaowong/coc-lightbulb' }
+
+  fn.sign_define('LightBulbSign', { text = '', texthl = 'LspDiagnosticsDefaultInformation' })
+
+  local lightbulb_present, lightbulb = pcall(require, 'coc-lightbulb')
+
+  if lightbulb_present then
+    lightbulb.setup {
+      sign = {
+        enabled = true,
+        priority = 100,
+      },
+    }
+  end
 end)
