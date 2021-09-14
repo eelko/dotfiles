@@ -170,21 +170,38 @@
       (:prefix-map ("f" . "file")
        :desc "Find file"  "f"  #'projectile-find-file))
 
+; (treemacs-define-custom-icon (all-the-icons-alltheicon "react") "jsx" "tsx")
+
 ;; Treemacs
 (after! treemacs
   (treemacs-filewatch-mode)
   (treemacs-follow-mode)
   (treemacs-project-follow-mode)
 
+  (setq doom-treemacs-use-generic-icons t)
   (setq doom-themes-treemacs-theme "doom-colors") ; enables all-the-icons
 
   (add-hook 'buffer-list-update-hook 'obxhdx/disable-hl-line-mode-in-inactive-buffers)
-  )
 
-(with-eval-after-load "treemacs"
-  (treemacs-define-custom-icon (all-the-icons-icon-for-file "file.js") "jsx" "tsx")
-  (treemacs-define-custom-icon (all-the-icons-alltheicon "react") "jsx" "tsx")
-  )
+; (treemacs-create-theme "Default"
+;   :icon-directory (treemacs-join-path treemacs-dir "icons/default")
+;   :config
+;   (progn
+;     (treemacs-create-icon :icon (all-the-icons-alltheicon "react") :extensions ("jsx" "tsx"))
+;     (treemacs-create-icon :icon (all-the-icons-icon-for-file "yaml") :extensions ("yml" "yaml"))
+;     ))
+
+  ; (treemacs-define-custom-icon (all-the-icons-alltheicon "react") "jsx" "tsx")
+
+  ; (add-to-list 'all-the-icons-icon-alist '("\\.tsx$" all-the-icons-alltheicon "react" :height 1.0 :face all-the-icons-blue))
+
+; (treemacs-modify-theme "Default"
+; 	:config
+; 	(progn
+;     (treemacs-create-icon :icon (all-the-icons-alltheicon "react") :extensions ("jsx" "tsx"))
+;   ))
+
+)
 
 (defun obxhdx/treemacs-find-file ()
   "Open Treemacs pointing to the current file and select Treemacs window."
