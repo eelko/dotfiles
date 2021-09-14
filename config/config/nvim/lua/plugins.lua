@@ -342,6 +342,7 @@ return packer.startup(function()
   opt('w', 'signcolumn', 'yes') -- Make sign column always visible even when empty
 
   cmd 'hi CocErrorFLoat guifg=#FF7276' -- A shade of red that is easier on the eyes
+  cmd 'hi CocFloatBorder guifg=black guibg=none gui=bold'
   cmd 'hi! link CocFadeOut Noise' -- Make unused vars easier to see
 
   -- Enhanced keyword lookup
