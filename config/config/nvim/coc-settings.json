@@ -46,7 +46,6 @@
     }
   },
   "prettier.singleQuote": true,
-  "python.jediEnabled": false,
   "snippets.extends": {
     "javascript": ["typescript"],
     "javascriptreact": ["javascript"],
