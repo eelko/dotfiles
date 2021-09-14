@@ -263,6 +263,10 @@ return packer.startup(function()
   map('n', '<leader>fh', ':History:<CR>')
   map('n', '<leader>fl', ':BLines<CR>')
   map('n', '<leader>fr', ':History<CR>')
+  map('n', '<leader>rg', ':Rg<CR>')
+  cmd([[
+    command! -bang -nargs=* Rg call fzf#vim#grep('rg --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview({'options': ['--preview-window=up:60%']}), <bang>0)
+  ]])
 
   -- Treesitter
   use {
