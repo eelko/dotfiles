@@ -155,8 +155,7 @@ return packer.startup(function()
   map('n', '<m-l>', ':TmuxNavigateRight<CR>')
 
   -- File explorer
-  use {
-    'kyazdani42/nvim-tree.lua',
+  use { 'kyazdani42/nvim-tree.lua',
     requires = { 'kyazdani42/nvim-web-devicons' }
   }
 
@@ -178,6 +177,7 @@ return packer.startup(function()
   opt('g', 'nvim_tree_indent_markers', 1)
   opt('g', 'nvim_tree_show_icons', { git=0, folders=1, files=1 })
   opt('g', 'nvim_tree_auto_resize', 0)
+  opt('g', 'nvim_tree_root_folder_modifier', ':t')
   map('n', '<leader>nf', ':NvimTreeFindFile<CR>')
   map('n', '<leader>nt', ':NvimTreeToggle<CR>')
 
