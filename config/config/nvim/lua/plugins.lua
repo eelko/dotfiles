@@ -363,12 +363,9 @@ return packer.startup(function()
   map('n', '<leader>cf', '<Plug>(coc-references)', {noremap = false})
   map('n', '<leader>cr', '<Plug>(coc-rename)', {noremap = false})
 
-  -- Applying codeAction to the selected region
+  -- Display available code actions
+  map('n', '<leader>ca', '<plug>(coc-codeaction-cursor)', {noremap = false})
   map('x', '<leader>ca', '<Plug>(coc-codeaction-selected)', {noremap = false})
-  map('n', '<leader>ca', '<Plug>(coc-codeaction-selected)', {noremap = false})
-
-  -- Applying codeAction to the current buffer
-  map('n', '<leader>caa', '<Plug>(coc-codeaction)', {noremap = false})
 
   -- Easily navigate diagnostics
   -- Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
