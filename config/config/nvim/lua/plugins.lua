@@ -72,6 +72,7 @@ return packer.startup(function()
     hi Visual guibg=#626262
 
     hi! link ColorColumn CursorLine
+    hi! link Error ErrorMsg
 
     if g:colors_name == 'badwolf'
       hi DiffAdd guibg=#143800
