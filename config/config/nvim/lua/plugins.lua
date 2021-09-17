@@ -347,8 +347,11 @@ return packer.startup(function()
   opt('w', 'signcolumn', 'yes') -- Make sign column always visible even when empty
 
   cmd 'hi CocErrorFLoat guifg=#FF7276' -- A shade of red that is easier on the eyes
-  cmd 'hi CocFloatBorder guifg=black guibg=none gui=bold'
-  cmd 'hi! link CocFadeOut Noise' -- Make unused vars easier to see
+  cmd 'hi CocFloatBorder guifg=black guibg=none gui=bold' -- Make float windows blend better with other stuff
+  cmd 'hi link CocErrorHighlight Noise' -- Get rid of ugly and distracting underline
+  cmd 'hi link CocFadeOut Noise' -- Make unused vars easier to see
+  cmd 'hi link CocInfoHighlight Noise' -- Get rid of ugly and distracting underline
+  cmd 'hi link CocWarningHighlight Noise' -- Get rid of ugly and distracting underline
 
   -- Enhanced keyword lookup
   map('n', 'K', ':call CocActionAsync("doHover")<CR>')
