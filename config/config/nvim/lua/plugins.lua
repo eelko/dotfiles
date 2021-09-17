@@ -218,40 +218,52 @@ return packer.startup(function()
 
   -- Actions with motions
   use { 'obxhdx/vim-action-mapper' }
+
+  function _G.contains(list, x)
+    for _, v in pairs(list) do
+      if v == x then return true end
+    end
+    return false
+  end
+
+  function _G.exec_preserving_cursor_pos(command)
+    -- Run commands (e.g. substitution) and restore previous cursor position
+    local current_view = vim.fn.winsaveview()
+    vim.api.nvim_exec('keeppatterns '..command, false)
+    vim.fn.histadd('cmd', command)
+    vim.fn.winrestview(current_view)
+  end
+
+  function _G.find_and_replace(text, type)
+    local visual_modes = {'v', '^V'}
+    local use_word_boundary = not _G.contains(visual_modes, type)
+    local pattern = use_word_boundary and '\\<'..text..'\\>' or text
+    local new_text = vim.fn.input('Replace '..pattern..' with: ', text)
+
+    if #new_text > 0 then
+      _G.exec_preserving_cursor_pos(',$s/'..pattern..'/'..new_text..'/gc')
+    end
+  end
+
   cmd([[
-  function! FindAndReplace(text, type)
-   let l:use_word_boundary = index(['v', '^V'], a:type) < 0
-   let l:pattern = l:use_word_boundary ? '<'.a:text.'>' : a:text
-   let l:new_text = input('Replace '.l:pattern.' with: ', a:text)
+    function! FindAndReplace(text, type)
+      call v:lua.find_and_replace(a:text, a:type)
+    endfunction
+    autocmd User MapActions call MapAction('FindAndReplace', '<Leader>r')
 
-   if len(l:new_text)
-     call SaveCursorPos(',$s/\v'.l:pattern.'/'.l:new_text.'/gc')
-   endif
-  endfunction
-
-  autocmd User MapActions call MapAction('FindAndReplace', '<Leader>r')
-
-  function! DebugLog(text, ...)
-   let javascript_template = "console.log('==> %s:', %s);"
-   let supported_languages = { 'java': 'System.out.println("==> %s: " + %s);', 'javascript': javascript_template, 'javascript.jsx': javascript_template, 'javascriptreact': javascript_template, 'python': "print('==> %s:', %s)", 'ruby': 'puts ("==> %s: #{%s}")', 'typescript': javascript_template, 'typescript.jsx': javascript_template, 'typescriptreact': javascript_template }
-   let log_expression = get(supported_languages, &ft, '')
-
-   if empty(log_expression)
-     echohl ErrorMsg | echo 'DebugLog: filetype "'.&ft.'" not suppported.' | echohl None
-     return
-   endif
-
-   execute "normal o".printf(log_expression, a:text, a:text)
-  endfunction
-
-  autocmd User MapActions call MapAction('DebugLog', '<leader>l')
-
-  function! GrepWithMotion(text, type) "{{{
-   execute('Grep '.a:text)
-  endfunction
-
-  autocmd User MapActions call MapAction('GrepWithMotion', '<Leader>g')
+    function! GrepWithMotion(text, type)
+      execute('Grep '.a:text)
+    endfunction
+    autocmd User MapActions call MapAction('GrepWithMotion', '<Leader>g')
   ]])
+
+  -- Easily add debug messages
+  use { 'obxhdx/vim-debug-logger',
+    requires = 'obxhdx/vim-action-mapper'
+  }
+  map('n', '<leader>lc', ':CommentAllDebugLogs<CR>')
+  map('n', '<leader>ld', ':DeleteAllDebugLogs<CR>')
+  map('n', '<leader>lu', ':UncommentAllDebugLogs<CR>')
 
   -- FZF
   use { 'junegunn/fzf', run = ':call fzf#install()' }
