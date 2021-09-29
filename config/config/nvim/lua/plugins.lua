@@ -160,27 +160,37 @@ return packer.startup(function()
     requires = { 'kyazdani42/nvim-web-devicons' }
   }
 
-  local nvim_tree_present, nvim_tree_config = pcall(require, 'nvim-tree.config')
-
-  if nvim_tree_present then
-    local tree_cb = nvim_tree_config.nvim_tree_callback
-    opt('g', 'nvim_tree_bindings', {
-        { key = 'C', cb = tree_cb('cd') },
-        { key = 'u', cb = tree_cb('dir_up') },
-        { key = 'x', cb = tree_cb('close_node') },
-      })
-  end
-
-  opt('g', 'nvim_tree_follow', 1)
   opt('g', 'nvim_tree_git_hl', 0)
   opt('g', 'nvim_tree_icons', { default='', symlink='' })
   opt('g', 'nvim_tree_ignore', { '.git' })
   opt('g', 'nvim_tree_indent_markers', 1)
   opt('g', 'nvim_tree_show_icons', { git=0, folders=1, files=1 })
-  opt('g', 'nvim_tree_auto_resize', 0)
   opt('g', 'nvim_tree_root_folder_modifier', ':t')
+
   map('n', '<leader>nf', ':NvimTreeFindFile<CR>')
   map('n', '<leader>nt', ':NvimTreeToggle<CR>')
+
+  local nvim_tree_present, nvim_tree = pcall(require, 'nvim-tree')
+  if nvim_tree_present then
+    local tree_cb = require('nvim-tree.config').nvim_tree_callback
+
+    nvim_tree.setup {
+      hijack_cursor = true, -- hijack the cursor in the tree to put it at the start of the filename
+      update_focused_file = {
+        enable = true, -- highlight current file
+      },
+      view = {
+        mappings = {
+          list = {
+            -- NERDTree-like mappings
+            { key = 'C', cb = tree_cb('cd') },
+            { key = 'u', cb = tree_cb('dir_up') },
+            { key = 'x', cb = tree_cb('close_node') },
+          }
+        }
+      }
+    }
+  end
 
   -- Quickly comment code
   use { 'tpope/vim-commentary' }
