@@ -1,63 +1,50 @@
--- Utility funcions and aliases
-local cmd = vim.cmd
-local exec = vim.api.nvim_exec
-local fn = vim.fn
-local scopes = {o = vim.o, b = vim.bo, g = vim.g, w = vim.wo}
-
-local function map(mode, lhs, rhs, opts)
-  local options = {noremap = true, silent = true}
-  if opts then options = vim.tbl_extend('force', options, opts) end
-  vim.api.nvim_set_keymap(mode, lhs, rhs, options)
-end
-
-local function opt(scope, key, value)
-  scopes[scope][key] = value
-end
+require 'helpers'
 
 -- Set custom path for plugins
-local package_root = fn.stdpath('config') .. '/plugins'
+local package_root = fn.stdpath 'config' .. '/plugins'
 vim.opt.packpath:append(package_root)
 
 -- Bootstrap package manager
 local packer_path = package_root .. '/pack/packer/start/packer.nvim'
 
 if fn.empty(fn.glob(packer_path)) > 0 then
-  fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', packer_path})
+  fn.system { 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', packer_path }
 end
 
 cmd 'packadd packer.nvim'
 
-local packer = require('packer')
-local util = require('packer.util')
+local packer = require 'packer'
+local util = require 'packer.util'
 
-packer.init({
+packer.init {
   package_root = util.join_paths(package_root, 'pack'),
-  compile_path = util.join_paths(fn.stdpath('config'), 'plugins', 'packer_compiled.lua'),
+  compile_path = util.join_paths(fn.stdpath 'config', 'plugins', 'packer_compiled.lua'),
   display = {
     open_fn = require('packer.util').float,
   },
-})
+}
 
 -- Regenerate compiled loader file whenever this file is updated
-cmd([[
+cmd [[
   augroup PackerUserConfig
     autocmd!
     autocmd BufWritePost plugins.lua source <afile> | PackerCompile
     autocmd User PackerCompileDone call SanitizeColors()
   augroup end
-]])
+]]
 
 -- Declare plugins
-return packer.startup(function()
+return packer.startup(function(use)
   -- Let Packer manage itself
   use { 'wbthomason/packer.nvim' }
 
   -- Colors
   use { 'sjl/badwolf' }
   cmd 'try | colorscheme badwolf | catch | endtry'
-  cmd([[
+  cmd [[
   function! SanitizeColors()
     hi CursorLine guibg=#444444
+    hi IncSearch guifg=#353b45 guibg=#d19a66
     hi LineNr guibg=NONE
     hi MatchParen guibg=NONE
     hi Normal guibg=NONE
@@ -65,14 +52,15 @@ return packer.startup(function()
     hi Pmenu guifg=#f8f6f2 guibg=#484A55
     hi PmenuSbar guibg=#2B2C31
     hi PmenuThumb guibg=grey
+    hi Search guifg=#353b45 guibg=#e5c07b
     hi SignColumn guibg=NONE
     hi StatusLineNC gui=bold guifg=gray guibg=#262626
-    hi VertSplit guibg=#262626 guifg=#262626
     hi VertSplit guifg=#3a3a3a guibg=#3a3a3a
     hi Visual guibg=#626262
 
     hi! link ColorColumn CursorLine
     hi! link Error ErrorMsg
+    hi! link PmenuSel Search
 
     if g:colors_name == 'badwolf'
       hi DiffAdd guibg=#143800
@@ -92,29 +80,29 @@ return packer.startup(function()
   endf
 
   autocmd ColorScheme * call SanitizeColors()
-  ]])
+  ]]
 
   -- Tabline aesthetics
   use { 'ap/vim-buftabline' }
   opt('g', 'buftabline_show', true)
   opt('g', 'buftabline_indicators', true)
   opt('g', 'buftabline_numbers', 2)
-  map('n', '<leader>1', '<Plug>BufTabLine.Go(1)', {noremap = false})
-  map('n', '<leader>2', '<Plug>BufTabLine.Go(2)', {noremap = false})
-  map('n', '<leader>3', '<Plug>BufTabLine.Go(3)', {noremap = false})
-  map('n', '<leader>4', '<Plug>BufTabLine.Go(4)', {noremap = false})
-  map('n', '<leader>5', '<Plug>BufTabLine.Go(5)', {noremap = false})
-  map('n', '<leader>6', '<Plug>BufTabLine.Go(6)', {noremap = false})
-  map('n', '<leader>7', '<Plug>BufTabLine.Go(7)', {noremap = false})
-  map('n', '<leader>8', '<Plug>BufTabLine.Go(8)', {noremap = false})
-  map('n', '<leader>9', '<Plug>BufTabLine.Go(9)', {noremap = false})
-  map('n', '<leader>0', '<Plug>BufTabLine.Go(10)', {noremap = false})
-  cmd([[
+  map('n', '<leader>1', '<Plug>BufTabLine.Go(1)', { noremap = false })
+  map('n', '<leader>2', '<Plug>BufTabLine.Go(2)', { noremap = false })
+  map('n', '<leader>3', '<Plug>BufTabLine.Go(3)', { noremap = false })
+  map('n', '<leader>4', '<Plug>BufTabLine.Go(4)', { noremap = false })
+  map('n', '<leader>5', '<Plug>BufTabLine.Go(5)', { noremap = false })
+  map('n', '<leader>6', '<Plug>BufTabLine.Go(6)', { noremap = false })
+  map('n', '<leader>7', '<Plug>BufTabLine.Go(7)', { noremap = false })
+  map('n', '<leader>8', '<Plug>BufTabLine.Go(8)', { noremap = false })
+  map('n', '<leader>9', '<Plug>BufTabLine.Go(9)', { noremap = false })
+  map('n', '<leader>0', '<Plug>BufTabLine.Go(10)', { noremap = false })
+  cmd [[
     hi BufTabLineCurrent gui=bold guibg=#ff5f5f guifg=#080808
     hi BufTabLineActive  gui=bold guibg=#3a3a3a guifg=#ff5f5f
     hi BufTabLineHidden  gui=bold guibg=#3a3a3a guifg=#D5C4A1
     hi BufTabLineFill    gui=bold guibg=#3a3a3a guifg=#D5C4A1
-  ]])
+  ]]
 
   -- Language pack
   use { 'sheerun/vim-polyglot' }
@@ -130,11 +118,11 @@ return packer.startup(function()
   opt('g', 'signify_sign_delete_first_line', '│')
   opt('g', 'signify_sign_change', '│')
   opt('g', 'signify_sign_changedelete', '│')
-  cmd([[
+  cmd [[
     hi SignifySignAdd    guifg=#9BB76D guibg=NONE
     hi SignifySignChange guifg=#00AFFF guibg=NONE
     hi SignifySignDelete guifg=#FF5F5F guibg=NONE
-  ]])
+  ]]
 
   -- Indentation guides
   use { 'yggdroot/indentLine' }
@@ -144,7 +132,6 @@ return packer.startup(function()
   -- Auto pairs
   use { 'tmsvg/pear-tree' }
   opt('g', 'pear_tree_repeatable_expand', false)
-  opt('g', 'pear_tree_ft_disabled', {''}) -- Disable when no filetype: workaround for new coc input prompt
   cmd 'au FileType * imap <buffer> <Space> <Plug>(PearTreeSpace)'
 
   -- Tmux integration
@@ -156,15 +143,13 @@ return packer.startup(function()
   map('n', '<m-l>', ':TmuxNavigateRight<CR>')
 
   -- File explorer
-  use { 'kyazdani42/nvim-tree.lua',
-    requires = { 'kyazdani42/nvim-web-devicons' }
-  }
+  use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons' } }
 
   opt('g', 'nvim_tree_git_hl', 0)
-  opt('g', 'nvim_tree_icons', { default='', symlink='' })
+  opt('g', 'nvim_tree_icons', { default = '', symlink = '' })
   opt('g', 'nvim_tree_ignore', { '.git' })
   opt('g', 'nvim_tree_indent_markers', 1)
-  opt('g', 'nvim_tree_show_icons', { git=0, folders=1, files=1 })
+  opt('g', 'nvim_tree_show_icons', { git = 0, folders = 1, files = 1 })
   opt('g', 'nvim_tree_root_folder_modifier', ':t')
 
   map('n', '<leader>nf', ':NvimTreeFindFile<CR>')
@@ -183,12 +168,12 @@ return packer.startup(function()
         mappings = {
           list = {
             -- NERDTree-like mappings
-            { key = 'C', cb = tree_cb('cd') },
-            { key = 'u', cb = tree_cb('dir_up') },
-            { key = 'x', cb = tree_cb('close_node') },
-          }
-        }
-      }
+            { key = 'C', cb = tree_cb 'cd' },
+            { key = 'u', cb = tree_cb 'dir_up' },
+            { key = 'x', cb = tree_cb 'close_node' },
+          },
+        },
+      },
     }
   end
 
@@ -214,7 +199,7 @@ return packer.startup(function()
 
   -- Statusline aesthetics
   use { 'glepnir/galaxyline.nvim', branch = 'main', requires = { 'kyazdani42/nvim-web-devicons' } }
-  require('statusline')
+  require 'statusline'
 
   -- Faster text navigation
   use { 'justinmk/vim-sneak' }
@@ -231,7 +216,9 @@ return packer.startup(function()
 
   function _G.contains(list, x)
     for _, v in pairs(list) do
-      if v == x then return true end
+      if v == x then
+        return true
+      end
     end
     return false
   end
@@ -239,23 +226,23 @@ return packer.startup(function()
   function _G.exec_preserving_cursor_pos(command)
     -- Run commands (e.g. substitution) and restore previous cursor position
     local current_view = vim.fn.winsaveview()
-    vim.api.nvim_exec('keeppatterns '..command, false)
+    vim.api.nvim_exec('keeppatterns ' .. command, false)
     vim.fn.histadd('cmd', command)
     vim.fn.winrestview(current_view)
   end
 
   function _G.find_and_replace(text, type)
-    local visual_modes = {'v', '^V'}
+    local visual_modes = { 'v', '^V' }
     local use_word_boundary = not _G.contains(visual_modes, type)
-    local pattern = use_word_boundary and '\\<'..text..'\\>' or text
-    local new_text = vim.fn.input('Replace '..pattern..' with: ', text)
+    local pattern = use_word_boundary and '\\<' .. text .. '\\>' or text
+    local new_text = vim.fn.input('Replace ' .. pattern .. ' with: ', text)
 
     if #new_text > 0 then
-      _G.exec_preserving_cursor_pos(',$s/'..pattern..'/'..new_text..'/gc')
+      _G.exec_preserving_cursor_pos(',$s/' .. pattern .. '/' .. new_text .. '/gc')
     end
   end
 
-  cmd([[
+  cmd [[
     function! FindAndReplace(text, type)
       call v:lua.find_and_replace(a:text, a:type)
     endfunction
@@ -265,19 +252,18 @@ return packer.startup(function()
       execute('Grep '.a:text)
     endfunction
     autocmd User MapActions call MapAction('GrepWithMotion', '<Leader>g')
-  ]])
+  ]]
 
   -- Easily add debug messages
-  use { 'obxhdx/vim-debug-logger',
-    requires = 'obxhdx/vim-action-mapper'
-  }
+  use { 'obxhdx/vim-debug-logger', requires = 'obxhdx/vim-action-mapper' }
   map('n', '<leader>lc', ':CommentAllDebugLogs<CR>')
   map('n', '<leader>ld', ':DeleteAllDebugLogs<CR>')
   map('n', '<leader>lu', ':UncommentAllDebugLogs<CR>')
 
   -- FZF
-  use { 'junegunn/fzf', run = ':call fzf#install()' }
-  use { 'junegunn/fzf.vim' }
+  use { 'junegunn/fzf.vim', requires = {
+    { 'junegunn/fzf', run = ':call fzf#install()' },
+  } }
   opt('g', 'fzf_layout', { window = { width = 0.7, height = 0.4 } })
   opt('g', 'projectionist_ignore_term', 1)
   map('n', '<leader>fb', ':Buffers<CR>')
@@ -287,9 +273,9 @@ return packer.startup(function()
   map('n', '<leader>fl', ':BLines<CR>')
   map('n', '<leader>fr', ':History<CR>')
   map('n', '<leader>rg', ':Rg<CR>')
-  cmd([[
+  cmd [[
     command! -bang -nargs=* Rg call fzf#vim#grep('rg --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview({'options': ['--preview-window=up:60%']}), <bang>0)
-  ]])
+  ]]
 
   -- Treesitter
   use {
@@ -363,85 +349,52 @@ return packer.startup(function()
   end
 
   -- CoC
-  use { 'neoclide/coc.nvim', branch = 'release' }
+  use {
+    'neoclide/coc.nvim',
+    opt = true,
+    branch = 'release',
+    requires = {
+      -- FZF integration
+      'antoinemadec/coc-fzf',
+      -- General purpose LSP
+      'tsuyoshicho/vim-efm-langserver-settings',
+      -- Visual hint when code actions are available
+      'xiyaowong/coc-lightbulb',
+    },
+  }
+  -- require 'coc'
 
-  opt('g', 'coc_node_path', fn.expand('$LATEST_NODE_PATH')) -- Custom node path
-  opt('w', 'signcolumn', 'yes') -- Make sign column always visible even when empty
-
-  cmd 'hi CocErrorFLoat guifg=#FF7276' -- A shade of red that is easier on the eyes
-  cmd 'hi CocFloatBorder guifg=black guibg=none gui=bold' -- Make float windows blend better with other stuff
-  cmd 'hi link CocErrorHighlight Noise' -- Get rid of ugly and distracting underline
-  cmd 'hi link CocFadeOut Noise' -- Make unused vars easier to see
-  cmd 'hi link CocInfoHighlight Noise' -- Get rid of ugly and distracting underline
-  cmd 'hi link CocWarningHighlight Noise' -- Get rid of ugly and distracting underline
-
-  -- Enhanced keyword lookup
-  map('n', 'K', ':call CocActionAsync("doHover")<CR>')
-
-  -- Code navigation mappings
-  map('n', '<leader>cd', '<Plug>(coc-definition)', {noremap = false})
-  map('n', '<leader>ct', '<Plug>(coc-type-definition)', {noremap = false})
-  map('n', '<leader>ci', '<Plug>(coc-implementation)', {noremap = false})
-  map('n', '<leader>cf', '<Plug>(coc-references)', {noremap = false})
-  map('n', '<leader>cr', '<Plug>(coc-rename)', {noremap = false})
-
-  -- Display available code actions
-  map('n', '<leader>ca', '<plug>(coc-codeaction-cursor)', {noremap = false})
-  map('x', '<leader>ca', '<Plug>(coc-codeaction-selected)', {noremap = false})
-
-  -- Easily navigate diagnostics
-  -- Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-  map('n', '[d', '<Plug>(coc-diagnostic-prev)', {noremap = false})
-  map('n', ']d', '<Plug>(coc-diagnostic-next)', {noremap = false})
-
-  -- Use Tab to trigger completion, snippet expansion and placeholder navigation
-  opt('g', 'coc_snippet_next', '<TAB>')
-  opt('g', 'coc_snippet_prev', '<S-TAB>')
-  map('i', '<TAB>', 'pumvisible() ? coc#_select_confirm() : CheckBackSpace() ? "<TAB>" : coc#refresh()', {noremap = true, expr = true, silent = true})
-  cmd([[
-    function! CheckBackSpace() abort
-      let col = col('.') - 1
-      return !col || getline('.')[col - 1]  =~# '\s'
-    endfunction
-  ]])
-
-  -- Echo method signatures on snippet expansion and in instert mode
-  cmd([[
-    function! ShowCodeSignature()
-      if exists('*CocActionAsync') && &ft =~ '\(java\|type\)script\(react\)\?'
-        call CocActionAsync('showSignatureHelp')
-      endif
-    endfunction
-
-    augroup ShowCodeSignature
-      autocmd!
-      autocmd User CocJumpPlaceholder call ShowCodeSignature()
-      autocmd CursorHoldI * call ShowCodeSignature()
-    augroup END
-  ]])
-
-  -- CoC + FZF integration
-  use { 'antoinemadec/coc-fzf' }
-  map('n', '<leader>cc', ':CocFzfList commands<CR>', {noremap = false})
-  map('n', '<leader>co', ':CocFzfList outline<CR>', {noremap = false})
-  map('n', '<leader>cs', ':CocFzfList symbols<CR>', {noremap = false})
-
-  -- Config pack for the efm LSP
-  use { 'tsuyoshicho/vim-efm-langserver-settings' }
-
-  -- Visual indicator when code acions are available
-  use { 'xiyaowong/coc-lightbulb' }
-
-  fn.sign_define('LightBulbSign', { text = '', texthl = 'LspDiagnosticsDefaultInformation' })
-
-  local lightbulb_present, lightbulb = pcall(require, 'coc-lightbulb')
-
-  if lightbulb_present then
-    lightbulb.setup {
-      sign = {
-        enabled = true,
-        priority = 100,
+  -- Native LSP
+  use {
+    'neovim/nvim-lspconfig',
+    requires = {
+      -- LSP server installer
+      'williamboman/nvim-lsp-installer',
+      -- Visual hint when code actions are available
+      { 'kosayoda/nvim-lightbulb', commit = '3c5d42a' },
+      -- Quickfix alternative for diagnostics, references, etc
+      'HungryJoe/trouble.nvim',
+      -- Method signature hints
+      'ray-x/lsp_signature.nvim',
+      -- General purpose LSP
+      { 'jose-elias-alvarez/null-ls.nvim', requires = { 'nvim-lua/plenary.nvim' } },
+      -- Enhanced LSP experience for TS
+      { 'jose-elias-alvarez/nvim-lsp-ts-utils', requires = { 'nvim-lua/plenary.nvim' } },
+      -- Code Completion
+      {
+        'hrsh7th/nvim-cmp',
+        requires = {
+          'hrsh7th/cmp-buffer',
+          'hrsh7th/cmp-nvim-lsp',
+          'hrsh7th/cmp-path',
+          'hrsh7th/cmp-vsnip',
+          'onsails/lspkind-nvim',
+          -- Snippets
+          { 'hrsh7th/vim-vsnip', requires = { 'hrsh7th/vim-vsnip-integ', 'rafamadriz/friendly-snippets' } },
+        },
       },
-    }
-  end
+    },
+  }
+  require 'lsp'
+
 end)

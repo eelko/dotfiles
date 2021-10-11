@@ -13,6 +13,7 @@ set list                                                   " Show unprintable ch
 set listchars=tab:».,trail:⌴,extends:❯,precedes:❮,nbsp:°   " Unprintable characters
 set number                                                 " Display line numbers
 set pumheight=8                                            " Limit completion menu height
+set signcolumn=yes                                         " ALways show the sign column
 set termguicolors                                          " Enables RGB color in the terminal
 " Folding
 set foldmethod=indent                                      " Fold based on indent

@@ -101,10 +101,11 @@ local icons = {
   disconnected = '', -- f818
   dos = '', -- e70f
   error = '', -- f658
-  git = '', -- f841
+  git = '', -- f841
   info = '', -- f05a
   line_number = '', -- e0a1
   locker = '', -- f023
+  lsp = '', -- f135
   mac = '', -- f179
   not_modifiable = '', -- f05e
   page = '☰', -- 2630
@@ -230,37 +231,94 @@ gls.left[13] = {
 
 -- Diagnostics
 gls.left[14] = {
-  CocStatus = {
+  LspIcon = {
+    provider = function() return icons.lsp..'  ' end,
+    condition = checkwidth,
+    highlight = { colors.blue, colors.bg },
+  }
+}
+gls.left[15] = {
+  LspClient = {
     provider = function()
-      local has_status, status = pcall(vim.api.nvim_get_var, 'coc_status')
-      return has_status and string.gsub(status, '^%s+', '') or ''
+      local buffer_filetype = vim.api.nvim_buf_get_option(0, 'filetype')
+      local active_clients = vim.lsp.get_active_clients()
+
+      if next(active_clients) == nil then
+        return ''
+      end
+
+      local msg = ''
+
+      for _, client in ipairs(active_clients) do
+        local filetypes = client.config.filetypes
+        if filetypes and vim.fn.index(filetypes, buffer_filetype) ~= -1 then
+          msg = client.name .. ' ' .. msg
+        end
+      end
+
+      return msg
     end,
+    -- icon = icons.lsp..'  ',
+    highlight = { colors.fg, colors.bg },
+  }
+}
+gls.left[16] = {
+  CocStatus = {
+
+    -- provider = function()
+    --   local has_status, status = pcall(vim.api.nvim_get_var, 'coc_status')
+    --   return has_status and string.gsub(status, '^%s+', '') or ''
+    -- end,
+
+    provider = function()
+      local messages = vim.lsp.util.get_progress_messages()
+      if #messages == 0 then
+        return ''
+      end
+
+      local result = {}
+      local spinners = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' }
+      local ms = vim.loop.hrtime() / 1000000
+      local frame = math.floor(ms / 120) % #spinners
+      local i = 1
+
+      for _, msg in pairs(messages) do
+        -- Only display at most 2 progress messages at a time to avoid clutter
+        if i < 3 then
+          table.insert(result, (msg.percentage or 0) .. '% ' .. (msg.title or ''))
+          i = i + 1
+        end
+      end
+
+      return spinners[frame + 1] .. ' ' .. table.concat(result, ' ')
+    end,
+
     condition = checkwidth,
     highlight = { colors.fg, colors.bg }
   }
 }
-gls.left[15] = {
+gls.left[17] = {
   DiagnosticError = {
     provider = 'DiagnosticError',
     icon = '  '..icons.error..' ',
     highlight = { colors.red, colors.bg }
   }
 }
-gls.left[16] = {
+gls.left[18] = {
   DiagnosticWarn = {
     provider = 'DiagnosticWarn',
     icon = '  '..icons.warning..' ',
     highlight = { colors.orange, colors.bg },
   }
 }
-gls.left[17] = {
+gls.left[19] = {
   DiagnosticInfo = {
     provider = { 'DiagnosticInfo' },
     icon = '  '..icons.info..' ',
     highlight = { colors.blue, colors.bg },
   }
 }
-gls.left[18] = {
+gls.left[20] = {
   DiagnosticHint = {
     provider = 'DiagnosticHint',
     icon = '  '..icons.wrench..' ',
