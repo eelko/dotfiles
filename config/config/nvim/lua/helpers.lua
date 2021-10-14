@@ -24,3 +24,12 @@ function print_table(t)
     print(k, v)
   end
 end
+
+function contains(list, value)
+  for _, v in pairs(list) do
+    if v == value then
+      return true
+    end
+  end
+  return false
+end

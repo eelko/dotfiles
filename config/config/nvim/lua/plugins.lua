@@ -197,8 +197,8 @@ return packer.startup(function(use)
   use { 'kkoomen/vim-doge', run = ':call doge#install()' }
   opt('g', 'doge_enable_mappings', 0)
 
-  -- Statusline aesthetics
-  use { 'glepnir/galaxyline.nvim', branch = 'main', requires = { 'kyazdani42/nvim-web-devicons' } }
+  -- Statusline
+  use { 'tamton-aquib/staline.nvim', requires = { 'nvim-lua/plenary.nvim' } }
   require 'statusline'
 
   -- Faster text navigation
@@ -396,5 +396,4 @@ return packer.startup(function(use)
     },
   }
   require 'lsp'
-
 end)
