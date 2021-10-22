@@ -1,7 +1,13 @@
 require 'helpers'
 
+vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded' })
+vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
+  border = 'rounded',
+})
+
 -- Light Bulb
-fn.sign_define('LightBulbSign', { text = '', texthl = 'CmpItemKind', linehl = '', numhl = '' })
+-- fn.sign_define('LightBulbSign', { text = '', texthl = 'CmpItemKind', linehl = '', numhl = '' })
+fn.sign_define('LightBulbSign', { text = '', linehl = '', numhl = '' })
 cmd 'autocmd CursorHold,CursorHoldI * lua require("nvim-lightbulb").update_lightbulb()'
 
 -- Trouble
@@ -20,13 +26,6 @@ vim.g.vsnip_filetypes = {
 }
 
 vim.g.vsnip_snippet_dir = fn.stdpath 'config' .. '/snippets'
-
--- Completion
-cmd [[
-hi CmpItemKind guifg=lightblue
-hi link CmpItemMenu Comment
-hi! link FloatBorder NormalFloat
-]]
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -146,39 +145,49 @@ local on_attach = function(client)
   vim.b.omnifunc = 'v:lua.vim.lsp.omnifunc'
 
   -- Diagnostics Signs and Colors
-  local diagnostics_levels = { Error = '#a02f2f', Warning = '#ce863d', Hint = '#857f78', Information = '#005f87' }
-
-  for type, virtual_text_fg in pairs(diagnostics_levels) do
-    -- cmd('hi clear LspDiagnosticsUnderline' .. type)
-    cmd('hi LspDiagnosticsVirtualText' .. type .. ' guifg=' .. virtual_text_fg)
-
+  for _, type in pairs { 'Error', 'Warning', 'Hint', 'Information' } do
     local hl = 'LspDiagnosticsSign' .. type
     vim.fn.sign_define(hl, { text = '', texthl = hl, numhl = '', priority = 1 })
   end
 
   -- Mappings
-  map('n', '<C-k>', ':lua vim.lsp.buf.signature_help()<CR>')
-  map('n', '<leader>ca', ':lua vim.lsp.buf.code_action()<CR>')
-  map('v', '<leader>ca', ':lua vim.lsp.buf.range_code_action()<CR>')
-  map('n', '<leader>cd', ':lua vim.lsp.buf.definition()<CR>')
-  map('n', '<leader>cf', ':lua vim.lsp.buf.references()<CR>')
-  map('n', '<leader>ci', ':lua vim.lsp.buf.implementation()<CR>')
-  map('n', '<leader>cr', ':lua vim.lsp.buf.rename()<CR>')
-  map('n', '<leader>cs', ':lua vim.lsp.buf.workspace_symbol()<CR>')
-  map('n', '<leader>ct', ':lua vim.lsp.buf.type_definition()<CR>')
-  map('n', '<leader>e', ':lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
-  map('n', 'K', ':lua vim.lsp.buf.hover()<CR>')
+  map('n', 'gd', ':lua vim.lsp.buf.definition()<CR>')
+  map('n', 'gD', ':lua vim.lsp.buf.declaration()<CR>')
+  map('n', 'gi', ':lua vim.lsp.buf.implementation()<CR>')
+  map('n', 'gt', ':lua vim.lsp.buf.type_definition()<CR>')
+  map('n', 'gr', ':lua vim.lsp.buf.references()<CR>')
+  map('n', 'gn', ':lua vim.lsp.buf.rename()<CR>')
+  -- map('n', 'gr', ':lua require("telescope.builtin").lsp_references()<CR>')
+  -- map('n', 'gn', ':lua require("cosmic.core.theme.ui").rename()<CR>')
+
+  -- diagnostics
+  map('n', 'ge', ':lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
   map('n', '[d', ':lua vim.lsp.diagnostic.goto_prev()<CR>')
   map('n', ']d', ':lua vim.lsp.diagnostic.goto_next()<CR>')
+  -- map('n', 'ge', ':lua vim.diagnostic.open_float(0, { scope = "line", border = "single" })<CR>')
+  -- map('n', '<space>ge', ':Telescope lsp_document_diagnostics<CR>')
 
-  map('n', '<leader>cl', ':Trouble lsp_workspace_diagnostics<CR>')
-  map('n', '<leader>cd', ':Trouble lsp_definitions<CR>')
-  map('n', '<leader>cf', ':Trouble lsp_references<CR>')
-  map('n', '<leader>ci', ':Trouble lsp_implementations<CR>')
+  -- signature helpers
+  map('n', 'K', ':lua vim.lsp.buf.hover()<CR>')
+  map('n', '<c-k>', ':lua vim.lsp.buf.signature_help()<CR>')
+
+  -- code actions
+  map('n', '<space>ca', ':lua vim.lsp.buf.code_action()<CR>')
+  -- map('n', '<space>ga', ':lua require("telescope.builtin").lsp_code_actions()<CR>')
+  -- map('v', '<space>ga', ':lua require("telescope.builtin").lsp_range_code_actions()<CR>')
+
+  -- typescript helpers
+  map('n', '<space>gr', ':TSLspRenameFile<CR>')
+  map('n', '<space>go', ':TSLspOrganize<CR>')
+  map('n', '<space>gi', ':TSLspImportAll<CR>')
 end
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+local flags = {
+  debounce_text_changes = 150,
+}
 
 for _, server_name in ipairs {
   'bashls',
@@ -206,6 +215,7 @@ for _, server_name in ipairs {
   local server_opts = {
     on_attach = on_attach,
     capabilities = capabilities,
+    flags = flags,
   }
 
   if server_name == 'null-ls' then

@@ -21,49 +21,9 @@ return packer.startup(function(use)
 
   -- Colors
   use {
-    'sjl/badwolf',
+    'folke/tokyonight.nvim',
     config = function()
-      cmd [[
-      function! SanitizeColors()
-        hi CursorLine guibg=#444444
-        hi IncSearch guifg=#353b45 guibg=#d19a66
-        hi LineNr guibg=NONE
-        hi MatchParen guibg=NONE
-        hi Normal guibg=NONE
-        hi NormalNC guibg=#3a3a3a
-        hi Pmenu guifg=#f8f6f2 guibg=#484A55
-        hi PmenuSbar guibg=#2B2C31
-        hi PmenuThumb guibg=grey
-        hi Search guifg=#353b45 guibg=#e5c07b
-        hi SignColumn guibg=NONE
-        hi StatusLineNC gui=bold guifg=gray guibg=#262626
-        hi VertSplit guifg=#3a3a3a guibg=#3a3a3a
-        hi Visual guibg=#626262
-
-        hi! link ColorColumn CursorLine
-        hi! link Error ErrorMsg
-        hi! link PmenuSel Search
-
-        if g:colors_name == 'badwolf'
-          hi DiffAdd guibg=#143800
-          hi DiffDelete guibg=#380000
-          hi Noise guifg=#949494
-          hi NonText guibg=NONE
-          hi QuickFixLine gui=NONE guibg=#32302f
-          hi! link StatusLine StatusLineNormal
-          hi! link jsxBraces Noise
-          hi! link typescriptBraces Noise
-          hi! link typescriptParens Noise
-          hi! link typescriptImport Include
-          hi! link typescriptExport Include
-          hi! link typescriptVariable typescriptAliasKeyword
-          hi! link typescriptBOM Normal
-        endif
-      endf
-
-      autocmd ColorScheme * call SanitizeColors()
-      ]]
-      cmd 'colorscheme badwolf'
+      vim.cmd 'color tokyonight'
     end,
   }
 
@@ -84,23 +44,17 @@ return packer.startup(function(use)
       map('n', '<leader>8', '<Plug>BufTabLine.Go(8)', { noremap = false })
       map('n', '<leader>9', '<Plug>BufTabLine.Go(9)', { noremap = false })
       map('n', '<leader>0', '<Plug>BufTabLine.Go(10)', { noremap = false })
-      cmd [[
-        hi BufTabLineCurrent gui=bold guibg=#ff5f5f guifg=#080808
-        hi BufTabLineActive  gui=bold guibg=#3a3a3a guifg=#ff5f5f
-        hi BufTabLineHidden  gui=bold guibg=#3a3a3a guifg=#D5C4A1
-        hi BufTabLineFill    gui=bold guibg=#3a3a3a guifg=#D5C4A1
-      ]]
     end,
   }
 
-  -- Language pack
-  use {
-    'sheerun/vim-polyglot',
-    config = function()
-      vim.g.vim_markdown_conceal = false
-      vim.g.vim_markdown_conceal_code_blocks = false
-    end,
-  }
+  -- -- Language pack
+  -- use {
+  --   'sheerun/vim-polyglot',
+  --   config = function()
+  --     vim.g.vim_markdown_conceal = false
+  --     vim.g.vim_markdown_conceal_code_blocks = false
+  --   end,
+  -- }
 
   -- Git sings on gutter
   use {
@@ -114,9 +68,9 @@ return packer.startup(function(use)
       vim.g.signify_sign_change = '│'
       vim.g.signify_sign_changedelete = '│'
       cmd [[
-        hi SignifySignAdd    guifg=#9BB76D guibg=NONE
-        hi SignifySignChange guifg=#00AFFF guibg=NONE
-        hi SignifySignDelete guifg=#FF5F5F guibg=NONE
+        hi SignifySignAdd    guifg=lightgreen guibg=NONE
+        hi SignifySignChange guifg=cyan guibg=NONE
+        hi SignifySignDelete guifg=lightred guibg=NONE
       ]]
     end,
   }
@@ -126,7 +80,7 @@ return packer.startup(function(use)
     'yggdroot/indentLine',
     config = function()
       vim.g.indentLine_faster = 1
-      vim.g.indentLine_char = '┊'
+      vim.g.indentLine_char = '│'
     end,
   }
 
@@ -333,14 +287,6 @@ return packer.startup(function(use)
         -- Better code navigation (nvim-treesitter-refactor)
         refactor = {
           highlight_definitions = { enable = true },
-          navigation = {
-            enable = true,
-            keymaps = {
-              goto_definition = 'gd',
-              goto_next_usage = ']u',
-              goto_previous_usage = '[u',
-            },
-          },
         },
         -- Additional text ojbects (nvim-treesitter-textobjects)
         textobjects = {
