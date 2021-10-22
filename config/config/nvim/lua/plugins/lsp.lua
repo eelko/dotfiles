@@ -100,11 +100,18 @@ cmp.setup {
   },
 
   sources = {
-    -- { name = 'buffer' },
     { name = 'nvim_lsp' },
     { name = 'path' },
     { name = 'vsnip' },
   },
+}
+
+-- auto-pairs integration
+require('nvim-autopairs.completion.cmp').setup {
+  map_cr = true, -- map <CR> on insert mode
+  map_complete = true, -- it will auto insert `(` (map_char) after select function or method item
+  auto_select = true, -- automatically select the first item
+  insert = false, -- use insert confirm behavior instead of replace
 }
 
 -- null-ls

@@ -86,10 +86,9 @@ return packer.startup(function(use)
 
   -- Auto pairs
   use {
-    'tmsvg/pear-tree',
+    'windwp/nvim-autopairs',
     config = function()
-      vim.g.pear_tree_repeatable_expand = false
-      cmd 'au FileType * imap <buffer> <Space> <Plug>(PearTreeSpace)'
+      require('nvim-autopairs').setup()
     end,
   }
 
