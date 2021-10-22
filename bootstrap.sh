@@ -6,13 +6,13 @@ set -o errexit
 DOTFILES_HOME="$HOME/.dotfiles"
 
 if [[ $(pwd) != "$DOTFILES_HOME" ]]; then
-  echo "Please move this folder to ${DOTFILES_HOME} and re-run this script."
-  exit 1
+	echo "Please move this folder to ${DOTFILES_HOME} and re-run this script."
+	exit 1
 fi
 
 # Homebrew
 if [[ -z "$(command -v brew)" ]]; then
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi
 
 # Homebrew dependencies
@@ -36,4 +36,4 @@ python3 -m pip install --user --upgrade pynvim
 ~/.tmux/plugins/tpm/bin/install_plugins
 
 # Neovim plugins
-nvim -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+nvim -c 'autocmd User PackerComplete PackerCompile' -c 'autocmd User PackerCompileDone quitall' -c 'PackerUpdate'

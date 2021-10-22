@@ -1,28 +1,5 @@
 require 'helpers'
 
-for _, package in ipairs {
-  'cmp',
-  'cmp_nvim_lsp',
-  'lsp_signature',
-  'lspconfig',
-  'lspkind',
-  'null-ls',
-  'nvim-lightbulb',
-  'nvim-lsp-ts-utils',
-  'trouble',
-} do
-  local present, _ = pcall(require, package)
-
-  if not present then
-    print('Missing package: ' .. package .. '. Running PackerInstall... Nvim will exit once this is completed.')
-    cmd [[
-      autocmd User PackerComplete quitall
-      PackerInstall
-    ]]
-    return
-  end
-end
-
 -- Light Bulb
 fn.sign_define('LightBulbSign', { text = '', texthl = 'CmpItemKind', linehl = '', numhl = '' })
 cmd 'autocmd CursorHold,CursorHoldI * lua require("nvim-lightbulb").update_lightbulb()'

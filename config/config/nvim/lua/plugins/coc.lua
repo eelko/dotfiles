@@ -1,26 +1,5 @@
 require 'helpers'
 
-for _, package in ipairs {
-  'coc-fzf',
-  'coc-lightbulb',
-  'coc.nvim',
-  'vim-efm-langserver-settings',
-} do
-  local present, _ = pcall(require, package)
-
-  cmd('packadd ' .. package)
-
-  if present then
-    print('Missing package: ' .. package .. '. Running PackerInstall... Nvim will exit once this is completed.')
-
-    cmd [[
-       autocmd User PackerComplete quitall
-       PackerInstall
-     ]]
-    return
-  end
-end
-
 opt('g', 'coc_node_path', fn.expand '$LATEST_NODE_PATH') -- Custom node path
 
 cmd 'hi CocErrorFLoat guifg=#FF7276' -- A shade of red that is easier on the eyes

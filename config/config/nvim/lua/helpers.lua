@@ -1,35 +1,43 @@
-cmd = vim.cmd
-exec = vim.api.nvim_exec
-fn = vim.fn
-scopes = { o = vim.o, b = vim.bo, g = vim.g, w = vim.wo }
+_G.cmd = vim.cmd
+_G.exec = vim.api.nvim_exec
+_G.fn = vim.fn
+_G.scopes = { o = vim.o, b = vim.bo, g = vim.g, w = vim.wo }
 
-function map(mode, lhs, rhs, opts)
-  options = { noremap = true, silent = true }
+function _G.map(mode, lhs, rhs, opts)
+  local options = { noremap = true, silent = true }
   if opts then
     options = vim.tbl_extend('force', options, opts)
   end
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
-function opt(scope, key, value)
+function _G.opt(scope, key, value)
   scopes[scope][key] = value
 end
 
-function isempty(s)
+function _G.isempty(s)
   return s == nil or s == ''
 end
 
-function print_table(t)
+function _G.print_table(t)
   for k, v in pairs(t) do
     print(k, v)
   end
 end
 
-function contains(list, value)
+function _G.contains(list, value)
   for _, v in pairs(list) do
     if v == value then
       return true
     end
   end
   return false
+end
+
+-- Run commands (e.g. substitution) and restore previous cursor position
+function _G.exec_preserving_cursor_pos(command)
+  local current_view = vim.fn.winsaveview()
+  vim.api.nvim_exec('keeppatterns ' .. command, false)
+  vim.fn.histadd('cmd', command)
+  vim.fn.winrestview(current_view)
 end
