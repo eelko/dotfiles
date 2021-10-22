@@ -1,35 +1,16 @@
-require 'helpers'
+local packer_present, packer = pcall(require, 'plugins.packer')
 
--- Set custom path for plugins
-local package_root = fn.stdpath 'config' .. '/plugins'
-vim.opt.packpath:append(package_root)
-
--- Bootstrap package manager
-local packer_path = package_root .. '/pack/packer/start/packer.nvim'
-
-if fn.empty(fn.glob(packer_path)) > 0 then
-  fn.system { 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', packer_path }
+if not packer_present then
+  return false
 end
 
-cmd 'packadd packer.nvim'
-
-local packer = require 'packer'
-local util = require 'packer.util'
-
-packer.init {
-  package_root = util.join_paths(package_root, 'pack'),
-  compile_path = util.join_paths(fn.stdpath 'config', 'plugins', 'packer_compiled.lua'),
-  display = {
-    open_fn = require('packer.util').float,
-  },
-}
+require 'helpers'
 
 -- Regenerate compiled loader file whenever this file is updated
 cmd [[
   augroup PackerUserConfig
     autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
-    autocmd User PackerCompileDone call SanitizeColors()
+    autocmd BufWritePost *.lua source <afile> | PackerCompile
   augroup end
 ]]
 
@@ -199,7 +180,7 @@ return packer.startup(function(use)
 
   -- Statusline
   use { 'tamton-aquib/staline.nvim', requires = { 'nvim-lua/plenary.nvim' } }
-  require 'statusline'
+  require 'plugins.statusline'
 
   -- Faster text navigation
   use { 'justinmk/vim-sneak' }
@@ -362,7 +343,7 @@ return packer.startup(function(use)
       'xiyaowong/coc-lightbulb',
     },
   }
-  -- require 'coc'
+  -- require 'plugins.coc'
 
   -- Native LSP
   use {
@@ -395,5 +376,5 @@ return packer.startup(function(use)
       },
     },
   }
-  require 'lsp'
+  require 'plugins.lsp'
 end)
