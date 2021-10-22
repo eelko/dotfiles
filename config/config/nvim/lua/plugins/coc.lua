@@ -1,6 +1,6 @@
 require 'helpers'
 
-opt('g', 'coc_node_path', fn.expand '$LATEST_NODE_PATH') -- Custom node path
+vim.g.coc_node_path = fn.expand '$LATEST_NODE_PATH' -- Custom node path
 
 cmd 'hi CocErrorFLoat guifg=#FF7276' -- A shade of red that is easier on the eyes
 cmd 'hi CocFloatBorder guifg=black guibg=none gui=bold' -- Make float windows blend better with other stuff
@@ -29,8 +29,8 @@ map('n', '[d', '<Plug>(coc-diagnostic-prev)', { noremap = false })
 map('n', ']d', '<Plug>(coc-diagnostic-next)', { noremap = false })
 
 -- Use Tab to trigger completion, snippet expansion and placeholder navigation
-opt('g', 'coc_snippet_next', '<TAB>')
-opt('g', 'coc_snippet_prev', '<S-TAB>')
+vim.g.coc_snippet_next = '<TAB>'
+vim.g.coc_snippet_prev = '<S-TAB>'
 
 map(
   'i',
@@ -77,4 +77,4 @@ require('coc-lightbulb').setup {
 fn.sign_define('LightBulbSign', { text = '', texthl = 'LspDiagnosticsDefaultInformation' })
 
 -- Disable pear-tree when filetype is not set (workaround for CoC prompts on float windows)
-opt('g', 'pear_tree_ft_disabled', { '' })
+vim.g.pear_tree_ft_disabled = { '' }

@@ -71,9 +71,9 @@ return packer.startup(function(use)
   use {
     'ap/vim-buftabline',
     config = function()
-      opt('g', 'buftabline_show', true)
-      opt('g', 'buftabline_indicators', true)
-      opt('g', 'buftabline_numbers', 2)
+      vim.g.buftabline_show = true
+      vim.g.buftabline_indicators = true
+      vim.g.buftabline_numbers = 2
       map('n', '<leader>1', '<Plug>BufTabLine.Go(1)', { noremap = false })
       map('n', '<leader>2', '<Plug>BufTabLine.Go(2)', { noremap = false })
       map('n', '<leader>3', '<Plug>BufTabLine.Go(3)', { noremap = false })
@@ -97,8 +97,8 @@ return packer.startup(function(use)
   use {
     'sheerun/vim-polyglot',
     config = function()
-      opt('g', 'vim_markdown_conceal', false)
-      opt('g', 'vim_markdown_conceal_code_blocks', false)
+      vim.g.vim_markdown_conceal = false
+      vim.g.vim_markdown_conceal_code_blocks = false
     end,
   }
 
@@ -106,13 +106,13 @@ return packer.startup(function(use)
   use {
     'mhinz/vim-signify',
     config = function()
-      opt('g', 'signify_sign_show_count', false)
-      opt('g', 'signify_priority', 5)
-      opt('g', 'signify_sign_add', '│')
-      opt('g', 'signify_sign_delete', '│')
-      opt('g', 'signify_sign_delete_first_line', '│')
-      opt('g', 'signify_sign_change', '│')
-      opt('g', 'signify_sign_changedelete', '│')
+      vim.g.signify_sign_show_count = false
+      vim.g.signify_priority = 5
+      vim.g.signify_sign_add = '│'
+      vim.g.signify_sign_delete = '│'
+      vim.g.signify_sign_delete_first_line = '│'
+      vim.g.signify_sign_change = '│'
+      vim.g.signify_sign_changedelete = '│'
       cmd [[
         hi SignifySignAdd    guifg=#9BB76D guibg=NONE
         hi SignifySignChange guifg=#00AFFF guibg=NONE
@@ -125,8 +125,8 @@ return packer.startup(function(use)
   use {
     'yggdroot/indentLine',
     config = function()
-      opt('g', 'indentLine_faster', 1)
-      opt('g', 'indentLine_char', '┊')
+      vim.g.indentLine_faster = 1
+      vim.g.indentLine_char = '┊'
     end,
   }
 
@@ -134,7 +134,7 @@ return packer.startup(function(use)
   use {
     'tmsvg/pear-tree',
     config = function()
-      opt('g', 'pear_tree_repeatable_expand', false)
+      vim.g.pear_tree_repeatable_expand = false
       cmd 'au FileType * imap <buffer> <Space> <Plug>(PearTreeSpace)'
     end,
   }
@@ -143,7 +143,7 @@ return packer.startup(function(use)
   use {
     'christoomey/vim-tmux-navigator',
     config = function()
-      opt('g', 'tmux_navigator_no_mappings', true)
+      vim.g.tmux_navigator_no_mappings = true
       map('n', '<m-h>', ':TmuxNavigateLeft<CR>')
       map('n', '<m-j>', ':TmuxNavigateDown<CR>')
       map('n', '<m-k>', ':TmuxNavigateUp<CR>')
@@ -156,12 +156,12 @@ return packer.startup(function(use)
     'kyazdani42/nvim-tree.lua',
     requires = { 'kyazdani42/nvim-web-devicons' },
     config = function()
-      opt('g', 'nvim_tree_git_hl', 0)
-      opt('g', 'nvim_tree_icons', { default = '', symlink = '' })
-      opt('g', 'nvim_tree_ignore', { '.git' })
-      opt('g', 'nvim_tree_indent_markers', 1)
-      opt('g', 'nvim_tree_show_icons', { git = 0, folders = 1, files = 1 })
-      opt('g', 'nvim_tree_root_folder_modifier', ':t')
+      vim.g.nvim_tree_git_hl = 0
+      vim.g.nvim_tree_icons = { default = '', symlink = '' }
+      vim.g.nvim_tree_ignore = { '.git' }
+      vim.g.nvim_tree_indent_markers = 1
+      vim.g.nvim_tree_show_icons = { git = 0, folders = 1, files = 1 }
+      vim.g.nvim_tree_root_folder_modifier = ':t'
 
       map('n', '<leader>nf', ':NvimTreeFindFile<CR>')
       map('n', '<leader>nt', ':NvimTreeToggle<CR>')
@@ -207,7 +207,7 @@ return packer.startup(function(use)
     'kkoomen/vim-doge',
     run = ':call doge#install()',
     config = function()
-      opt('g', 'doge_enable_mappings', 0)
+      vim.g.doge_enable_mappings = 0
     end,
   }
 
@@ -224,7 +224,7 @@ return packer.startup(function(use)
   use {
     'justinmk/vim-sneak',
     config = function()
-      opt('g', 'sneak#label', 1)
+      vim.g['sneak#label'] = 1
     end,
   }
 
@@ -285,8 +285,8 @@ return packer.startup(function(use)
       { 'junegunn/fzf', run = ':call fzf#install()' },
     },
     config = function()
-      opt('g', 'fzf_layout', { window = { width = 0.7, height = 0.4 } })
-      opt('g', 'projectionist_ignore_term', 1)
+      vim.g.fzf_layout = { window = { width = 0.7, height = 0.4 } }
+      vim.g.projectionist_ignore_term = 1
       map('n', '<leader>fb', ':Buffers<CR>')
       map('n', '<leader>fc', ':Commands<CR>')
       map('n', '<leader>ff', ':Files<CR>')
@@ -295,8 +295,8 @@ return packer.startup(function(use)
       map('n', '<leader>fr', ':History<CR>')
       map('n', '<leader>rg', ':Rg<CR>')
       cmd [[
-    command! -bang -nargs=* Rg call fzf#vim#grep('rg --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview({'options': ['--preview-window=up:60%']}), <bang>0)
-  ]]
+        command! -bang -nargs=* Rg call fzf#vim#grep('rg --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview({'options': ['--preview-window=up:60%']}), <bang>0)
+      ]]
     end,
   }
 
@@ -310,8 +310,8 @@ return packer.startup(function(use)
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
     config = function()
-      opt('w', 'foldmethod', 'expr')
-      opt('w', 'foldexpr', 'nvim_treesitter#foldexpr()')
+      vim.w.foldmethod = 'expr'
+      vim.w.foldexpr = 'nvim_treesitter#foldexpr()'
 
       require('nvim-treesitter.configs').setup {
         ensure_installed = 'maintained',

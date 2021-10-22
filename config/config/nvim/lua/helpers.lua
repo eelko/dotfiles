@@ -1,7 +1,6 @@
 _G.cmd = vim.cmd
 _G.exec = vim.api.nvim_exec
 _G.fn = vim.fn
-_G.scopes = { o = vim.o, b = vim.bo, g = vim.g, w = vim.wo }
 
 function _G.map(mode, lhs, rhs, opts)
   local options = { noremap = true, silent = true }
@@ -9,10 +8,6 @@ function _G.map(mode, lhs, rhs, opts)
     options = vim.tbl_extend('force', options, opts)
   end
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
-end
-
-function _G.opt(scope, key, value)
-  scopes[scope][key] = value
 end
 
 function _G.isempty(s)

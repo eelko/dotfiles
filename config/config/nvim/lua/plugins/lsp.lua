@@ -13,13 +13,13 @@ require('lsp_signature').setup {
 }
 
 -- Snippets
-opt('g', 'vsnip_filetypes', {
+vim.g.vsnip_filetypes = {
   javascriptreact = { 'javascript' },
   typescript = { 'javascript' },
   typescriptreact = { 'javascript' },
-})
+}
 
-opt('g', 'vsnip_snippet_dir', fn.stdpath 'config' .. '/snippets')
+vim.g.vsnip_snippet_dir = fn.stdpath 'config' .. '/snippets'
 
 -- Completion
 cmd [[
@@ -143,7 +143,7 @@ local on_attach = function(client)
   end
 
   -- Options
-  opt('b', 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+  vim.b.omnifunc = 'v:lua.vim.lsp.omnifunc'
 
   -- Diagnostics Signs and Colors
   local diagnostics_levels = { Error = '#a02f2f', Warning = '#ce863d', Hint = '#857f78', Information = '#005f87' }
