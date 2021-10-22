@@ -27,6 +27,31 @@ set tabstop=2                                              " Number of spaces fo
 set ignorecase                                             " Ignore case sensitivity
 set smartcase                                              " Enable case-smart searching (overrides ignorecase)
 
+" --- DISABLE OBSOLETE NATIVE PLUGINS ---
+
+for feature in [
+      \ 'netrw',
+      \ 'netrwPlugin',
+      \ 'netrwSettings',
+      \ 'netrwFileHandlers',
+      \ 'gzip',
+      \ 'zip',
+      \ 'zipPlugin',
+      \ 'tar',
+      \ 'tarPlugin',
+      \ 'getscript',
+      \ 'getscriptPlugin',
+      \ 'vimball',
+      \ 'vimballPlugin',
+      \ '2html_plugin',
+      \ 'logipat',
+      \ 'rrhelper',
+      \ 'spellfile_plugin',
+      \ 'matchit'
+      \ ]
+  execute 'let g:loaded_' . feature . ' = 1'
+endfor
+
 " --- AUTOMATIC COMMANDS ---
 
 " Resize all splits when host window is resized
