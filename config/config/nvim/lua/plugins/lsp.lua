@@ -45,6 +45,11 @@ cmp.setup {
 
   documentation = {
     border = 'rounded',
+    winhighlight = 'FloatBorder:FloatBorder,Normal:Normal',
+  },
+
+  experimental = {
+    ghost_text = true,
   },
 
   formatting = {
