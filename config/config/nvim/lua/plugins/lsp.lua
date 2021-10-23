@@ -176,8 +176,7 @@ local on_attach = function(client)
   map('n', 'ge', ':lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
   map('n', '[d', ':lua vim.lsp.diagnostic.goto_prev()<CR>')
   map('n', ']d', ':lua vim.lsp.diagnostic.goto_next()<CR>')
-  -- map('n', 'ge', ':lua vim.diagnostic.open_float(0, { scope = "line", border = "single" })<CR>')
-  -- map('n', '<space>ge', ':Telescope lsp_document_diagnostics<CR>')
+  map('n', '<space>ge', ':Telescope lsp_document_diagnostics<CR>')
 
   -- signature helpers
   map('n', 'K', ':lua vim.lsp.buf.hover()<CR>')
@@ -185,8 +184,7 @@ local on_attach = function(client)
 
   -- code actions
   map('n', '<space>ca', ':lua vim.lsp.buf.code_action()<CR>')
-  -- map('n', '<space>ga', ':lua require("telescope.builtin").lsp_code_actions()<CR>')
-  -- map('v', '<space>ga', ':lua require("telescope.builtin").lsp_range_code_actions()<CR>')
+  map('v', '<space>ca', ':Telescope lsp_range_code_actions theme=cursor<CR>')
 
   -- typescript helpers
   map('n', '<space>gr', ':TSLspRenameFile<CR>')

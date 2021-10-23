@@ -231,25 +231,48 @@ return packer.startup(function(use)
     end,
   }
 
-  -- FZF
   use {
-    'junegunn/fzf.vim',
+    'nvim-telescope/telescope.nvim',
     requires = {
-      { 'junegunn/fzf', run = ':call fzf#install()' },
+      'nvim-lua/plenary.nvim',
+      'gbrlsnchs/telescope-lsp-handlers.nvim',
+      { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
     },
     config = function()
-      vim.g.fzf_layout = { window = { width = 0.7, height = 0.4 } }
-      vim.g.projectionist_ignore_term = 1
-      map('n', '<leader>fb', ':Buffers<CR>')
-      map('n', '<leader>fc', ':Commands<CR>')
-      map('n', '<leader>ff', ':Files<CR>')
-      map('n', '<leader>fh', ':History:<CR>')
-      map('n', '<leader>fl', ':BLines<CR>')
-      map('n', '<leader>fr', ':History<CR>')
-      map('n', '<leader>rg', ':Rg<CR>')
-      cmd [[
-        command! -bang -nargs=* Rg call fzf#vim#grep('rg --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview({'options': ['--preview-window=up:60%']}), <bang>0)
-      ]]
+      local telescope = require 'telescope'
+      local actions = require 'telescope.actions'
+
+      telescope.setup {
+        defaults = {
+          mappings = {
+            i = {
+              ['<esc>'] = actions.close,
+            },
+          },
+        },
+        extensions = {
+          lsp_handlers = {
+            code_action = {
+              telescope = require('telescope.themes').get_cursor {},
+            },
+          },
+        },
+        pickers = {
+          current_buffer_fuzzy_find = {
+            sorting_strategy = 'ascending',
+          },
+        },
+      }
+
+      telescope.load_extension 'fzf'
+      telescope.load_extension 'lsp_handlers'
+
+      map('n', '<leader>fb', ':Telescope buffers<CR>', { noremap = true })
+      map('n', '<leader>fc', ':Telescope commands<CR>', { noremap = true })
+      map('n', '<leader>ff', ':Telescope find_files<CR>', { noremap = true })
+      map('n', '<leader>fg', ':Telescope live_grep<CR>', { noremap = true })
+      map('n', '<leader>fh', ':Telescope command_history<CR>', { noremap = true })
+      map('n', '<leader>fl', ':Telescope current_buffer_fuzzy_find<CR>', { noremap = true })
     end,
   }
 
