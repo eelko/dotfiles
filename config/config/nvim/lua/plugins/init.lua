@@ -27,23 +27,33 @@ return packer.startup(function(use)
     end,
   }
 
-  -- Tabline aesthetics
+  -- Tabline
   use {
-    'ap/vim-buftabline',
+    'akinsho/bufferline.nvim',
+    requires = 'kyazdani42/nvim-web-devicons',
     config = function()
-      vim.g.buftabline_show = true
-      vim.g.buftabline_indicators = true
-      vim.g.buftabline_numbers = 2
-      map('n', '<leader>1', '<Plug>BufTabLine.Go(1)', { noremap = false })
-      map('n', '<leader>2', '<Plug>BufTabLine.Go(2)', { noremap = false })
-      map('n', '<leader>3', '<Plug>BufTabLine.Go(3)', { noremap = false })
-      map('n', '<leader>4', '<Plug>BufTabLine.Go(4)', { noremap = false })
-      map('n', '<leader>5', '<Plug>BufTabLine.Go(5)', { noremap = false })
-      map('n', '<leader>6', '<Plug>BufTabLine.Go(6)', { noremap = false })
-      map('n', '<leader>7', '<Plug>BufTabLine.Go(7)', { noremap = false })
-      map('n', '<leader>8', '<Plug>BufTabLine.Go(8)', { noremap = false })
-      map('n', '<leader>9', '<Plug>BufTabLine.Go(9)', { noremap = false })
-      map('n', '<leader>0', '<Plug>BufTabLine.Go(10)', { noremap = false })
+      require('bufferline').setup {
+        options = {
+          diagnostics = 'nvim_lsp',
+          ---@diagnostic disable-next-line: unused-local
+          diagnostics_indicator = function(count, level, diagnostics_dict, context)
+            local icon = level:match 'error' and ' ' or ' '
+            return ' ' .. icon .. count
+          end,
+          max_name_length = 50,
+          offsets = {
+            {
+              filetype = 'NvimTree',
+              -- highlight = 'Directory',
+              text = function()
+                -- return vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
+                return 'File Explorer'
+              end,
+              text_align = 'center',
+            },
+          },
+        },
+      }
     end,
   }
 
