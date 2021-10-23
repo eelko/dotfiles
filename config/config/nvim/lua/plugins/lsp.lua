@@ -10,9 +10,6 @@ vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
 fn.sign_define('LightBulbSign', { text = '', linehl = '', numhl = '' })
 cmd 'autocmd CursorHold,CursorHoldI * lua require("nvim-lightbulb").update_lightbulb()'
 
--- Trouble
-require('trouble').setup {}
-
 -- Signature Helper
 require('lsp_signature').setup {
   hint_enable = false,

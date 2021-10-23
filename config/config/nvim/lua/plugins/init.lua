@@ -373,8 +373,6 @@ return packer.startup(function(use)
       'williamboman/nvim-lsp-installer',
       -- Visual hint when code actions are available
       { 'kosayoda/nvim-lightbulb', commit = '3c5d42a' },
-      -- Quickfix alternative for diagnostics, references, etc
-      'HungryJoe/trouble.nvim',
       -- Method signature hints
       'ray-x/lsp_signature.nvim',
       -- General purpose LSP
