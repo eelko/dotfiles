@@ -162,33 +162,26 @@ local on_attach = function(client)
   end
 
   -- Mappings
-  map('n', 'gd', ':lua vim.lsp.buf.definition()<CR>')
-  map('n', 'gD', ':lua vim.lsp.buf.declaration()<CR>')
-  map('n', 'gi', ':lua vim.lsp.buf.implementation()<CR>')
-  map('n', 'gt', ':lua vim.lsp.buf.type_definition()<CR>')
-  map('n', 'gr', ':lua vim.lsp.buf.references()<CR>')
-  map('n', 'gn', ':lua vim.lsp.buf.rename()<CR>')
-  -- map('n', 'gr', ':lua require("telescope.builtin").lsp_references()<CR>')
-  -- map('n', 'gn', ':lua require("cosmic.core.theme.ui").rename()<CR>')
+  map('n', '<leader>cd', ':lua vim.lsp.buf.definition()<CR>')
+  map('n', '<leader>cD', ':lua vim.lsp.buf.declaration()<CR>')
+  map('n', '<leader>ci', ':lua vim.lsp.buf.implementation()<CR>')
+  map('n', '<leader>ct', ':lua vim.lsp.buf.type_definition()<CR>')
+  map('n', '<leader>cr', ':lua vim.lsp.buf.references()<CR>')
+  map('n', '<leader>cn', ':lua vim.lsp.buf.rename()<CR>')
 
   -- diagnostics
-  map('n', 'ge', ':lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
   map('n', '[d', ':lua vim.lsp.diagnostic.goto_prev()<CR>')
   map('n', ']d', ':lua vim.lsp.diagnostic.goto_next()<CR>')
-  map('n', '<space>ge', ':Telescope lsp_document_diagnostics<CR>')
+  map('n', '<leader>ee', ':Telescope lsp_document_diagnostics<CR>')
+  map('n', '<leader>ew', ':Telescope lsp_workspace_diagnostics<CR>')
 
   -- signature helpers
   map('n', 'K', ':lua vim.lsp.buf.hover()<CR>')
   map('n', '<c-k>', ':lua vim.lsp.buf.signature_help()<CR>')
 
   -- code actions
-  map('n', '<space>ca', ':lua vim.lsp.buf.code_action()<CR>')
-  map('v', '<space>ca', ':Telescope lsp_range_code_actions theme=cursor<CR>')
-
-  -- typescript helpers
-  map('n', '<space>gr', ':TSLspRenameFile<CR>')
-  map('n', '<space>go', ':TSLspOrganize<CR>')
-  map('n', '<space>gi', ':TSLspImportAll<CR>')
+  map('n', '<leader>ca', ':lua vim.lsp.buf.code_action()<CR>')
+  map('v', '<leader>ca', ':Telescope lsp_range_code_actions theme=cursor<CR>')
 end
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
