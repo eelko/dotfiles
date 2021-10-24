@@ -105,6 +105,7 @@ return packer.startup(function(use)
     config = function()
       vim.g.indentLine_faster = 1
       vim.g.indentLine_char = '│'
+      vim.g.indentLine_fileTypeExclude = { 'lsp-installer', 'packer', 'TelescopePrompt', 'TelescopeResults' }
     end,
   }
 
