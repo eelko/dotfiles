@@ -105,7 +105,13 @@ return packer.startup(function(use)
     config = function()
       vim.g.indentLine_faster = 1
       vim.g.indentLine_char = '│'
-      vim.g.indentLine_fileTypeExclude = { 'lsp-installer', 'packer', 'TelescopePrompt', 'TelescopeResults' }
+      vim.g.indentLine_fileTypeExclude = {
+        'lsp-installer',
+        'packer',
+        'TelescopePrompt',
+        'TelescopeResults',
+        'which_key',
+      }
     end,
   }
 
@@ -249,13 +255,74 @@ return packer.startup(function(use)
   use {
     'obxhdx/vim-debug-logger',
     requires = 'obxhdx/vim-action-mapper',
+  }
+
+  -- Keymap helper
+  use {
+    'liuchengxu/vim-which-key',
     config = function()
-      map('n', '<leader>lc', ':CommentAllDebugLogs<CR>')
-      map('n', '<leader>ld', ':DeleteAllDebugLogs<CR>')
-      map('n', '<leader>lu', ':UncommentAllDebugLogs<CR>')
+      vim.g.which_key_centered = 0
+
+      vim.g.which_key_map = {
+        d = 'close current buffer',
+        g = 'grep operator',
+        gg = 'which_key_ignore',
+        l = 'debug log operator',
+        ll = 'which_key_ignore',
+        p = 'paste from clipboard after cursor',
+        P = 'paste from clipboard before cursor',
+        q = 'quit',
+        r = 'find/replace operator',
+        rr = 'which_key_ignore',
+        w = 'save current buffer',
+        x = 'save current buffer and quit',
+        y = 'copy to clipboard',
+        Y = 'copy whole line to clipboard',
+        a = {
+          name = '+alternate',
+          a = 'open alternate file',
+          s = 'open alternate file in vertical split',
+          v = 'open alternate file in horizontal split',
+        },
+        c = {
+          name = '+code',
+          a = 'show code actions',
+          d = 'go to definition',
+          D = 'go to declaration',
+          i = 'go to implementation',
+          n = 'show references',
+          r = 'rename symbol',
+          t = 'go to type definition',
+        },
+        e = {
+          name = '+diagnostics',
+          e = 'document diagnostics',
+          w = 'workspace diagnostics',
+        },
+        f = {
+          name = '+find',
+          b = 'find buffer',
+          c = 'find command',
+          f = 'find file',
+          g = 'live grep',
+          h = 'show command history',
+          l = 'filter lines in current buffer',
+        },
+        n = {
+          name = '+navigate',
+          f = 'show current file in file explorer',
+          t = 'toggle file explorer',
+        },
+      }
+
+      vim.fn['which_key#register']('<Space>', 'g:which_key_map')
+
+      map('n', '<leader>', ":WhichKey '<Space>'<CR>")
+      map('v', '<leader>', ":<c-u>WhichKeyVisual '<Space>'<CR>")
     end,
   }
 
+  -- Telescope
   use {
     'nvim-telescope/telescope.nvim',
     requires = {

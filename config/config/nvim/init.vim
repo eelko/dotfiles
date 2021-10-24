@@ -199,13 +199,12 @@ endfunction
 command! CloseOtherBuffers call s:CloseOtherBuffers()
 
 " Show all syntax groups for word under cursor
-function! s:ShowSyntaxGroup()
+function! ShowSyntaxGroup()
   if !exists('*synstack')
     return
   endif
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunction
-nmap <silent> <leader>sg :call <SID>ShowSyntaxGroup()<CR>
 
 " Grep helper
 " Source: https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3
