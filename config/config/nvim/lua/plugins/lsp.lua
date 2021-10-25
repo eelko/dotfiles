@@ -7,7 +7,6 @@ vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
 })
 
 -- Light Bulb
--- fn.sign_define('LightBulbSign', { text = '', texthl = 'CmpItemKind', linehl = '', numhl = '' })
 fn.sign_define('LightBulbSign', { text = '', linehl = '', numhl = '' })
 cmd 'autocmd CursorHold,CursorHoldI * lua require("nvim-lightbulb").update_lightbulb()'
 
