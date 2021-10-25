@@ -47,8 +47,7 @@ for feature in [
       \ '2html_plugin',
       \ 'logipat',
       \ 'rrhelper',
-      \ 'spellfile_plugin',
-      \ 'matchit'
+      \ 'spellfile_plugin'
       \ ]
   execute 'let g:loaded_' . feature . ' = 1'
 endfor
