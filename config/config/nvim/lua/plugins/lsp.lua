@@ -149,7 +149,9 @@ local on_attach = function(client)
     client.resolved_capabilities.document_range_formatting = false
 
     -- Fix code action ranges and filter diagnostics
-    require('nvim-lsp-ts-utils').setup_client(client)
+    local ts_utils = require 'nvim-lsp-ts-utils'
+    ts_utils.setup {}
+    ts_utils.setup_client(client)
   end
 
   -- Options
@@ -182,6 +184,11 @@ local on_attach = function(client)
   -- code actions
   map('n', '<leader>ca', ':lua vim.lsp.buf.code_action()<CR>')
   map('v', '<leader>ca', ':Telescope lsp_range_code_actions theme=cursor<CR>')
+
+  -- typescript helpers
+  map('n', '<leader>co', ':TSLspOrganize<CR>')
+  map('n', '<leader>cR', ':TSLspRenameFile<CR>')
+  map('n', '<leader>cI', ':TSLspImportAll<CR>')
 end
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
