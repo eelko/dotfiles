@@ -401,12 +401,13 @@ return packer.startup(function(use)
         },
         f = {
           name = '+find',
-          b = 'Find buffer',
+          b = 'Find open buffer',
           c = 'Find command',
           f = 'Find file',
           g = 'Live grep',
-          h = 'Show command history',
+          h = 'Show recent commands',
           l = 'Filter lines in current buffer',
+          r = 'Open recently edited file',
         },
         n = {
           name = '+navigate',
@@ -466,6 +467,8 @@ return packer.startup(function(use)
       map('n', '<leader>fg', ':Telescope live_grep<CR>', { noremap = true })
       map('n', '<leader>fh', ':Telescope command_history<CR>', { noremap = true })
       map('n', '<leader>fl', ':Telescope current_buffer_fuzzy_find<CR>', { noremap = true })
+      map('n', '<leader>fr', ':Telescope oldfiles<CR>', { noremap = true })
+      map('n', '<leader>fs', ':Telescope lsp_dynamic_workspace_symbols<CR>', { noremap = true })
     end,
   }
 
