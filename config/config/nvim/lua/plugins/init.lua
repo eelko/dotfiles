@@ -178,8 +178,9 @@ return packer.startup(function(use)
   -- Turn quickfix buffer editable
   use { 'itchyny/vim-qfedit' }
 
-  -- Readline keymaps for command bar
-  use { 'tpope/vim-rsi' }
+  -- GNU Readline emulation
+  use { 'tpope/vim-rsi', event = 'VimEnter' } -- insert mode
+  use { 'ryvnf/readline.vim', after = 'vim-rsi' } -- command mode
 
   -- Quickly surround with quotes/parens/etc
   use { 'tpope/vim-surround', requires = { 'tpope/vim-repeat' } }
