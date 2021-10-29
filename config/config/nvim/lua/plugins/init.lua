@@ -107,6 +107,7 @@ return packer.startup(function(use)
       vim.g.indentLine_char = '│'
       vim.g.indentLine_fileTypeExclude = {
         'gitcommit',
+        'help',
         'lsp-installer',
         'packer',
         'TelescopePrompt',
