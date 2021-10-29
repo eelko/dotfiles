@@ -139,12 +139,7 @@ cmp.setup.cmdline(':', {
 })
 
 -- auto-pairs integration
-require('nvim-autopairs.completion.cmp').setup {
-  map_cr = true, -- map <CR> on insert mode
-  map_complete = true, -- it will auto insert `(` (map_char) after select function or method item
-  auto_select = true, -- automatically select the first item
-  insert = false, -- use insert confirm behavior instead of replace
-}
+cmp.event:on('confirm_done', require('nvim-autopairs.completion.cmp').on_confirm_done {}) -- inserts `()` after selecting a function or method item
 
 -- null-ls
 local null_ls = require 'null-ls'
