@@ -109,6 +109,7 @@ return packer.startup(function(use)
         'gitcommit',
         'help',
         'lsp-installer',
+        'NvimTree',
         'packer',
         'TelescopePrompt',
         'TelescopeResults',
