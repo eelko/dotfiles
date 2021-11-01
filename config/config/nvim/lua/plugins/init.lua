@@ -145,7 +145,6 @@ return packer.startup(function(use)
     config = function()
       vim.g.nvim_tree_git_hl = 0
       vim.g.nvim_tree_icons = { default = '', symlink = '' }
-      vim.g.nvim_tree_ignore = { '.git' }
       vim.g.nvim_tree_indent_markers = 1
       vim.g.nvim_tree_show_icons = { git = 0, folders = 1, files = 1 }
       vim.g.nvim_tree_root_folder_modifier = ':t'
@@ -159,6 +158,9 @@ return packer.startup(function(use)
         hijack_cursor = true, -- hijack the cursor in the tree to put it at the start of the filename
         update_focused_file = {
           enable = true, -- highlight current file
+        },
+        filters = {
+          custom = { '.git' },
         },
         view = {
           mappings = {
