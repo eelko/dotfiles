@@ -44,10 +44,8 @@ return packer.startup(function(use)
           offsets = {
             {
               filetype = 'NvimTree',
-              -- highlight = 'Directory',
               text = function()
-                -- return vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
-                return 'File Explorer'
+                return vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
               end,
               text_align = 'center',
             },
@@ -152,6 +150,8 @@ return packer.startup(function(use)
       map('n', '<leader>nf', ':NvimTreeFindFile<CR>')
       map('n', '<leader>nt', ':NvimTreeToggle<CR>')
 
+      cmd 'hi NvimTreeVertSplit guibg=#1D202F guifg=#1D202F'
+
       local tree_cb = require('nvim-tree.config').nvim_tree_callback
 
       require('nvim-tree').setup {
@@ -163,6 +163,7 @@ return packer.startup(function(use)
           custom = { '.git' },
         },
         view = {
+          hide_root_folder = true,
           mappings = {
             list = {
               -- NERDTree-like mappings
