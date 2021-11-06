@@ -592,7 +592,7 @@ return packer.startup(function(use)
           'hrsh7th/cmp-vsnip',
           'onsails/lspkind-nvim',
           -- Snippets
-          { 'hrsh7th/vim-vsnip', requires = { 'hrsh7th/vim-vsnip-integ', 'rafamadriz/friendly-snippets' } },
+          { 'hrsh7th/vim-vsnip', requires = { 'hrsh7th/vim-vsnip-integ' } },
         },
       },
     },
