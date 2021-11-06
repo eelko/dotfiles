@@ -570,29 +570,37 @@ return packer.startup(function(use)
   -- Native LSP
   use {
     'neovim/nvim-lspconfig',
+    commit = '3a5d94d',
     requires = {
       -- LSP server installer
-      'williamboman/nvim-lsp-installer',
+      { 'williamboman/nvim-lsp-installer', commit = 'b5059ef' },
       -- Visual hint when code actions are available
       { 'kosayoda/nvim-lightbulb', commit = '3c5d42a' },
       -- Method signature hints
-      'ray-x/lsp_signature.nvim',
+      { 'ray-x/lsp_signature.nvim', commit = 'e5bd090' },
       -- General purpose LSP
-      { 'jose-elias-alvarez/null-ls.nvim', requires = { 'nvim-lua/plenary.nvim' } },
+      { 'jose-elias-alvarez/null-ls.nvim', commit = '64b269b', requires = { 'nvim-lua/plenary.nvim' } },
       -- Enhanced LSP experience for TS
-      { 'jose-elias-alvarez/nvim-lsp-ts-utils', requires = { 'nvim-lua/plenary.nvim' } },
+      { 'jose-elias-alvarez/nvim-lsp-ts-utils', commit = '19d41dd', requires = { 'nvim-lua/plenary.nvim' } },
       -- Code Completion
       {
         'hrsh7th/nvim-cmp',
+        commit = '1774ff0',
         requires = {
-          'hrsh7th/cmp-buffer',
-          'hrsh7th/cmp-cmdline',
-          'hrsh7th/cmp-nvim-lsp',
-          'hrsh7th/cmp-path',
-          'hrsh7th/cmp-vsnip',
-          'onsails/lspkind-nvim',
+          { 'hrsh7th/cmp-buffer', commit = 'd1ca295' },
+          { 'hrsh7th/cmp-cmdline', commit = 'a5cf11a' },
+          { 'hrsh7th/cmp-nvim-lsp', commit = 'accbe6d' },
+          { 'hrsh7th/cmp-path', commit = '97661b0' },
+          { 'onsails/lspkind-nvim', commit = '1557ce5' },
           -- Snippets
-          { 'hrsh7th/vim-vsnip', requires = { 'hrsh7th/vim-vsnip-integ' } },
+          {
+            'hrsh7th/cmp-vsnip',
+            commit = '1588c35',
+            requires = {
+              { 'hrsh7th/vim-vsnip', commit = '4d57a1f' },
+              { 'hrsh7th/vim-vsnip-integ', commit = '8db26e8' },
+            },
+          },
         },
       },
     },
