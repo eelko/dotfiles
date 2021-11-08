@@ -24,6 +24,7 @@ return packer.startup(function(use)
     'folke/tokyonight.nvim',
     config = function()
       vim.cmd 'color tokyonight'
+      highlight('Search', '#ff9e64', 'black')
     end,
   }
 
