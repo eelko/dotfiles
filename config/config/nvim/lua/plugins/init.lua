@@ -10,7 +10,7 @@ require 'helpers'
 cmd [[
   augroup PackerUserConfig
     autocmd!
-    autocmd BufWritePost *.lua source <afile> | PackerCompile
+    autocmd BufWritePost */nvim/lua/*.lua source <afile> | PackerCompile
   augroup end
 ]]
 
