@@ -444,6 +444,7 @@ return packer.startup(function(use)
 
       telescope.setup {
         defaults = {
+          file_ignore_patterns = { 'node_modules', '.git' },
           layout_strategy = 'vertical',
           mappings = {
             i = {
@@ -461,6 +462,9 @@ return packer.startup(function(use)
         pickers = {
           current_buffer_fuzzy_find = {
             sorting_strategy = 'ascending',
+          },
+          find_files = {
+            hidden = true,
           },
         },
       }
