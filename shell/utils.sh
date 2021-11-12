@@ -4,7 +4,7 @@
 update_tmux_pane_name() {
   [ -n "$(pgrep tmux)" ] || return
 
-  local -r current_path=$(basename "$(tmux display-message -p '#{pane_current_path}')")
+  local -r current_path=$(basename "$(print -rD "$(tmux display-message -p '#{pane_current_path}')")")
 
   if [[ $current_path =~ - ]]; then
     # only last two words of kebab-cased names
