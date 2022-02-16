@@ -6,10 +6,6 @@ vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
   border = 'rounded',
 })
 
--- Light Bulb
-fn.sign_define('LightBulbSign', { text = '', linehl = '', numhl = '' })
-cmd 'autocmd CursorHold,CursorHoldI * lua require("nvim-lightbulb").update_lightbulb()'
-
 -- Signature Helper
 require('lsp_signature').setup {
   hint_enable = false,
@@ -150,7 +146,6 @@ null_ls.config {
     -- Diagnostics
     null_ls.builtins.diagnostics.hadolint,
     null_ls.builtins.diagnostics.markdownlint,
-    null_ls.builtins.diagnostics.prettier,
     null_ls.builtins.diagnostics.proselint,
     null_ls.builtins.diagnostics.shellcheck,
     null_ls.builtins.diagnostics.vale,
@@ -186,8 +181,8 @@ local on_attach = function(client)
   vim.b.omnifunc = 'v:lua.vim.lsp.omnifunc'
 
   -- Diagnostics Signs and Colors
-  for _, type in pairs { 'Error', 'Warning', 'Hint', 'Information' } do
-    local hl = 'LspDiagnosticsSign' .. type
+  for _, type in pairs { 'Error', 'Warn', 'Hint', 'Info' } do
+    local hl = 'DiagnosticSign' .. type
     vim.fn.sign_define(hl, { text = '', texthl = hl, numhl = '', priority = 1 })
   end
 
@@ -200,8 +195,8 @@ local on_attach = function(client)
   map('n', '<leader>cn', ':lua vim.lsp.buf.rename()<CR>')
 
   -- diagnostics
-  map('n', '[d', ':lua vim.lsp.diagnostic.goto_prev()<CR>')
-  map('n', ']d', ':lua vim.lsp.diagnostic.goto_next()<CR>')
+  map('n', '[d', ':lua vim.diagnostic.goto_prev()<CR>')
+  map('n', ']d', ':lua vim.diagnostic.goto_next()<CR>')
   map('n', '<leader>ee', ':Telescope lsp_document_diagnostics<CR>')
   map('n', '<leader>ew', ':Telescope lsp_workspace_diagnostics<CR>')
 
@@ -217,6 +212,10 @@ local on_attach = function(client)
   map('n', '<leader>co', ':TSLspOrganize<CR>')
   map('n', '<leader>cR', ':TSLspRenameFile<CR>')
   map('n', '<leader>cI', ':TSLspImportAll<CR>')
+
+  -- Light Bulb
+  fn.sign_define('LightBulbSign', { text = '', linehl = '', numhl = '' })
+  cmd 'autocmd CursorHold,CursorHoldI <buffer> lua require("nvim-lightbulb").update_lightbulb()'
 end
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -225,20 +224,20 @@ local flags = {
   debounce_text_changes = 150,
 }
 
-for _, server_name in ipairs {
-  'bashls',
-  'cssls',
-  'dockerls',
-  'emmet_ls',
-  'eslint',
-  'html',
-  'jsonls',
-  'null-ls',
-  'pyright',
-  'sumneko_lua',
-  'tsserver',
-  'yamlls',
-} do
+for _, server_name in
+  ipairs {
+    'bashls',
+    'cssls',
+    'dockerls',
+    'emmet_ls',
+    'eslint',
+    'html',
+    'jsonls',
+    'pyright',
+    'tsserver',
+    'yamlls',
+  }
+do
   local ok, lsp_server = require('nvim-lsp-installer.servers').get_server(server_name)
 
   if ok and not lsp_server:is_installed() then
