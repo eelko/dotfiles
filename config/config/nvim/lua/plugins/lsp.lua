@@ -138,8 +138,20 @@ cmp.setup.cmdline(':', {
 cmp.event:on('confirm_done', require('nvim-autopairs.completion.cmp').on_confirm_done {}) -- inserts `()` after selecting a function or method item
 
 -- null-ls
+local on_attach_formatting = function(client)
+  if client.resolved_capabilities.document_formatting then
+    vim.cmd [[
+      augroup LspFormatting
+        autocmd! * <buffer>
+        autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
+      augroup END
+    ]]
+  end
+end
+
 local null_ls = require 'null-ls'
-null_ls.config {
+null_ls.setup {
+  on_attach = on_attach_formatting,
   sources = {
     -- Code Actions
     null_ls.builtins.code_actions.proselint,
@@ -161,10 +173,8 @@ null_ls.config {
 
 -- LSP server registration
 local on_attach = function(client)
-  if client.resolved_capabilities.document_formatting then
-    -- Format buffer on save
-    cmd 'autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()'
-  end
+-- Format buffer on save
+  on_attach_formatting(client)
 
   if client.name == 'tsserver' then
     -- Leave formatting for null-ls
@@ -253,12 +263,8 @@ do
     flags = flags,
   }
 
-  if server_name == 'null-ls' then
-    require('lspconfig')[server_name].setup(server_opts)
-  else
-    require('nvim-lsp-installer').on_server_ready(function(server)
-      server:setup(server_opts)
-      cmd 'do User LspAttachBuffers'
-    end)
-  end
+  require('nvim-lsp-installer').on_server_ready(function(server)
+    server:setup(server_opts)
+    cmd 'do User LspAttachBuffers'
+  end)
 end
