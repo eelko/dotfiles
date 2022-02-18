@@ -44,7 +44,6 @@ brew "zplug"
 # casks
 cask "alacritty"
 cask "alfred"
-cask "docker"
 cask "gimp"
 cask "homebrew/cask-fonts/font-caskaydia-cove-nerd-font"
 cask "homebrew/cask-fonts/font-fira-code-nerd-font"
