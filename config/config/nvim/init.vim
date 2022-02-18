@@ -78,6 +78,12 @@ augroup RememberCursorPosition
   autocmd BufWinEnter * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"zv" | endif
 augroup END
 
+" Highlight yanked text (NeoVim 0.6.+ only)
+augroup HighlightYank
+  autocmd!
+  autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup = "Visual", timeout = 200 })
+augroup END
+
 " --- KEY MAPPINGS ---
 
 " Space as leader
