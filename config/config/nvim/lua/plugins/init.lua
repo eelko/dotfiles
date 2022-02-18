@@ -580,6 +580,8 @@ return packer.startup(function(use)
       { 'williamboman/nvim-lsp-installer' },
       -- Visual hint when code actions are available
       { 'kosayoda/nvim-lightbulb' }, -- FIXME: broken when used with lsp auto installer
+      -- Server progress bar
+      { 'j-hui/fidget.nvim' },
       -- Method signature hints
       { 'ray-x/lsp_signature.nvim' },
       -- General purpose LSP

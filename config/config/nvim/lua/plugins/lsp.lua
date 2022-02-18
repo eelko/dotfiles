@@ -171,9 +171,16 @@ null_ls.setup {
   },
 }
 
+-- LSP progress bar
+require('fidget').setup {
+  text = {
+    spinner = 'dots',
+  },
+}
+
 -- LSP server registration
 local on_attach = function(client)
--- Format buffer on save
+  -- Format buffer on save
   on_attach_formatting(client)
 
   if client.name == 'tsserver' then
