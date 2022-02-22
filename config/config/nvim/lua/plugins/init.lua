@@ -25,6 +25,7 @@ return packer.startup(function(use)
     config = function()
       vim.cmd 'color tokyonight'
       highlight('Search', '#ff9e64', 'black')
+      highlight('VertSplit', '#24283b', '#080808')
     end,
   }
 
