@@ -209,7 +209,7 @@ local on_attach = function(client)
   map('n', '<leader>ci', ':lua vim.lsp.buf.implementation()<CR>')
   map('n', '<leader>ct', ':lua vim.lsp.buf.type_definition()<CR>')
   map('n', '<leader>cr', ':lua vim.lsp.buf.references()<CR>')
-  map('n', '<leader>cn', ':lua vim.lsp.buf.rename()<CR>')
+  map('n', '<leader>cns', ':lua vim.lsp.buf.rename()<CR>')
 
   -- diagnostics
   map('n', '[d', ':lua vim.diagnostic.goto_prev()<CR>')
@@ -227,7 +227,7 @@ local on_attach = function(client)
 
   -- typescript helpers
   map('n', '<leader>co', ':TSLspOrganize<CR>')
-  map('n', '<leader>cR', ':TSLspRenameFile<CR>')
+  map('n', '<leader>cnf', ':TSLspRenameFile<CR>')
   map('n', '<leader>cI', ':TSLspImportAll<CR>')
 
   -- Light Bulb

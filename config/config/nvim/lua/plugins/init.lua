@@ -398,9 +398,12 @@ return packer.startup(function(use)
           I = 'Add all missing imports',
           n = 'Show references',
           o = 'Organize imports',
-          r = 'Rename symbol',
-          R = 'Rename file',
           t = 'Go to type definition',
+          n = {
+            name = '+rename',
+            s = 'Rename symbol',
+            f = 'Rename file',
+          },
         },
         e = {
           name = '+diagnostics',
