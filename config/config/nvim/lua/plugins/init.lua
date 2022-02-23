@@ -113,7 +113,7 @@ return packer.startup(function(use)
         'packer',
         'TelescopePrompt',
         'TelescopeResults',
-        'which_key',
+        'WhichKey',
       }
     end,
   }
@@ -364,11 +364,9 @@ return packer.startup(function(use)
 
   -- Keymap helper
   use {
-    'liuchengxu/vim-which-key',
+    'folke/which-key.nvim',
     config = function()
-      vim.g.which_key_centered = 0
-
-      vim.g.which_key_map = {
+      require('which-key').register({
         d = 'Close current buffer',
         g = 'Grep operator',
         gg = 'which_key_ignore',
@@ -396,8 +394,8 @@ return packer.startup(function(use)
           D = 'Go to declaration',
           i = 'Go to implementation',
           I = 'Add all missing imports',
-          n = 'Show references',
           o = 'Organize imports',
+          r = 'Show references',
           t = 'Go to type definition',
           n = {
             name = '+rename',
@@ -425,12 +423,7 @@ return packer.startup(function(use)
           f = 'Show current file in file explorer',
           t = 'Toggle file explorer',
         },
-      }
-
-      vim.fn['which_key#register']('<Space>', 'g:which_key_map')
-
-      map('n', '<leader>', ":WhichKey '<Space>'<CR>")
-      map('v', '<leader>', ":<c-u>WhichKeyVisual '<Space>'<CR>")
+      }, { prefix = '<leader>' })
     end,
   }
 
