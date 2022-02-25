@@ -241,6 +241,12 @@ local flags = {
   debounce_text_changes = 150,
 }
 
+local server_opts = {
+  ['emmet_ls'] = function(opts)
+    opts.filetypes = { 'html', 'css', 'typescriptreact', 'javascriptreact' }
+  end,
+}
+
 for _, server_name in
   ipairs {
     'bashls',
@@ -264,14 +270,18 @@ do
     cmd 'au VimEnter * LspInstallInfo'
   end
 
-  local server_opts = {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    flags = flags,
-  }
-
   require('nvim-lsp-installer').on_server_ready(function(server)
-    server:setup(server_opts)
+    local opts = {
+      on_attach = on_attach,
+      capabilities = capabilities,
+      flags = flags,
+    }
+
+    if server_opts[server.name] then
+      server_opts[server.name](opts)
+    end
+
+    server:setup(opts)
     cmd 'do User LspAttachBuffers'
   end)
 end
