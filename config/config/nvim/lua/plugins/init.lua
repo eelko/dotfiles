@@ -609,4 +609,23 @@ return packer.startup(function(use)
       require 'plugins.lsp'
     end,
   }
+
+  -- Fade inactive buffers
+  use {
+    'TaDaa/vimade',
+    config = function()
+      vim.g.vimade = {
+        enablefocusfading = 1,
+        enabletreesitter = 1,
+      }
+
+      vim.cmd [[
+        au! FileType NvimTree VimadeBufDisable
+        au! FocusLost * VimadeFadeActive
+        au! FocusGained * VimadeUnfadeActive
+        au! InsertEnter * VimadeWinDisable
+        au! InsertLeave * VimadeWinEnable
+      ]]
+    end,
+  }
 end)
