@@ -13,9 +13,9 @@ require('lsp_signature').setup {
 
 -- Snippets
 vim.g.vsnip_filetypes = {
-  javascriptreact = { 'javascript' },
+  javascriptreact = { 'javascript', 'typescriptreact' },
   typescript = { 'javascript' },
-  typescriptreact = { 'javascript' },
+  typescriptreact = { 'javascript', 'typescriptreact' },
 }
 
 vim.g.vsnip_snippet_dir = fn.stdpath 'config' .. '/snippets'

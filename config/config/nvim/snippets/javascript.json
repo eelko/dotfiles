@@ -1,7 +1,7 @@
 {
     "Arrow Function": {
         "prefix": ["afb"],
-        "body": ["($1) => {", "\t$0", "}"],
+        "body": ["($1) => ${2:{$3\\}}$0"],
         "description": "Arrow function with body"
     },
     "Arrow Function Expression": {
