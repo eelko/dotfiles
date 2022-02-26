@@ -1,7 +1,7 @@
 {
     "Arrow Function": {
         "prefix": ["afb"],
-        "body": ["($1) => ${2:{$3\\}}$0"],
+        "body": ["($1) => ${2:{$0\\}}"],
         "description": "Arrow function with body"
     },
     "Arrow Function Expression": {
@@ -11,7 +11,7 @@
     },
     "const": {
         "prefix": ["c"],
-        "body": ["const ${1:name} = ${2:'value'};"],
+        "body": ["const ${1:name} = ${0:'value'}"],
         "description": "Constant"
     },
     "let": {
@@ -21,17 +21,17 @@
     },
     "If Statement": {
         "prefix": ["if"],
-        "body": ["if ($1) {", "\t$2", "}$0"],
+        "body": ["if ($1) {", "\t$2", "}"],
         "description": "If statement"
     },
     "Else Statement": {
         "prefix": ["el"],
-        "body": ["else {", "\t$1", "}$0"],
+        "body": ["else {", "\t$1", "}"],
         "description": "Else statement"
     },
     "Else-If Statement": {
         "prefix": ["elif"],
-        "body": ["else if ($1) {", "\t$2", "}$0"],
+        "body": ["else if ($1) {", "\t$2", "}"],
         "description": "Else-if statement"
     },
     "Switch Statement": {
