@@ -118,11 +118,6 @@ nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 nnoremap <silent> <C-n> :bnext<CR>
 nnoremap <silent> <C-p> :bprev<CR>
 
-" Automatically jump to end of pasted text
-vnoremap <silent> y y`]
-vnoremap <silent> p p`]
-nnoremap <silent> p p`]
-
 " Paste in visual mode doesn't yank
 xnoremap p pgvy
 
