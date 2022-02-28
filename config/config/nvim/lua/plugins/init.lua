@@ -309,14 +309,6 @@ return packer.startup(function(use)
     end,
   }
 
-  -- Faster text navigation
-  use {
-    'justinmk/vim-sneak',
-    config = function()
-      vim.g['sneak#label'] = 1
-    end,
-  }
-
   -- Project configurations
   use {
     'tpope/vim-projectionist',
@@ -626,6 +618,24 @@ return packer.startup(function(use)
         au! InsertEnter * VimadeWinDisable
         au! InsertLeave * VimadeWinEnable
       ]]
+    end,
+  }
+
+  -- Incremental fuzzy search motion
+  use {
+    'rlane/pounce.nvim',
+    config = function()
+      require('pounce').setup {}
+
+      vim.cmd [[
+        hi PounceGap cterm=none ctermfg=0 ctermbg=2 gui=none guifg=black guibg=#00aa00
+        hi PounceMatch cterm=none ctermfg=0 ctermbg=10 gui=none guifg=black guibg=#11dd11
+      ]]
+
+      map('n', 's', '<cmd>Pounce<CR>')
+      map('n', 'S', '<cmd>PounceRepeat<CR>')
+      map('v', 'gs', '<cmd>Pounce<CR>')
+      map('o', 'gs', '<cmd>Pounce<CR>')
     end,
   }
 end)
