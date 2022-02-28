@@ -462,7 +462,7 @@ shell:
   args:
     - -l
     - -c
-    - tmux
+    - tmux attach
 
 # Startup directory
 #
