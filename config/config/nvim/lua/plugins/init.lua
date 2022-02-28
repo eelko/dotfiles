@@ -197,11 +197,12 @@ return packer.startup(function(use)
 
   -- Documentation generator
   use {
-    'kkoomen/vim-doge',
-    run = ':call doge#install()',
+    'danymat/neogen',
     config = function()
-      vim.g.doge_enable_mappings = 0
+      require('neogen').setup {}
     end,
+    requires = 'nvim-treesitter/nvim-treesitter',
+    tag = '*',
   }
 
   -- Statusline
