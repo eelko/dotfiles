@@ -422,6 +422,7 @@ return packer.startup(function(use)
   -- Telescope
   use {
     'nvim-telescope/telescope.nvim',
+    after = 'vim-action-mapper',
     requires = {
       'nvim-lua/plenary.nvim',
       'gbrlsnchs/telescope-lsp-handlers.nvim',
@@ -469,6 +470,12 @@ return packer.startup(function(use)
       map('n', '<leader>fl', ':Telescope current_buffer_fuzzy_find<CR>', { noremap = true })
       map('n', '<leader>fr', ':Telescope oldfiles<CR>', { noremap = true })
       map('n', '<leader>fs', ':Telescope lsp_dynamic_workspace_symbols<CR>', { noremap = true })
+
+      vim.cmd [[
+        function! GrepWithMotion(text, type)
+          execute('lua require("telescope.builtin").grep_string({search = '.a:text.'})')
+        endfunction
+      ]]
     end,
   }
 
