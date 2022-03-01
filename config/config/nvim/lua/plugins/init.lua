@@ -646,4 +646,20 @@ return packer.startup(function(use)
       map('o', 'gs', '<cmd>Pounce<CR>')
     end,
   }
+
+  -- Highlight some UI elements based on current mode
+  use {
+    'mvllow/modes.nvim',
+    config = function()
+      require('modes').setup {
+        colors = {
+          copy = '#e0af68',
+          delete = '#c75c6a',
+          insert = '#9ece6a',
+          visual = '#7aa2f7',
+        },
+        focus_only = true,
+      }
+    end,
+  }
 end)
