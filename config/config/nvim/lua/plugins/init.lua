@@ -662,4 +662,14 @@ return packer.startup(function(use)
       }
     end,
   }
+
+  -- Smooth scrolling
+  use {
+    'karb94/neoscroll.nvim',
+    config = function()
+      require('neoscroll').setup {
+        cursor_scrolls_alone = false,
+      }
+    end,
+  }
 end)
