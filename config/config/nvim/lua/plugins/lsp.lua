@@ -197,6 +197,25 @@ local on_attach = function(client)
   -- Options
   vim.b.omnifunc = 'v:lua.vim.lsp.omnifunc'
 
+  -- Diagnostic Config
+  local format_diagnostic = function(diagnostic)
+    return string.format('[%s] %s', diagnostic.source, diagnostic.message)
+  end
+
+  vim.diagnostic.config {
+    float = {
+      format = format_diagnostic,
+    },
+    underline = {
+      severity = { max = vim.diagnostic.severity.INFO },
+    },
+    severity_sort = true,
+    virtual_text = {
+      format = format_diagnostic,
+      severity = { min = vim.diagnostic.severity.WARN },
+    },
+  }
+
   -- Diagnostics Signs and Colors
   for _, type in pairs { 'Error', 'Warn', 'Hint', 'Info' } do
     local hl = 'DiagnosticSign' .. type
