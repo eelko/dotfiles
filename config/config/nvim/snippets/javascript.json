@@ -1,104 +1,112 @@
 {
-    "Arrow Function": {
-        "prefix": ["afb"],
-        "body": ["($1) => ${2:{$0\\}}"],
-        "description": "Arrow function with body"
-    },
-    "Arrow Function Expression": {
-        "prefix": ["afe"],
-        "body": ["($1) => $0"],
-        "description": "Arrow function expression"
-    },
-    "const": {
-        "prefix": ["c"],
-        "body": ["const ${1:name} = ${0:'value'}"],
-        "description": "Constant"
-    },
-    "let": {
-        "prefix": ["l"],
-        "body": ["let ${1:name} = ${2:'value'};"],
-        "description": "Variable"
-    },
-    "If Statement": {
-        "prefix": ["if"],
-        "body": ["if ($1) {", "\t$2", "}"],
-        "description": "If statement"
-    },
-    "Else Statement": {
-        "prefix": ["el"],
-        "body": ["else {", "\t$1", "}"],
-        "description": "Else statement"
-    },
-    "Else-If Statement": {
-        "prefix": ["elif"],
-        "body": ["else if ($1) {", "\t$2", "}"],
-        "description": "Else-if statement"
-    },
-    "Switch Statement": {
-        "prefix": ["sw", "switch"],
-        "body": [
-            "switch (${1:varName}) {",
-            "\tcase ${2:value}:",
-            "\t\t$0",
-            "\t\tbreak;",
-            "\tdefault:",
-            "\t\tbreak;",
-            "}"
-        ],
-        "description": "Switch statement"
-    },
-    "Case Break Statement": {
-        "prefix": ["cb", "case"],
-        "body": ["case ${1:value}:", "\t$0", "\tbreak;"],
-        "description": "Sase break statement"
-    },
-    "Case Return Statement": {
-        "prefix": ["cr", "case"],
-        "body": ["case ${1:value}:", "\treturn $0;"],
-        "description": "Sase return statement"
-    },
-    "console.log": {
-        "prefix": "cl",
-        "body": ["console.log($1);"],
-        "description": "console.log"
-    },
-    "console.log with marker": {
-        "prefix": "clv",
-        "body": ["console.log('==> ${1:marker}', ${2:${1}});"],
-        "description": "console.log with a marker"
-    },
-    "Throw Error": {
-        "prefix": "th",
-        "body": ["throw new Error('${1:Something went wrong}');"],
-        "description": "Throw new Error"
-    },
-    "Describe": {
-        "prefix": ["des"],
-        "body": [
-            "describe('${1:some scenario}', ${2:async }() => {",
-            "\t$0",
-            "})"
-        ],
-        "description": "Describe block"
-    },
-    "Test Case": {
-        "prefix": ["it"],
-        "body": ["it('${1:does something}', ${2:async }() => {", "\t$0", "})"],
-        "description": "Test case"
-    },
-    "Expect": {
-        "prefix": ["ex"],
-        "body": ["expect(${1:expected}).${0};"],
-        "description": "Test expectation"
-    },
-    "Before Each": {
-        "prefix": ["bef"],
-        "body": ["beforeEach(${1:async }() => {", "\t$0", "})", ""],
-        "description": "Before-Each hook"
-    },
-    "After Each": {
-        "prefix": ["aft"],
-        "body": ["afterEach(${1:async }() => {", "\t$0", "})", ""],
-        "description": "After-Each hook"
-    }
+  "Arrow Function": {
+    "prefix": ["afb"],
+    "body": ["($1) => ${2:{$0\\}}"],
+    "description": "Arrow function with body"
+  },
+  "Arrow Function Expression": {
+    "prefix": ["afe"],
+    "body": ["($1) => $0"],
+    "description": "Arrow function expression"
+  },
+  "const": {
+    "prefix": ["c"],
+    "body": ["const ${1:name} = ${0:'value'}"],
+    "description": "Constant"
+  },
+  "let": {
+    "prefix": ["l"],
+    "body": ["let ${1:name} = ${0:'value'};"],
+    "description": "Variable"
+  },
+  "If Statement": {
+    "prefix": ["if"],
+    "body": ["if ($1) {", "\t$0", "}"],
+    "description": "If statement"
+  },
+  "Else Statement": {
+    "prefix": ["el"],
+    "body": ["else {", "\t$0", "}"],
+    "description": "Else statement"
+  },
+  "Else-If Statement": {
+    "prefix": ["elif"],
+    "body": ["else if ($1) {", "\t$0", "}"],
+    "description": "Else-if statement"
+  },
+  "Switch Statement": {
+    "prefix": ["sw", "switch"],
+    "body": [
+      "switch (${1:varName}) {",
+      "\tcase ${2:value}:",
+      "\t\t$0",
+      "\t\tbreak;",
+      "\tdefault:",
+      "\t\tbreak;",
+      "}"
+    ],
+    "description": "Switch statement"
+  },
+  "Case Break Statement": {
+    "prefix": ["cb", "case"],
+    "body": ["case ${1:value}:", "\t$0", "\tbreak;"],
+    "description": "Sase break statement"
+  },
+  "Case Return Statement": {
+    "prefix": ["cr", "case"],
+    "body": ["case ${1:value}:", "\treturn $0;"],
+    "description": "Sase return statement"
+  },
+  "console.log": {
+    "prefix": "cl",
+    "body": ["console.log($0)"],
+    "description": "console.log"
+  },
+  "console.log with marker": {
+    "prefix": "clv",
+    "body": ["console.log('==> ${1:marker}', ${0:${1}})"],
+    "description": "console.log with a marker"
+  },
+  "Throw Error": {
+    "prefix": "th",
+    "body": ["throw new Error('${0:Something went wrong}');"],
+    "description": "Throw new Error"
+  },
+  "try/catch": {
+    "prefix": "tc",
+    "body": "try {\n\t${1}\n} catch (${2:err}) {\n\t${0}\n}"
+  },
+  "try/finally": {
+    "prefix": "tf",
+    "body": "try {\n\t${1}\n} finally {\n\t${0}\n}"
+  },
+  "try/catch/finally": {
+    "prefix": "tcf",
+    "body": "try {\n\t${1}\n} catch (${2:err}) {\n\t${3}\n} finally {\n\t${0}\n}"
+  },
+  "Describe": {
+    "prefix": ["des"],
+    "body": ["describe('${1:some scenario}', ${2:async }() => {", "\t$0", "})"],
+    "description": "Describe block"
+  },
+  "Test Case": {
+    "prefix": ["it"],
+    "body": ["it('${1:does something}', ${2:async }() => {", "\t$0", "})"],
+    "description": "Test case"
+  },
+  "Expect": {
+    "prefix": ["ex"],
+    "body": ["expect(${1:expected}).${0};"],
+    "description": "Test expectation"
+  },
+  "Before Each": {
+    "prefix": ["bef"],
+    "body": ["beforeEach(${1:async }() => {", "\t$0", "})", ""],
+    "description": "Before-Each hook"
+  },
+  "After Each": {
+    "prefix": ["aft"],
+    "body": ["afterEach(${1:async }() => {", "\t$0", "})", ""],
+    "description": "After-Each hook"
+  }
 }
