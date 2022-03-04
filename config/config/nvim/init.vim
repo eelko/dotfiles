@@ -144,7 +144,7 @@ inoremap <silent> <S-Tab> <C-h>
 nnoremap <expr><Leader>d (bufnr('%') == getbufinfo({'buflisted': 1})[-1].bufnr ? ':bp' : ':bn').'<bar>bd #<CR>'
 
 " Easily clear search matches
-nnoremap <silent> <Leader><Leader> :noh<CR>
+nnoremap <silent> <Esc> :noh<CR>
 
 " Visual Star Search (http://vim.wikia.com/wiki/VimTip171)
 vnoremap <silent> * :<C-U>
