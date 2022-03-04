@@ -385,6 +385,8 @@ return packer.startup(function(use)
           a = 'Show code actions',
           d = 'Go to definition',
           D = 'Go to declaration',
+          e = 'Show current line diagnostics',
+          E = 'Show workspace diagnostics',
           i = 'Go to implementation',
           I = 'Add all missing imports',
           o = 'Organize imports',
@@ -395,11 +397,6 @@ return packer.startup(function(use)
             s = 'Rename symbol',
             f = 'Rename file',
           },
-        },
-        e = {
-          name = '+diagnostics',
-          e = 'Document diagnostics',
-          w = 'Workspace diagnostics',
         },
         f = {
           name = '+find',

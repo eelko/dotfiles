@@ -233,8 +233,8 @@ local on_attach = function(client)
   -- diagnostics
   map('n', '[d', ':lua vim.diagnostic.goto_prev()<CR>')
   map('n', ']d', ':lua vim.diagnostic.goto_next()<CR>')
-  map('n', '<leader>ee', ':Telescope lsp_document_diagnostics<CR>')
-  map('n', '<leader>ew', ':Telescope lsp_workspace_diagnostics<CR>')
+  map('n', '<leader>ce', ':lua vim.diagnostic.open_float()<CR>')
+  map('n', '<leader>cE', ':Telescope diagnostics<CR>')
 
   -- signature helpers
   map('n', 'K', ':lua vim.lsp.buf.hover()<CR>:lua vim.lsp.buf.hover()<CR>') -- calling twice as a workaround for flickering caused by vimade
