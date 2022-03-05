@@ -248,10 +248,6 @@ local on_attach = function(client)
   map('n', '<leader>co', ':TSLspOrganize<CR>')
   map('n', '<leader>cnf', ':TSLspRenameFile<CR>')
   map('n', '<leader>cI', ':TSLspImportAll<CR>')
-
-  -- Light Bulb
-  fn.sign_define('LightBulbSign', { text = '', linehl = '', numhl = '' })
-  cmd 'autocmd CursorHold,CursorHoldI <buffer> lua require("nvim-lightbulb").update_lightbulb()'
 end
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())

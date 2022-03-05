@@ -563,8 +563,6 @@ return packer.startup(function(use)
     requires = {
       -- LSP server installer
       { 'williamboman/nvim-lsp-installer' },
-      -- Visual hint when code actions are available
-      { 'kosayoda/nvim-lightbulb' }, -- FIXME: broken when used with lsp auto installer
       -- Server progress bar
       { 'j-hui/fidget.nvim' },
       -- Method signature hints
