@@ -238,7 +238,7 @@ local on_attach = function(client)
 
   -- signature helpers
   map('n', 'K', ':lua vim.lsp.buf.hover()<CR>:lua vim.lsp.buf.hover()<CR>') -- calling twice as a workaround for flickering caused by vimade
-  map('n', '<c-k>', ':lua vim.lsp.buf.signature_help()<CR>')
+  map('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
 
   -- code actions
   map('n', '<leader>ca', ':lua vim.lsp.buf.code_action()<CR>')
