@@ -7,7 +7,7 @@ end
 require 'helpers'
 
 -- Regenerate compiled loader file whenever this file is updated
-cmd [[
+vim.cmd [[
   augroup PackerUserConfig
     autocmd!
     autocmd BufWritePost */nvim/lua/*.lua source <afile> | PackerCompile
@@ -143,7 +143,7 @@ return packer.startup(function(use)
       map('n', '<leader>nf', ':NvimTreeFindFile<CR>')
       map('n', '<leader>nt', ':NvimTreeToggle<CR>')
 
-      cmd 'hi NvimTreeVertSplit guibg=#1D202F guifg=#1D202F'
+      vim.cmd 'hi NvimTreeVertSplit guibg=#1D202F guifg=#1D202F'
 
       local tree_cb = require('nvim-tree.config').nvim_tree_callback
 
@@ -201,103 +201,7 @@ return packer.startup(function(use)
     'nvim-lualine/lualine.nvim',
     requires = { { 'kyazdani42/nvim-web-devicons', opt = true } },
     config = function()
-      local config = require 'tokyonight.config'
-      local colors = require('tokyonight.colors').setup(config)
-      local custom_theme = require 'lualine.themes.tokyonight'
-
-      custom_theme.command = {
-        a = { bg = colors.magenta, fg = colors.black },
-        b = { bg = colors.fg_gutter, fg = colors.magenta },
-      }
-
-      custom_theme.visual = {
-        a = { bg = colors.yellow, fg = colors.black },
-        b = { bg = colors.fg_gutter, fg = colors.yellow },
-      }
-
-      local function active_lsp_clients()
-        local buffer_filetype = vim.api.nvim_buf_get_option(0, 'filetype')
-        local active_clients = vim.lsp.get_active_clients()
-
-        if #active_clients == 0 then
-          return ''
-        end
-
-        local clients = {}
-
-        for _, client in ipairs(active_clients) do
-          local filetypes = client.config.filetypes
-
-          if filetypes and vim.fn.index(filetypes, buffer_filetype) ~= -1 then
-            if not contains(clients, client.name) then
-              table.insert(clients, client.name)
-            end
-          end
-        end
-
-        if #clients == 0 then
-          return ''
-        else
-          local icon = ''
-          return icon .. ' ' .. table.concat(clients, ' ')
-        end
-      end
-
-      require('lualine').setup {
-        options = {
-          icons_enabled = true,
-          theme = custom_theme,
-          component_separators = { left = '', right = '' },
-          section_separators = { left = '', right = '' },
-          disabled_filetypes = { 'NvimTree' },
-          always_divide_middle = true,
-        },
-        sections = {
-          lualine_a = {
-            {
-              'mode',
-              padding = 2,
-              fmt = function()
-                local mode_icons = {
-                  ['n'] = 'N',
-                  ['i'] = '',
-                  ['v'] = '',
-                  ['V'] = '',
-                  [''] = '',
-                  ['c'] = '',
-                  ['t'] = '',
-                  ['!'] = '',
-                  ['r'] = '﯒',
-                  ['r?'] = '',
-                  ['R'] = '',
-                }
-                return mode_icons[vim.fn.mode()]
-              end,
-            },
-          },
-          lualine_b = {
-            { 'filename', symbols = { modified = '  ', readonly = '  ' } },
-          },
-          lualine_c = {
-            { 'branch', icon = '' },
-            { active_lsp_clients },
-            { 'diagnostics', sources = { 'nvim_lsp', 'coc' } },
-          },
-          lualine_x = {},
-          lualine_y = { 'progress' },
-          lualine_z = { 'location' },
-        },
-        inactive_sections = {
-          lualine_a = {},
-          lualine_b = {},
-          lualine_c = { 'filename' },
-          lualine_x = { 'location' },
-          lualine_y = {},
-          lualine_z = {},
-        },
-        tabline = {},
-        extensions = {},
-      }
+      require 'plugins.statusline'
     end,
   }
 
@@ -326,7 +230,7 @@ return packer.startup(function(use)
         end
       end
 
-      cmd [[
+      vim.cmd [[
         function! FindAndReplace(text, type)
           call v:lua.find_and_replace(a:text, a:type)
         endfunction
@@ -459,6 +363,9 @@ return packer.startup(function(use)
       map('n', '<leader>fl', ':Telescope current_buffer_fuzzy_find<CR>', { noremap = true })
       map('n', '<leader>fr', ':Telescope oldfiles<CR>', { noremap = true })
       map('n', '<leader>fs', ':Telescope lsp_dynamic_workspace_symbols<CR>', { noremap = true })
+      -- LSP related mappings
+      map('n', '<leader>cE', ':Telescope diagnostics<CR>')
+      map('v', '<leader>ca', ':Telescope lsp_range_code_actions theme=cursor<CR>')
 
       vim.cmd [[
         function! GrepWithMotion(text, type)
@@ -557,37 +464,101 @@ return packer.startup(function(use)
     end,
   }
 
+  -- Snippets
+  use {
+    'hrsh7th/vim-vsnip',
+    requires = {
+      { 'hrsh7th/vim-vsnip-integ' },
+    },
+    config = function()
+      vim.g.vsnip_filetypes = {
+        javascriptreact = { 'javascript', 'typescriptreact' },
+        typescript = { 'javascript' },
+        typescriptreact = { 'javascript', 'typescriptreact' },
+      }
+
+      vim.g.vsnip_snippet_dir = vim.fn.stdpath 'config' .. '/snippets'
+    end,
+  }
+
+  -- Code Completion
+  use {
+    'hrsh7th/nvim-cmp',
+    after = 'nvim-autopairs',
+    requires = {
+      { 'hrsh7th/cmp-buffer' },
+      { 'hrsh7th/cmp-cmdline' },
+      { 'hrsh7th/cmp-nvim-lsp' },
+      { 'hrsh7th/cmp-path' },
+      { 'hrsh7th/cmp-vsnip' },
+      { 'onsails/lspkind-nvim' },
+    },
+    config = function()
+      require 'plugins.completion'
+    end,
+  }
+
+  -- General purpose LSP
+  use {
+    'jose-elias-alvarez/null-ls.nvim',
+    -- after = 'null-ls.nvim',
+    requires = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      local format_on_save = function(client)
+        if client.resolved_capabilities.document_formatting then
+          vim.cmd [[
+            augroup LspFormatting
+              autocmd! * <buffer>
+              autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
+            augroup END
+          ]]
+        end
+      end
+
+      local null_ls = require 'null-ls'
+      null_ls.setup {
+        on_attach = format_on_save,
+        sources = {
+          -- Code Actions
+          null_ls.builtins.code_actions.proselint,
+          -- Diagnostics
+          null_ls.builtins.diagnostics.hadolint,
+          null_ls.builtins.diagnostics.markdownlint,
+          null_ls.builtins.diagnostics.proselint,
+          null_ls.builtins.diagnostics.shellcheck,
+          null_ls.builtins.diagnostics.vale,
+          null_ls.builtins.diagnostics.write_good,
+          -- Formatting
+          null_ls.builtins.formatting.black,
+          null_ls.builtins.formatting.markdownlint,
+          null_ls.builtins.formatting.prettier,
+          null_ls.builtins.formatting.shfmt,
+          null_ls.builtins.formatting.stylua,
+        },
+      }
+    end,
+  }
+
+  -- LSP server progress bar
+  use {
+    'j-hui/fidget.nvim',
+    config = function()
+      require('fidget').setup {
+        text = {
+          spinner = 'dots',
+        },
+      }
+    end,
+  }
+
   -- Native LSP
   use {
     'neovim/nvim-lspconfig',
     requires = {
       -- LSP server installer
       { 'williamboman/nvim-lsp-installer' },
-      -- Server progress bar
-      { 'j-hui/fidget.nvim' },
-      -- General purpose LSP
-      { 'jose-elias-alvarez/null-ls.nvim', requires = { 'nvim-lua/plenary.nvim' } },
       -- Enhanced LSP experience for TS
       { 'jose-elias-alvarez/nvim-lsp-ts-utils', requires = { 'nvim-lua/plenary.nvim' } },
-      -- Code Completion
-      {
-        'hrsh7th/nvim-cmp',
-        requires = {
-          { 'hrsh7th/cmp-buffer' },
-          { 'hrsh7th/cmp-cmdline' },
-          { 'hrsh7th/cmp-nvim-lsp' },
-          { 'hrsh7th/cmp-path' },
-          { 'onsails/lspkind-nvim' },
-          -- Snippets
-          {
-            'hrsh7th/cmp-vsnip',
-            requires = {
-              { 'hrsh7th/vim-vsnip' },
-              { 'hrsh7th/vim-vsnip-integ' },
-            },
-          },
-        },
-      },
     },
     config = function()
       require 'plugins.lsp'

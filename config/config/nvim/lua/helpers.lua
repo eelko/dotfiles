@@ -1,6 +1,4 @@
-_G.cmd = vim.cmd
 _G.exec = vim.api.nvim_exec
-_G.fn = vim.fn
 
 function _G.map(mode, lhs, rhs, opts)
   local options = { noremap = true, silent = true }
