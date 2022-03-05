@@ -57,15 +57,6 @@ return packer.startup(function(use)
     end,
   }
 
-  -- -- Language pack
-  -- use {
-  --   'sheerun/vim-polyglot',
-  --   config = function()
-  --     vim.g.vim_markdown_conceal = false
-  --     vim.g.vim_markdown_conceal_code_blocks = false
-  --   end,
-  -- }
-
   -- Git sings on gutter
   use {
     'lewis6991/gitsigns.nvim',
