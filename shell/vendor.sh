@@ -12,7 +12,9 @@ eval "`fnm env`"
 export LATEST_NODE_PATH="$HOME/.fnm/aliases/latest/bin/node"
 
 # rvm
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+rvm_init() {
+  source_if_exists "$HOME/.rvm/scripts/rvm" 
+}
 
 # sdkman
 sdkman_init() {
