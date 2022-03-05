@@ -565,8 +565,6 @@ return packer.startup(function(use)
       { 'williamboman/nvim-lsp-installer' },
       -- Server progress bar
       { 'j-hui/fidget.nvim' },
-      -- Method signature hints
-      { 'ray-x/lsp_signature.nvim' },
       -- General purpose LSP
       { 'jose-elias-alvarez/null-ls.nvim', requires = { 'nvim-lua/plenary.nvim' } },
       -- Enhanced LSP experience for TS

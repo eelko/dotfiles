@@ -6,11 +6,6 @@ vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
   border = 'rounded',
 })
 
--- Signature Helper
-require('lsp_signature').setup {
-  hint_enable = false,
-}
-
 -- Snippets
 vim.g.vsnip_filetypes = {
   javascriptreact = { 'javascript', 'typescriptreact' },
