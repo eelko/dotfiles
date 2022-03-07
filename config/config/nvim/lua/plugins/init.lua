@@ -446,24 +446,6 @@ return packer.startup(function(use)
     end,
   }
 
-  -- CoC
-  use {
-    'neoclide/coc.nvim',
-    opt = true,
-    branch = 'release',
-    requires = {
-      -- FZF integration
-      'antoinemadec/coc-fzf',
-      -- General purpose LSP
-      'tsuyoshicho/vim-efm-langserver-settings',
-      -- Visual hint when code actions are available
-      'xiyaowong/coc-lightbulb',
-    },
-    config = function()
-      require 'plugins.coc'
-    end,
-  }
-
   -- Snippets
   use {
     'hrsh7th/vim-vsnip',
