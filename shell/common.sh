@@ -7,6 +7,7 @@ export LC_ALL='en_US.UTF-8'
 export LESS='-R'
 export PATH="$HOME/.bin:$PATH"
 export PATH="./node_modules/.bin:$PATH"
+export MANPAGER="nvim -c 'Man!' -o -"
 
 if [[ $(uname) = 'Darwin' ]]; then
   export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
@@ -33,5 +34,4 @@ alias emacs='open -a /Applications/Emacs.app'
 alias grep='grep --color'
 alias la='l -a --color=always | less'
 alias ll='l --color=always | less'
-alias man='viman'
 alias vim='nvim'

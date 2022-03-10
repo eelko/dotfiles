@@ -172,6 +172,3 @@ replace() {
     $EDITOR -c "%s/\v$pattern/$replacement/gc" -c 'wq' "$file"
   done
 }
-
-# Vim-powered man pages
-viman () { text=$(/usr/bin/man "$@") && echo "$text" | vim -R +":set ft=man" - ; }
