@@ -595,7 +595,6 @@ return packer.startup(function(use)
           insert = '#9ece6a',
           visual = '#7aa2f7',
         },
-        focus_only = true,
       }
     end,
   }
