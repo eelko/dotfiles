@@ -75,7 +75,7 @@ local on_attach = function(client)
   vim.b.omnifunc = 'v:lua.vim.lsp.omnifunc'
 
   -- Format buffer on save
-  if contains({ 'jsonls', 'tsserver' }, client.name) then
+  if contains({ 'html', 'jsonls', 'tsserver' }, client.name) then
     leave_formatting_for_null_ls(client)
   else
     format_on_save(client)
