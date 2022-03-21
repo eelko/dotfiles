@@ -891,7 +891,7 @@ key_bindings:
 
   # (User mappings)
   # OS integration
-  - { key: N,      mods: Command,            action: SpawnNewInstance }
+  - { key: N,      mods: Command,            action: CreateNewWindow }
   - { key: Return, mods: Command,            action: ToggleSimpleFullscreen }
   # FZF
   - { key: A,      mods: Alt,                chars: "\x1ba"           } # select all
