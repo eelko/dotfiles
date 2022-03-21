@@ -414,12 +414,12 @@ return packer.startup(function(use)
           select = {
             enable = true,
             keymaps = {
-              ['af'] = '@function.outer',
-              ['if'] = '@function.inner',
-              ['ac'] = '@class.outer',
-              ['ic'] = '@class.inner',
               ['ib'] = '@block.inner',
               ['ab'] = '@block.outer',
+              ['ic'] = '@call.inner',
+              ['ac'] = '@call.outer',
+              ['if'] = '@function.inner',
+              ['af'] = '@function.outer',
             },
           },
           move = {
