@@ -889,6 +889,8 @@ key_bindings:
   #- { key: F,              mods: Command|Control,            action: ToggleFullscreen      }
   #- { key: F,              mods: Command, mode: ~Search,     action: SearchForward         }
   #- { key: B,              mods: Command, mode: ~Search,     action: SearchBackward        }
+  - { key: F,              mods: Command, mode: ~Search,     action: None        }
+  - { key: B,              mods: Command, mode: ~Search,     action: None        }
 
   # (User mappings)
   # OS integration
