@@ -414,14 +414,14 @@ selection:
 
 cursor:
   # Cursor style
-  style: Underline
+  style:
     # Cursor shape
     #
     # Values for `shape`:
     #   - ▇ Block
     #   - _ Underline
     #   - | Beam
-    #shape: Block
+    shape: Underline
 
     # Cursor blinking state
     #
@@ -450,6 +450,7 @@ cursor:
   # Thickness of the cursor relative to the cell width as floating point number
   # from `0.0` to `1.0`.
   #thickness: 0.15
+  thickness: 0.20
 
 # Live config reload (changes require restart)
 #live_config_reload: true
