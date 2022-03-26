@@ -75,7 +75,7 @@ local on_attach = function(client)
   vim.b.omnifunc = 'v:lua.vim.lsp.omnifunc'
 
   -- Format buffer on save
-  if contains({ 'html', 'jsonls', 'tsserver' }, client.name) then
+  if contains({ 'tsserver' }, client.name) then
     leave_formatting_for_null_ls(client)
   else
     format_on_save(client)
@@ -103,16 +103,16 @@ local server_opts = {
 
 for _, server_name in
   ipairs {
-    'bashls',
-    'cssls',
-    'dockerls',
+    -- 'bashls',
+    -- 'cssls',
+    -- 'dockerls',
     'emmet_ls',
     'eslint',
-    'html',
-    'jsonls',
-    'pyright',
+    -- 'html',
+    -- 'jsonls',
+    -- 'pyright',
     'tsserver',
-    'yamlls',
+    -- 'yamlls',
   }
 do
   local ok, lsp_server = require('nvim-lsp-installer.servers').get_server(server_name)
