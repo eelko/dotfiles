@@ -483,7 +483,6 @@ return packer.startup(function(use)
   -- General purpose LSP
   use {
     'jose-elias-alvarez/null-ls.nvim',
-    -- after = 'null-ls.nvim',
     requires = { 'nvim-lua/plenary.nvim' },
     config = function()
       local format_on_save = function(client)
@@ -491,27 +490,35 @@ return packer.startup(function(use)
           vim.cmd [[
             augroup LspFormatting
               autocmd! * <buffer>
-              autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
+              autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 2000)
             augroup END
           ]]
         end
       end
 
       local null_ls = require 'null-ls'
+      local suggest = null_ls.builtins.code_actions
+      local lint = null_ls.builtins.diagnostics
+      local fix = null_ls.builtins.formatting
+
       null_ls.setup {
         on_attach = format_on_save,
         sources = {
-          -- Diagnostics
-          null_ls.builtins.diagnostics.hadolint,
-          null_ls.builtins.diagnostics.markdownlint,
-          null_ls.builtins.diagnostics.shellcheck,
-          null_ls.builtins.diagnostics.vale,
-          -- Formatting
-          null_ls.builtins.formatting.black,
-          null_ls.builtins.formatting.markdownlint,
-          null_ls.builtins.formatting.prettier,
-          null_ls.builtins.formatting.shfmt,
-          null_ls.builtins.formatting.stylua,
+          suggest.shellcheck,
+
+          lint.hadolint,
+          lint.jsonlint,
+          lint.markdownlint,
+          lint.shellcheck,
+          lint.vale,
+          lint.yamllint,
+
+          fix.fixjson,
+          fix.prettier,
+          fix.eslint, -- has to run after Prettier
+          fix.shellharden,
+          fix.shfmt,
+          fix.stylua,
         },
       }
     end,

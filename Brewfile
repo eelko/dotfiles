@@ -10,12 +10,14 @@ brew "zsh"
 # linters
 brew "efm-langserver"
 brew "hadolint"
+brew "jsonlint"
 brew "markdownlint-cli"
 brew "shellcheck"
 brew "vale"
 brew "yamllint"
 
 # formatters
+brew "shellharden"
 brew "shfmt"
 brew "stylua"
 
