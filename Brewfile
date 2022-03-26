@@ -11,11 +11,9 @@ brew "zsh"
 brew "efm-langserver"
 brew "hadolint"
 brew "markdownlint-cli"
-brew "proselint"
 brew "shellcheck"
 brew "vale"
 brew "yamllint"
-brew "write-good"
 
 # formatters
 brew "shfmt"

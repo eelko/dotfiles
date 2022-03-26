@@ -119,7 +119,7 @@ do
 
   if ok and not lsp_server:is_installed() then
     lsp_server:install()
-    cmd 'au VimEnter * LspInstallInfo'
+    vim.cmd 'au VimEnter * LspInstallInfo'
   end
 
   require('nvim-lsp-installer').on_server_ready(function(server)

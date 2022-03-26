@@ -501,15 +501,11 @@ return packer.startup(function(use)
       null_ls.setup {
         on_attach = format_on_save,
         sources = {
-          -- Code Actions
-          null_ls.builtins.code_actions.proselint,
           -- Diagnostics
           null_ls.builtins.diagnostics.hadolint,
           null_ls.builtins.diagnostics.markdownlint,
-          null_ls.builtins.diagnostics.proselint,
           null_ls.builtins.diagnostics.shellcheck,
           null_ls.builtins.diagnostics.vale,
-          null_ls.builtins.diagnostics.write_good,
           -- Formatting
           null_ls.builtins.formatting.black,
           null_ls.builtins.formatting.markdownlint,
