@@ -1,6 +1,8 @@
 .DS_Store
 .tags
 config/tmux/plugins/
+node_modules/
+package-lock.json
 
 # ignore everything inside
 config/config/*

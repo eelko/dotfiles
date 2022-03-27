@@ -14,6 +14,9 @@ which pip3 >/dev/null && pip3 install --upgrade pynvim
 # Homebrew dependencies
 (brew update && brew bundle) || true
 
+# NPM dependencies
+npm update
+
 # Tmux plugins
 ~/.tmux/plugins/tpm/bin/update_plugins all
 

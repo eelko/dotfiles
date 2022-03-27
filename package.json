@@ -1,0 +1,7 @@
+{
+  "name": "dotfiles",
+  "description": "These are dependencies that need to be installed globally.",
+  "dependencies": {
+    "fixjson": "^1.1.2"
+  }
+}
