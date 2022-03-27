@@ -1,6 +1,6 @@
 # .dotfiles
 
-Miscellaneous tools and configs tailored for macOS machines.
+Miscellaneous tools and configs tailored for MacOS machines.
 
 ## Usage
 
@@ -35,7 +35,7 @@ The above commands will:
 - [bat](https://github.com/sharkdp/bat), `cat` on steroids.
 - [fasd](https://github.com/clvv/fasd) for quick access to files and directories.
 - [fd](https://github.com/sharkdp/fd), `find` on steroids.
-- [fnm](https://github.com/Schniz/fnm), blazing fast Node.js version manager.
+- [fnm](https://github.com/Schniz/fnm), blazing fast Node version manager.
 - [git-delta](https://lib.rs/crates/git-delta), a fancy Git pager.
 - [lsd](https://github.com/Peltoche/lsd), `ls` on steroids.
 - [ripgrep](https://github.com/BurntSushi/ripgrep), `grep` on steroids.
@@ -47,8 +47,10 @@ The following files will be sourced automatically if they exist:
 - `~/.emacs.local.el`
 - `~/.vimrc.local.vim`
 
-## Additional manual steps
+## Extra manual steps
 
 This brings [CoC](https://github.com/neoclide/coc.nvim) as a [LSP client](https://langserver.org) for Neovim. However, no LSP servers are installed by default.
 
 A comprehensive list of available LSP servers and CoC extensions can be found [here](https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions#implemented-coc-extensions).
+
+The `extras` folder will contain files that need to be handled manually.
