@@ -442,9 +442,24 @@ return packer.startup(function(use)
     end,
   }
 
+  -- CoC
+  use {
+    'neoclide/coc.nvim',
+    after = 'telescope.nvim',
+    branch = 'release',
+    requires = {
+      -- Telescope integration
+      'fannheyward/telescope-coc.nvim',
+    },
+    config = function()
+      require 'plugins.coc'
+    end,
+  }
+
   -- Snippets
   use {
     'hrsh7th/vim-vsnip',
+    opt = true,
     requires = {
       { 'hrsh7th/vim-vsnip-integ' },
     },
@@ -462,6 +477,7 @@ return packer.startup(function(use)
   -- Code Completion
   use {
     'hrsh7th/nvim-cmp',
+    opt = true,
     after = 'nvim-autopairs',
     requires = {
       { 'hrsh7th/cmp-buffer' },
@@ -479,6 +495,7 @@ return packer.startup(function(use)
   -- General purpose LSP
   use {
     'jose-elias-alvarez/null-ls.nvim',
+    opt = true,
     requires = { 'nvim-lua/plenary.nvim' },
     config = function()
       local format_on_save = function(client)
@@ -523,6 +540,7 @@ return packer.startup(function(use)
   -- LSP server progress bar
   use {
     'j-hui/fidget.nvim',
+    opt = true,
     config = function()
       require('fidget').setup {
         text = {
@@ -535,6 +553,7 @@ return packer.startup(function(use)
   -- Native LSP
   use {
     'neovim/nvim-lspconfig',
+    opt = true,
     requires = {
       -- LSP server installer
       { 'williamboman/nvim-lsp-installer' },

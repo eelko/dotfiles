@@ -1,0 +1,105 @@
+---
+version: 2
+
+log-file: /tmp/efm.log
+log-level: 1
+
+root-markers:
+  - .git/
+  - .git
+
+tools:
+  # linters
+
+  hadolint-lint: &hadolint-lint
+    prefix: hadolint
+    lint-command: "hadolint"
+    lint-formats:
+      - "%f:%l %m"
+
+  markdownlint-lint: &markdownlint-lint
+    prefix: markdownlint
+    lint-command: "markdownlint --stdin"
+    lint-stdin: true
+    lint-formats:
+      - "%f:%l:%c MD%n/%*[^ ] %m"
+      - "%f:%l MD%n/%*[^ ] %m"
+    commands:
+      - title: "markdownlint fix"
+        command: markdownlint
+        arguments:
+          - "--fix"
+          - "${INPUT}"
+
+  shellcheck-lint: &shellcheck-lint
+    prefix: shellcheck
+    lint-command: "shellcheck -f gcc -x -"
+    lint-stdin: true
+    lint-formats:
+      - "%f:%l:%c: %t%*[^:]: %m [SC%n]"
+
+  yamllint-lint: &yamllint-lint
+    prefix: yamllint
+    lint-command: "yamllint --strict --format parsable ${INPUT}"
+    lint-stdin: false
+    lint-formats:
+      - "%f:%l:%c: [%t%*[a-z]] %m"
+    env:
+      - "PYTHONIOENCODING=UTF-8"
+
+  vale-lint: &vale-lint
+    prefix: vale
+    lint-command: "vale --relative --output line ${INPUT}"
+    lint-stdin: false
+    lint-ignore-exit-code: true
+    lint-formats:
+      - "%f:%l:%c:%*[^:]:%m"
+
+  # formatters
+
+  fixjson-format: &fixjson-format
+    format-command: "fixjson"
+    format-stdin: true
+
+  shellharden-format: &shellharden-format
+    format-command: "shellharden --transform ''"
+    format-stdin: true
+
+  shfmt-format: &shfmt-format
+    format-command: "shfmt -ln bash -i 2 -bn -ci -sr -kp"
+    format-stdin: true
+
+  stylua-format: &stylua-format
+    format-command: "stylua --search-parent-directories --stdin-filepath ${FILENAME} -"
+    format-stdin: true
+
+languages:
+  dockerfile:
+    - <<: *hadolint-lint
+
+  help:
+    - <<: *vale-lint
+
+  json:
+    - <<: *fixjson-format
+
+  json5:
+    - <<: *fixjson-format
+
+  lua:
+    - <<: *stylua-format
+
+  markdown:
+    - <<: *markdownlint-lint
+    - <<: *vale-lint
+
+  sh:
+    - <<: *shellcheck-lint
+    - <<: *shfmt-format
+    - <<: *shellharden-format
+
+  text:
+    - <<: *vale-lint
+
+  yaml:
+    - <<: *yamllint-lint

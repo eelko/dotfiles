@@ -1,6 +1,7 @@
 local config = require 'tokyonight.config'
 local colors = require('tokyonight.colors').setup(config)
 local custom_theme = require 'lualine.themes.tokyonight'
+require 'helpers'
 
 custom_theme.command = {
   a = { bg = colors.magenta, fg = colors.black },
@@ -38,6 +39,13 @@ local function active_lsp_clients()
     local icon = ''
     return icon .. ' ' .. table.concat(clients, ' ')
   end
+end
+
+local function coc_status()
+  if isempty(vim.g.coc_status) then
+    return ''
+  end
+  return ' ' .. vim.g.coc_status
 end
 
 require('lualine').setup {
@@ -78,7 +86,8 @@ require('lualine').setup {
     lualine_c = {
       { 'branch', icon = '' },
       { active_lsp_clients },
-      { 'diagnostics', sources = { 'nvim_lsp', 'coc' } },
+      { coc_status },
+      { 'diagnostics', sources = { 'nvim_diagnostic', 'coc' } },
     },
     lualine_x = {},
     lualine_y = { 'progress' },

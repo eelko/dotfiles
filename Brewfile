@@ -8,7 +8,6 @@ brew "vim"
 brew "zsh"
 
 # linters
-brew "efm-langserver"
 brew "hadolint"
 brew "jsonlint"
 brew "markdownlint-cli"
@@ -20,6 +19,9 @@ brew "yamllint"
 brew "shellharden"
 brew "shfmt"
 brew "stylua"
+
+# lsp
+brew "efm-langserver"
 
 # extra packages
 brew "bat"

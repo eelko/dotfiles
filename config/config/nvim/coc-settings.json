@@ -1,43 +1,25 @@
 {
-  "coc.preferences.formatOnSaveFiletypes": [
-    "css",
-    "html",
-    "java",
-    "javascript",
-    "json",
-    "jsonc",
-    "markdown",
-    "typescript",
-    "typescriptreact"
-  ],
-  "coc.preferences.formatOnType": true,
-  "coc.preferences.useQuickfixForLocations": true,
+  "coc.preferences.enableMessageDialog": true,
+  "coc.preferences.formatOnSaveFiletypes": ["*"],
   "diagnostic.errorSign": "",
+  "diagnostic.floatConfig": {
+    "border": true,
+    "highlight": "LspFloatWinNormal",
+    "borderhighlight": "LspFloatWinBorder"
+  },
+  "diagnostic.enableHighlightLineNumber": false,
   "diagnostic.hintSign": "",
   "diagnostic.infoSign": "",
   "diagnostic.warningSign": "",
+  "dialog.floatBorderHighlight": "LspFloatWinBorder",
+  "dialog.floatHighlight": "LspFloatWinNormal",
   "eslint.autoFixOnSave": true,
+  "eslint.format.enable": true,
   "hover.floatConfig": {
-    "highlight": "Normal",
-    "borderhighlight": "CocFloatBorder",
-    "border": true
+    "border": true,
+    "highlight": "LspFloatWinNormal",
+    "borderhighlight": "LspFloatWinBorder"
   },
-  "diagnostic.floatConfig": {
-    "highlight": "Normal",
-    "borderhighlight": "CocFloatBorder",
-    "border": true
-  },
-  "signature.floatConfig": {
-    "highlight": "Normal",
-    "borderhighlight": "CocFloatBorder",
-    "border": true
-  },
-  "suggest.floatConfig": {
-    "highlight": "Normal",
-    "borderhighlight": "CocFloatBorder",
-    "border": true
-  },
-  "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
   "languageserver": {
     "efm": {
       "args": [],
@@ -45,7 +27,12 @@
       "filetypes": ["*"]
     }
   },
-  "prettier.singleQuote": true,
+  "lightbulb.virtualText": "",
+  "signature.floatConfig": {
+    "border": true,
+    "highlight": "LspFloatWinNormal",
+    "borderhighlight": "LspFloatWinBorder"
+  },
   "snippets.extends": {
     "javascript": ["typescript"],
     "javascriptreact": ["javascript"],
@@ -55,34 +42,38 @@
   "snippets.textmateSnippetsRoots": ["~/.config/nvim/snippets/"],
   "snippets.userSnippetsDirectory": "~/.config/nvim/snippets/",
   "suggest.completionItemKindLabels": {
-    "class": "",
-    "color": "",
-    "constant": "",
-    "constructor": "襁",
-    "default": "",
-    "enum": "",
-    "enumMember": "",
-    "event": "鬒",
-    "field": "料",
-    "file": "",
-    "folder": "",
-    "function": "ƒ",
-    "interface": "",
-    "keyword": "綠",
-    "method": "",
-    "module": "",
-    "operator": "Ψ",
-    "property": "",
-    "reference": "渚",
-    "snippet": "",
-    "struct": "פּ",
-    "text": "",
-    "typeParameter": "",
-    "unit": "",
-    "value": "",
-    "variable": ""
+    "class": "ﴯ Class",
+    "color": " Color",
+    "constant": " Constant",
+    "constructor": " Constructor",
+    "enum": " Enum",
+    "enumMember": " EnumMember",
+    "event": " Event",
+    "field": "ﰠ Field",
+    "file": " File",
+    "folder": " Folder",
+    "function": " Function",
+    "interface": " Interface",
+    "keyword": " Keyword",
+    "method": " Method",
+    "module": " Module",
+    "operator": " Operator",
+    "property": "ﰠ Property",
+    "reference": " Reference",
+    "snippet": " Snippet",
+    "struct": "פּ Struct",
+    "text": " Text",
+    "typeParameter": " TypeParameter",
+    "unit": "塞 Unit",
+    "value": " Value",
+    "variable": " Variable"
+  },
+  "suggest.enablePreselect": true,
+  "suggest.floatConfig": {
+    "border": true,
+    "highlight": "LspFloatWinNormal",
+    "borderhighlight": "LspFloatWinBorder"
   },
   "suggest.noselect": false,
-  "tsserver.npm": "~/.fnm/aliases/default/bin/npm",
-  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true
+  "suggest.selection": "recentlyUsedByPrefix"
 }
