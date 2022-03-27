@@ -362,10 +362,6 @@ return packer.startup(function(use)
       map('n', '<leader>fh', ':Telescope command_history<CR>', { noremap = true })
       map('n', '<leader>fl', ':Telescope current_buffer_fuzzy_find<CR>', { noremap = true })
       map('n', '<leader>fr', ':Telescope oldfiles<CR>', { noremap = true })
-      map('n', '<leader>fs', ':Telescope lsp_dynamic_workspace_symbols<CR>', { noremap = true })
-      -- LSP related mappings
-      map('n', '<leader>cE', ':Telescope diagnostics<CR>')
-      map('v', '<leader>ca', ':Telescope lsp_range_code_actions theme=cursor<CR>')
 
       vim.cmd [[
         function! GrepWithMotion(text, type)

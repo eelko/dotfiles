@@ -52,6 +52,10 @@ map('n', '<leader>ca', ':lua vim.lsp.buf.code_action()<CR>')
 map('n', '<leader>co', ':TSLspOrganize<CR>')
 map('n', '<leader>cnf', ':TSLspRenameFile<CR>')
 map('n', '<leader>cI', ':TSLspImportAll<CR>')
+-- Telescope
+map('n', '<leader>fs', ':Telescope lsp_dynamic_workspace_symbols<CR>', { noremap = true })
+map('n', '<leader>cE', ':Telescope diagnostics<CR>')
+map('v', '<leader>ca', ':Telescope lsp_range_code_actions theme=cursor<CR>')
 
 -- LSP server registration
 local format_on_save = function(client)
