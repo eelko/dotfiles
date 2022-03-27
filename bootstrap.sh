@@ -40,3 +40,6 @@ python3 -m pip install --user --upgrade pynvim
 
 # Neovim plugins
 nvim -c 'autocmd User PackerComplete PackerCompile' -c 'autocmd User PackerCompileDone quitall' -c 'PackerUpdate'
+
+# Vale styles
+wget -qc https://github.com/errata-ai/Microsoft/releases/latest/download/Microsoft.zip -O - | tar -zxv -C /opt/vale-styles/

@@ -22,3 +22,6 @@ npm update
 
 # Neovim plugins
 nvim -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+
+# Vale styles
+wget -qc https://github.com/errata-ai/Microsoft/releases/latest/download/Microsoft.zip -O - | tar -zxv -C /opt/vale-styles/
