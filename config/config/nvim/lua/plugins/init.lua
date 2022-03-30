@@ -406,6 +406,13 @@ return packer.startup(function(use)
         -- Better code navigation (nvim-treesitter-refactor)
         refactor = {
           highlight_definitions = { enable = true },
+          navigation = {
+            enable = true,
+            keymaps = {
+              goto_next_usage = ']u',
+              goto_previous_usage = '[u',
+            },
+          },
         },
         -- Additional text ojbects (nvim-treesitter-textobjects)
         textobjects = {
