@@ -19,6 +19,7 @@ end
 
 packer.init({
   auto_clean = true,
+  auto_reload_compiled = false,
 })
 
 return packer
