@@ -164,11 +164,18 @@ replace() {
   [[ "$#" -ne 2 ]] && echo -e "Usage:\n$ replace <pattern> <replacement>" && return
   local -r pattern="$1"
   local -r replacement="$2"
-  local -r matching_files=($(rg $pattern -l 2>/dev/null))
+  local -r matching_files=("$(rg "$pattern" -l 2> /dev/null)")
 
   [[ -n "$matching_files" ]] || ( echo "No occurrences of \"$pattern\" found" && return )
 
   for file in "${matching_files[@]}"; do
-    $EDITOR -c "%s/\v$pattern/$replacement/gc" -c 'wq' "$file"
+    "$EDITOR" -c "%s/\v$pattern/$replacement/gc" -c 'wq' "$file"
   done
+}
+
+# Mass download files from website (apache, h5ai, etc)
+# https://stackoverflow.com/a/26269730
+# wget -r -np -nH --cut-dirs=3 -R index.html http://hostname/aaa/bbb/ccc/ddd
+download_files() {
+  wget -r -np -nH --cut-dirs=3 -R index.html "$@"
 }
