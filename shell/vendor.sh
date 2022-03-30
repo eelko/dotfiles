@@ -2,13 +2,13 @@
 
 # better color setup for ls
 dircolors=$(dircolors >/dev/null 2>&1 && echo 'dircolors' || echo 'gdircolors')
-eval $($dircolors -b $HOME/.LS_COLORS/LS_COLORS)
+eval "$("$dircolors" -b "$HOME"/.LS_COLORS/LS_COLORS)"
 
 # colorize zsh completion menus
 [[ "${SHELL##*/}" == 'zsh' ]] && zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 
 # fnm
-eval "`fnm env`"
+eval "$(fnm env)"
 export LATEST_NODE_PATH="$HOME/.fnm/aliases/latest/bin/node"
 
 # rvm
@@ -26,7 +26,7 @@ export PATH='/usr/local/opt/python/libexec/bin':$PATH
 
 # Emacs + vterm integration (jump between prompts with C-c C-n and C-c C-p)
 vterm_prompt_end() {
-  vterm_printf "51;A$(whoami)@$(hostname):$(pwd)";
+  vterm_printf "51;A$(whoami)@$(hostname):$PWD";
 }
 setopt PROMPT_SUBST
 PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'

@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-vterm_printf(){
+vterm_printf() {
   # Sources:
   # - http://permalink.gmane.org/gmane.comp.terminal-emulators.tmux.user/1324
   # - https://github.com/akermu/emacs-libvterm#shell-side-configuration
-  if [ -n "$TMUX" ] && ([ "${TERM%%-*}" = "tmux" ] || [ "${TERM%%-*}" = "screen" ] ); then
+  if [ "$TMUX" != "" ] && ([ "${TERM%%-*}" = "tmux" ] || [ "${TERM%%-*}" = "screen" ] ); then
     # Tell tmux to pass the escape sequences through
     printf "\ePtmux;\e\e]%s\007\e\\" "$1"
   elif [ "${TERM%%-*}" = "screen" ]; then

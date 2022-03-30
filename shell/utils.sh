@@ -2,9 +2,9 @@
 
 # Pane name format: "<current dir name>:<currend command>"
 update_tmux_pane_name() {
-  [ -n "$(pgrep tmux)" ] || return
+  [ "$(pgrep tmux)" != "" ] || return
 
-  local -r current_path=$(basename "$(print -rD "$(tmux display-message -p '#{pane_current_path}')")")
+  local -r current_path="$(basename "$(print -rD "$(tmux display-message -p '#{pane_current_path}')")")"
 
   if [[ $current_path =~ - ]]; then
     # only last two words of kebab-cased names
@@ -30,7 +30,7 @@ update_tmux_pane_name() {
 }
 
 # Tmux hook - runs when pane gains focus
-[ -n "$(pgrep tmux)" ] && tmux set-hook pane-focus-in 'run-shell "exec $SHELL -ic update_tmux_pane_name"'
+[ "$(pgrep tmux)" != "" ] && tmux set-hook pane-focus-in 'run-shell "exec $SHELL -ic update_tmux_pane_name"'
 
 # Zsh hook - runs before executing a command
 preexec() {
@@ -49,7 +49,7 @@ function cd() {
   else
     builtin cd && eval "l"
   fi
-  [ -n "$(pgrep tmux)" ] && tmux setenv TMUX_"$(tmux display -p "#I")"_PWD "$PWD"
+  [ "$(pgrep tmux)" != "" ] && tmux setenv TMUX_"$(tmux display -p "#I")"_PWD "$PWD"
 }
 
 # Lazy loading helper
@@ -58,20 +58,21 @@ function cd() {
 function lazy_load() {
   local -r load_script_id="$1"
   local -r load_script_path="$2"
-  declare -ra trigger_list=($(echo $3))
+  declare -ra trigger_list=("$(echo "$3")")
   local -r callback="$4"
 
-  local -r load_fn="load_${load_script_id}"
-  local -r load_and_run_fn="load_and_run_${load_script_id}"
+  local -r load_fn="load_$load_script_id"
+  local -r load_and_run_fn="load_and_run_$load_script_id"
 
   for t in "${trigger_list[@]}"; do
     if ! bin_exists "$t"; then
-      export "$(echo "$t" | awk '{print toupper($0)}')_DIR"="$(dirname $load_script_path)"
+      export "$(echo "$t" | awk '{print toupper($0)}')_DIR"="$(dirname "$load_script_path")"
       alias "$t"="$load_and_run_fn \"$t\""
     fi
   done
 
-eval "$(cat <<EOF
+  eval "$(
+        cat << EOF
   function ${load_fn}() {
     local -r bin_name="\$1"
     if ! bin_exists "\$bin_name"; then
@@ -96,20 +97,20 @@ eval "$(cat <<EOF
     \$bin_name "\${@:2}"
   }
 EOF
-)"
+  )"
 }
 
 # Convert all .flac files (within directpry) to mp3
 function flac2mp3() {
-  for f in **/*.flac
-    do ffmpeg -i "$f" -ab 320k -map_metadata 0 -id3v2_version 3 "${f[@]/%flac/mp3}"
+  for f in **/*.flac; do
+       ffmpeg -i "$f" -ab 320k -map_metadata 0 -id3v2_version 3 "${f[@]/%flac/mp3}"
   done
 }
 
 # Convert all .m4a files (within directpry) to mp3
 function m4a2mp3() {
-  for f in **/*.m4a
-    do ffmpeg -i "$f" -codec:v copy -codec:a libmp3lame -q:a 2 "${f%.m4a}.mp3"
+  for f in **/*.m4a; do
+       ffmpeg -i "$f" -codec:v copy -codec:a libmp3lame -q:a 2 "${f%.m4a}.mp3"
   done
 }
 
@@ -145,7 +146,7 @@ function mergepdf() {
 # Source file if it exists
 function source_if_exists() {
   local script="$1"
-  [[ -s $script ]] && source $script
+  [[ -s $script ]] && source "$script"
 }
 
 # Helper to check wether a bin exists

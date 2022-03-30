@@ -6,11 +6,11 @@ prompt_git_arrows() {
   prompt_pure_git_arrows=
 
   # check if there is an upstream configured for this branch
-  command git rev-parse --abbrev-ref @'{u}' &>/dev/null || return
+  command git rev-parse --abbrev-ref @'{u}' &> /dev/null || return
 
   # check if there are commits ahead/behind
-  ahead_or_behind="$(command git rev-list --left-right --count HEAD...@'{u}' 2>/dev/null)" # returns something like "1 0"
-  (( !$? )) || return # exit if the command failed
+  ahead_or_behind="$(command git rev-list --left-right --count HEAD...@'{u}' 2> /dev/null)" # returns something like "1 0"
+  ((!$?))   || return # exit if the command failed
   ahead=$(echo "$ahead_or_behind" | awk '{ print $1 }')
   behind=$(echo "$ahead_or_behind" | awk '{ print $2 }')
 
@@ -29,10 +29,10 @@ prompt_git_dirty() {
   if [[ "$untracked_dirty" == "0" ]]; then
     command git diff --no-ext-diff --quiet --exit-code 2> /dev/null
   else
-    test -z "$(command git status --porcelain --ignore-submodules -unormal 2> /dev/null )"
+    test "$(command git status --porcelain --ignore-submodules -unormal 2> /dev/null)" = ""
   fi
 
-  (( $? )) && echo "*"
+  (($?))   && echo "*"
 }
 
 prompt_git_branch() {

@@ -18,7 +18,7 @@ fi
 if [[ -n "$(command -v lsd)" ]]; then
   alias l='lsd -l --group-dirs=first --date relative'
 else
-  ls=$(gls >/dev/null 2>&1 && echo 'gls' || echo 'ls')
+  ls=$(gls > /dev/null 2>&1 && echo 'gls' || echo 'ls')
   alias l="$ls -l -h --color=auto --group-directories-first"
 fi
 
