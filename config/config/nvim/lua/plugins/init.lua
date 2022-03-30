@@ -97,14 +97,16 @@ return packer.startup(function(use)
       vim.g.indentLine_faster = 1
       vim.g.indentLine_char = '│'
       vim.g.indentLine_fileTypeExclude = {
-        'gitcommit',
-        'help',
-        'lsp-installer',
         'NvimTree',
-        'packer',
         'TelescopePrompt',
         'TelescopeResults',
         'WhichKey',
+        'gitcommit',
+        'help',
+        'lsp-installer',
+        'man',
+        'markdown',
+        'packer',
       }
     end,
   }
