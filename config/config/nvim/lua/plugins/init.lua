@@ -684,6 +684,14 @@ return packer.startup(function(use)
   use {
     'mvllow/modes.nvim',
     config = function()
+      require('which-key').setup {
+        plugins = {
+          presets = {
+            operators = false,
+          },
+        },
+      }
+
       require('modes').setup {
         colors = {
           copy = '#e0af68',
