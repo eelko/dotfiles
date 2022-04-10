@@ -46,6 +46,7 @@ brew "zplug"
 # casks
 cask "alacritty"
 cask "alfred"
+cask "font-meslo-lg-nerd-font"
 cask "gimp"
 cask "homebrew/cask-fonts/font-caskaydia-cove-nerd-font"
 cask "homebrew/cask-fonts/font-inconsolata-nerd-font"
