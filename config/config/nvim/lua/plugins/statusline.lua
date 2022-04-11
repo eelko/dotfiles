@@ -36,7 +36,7 @@ local function active_lsp_clients()
   if #clients == 0 then
     return ''
   else
-    local icon = ''
+    local icon = ' '
     return icon .. ' ' .. table.concat(clients, ' ')
   end
 end
