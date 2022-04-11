@@ -155,6 +155,7 @@ return packer.startup(function(use)
       vim.cmd 'hi NeoTreeVertSplit guibg=#1D202F guifg=#1D202F'
 
       require('neo-tree').setup {
+        enable_diagnostics = false,
         event_handlers = {
           {
             event = 'file_opened',
