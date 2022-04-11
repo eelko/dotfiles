@@ -207,7 +207,6 @@ return packer.startup(function(use)
     config = function()
       vim.g.nvim_tree_git_hl = 0
       vim.g.nvim_tree_icons = { default = '', symlink = '' }
-      vim.g.nvim_tree_indent_markers = 1
       vim.g.nvim_tree_show_icons = { git = 0, folders = 1, files = 1 }
       vim.g.nvim_tree_root_folder_modifier = ':t'
 
@@ -225,6 +224,11 @@ return packer.startup(function(use)
         },
         filters = {
           custom = { '.git' },
+        },
+        renderer = {
+          indent_markers = {
+            enable = true,
+          },
         },
         view = {
           hide_root_folder = true,
