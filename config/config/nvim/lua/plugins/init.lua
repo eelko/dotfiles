@@ -468,7 +468,7 @@ return packer.startup(function(use)
       vim.w.foldexpr = 'nvim_treesitter#foldexpr()'
 
       require('nvim-treesitter.configs').setup {
-        ensure_installed = 'maintained',
+        ensure_installed = 'all',
         highlight = {
           enable = true,
           -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
