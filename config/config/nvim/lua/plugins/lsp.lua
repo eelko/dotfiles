@@ -2,7 +2,11 @@ require 'helpers'
 
 -- Diagnostic Config
 local format_diagnostic = function(diagnostic)
-  return string.format('[%s] %s', diagnostic.source, diagnostic.message)
+  if diagnostic.code then
+    return string.format('[%s:%s] %s', diagnostic.source, diagnostic.code, diagnostic.message)
+  else
+    return string.format('[%s] %s', diagnostic.source, diagnostic.message)
+  end
 end
 
 vim.diagnostic.config {
@@ -33,21 +37,25 @@ vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.s
 vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, border_opts)
 
 -- Mappings
-map('n', '<leader>cd', ':lua vim.lsp.buf.definition()<CR>')
-map('n', '<leader>cD', ':lua vim.lsp.buf.declaration()<CR>')
-map('n', '<leader>ci', ':lua vim.lsp.buf.implementation()<CR>')
-map('n', '<leader>ct', ':lua vim.lsp.buf.type_definition()<CR>')
-map('n', '<leader>cr', ':lua vim.lsp.buf.references()<CR>')
-map('n', '<leader>cns', ':lua vim.lsp.buf.rename()<CR>')
+map('n', '<leader>cd', vim.lsp.buf.definition)
+map('n', '<leader>cD', vim.lsp.buf.declaration)
+map('n', '<leader>ci', vim.lsp.buf.implementation)
+map('n', '<leader>ct', vim.lsp.buf.type_definition)
+map('n', '<leader>cr', vim.lsp.buf.references)
+map('n', '<leader>cns', vim.lsp.buf.rename)
 -- diagnostics
-map('n', '[d', ':lua vim.diagnostic.goto_prev()<CR>')
-map('n', ']d', ':lua vim.diagnostic.goto_next()<CR>')
-map('n', '<leader>ce', ':lua vim.diagnostic.open_float()<CR>')
+map('n', '[d', vim.diagnostic.goto_prev)
+map('n', ']d', vim.diagnostic.goto_next)
+map('n', '<leader>ce', vim.diagnostic.open_float)
 -- signature helpers
-map('n', 'K', ':lua vim.lsp.buf.hover()<CR>:lua vim.lsp.buf.hover()<CR>') -- calling twice as a workaround for flickering caused by vimade
-map('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
+map('n', 'K', function()
+  -- calling twice as a workaround for flickering caused by vimade
+  vim.lsp.buf.hover()
+  vim.lsp.buf.hover()
+end)
+map('i', '<C-k>', vim.lsp.buf.signature_help)
 -- code actions
-map('n', '<leader>ca', ':lua vim.lsp.buf.code_action()<CR>')
+map('n', '<leader>ca', vim.lsp.buf.code_action)
 -- typescript helpers
 map('n', '<leader>co', ':TSLspOrganize<CR>')
 map('n', '<leader>cnf', ':TSLspRenameFile<CR>')
