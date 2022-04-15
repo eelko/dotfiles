@@ -27,8 +27,9 @@ cmp.setup {
     format = require('lspkind').cmp_format {
       with_text = true,
       menu = {
-        nvim_lsp = '[LSP]',
-        nvim_lua = '[Lua]',
+        buffer = '',
+        copilot = '',
+        nvim_lsp = '異',
       },
     },
   },
@@ -91,6 +92,7 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'vsnip' },
+    { name = 'copilot' },
     { name = 'buffer' },
     { name = 'path' },
   },

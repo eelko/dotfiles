@@ -718,4 +718,20 @@ return packer.startup(function(use)
       }
     end,
   }
+
+  -- GitHub copilot
+  -- use { 'github/copilot.vim' } -- Only required for initial setup
+  use {
+    'zbirenbaum/copilot.lua',
+    event = { 'VimEnter' },
+    config = function()
+      vim.defer_fn(function()
+        require('copilot').setup()
+      end, 100)
+    end,
+  }
+  use {
+    'zbirenbaum/copilot-cmp',
+    after = { 'copilot.lua' },
+  }
 end)
