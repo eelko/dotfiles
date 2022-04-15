@@ -33,7 +33,7 @@ cmp.setup {
     },
   },
 
-  mapping = {
+  mapping = cmp.mapping.preset.insert {
     ['<C-e>'] = cmp.mapping {
       i = cmp.mapping.abort(),
       c = cmp.mapping.close(),
@@ -101,8 +101,22 @@ cmp.setup {
   },
 }
 
+local cmdline_overrides = cmp.mapping.preset.cmdline {
+  ['<Tab>'] = {
+    c = function()
+      if cmp.visible() then
+        cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false }
+      else
+        cmp.complete()
+      end
+    end,
+  },
+  ['<S-Tab>'] = function() end,
+}
+
 -- Use buffer source for '/'
 cmp.setup.cmdline('/', {
+  mapping = cmdline_overrides,
   sources = {
     { name = 'buffer' },
   },
@@ -110,6 +124,7 @@ cmp.setup.cmdline('/', {
 
 -- Use cmdline & path source for ':'
 cmp.setup.cmdline(':', {
+  mapping = cmdline_overrides,
   sources = cmp.config.sources {
     { name = 'cmdline' },
     { name = 'path' },
