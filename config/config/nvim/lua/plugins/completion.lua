@@ -7,16 +7,16 @@ local feedkey = function(key, mode)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
+local border_config = {
+  border = 'single',
+  winhighlight = 'FloatBorder:FloatBorder,Normal:NormalFloat',
+}
+
 local cmp = require 'cmp'
 
 cmp.setup {
   completion = {
     completeopt = 'menu,menuone,noinsert',
-  },
-
-  documentation = {
-    border = 'rounded',
-    winhighlight = 'FloatBorder:FloatBorder,Normal:Normal',
   },
 
   experimental = {
@@ -93,6 +93,11 @@ cmp.setup {
     { name = 'vsnip' },
     { name = 'buffer' },
     { name = 'path' },
+  },
+
+  window = {
+    completion = cmp.config.window.bordered(border_config),
+    documentation = cmp.config.window.bordered(border_config),
   },
 }
 
