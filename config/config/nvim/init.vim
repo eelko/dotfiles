@@ -1,6 +1,7 @@
 " --- OPTIONS ---
 
 " Misc
+set clipboard+=unnamedplus                                 " Use system clipboard for all operations
 set hidden                                                 " Allows buffers to be left unsaved (bp/bn)
 set mouse=a                                                " Enable mouse
 set noautoread                                             " Don't auto reload files from disk when they change outisde Vim
@@ -98,20 +99,6 @@ let mapleader = " "
 " Navigate wrapped lines
 nnoremap j gj
 nnoremap k gk
-
-" Yank visual selection to clipboard
-vnoremap <Leader>y "+y
-" Yank with motion to clipboard
-nnoremap <Leader>y "+y
-" Yank line to clipboard
-nnoremap <Leader>Y "+Y
-
-" Paste clipboard contents on visual selection
-vnoremap <Leader>p "+p
-" Paste clipboard contents after cursor
-nnoremap <Leader>p "+p
-" Paste clipboard contents before cursor
-nnoremap <Leader>P "+P
 
 " Save/exit quicker
 nnoremap <silent> <Leader>q :qall<CR>
