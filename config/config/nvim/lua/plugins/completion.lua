@@ -8,7 +8,7 @@ local feedkey = function(key, mode)
 end
 
 local border_config = {
-  border = 'single',
+  border = 'rounded',
   winhighlight = 'FloatBorder:FloatBorder,Normal:NormalFloat',
 }
 

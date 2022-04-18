@@ -11,6 +11,7 @@ end
 
 vim.diagnostic.config {
   float = {
+    border = 'rounded',
     format = format_diagnostic,
   },
   underline = {
@@ -31,7 +32,7 @@ end
 
 -- Hover/Signature with borders
 local border_opts = {
-  border = 'single',
+  border = 'rounded',
 }
 vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, border_opts)
 vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, border_opts)
