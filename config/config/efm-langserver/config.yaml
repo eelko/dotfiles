@@ -11,35 +11,51 @@ root-markers:
 tools:
   # linters
 
+  eslint-lint: &eslint-lint
+    lint-source: eslint
+    lint-command: "./node_modules/.bin/eslint -f visualstudio --stdin --stdin-filename ${INPUT}"
+    lint-ignore-exit-code: true
+    lint-stdin: true
+    lint-formats:
+      - "%f(%l,%c): %tarning %m"
+      - "%f(%l,%c): %rror %m"
+    root-markers:
+      - package.json
+      - .eslintrc.js
+      - .eslintrc.yaml
+      - .eslintrc.yml
+      - .eslintrc.json
+
   hadolint-lint: &hadolint-lint
-    prefix: hadolint
+    lint-source: hadolint
     lint-command: "hadolint"
     lint-formats:
       - "%f:%l %m"
 
+  jsonlint-lint: &jsonlint-lint
+    lint-source: jsonlint
+    lint-command: "jsonlint -c"
+    lint-stdin: true
+    lint-formats:
+      - "line %l, col %c, found: %m"
+
   markdownlint-lint: &markdownlint-lint
-    prefix: markdownlint
+    lint-source: markdownlint
     lint-command: "markdownlint --stdin"
     lint-stdin: true
     lint-formats:
       - "%f:%l:%c MD%n/%*[^ ] %m"
       - "%f:%l MD%n/%*[^ ] %m"
-    commands:
-      - title: "markdownlint fix"
-        command: markdownlint
-        arguments:
-          - "--fix"
-          - "${INPUT}"
 
   shellcheck-lint: &shellcheck-lint
-    prefix: shellcheck
+    lint-source: shellcheck
     lint-command: "shellcheck -f gcc -x -"
     lint-stdin: true
     lint-formats:
       - "%f:%l:%c: %t%*[^:]: %m [SC%n]"
 
   yamllint-lint: &yamllint-lint
-    prefix: yamllint
+    lint-source: yamllint
     lint-command: "yamllint --strict --format parsable ${INPUT}"
     lint-stdin: false
     lint-formats:
@@ -48,7 +64,7 @@ tools:
       - "PYTHONIOENCODING=UTF-8"
 
   vale-lint: &vale-lint
-    prefix: vale
+    lint-source: vale
     lint-command: "vale --relative --output line ${INPUT}"
     lint-stdin: false
     lint-ignore-exit-code: true
@@ -59,6 +75,10 @@ tools:
 
   fixjson-format: &fixjson-format
     format-command: "fixjson"
+    format-stdin: true
+
+  prettier-format: &prettier-format
+    format-command: "prettier --stdin-filepath ${INPUT} --single-quote"
     format-stdin: true
 
   shellharden-format: &shellharden-format
@@ -74,17 +94,32 @@ tools:
     format-stdin: true
 
 languages:
+  css:
+    - <<: *eslint-lint
+    - <<: *prettier-format
+
   dockerfile:
     - <<: *hadolint-lint
 
-  help:
-    - <<: *vale-lint
+  html:
+    - <<: *eslint-lint
+    - <<: *prettier-format
+
+  javascript:
+    - <<: *eslint-lint
+    - <<: *prettier-format
+
+  javascriptreact:
+    - <<: *eslint-lint
+    - <<: *prettier-format
 
   json:
+    - <<: *jsonlint-lint
     - <<: *fixjson-format
 
-  json5:
-    - <<: *fixjson-format
+  less:
+    - <<: *eslint-lint
+    - <<: *prettier-format
 
   lua:
     - <<: *stylua-format
@@ -92,14 +127,30 @@ languages:
   markdown:
     - <<: *markdownlint-lint
     - <<: *vale-lint
+    - <<: *prettier-format
+
+  sass:
+    - <<: *eslint-lint
+    - <<: *prettier-format
+
+  scss:
+    - <<: *eslint-lint
+    - <<: *prettier-format
 
   sh:
     - <<: *shellcheck-lint
-    - <<: *shfmt-format
     - <<: *shellharden-format
 
   text:
     - <<: *vale-lint
+
+  typescript:
+    - <<: *eslint-lint
+    - <<: *prettier-format
+
+  typescriptreact:
+    - <<: *eslint-lint
+    - <<: *prettier-format
 
   yaml:
     - <<: *yamllint-lint
