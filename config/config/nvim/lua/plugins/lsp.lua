@@ -49,9 +49,13 @@ map('n', ']d', vim.diagnostic.goto_next)
 map('n', '<leader>ce', vim.diagnostic.open_float)
 -- signature helpers
 map('n', 'K', function()
-  -- calling twice as a workaround for flickering caused by vimade
-  vim.lsp.buf.hover()
-  vim.lsp.buf.hover()
+  if contains({ 'vim', 'help' }, vim.o.filetype) then
+    vim.cmd('silent! h ' .. vim.fn.expand '<cword>')
+  else
+    -- calling twice as a workaround for flickering caused by vimade
+    vim.lsp.buf.hover()
+    vim.lsp.buf.hover()
+  end
 end)
 map('i', '<C-k>', vim.lsp.buf.signature_help)
 -- code actions
