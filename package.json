@@ -2,6 +2,7 @@
   "name": "dotfiles",
   "description": "These are dependencies that need to be installed globally.",
   "dependencies": {
+    "eslint_d": "^12.0.0",
     "fixjson": "^1.1.2"
   }
 }

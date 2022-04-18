@@ -586,51 +586,6 @@ return packer.startup(function(use)
     end,
   }
 
-  -- General purpose LSP
-  use {
-    'jose-elias-alvarez/null-ls.nvim',
-    opt = use_coc,
-    requires = { 'nvim-lua/plenary.nvim' },
-    config = function()
-      local format_on_save = function(client)
-        if client.resolved_capabilities.document_formatting then
-          vim.cmd [[
-            augroup LspFormatting
-              autocmd! * <buffer>
-              autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 2000)
-            augroup END
-          ]]
-        end
-      end
-
-      local null_ls = require 'null-ls'
-      local suggest = null_ls.builtins.code_actions
-      local lint = null_ls.builtins.diagnostics
-      local fix = null_ls.builtins.formatting
-
-      null_ls.setup {
-        on_attach = format_on_save,
-        sources = {
-          suggest.shellcheck,
-
-          lint.hadolint,
-          lint.jsonlint,
-          lint.markdownlint,
-          lint.shellcheck,
-          lint.vale,
-          lint.yamllint,
-
-          fix.fixjson,
-          fix.prettier,
-          fix.eslint, -- has to run after Prettier
-          fix.shellharden,
-          fix.shfmt,
-          fix.stylua,
-        },
-      }
-    end,
-  }
-
   -- LSP server progress bar
   use {
     'j-hui/fidget.nvim',
