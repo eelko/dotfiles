@@ -95,6 +95,10 @@ augroup END
 " Space as leader
 let mapleader = " "
 
+" Navigate wrapped lines
+nnoremap j gj
+nnoremap k gk
+
 " Yank visual selection to clipboard
 vnoremap <Leader>y "+y
 " Yank with motion to clipboard
