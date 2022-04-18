@@ -186,6 +186,7 @@ return packer.startup(function(use)
           use_libuv_file_watcher = true,
           window = {
             mappings = {
+              ['\\'] = 'close_window',
               ['o'] = 'system_open',
             },
           },
