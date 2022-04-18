@@ -97,23 +97,15 @@ return packer.startup(function(use)
 
   -- Indentation guides
   use {
-    'yggdroot/indentLine',
+    'lukas-reineke/indent-blankline.nvim',
     config = function()
-      vim.g.indentLine_faster = 1
-      vim.g.indentLine_char = '│'
-      vim.g.indentLine_fileTypeExclude = {
-        'NvimTree',
-        'TelescopePrompt',
-        'TelescopeResults',
-        'WhichKey',
-        'gitcommit',
-        'help',
-        'lsp-installer',
-        'man',
-        'markdown',
-        'neo-tree',
-        'packer',
+      require('indent_blankline').setup {
+        show_current_context = true,
+        show_first_indent_level = false,
+        show_trailing_blankline_indent = false,
       }
+
+      highlight('IndentBlanklineContextChar', 'none', '#4e4e4e')
     end,
   }
 
