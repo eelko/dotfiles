@@ -1,0 +1,7 @@
+{
+  "URL from clipboard": {
+    "prefix": ["link", "url"],
+    "body": ["[${1:link text}]($CLIPBOARD)"],
+    "description": "URL with clipboard contents"
+  }
+}
