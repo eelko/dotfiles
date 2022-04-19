@@ -668,6 +668,17 @@ return packer.startup(function(use)
     end,
   }
 
+  -- Fix CursorHold performance
+  -- reference: https://github.com/neovim/neovim/issues/12587
+  use {
+    'antoinemadec/FixCursorHold.nvim',
+    config = function()
+      -- in millisecond, used for both CursorHold and CursorHoldI,
+      -- use updatetime instead if not defined
+      vim.g.cursorhold_updatetime = 500
+    end,
+  }
+
   -- GitHub copilot
   -- use { 'github/copilot.vim' } -- Only required for initial setup
   use {
