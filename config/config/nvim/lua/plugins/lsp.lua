@@ -119,6 +119,17 @@ local on_attach = function(client)
     ts_utils.setup {}
     ts_utils.setup_client(client)
   end
+
+  -- Symbol highlighting
+  if client.resolved_capabilities.document_highlight then
+    vim.cmd [[
+      augroup LspDocumentHighlight
+        autocmd! * <buffer>
+        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+      augroup END
+    ]]
+  end
 end
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
