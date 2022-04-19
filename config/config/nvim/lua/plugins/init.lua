@@ -480,9 +480,11 @@ return packer.startup(function(use)
         },
         -- Better code navigation (nvim-treesitter-refactor)
         refactor = {
-          highlight_definitions = { enable = true },
+          highlight_definitions = {
+            enable = false, -- not working... buggy highlights
+          },
           navigation = {
-            enable = true,
+            enable = false, -- not working
             keymaps = {
               goto_next_usage = ']u',
               goto_previous_usage = '[u',
