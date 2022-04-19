@@ -30,6 +30,20 @@ for _, type in pairs { 'Error', 'Warn', 'Hint', 'Info' } do
   vim.fn.sign_define(hl, { text = '', texthl = hl, numhl = '', priority = 1 })
 end
 
+-- Show all diagnostics on current line on CursorHold
+function ShowAllDiagnostics(opts, bufnr, line_nr, client_id)
+  bufnr = bufnr or 0
+  line_nr = line_nr or (vim.api.nvim_win_get_cursor(0)[1] - 1)
+  opts = opts or { ['lnum'] = line_nr }
+
+  local line_diagnostics = vim.diagnostic.get(bufnr, opts)
+  if #line_diagnostics > 1 then
+    vim.diagnostic.open_float()
+  end
+end
+
+vim.cmd [[ autocmd! CursorHold * lua ShowAllDiagnostics() ]]
+
 -- Hover/Signature with borders
 local border_opts = {
   border = 'rounded',
