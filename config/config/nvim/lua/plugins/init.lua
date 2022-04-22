@@ -454,7 +454,6 @@ return packer.startup(function(use)
     run = ':TSUpdate',
     requires = {
       'JoosepAlviste/nvim-ts-context-commentstring',
-      'nvim-treesitter/nvim-treesitter-refactor',
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
     config = function()
@@ -477,19 +476,6 @@ return packer.startup(function(use)
         -- Context aware comments (nvim-ts-context-commentstring)
         context_commentstring = {
           enable = true,
-        },
-        -- Better code navigation (nvim-treesitter-refactor)
-        refactor = {
-          highlight_definitions = {
-            enable = false, -- not working... buggy highlights
-          },
-          navigation = {
-            enable = false, -- not working
-            keymaps = {
-              goto_next_usage = ']u',
-              goto_previous_usage = '[u',
-            },
-          },
         },
         -- Additional text ojbects (nvim-treesitter-textobjects)
         textobjects = {
