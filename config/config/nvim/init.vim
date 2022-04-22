@@ -73,10 +73,11 @@ augroup QuickfixAutoClose
   autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), '&buftype') == 'quickfix' | quit | endif
 augroup END
 
-" Remember cursor position
-augroup RememberCursorPosition
+" Remember folds and cursor position on launch
+augroup RememberView
   autocmd!
-  autocmd BufWinEnter * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"zv" | endif
+  autocmd BufWinLeave * if !empty(bufname('%')) | mkview | endif
+  autocmd BufWinEnter * silent! loadview
 augroup END
 
 " Highlight yanked text (NeoVim 0.6.+ only)
