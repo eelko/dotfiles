@@ -597,8 +597,6 @@ return packer.startup(function(use)
     'neovim/nvim-lspconfig',
     opt = use_coc,
     requires = {
-      -- LSP server installer
-      { 'williamboman/nvim-lsp-installer' },
       -- Enhanced LSP experience for TS
       { 'jose-elias-alvarez/nvim-lsp-ts-utils', requires = { 'nvim-lua/plenary.nvim' } },
       -- JSON schema store integration

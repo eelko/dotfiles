@@ -140,24 +140,14 @@ for _, server_name in ipairs {
   'jsonls',
   'tsserver',
 } do
-  local ok, lsp_server = require('nvim-lsp-installer.servers').get_server(server_name)
+  local common_opts = {
+    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+    on_attach = on_attach,
+  }
 
-  if ok and not lsp_server:is_installed() then
-    lsp_server:install()
-    vim.cmd 'autocmd! VimEnter * LspInstallInfo'
+  if special_opts[server_name] then
+    special_opts[server_name](common_opts)
   end
 
-  require('nvim-lsp-installer').on_server_ready(function(server)
-    local common_opts = {
-      capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
-      on_attach = on_attach,
-    }
-
-    if special_opts[server.name] then
-      special_opts[server.name](common_opts)
-    end
-
-    server:setup(common_opts)
-    vim.cmd 'do User LspAttachBuffers'
-  end)
+  require('lspconfig')[server_name].setup(common_opts)
 end
