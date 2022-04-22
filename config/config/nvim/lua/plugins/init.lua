@@ -607,6 +607,20 @@ return packer.startup(function(use)
     end,
   }
 
+  -- Extract JSX components
+  use {
+    'napmn/react-extract.nvim',
+    requires = {
+      'neovim/nvim-lspconfig',
+      'nvim-treesitter/nvim-treesitter',
+    },
+    config = function()
+      local react_extract = require 'react-extract'
+      react_extract.setup()
+      map('v', '<Leader>e', react_extract.extract_to_new_file)
+    end,
+  }
+
   -- Fade inactive buffers
   use {
     'TaDaa/vimade',
