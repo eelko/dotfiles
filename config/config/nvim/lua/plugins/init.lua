@@ -601,6 +601,8 @@ return packer.startup(function(use)
       { 'williamboman/nvim-lsp-installer' },
       -- Enhanced LSP experience for TS
       { 'jose-elias-alvarez/nvim-lsp-ts-utils', requires = { 'nvim-lua/plenary.nvim' } },
+      -- JSON schema store integration
+      { 'b0o/schemastore.nvim' },
     },
     config = function()
       require 'plugins.lsp'

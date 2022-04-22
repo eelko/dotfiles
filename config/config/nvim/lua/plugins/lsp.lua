@@ -125,11 +125,19 @@ local special_opts = {
   ['emmet_ls'] = function(opts)
     opts.filetypes = { 'html', 'css', 'typescriptreact', 'javascriptreact' }
   end,
+  ['jsonls'] = function(opts)
+    opts.settings = {
+      json = {
+        schemas = require('schemastore').json.schemas(),
+      },
+    }
+  end,
 }
 
 for _, server_name in ipairs {
   'efm',
   'emmet_ls',
+  'jsonls',
   'tsserver',
 } do
   local ok, lsp_server = require('nvim-lsp-installer.servers').get_server(server_name)
