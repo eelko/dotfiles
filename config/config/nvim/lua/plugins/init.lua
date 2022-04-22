@@ -24,6 +24,7 @@ return packer.startup(function(use)
     'folke/tokyonight.nvim',
     config = function()
       vim.cmd 'color tokyonight'
+      highlight('Folded', '#24283b', '#565f89')
       highlight('Search', '#ff9e64', 'black')
       highlight('VertSplit', '#24283b', '#080808')
     end,
@@ -457,8 +458,20 @@ return packer.startup(function(use)
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
     config = function()
-      vim.w.foldmethod = 'expr'
-      vim.w.foldexpr = 'nvim_treesitter#foldexpr()'
+      vim.o.foldmethod = 'expr'
+      vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
+      vim.o.fillchars = 'fold: '
+      vim.o.foldminlines = 1
+      vim.o.foldnestmax = 3
+      vim.o.foldtext = 'v:lua.custom_fold_text()'
+
+      function custom_fold_text()
+        local foldstart = vim.fn.substitute(vim.fn.getline(vim.v.foldstart), '\t', ' ', 'g')
+        local line_count = vim.v.foldend - vim.v.foldstart + 1
+        local icon = ''
+        local separator = '…'
+        return string.format('%s %s %s (%s lines)', foldstart, separator, icon, line_count)
+      end
 
       require('nvim-treesitter.configs').setup {
         ensure_installed = 'all',
