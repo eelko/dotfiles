@@ -621,6 +621,26 @@ return packer.startup(function(use)
     end,
   }
 
+  -- Light bulb for LSP code actions
+  use {
+    'kosayoda/nvim-lightbulb',
+    config = function()
+      require('nvim-lightbulb').setup {
+        sign = {
+          enabled = false,
+        },
+        virtual_text = {
+          enabled = true,
+          hl_mode = 'combine',
+        },
+      }
+
+      vim.cmd [[
+        autocmd! CursorMoved * lua require('nvim-lightbulb').update_lightbulb()
+      ]]
+    end,
+  }
+
   -- Fade inactive buffers
   use {
     'TaDaa/vimade',
