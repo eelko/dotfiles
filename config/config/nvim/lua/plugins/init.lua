@@ -19,9 +19,13 @@ return packer.startup(function(use)
   -- Let Packer manage itself
   use { 'wbthomason/packer.nvim' }
 
+  -- Improve startup time
+  use { 'lewis6991/impatient.nvim' }
+
   -- Colors
   use {
     'folke/tokyonight.nvim',
+    after = 'nvim-treesitter',
     config = function()
       vim.cmd 'color tokyonight'
       highlight('Folded', '#24283b', '#565f89')
@@ -33,6 +37,7 @@ return packer.startup(function(use)
   -- Tabline
   use {
     'akinsho/bufferline.nvim',
+    after = 'tokyonight.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = function()
       require('bufferline').setup {
@@ -66,9 +71,8 @@ return packer.startup(function(use)
   -- Git sings on gutter
   use {
     'lewis6991/gitsigns.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim',
-    },
+    after = 'tokyonight.nvim',
+    requires = { 'nvim-lua/plenary.nvim', opt = true },
     config = function()
       require('gitsigns').setup {
         signs = {
@@ -99,6 +103,7 @@ return packer.startup(function(use)
   -- Indentation guides
   use {
     'lukas-reineke/indent-blankline.nvim',
+    after = 'tokyonight.nvim',
     config = function()
       require('indent_blankline').setup {
         show_current_context = true,
@@ -113,36 +118,51 @@ return packer.startup(function(use)
   -- Auto pairs
   use {
     'windwp/nvim-autopairs',
+    after = 'nvim-cmp',
     config = function()
       require('nvim-autopairs').setup()
+      -- inserts `()` after selecting a function or method item from completion menu
+      local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
+      require('cmp').event:on('confirm_done', cmp_autopairs.on_confirm_done { map_char = { tex = '' } })
     end,
   }
 
   -- Tmux integration
   use {
     'christoomey/vim-tmux-navigator',
-    config = function()
-      vim.g.tmux_navigator_no_mappings = true
+    cmd = {
+      'TmuxNavigateLeft',
+      'TmuxNavigateDown',
+      'TmuxNavigateUp',
+      'TmuxNavigateRight',
+    },
+    setup = function()
       map('n', '<m-h>', ':TmuxNavigateLeft<CR>')
       map('n', '<m-j>', ':TmuxNavigateDown<CR>')
       map('n', '<m-k>', ':TmuxNavigateUp<CR>')
       map('n', '<m-l>', ':TmuxNavigateRight<CR>')
+    end,
+    config = function()
+      vim.g.tmux_navigator_no_mappings = true
     end,
   }
 
   -- File explorer
   use {
     'nvim-neo-tree/neo-tree.nvim',
+    cmd = 'Neotree',
     branch = 'v2.x',
     requires = {
-      'nvim-lua/plenary.nvim',
-      'kyazdani42/nvim-web-devicons',
-      'MunifTanjim/nui.nvim',
+      { 'nvim-lua/plenary.nvim', opt = true },
+      { 'kyazdani42/nvim-web-devicons', opt = true },
+      { 'MunifTanjim/nui.nvim', opt = true },
     },
+    wants = { 'nui.nvim' },
+    setup = function()
+      map('n', '\\', ':Neotree reveal<CR>')
+    end,
     config = function()
       vim.g.neo_tree_remove_legacy_commands = 1
-
-      map('n', '\\', ':Neotree reveal<CR>')
 
       vim.cmd 'hi NeoTreeNormal guifg=#a9b1d6 guibg=#1f2335'
       vim.cmd 'hi NeoTreeVertSplit guibg=#1D202F guifg=#1D202F'
@@ -198,15 +218,17 @@ return packer.startup(function(use)
 
   use {
     'kyazdani42/nvim-tree.lua',
+    cmd = { 'NvimTreeToggle', 'NvimTreeFindFile' },
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    setup = function()
+      map('n', '<leader>nf', ':NvimTreeFindFile<CR>')
+      map('n', '<leader>nt', ':NvimTreeToggle<CR>')
+    end,
     config = function()
       vim.g.nvim_tree_git_hl = 0
       vim.g.nvim_tree_icons = { default = '', symlink = '' }
       vim.g.nvim_tree_show_icons = { git = 0, folders = 1, files = 1 }
       vim.g.nvim_tree_root_folder_modifier = ':t'
-
-      map('n', '<leader>nf', ':NvimTreeFindFile<CR>')
-      map('n', '<leader>nt', ':NvimTreeToggle<CR>')
 
       vim.cmd 'hi NvimTreeVertSplit guibg=#1D202F guifg=#1D202F'
 
@@ -241,34 +263,40 @@ return packer.startup(function(use)
   }
 
   -- Quickly comment code
-  use { 'tpope/vim-commentary' }
+  use { 'tpope/vim-commentary', keys = { 'gc' } }
 
   -- Turn quickfix buffer editable
-  use { 'itchyny/vim-qfedit' }
+  use { 'itchyny/vim-qfedit', event = 'CursorMoved' }
 
   -- GNU Readline emulation
-  use { 'tpope/vim-rsi', event = 'VimEnter' } -- insert mode
+  use { 'tpope/vim-rsi', event = { 'CmdlineEnter', 'CmdWinEnter', 'InsertEnter' } } -- insert mode
   use { 'ryvnf/readline.vim', after = 'vim-rsi' } -- command mode
 
   -- Quickly surround with quotes/parens/etc
-  use { 'tpope/vim-surround', requires = { 'tpope/vim-repeat' } }
+  use {
+    'tpope/vim-surround',
+    keys = { { 'n', 'cs' }, { 'n', 'ds' }, { 'n', 'ys' }, { 'v', 'S' } },
+    requires = { { 'tpope/vim-repeat', after = 'vim-surround' } },
+  }
 
   -- Markdown previewer
-  use { 'iamcco/markdown-preview.nvim', run = ':call mkdp#util#install()' }
+  use { 'iamcco/markdown-preview.nvim', cmd = 'MarkdownPreview', run = ':call mkdp#util#install()' }
 
   -- Documentation generator
   use {
     'danymat/neogen',
+    cmd = 'Neogen',
+    requires = 'nvim-treesitter/nvim-treesitter',
+    tag = '*',
     config = function()
       require('neogen').setup {}
     end,
-    requires = 'nvim-treesitter/nvim-treesitter',
-    tag = '*',
   }
 
   -- Statusline
   use {
     'nvim-lualine/lualine.nvim',
+    after = 'tokyonight.nvim',
     requires = { { 'kyazdani42/nvim-web-devicons', opt = true } },
     config = function()
       require 'plugins.statusline_basic'
@@ -288,6 +316,7 @@ return packer.startup(function(use)
   -- Actions with motions
   use {
     'obxhdx/vim-action-mapper',
+    event = 'VimEnter',
     config = function()
       function _G.find_and_replace(text, type)
         local visual_modes = { 'v', '^V' }
@@ -317,12 +346,14 @@ return packer.startup(function(use)
   -- Easily add debug messages
   use {
     'obxhdx/vim-debug-logger',
+    after = 'vim-action-mapper',
     requires = 'obxhdx/vim-action-mapper',
   }
 
   -- Keymap helper
   use {
     'folke/which-key.nvim',
+    event = 'CursorHold',
     config = function()
       require('which-key').setup {
         plugins = {
@@ -393,12 +424,25 @@ return packer.startup(function(use)
   -- Telescope
   use {
     'nvim-telescope/telescope.nvim',
-    after = 'vim-action-mapper',
+    cmd = 'Telescope',
     requires = {
-      'nvim-lua/plenary.nvim',
-      'gbrlsnchs/telescope-lsp-handlers.nvim',
-      { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+      { 'nvim-lua/plenary.nvim', opt = true },
+      { 'gbrlsnchs/telescope-lsp-handlers.nvim', opt = true },
+      { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', opt = true },
     },
+    wants = {
+      'telescope-lsp-handlers.nvim',
+      'telescope-fzf-native.nvim',
+    },
+    setup = function()
+      map('n', '<leader>fb', ':Telescope buffers<CR>', { noremap = true })
+      map('n', '<leader>fc', ':Telescope commands<CR>', { noremap = true })
+      map('n', '<leader>ff', ':Telescope find_files<CR>', { noremap = true })
+      map('n', '<leader>fg', ':Telescope live_grep<CR>', { noremap = true })
+      map('n', '<leader>fh', ':Telescope command_history<CR>', { noremap = true })
+      map('n', '<leader>fl', ':Telescope current_buffer_fuzzy_find<CR>', { noremap = true })
+      map('n', '<leader>fr', ':Telescope oldfiles<CR>', { noremap = true })
+    end,
     config = function()
       local telescope = require 'telescope'
       local actions = require 'telescope.actions'
@@ -433,14 +477,6 @@ return packer.startup(function(use)
       telescope.load_extension 'fzf'
       telescope.load_extension 'lsp_handlers'
 
-      map('n', '<leader>fb', ':Telescope buffers<CR>', { noremap = true })
-      map('n', '<leader>fc', ':Telescope commands<CR>', { noremap = true })
-      map('n', '<leader>ff', ':Telescope find_files<CR>', { noremap = true })
-      map('n', '<leader>fg', ':Telescope live_grep<CR>', { noremap = true })
-      map('n', '<leader>fh', ':Telescope command_history<CR>', { noremap = true })
-      map('n', '<leader>fl', ':Telescope current_buffer_fuzzy_find<CR>', { noremap = true })
-      map('n', '<leader>fr', ':Telescope oldfiles<CR>', { noremap = true })
-
       vim.cmd [[
         function! GrepWithMotion(text, type)
           execute('lua require("telescope.builtin").grep_string({search = '.a:text.'})')
@@ -452,10 +488,11 @@ return packer.startup(function(use)
   -- Treesitter
   use {
     'nvim-treesitter/nvim-treesitter',
+    event = 'UIEnter',
     run = ':TSUpdate',
     requires = {
-      'JoosepAlviste/nvim-ts-context-commentstring',
-      'nvim-treesitter/nvim-treesitter-textobjects',
+      { 'JoosepAlviste/nvim-ts-context-commentstring', after = 'nvim-treesitter' },
+      { 'nvim-treesitter/nvim-treesitter-textobjects', after = 'nvim-treesitter' },
     },
     config = function()
       vim.o.foldmethod = 'expr'
@@ -532,12 +569,8 @@ return packer.startup(function(use)
   use {
     'neoclide/coc.nvim',
     opt = not use_coc,
-    after = 'telescope.nvim',
     branch = 'release',
-    requires = {
-      -- Telescope integration
-      'fannheyward/telescope-coc.nvim',
-    },
+    requires = { 'fannheyward/telescope-coc.nvim', opt = true },
     config = function()
       require 'plugins.coc'
     end,
@@ -547,8 +580,9 @@ return packer.startup(function(use)
   use {
     'hrsh7th/vim-vsnip',
     opt = use_coc,
+    event = { 'CmdWinEnter', 'InsertEnter' },
     requires = {
-      { 'hrsh7th/vim-vsnip-integ' },
+      { 'hrsh7th/vim-vsnip-integ', opt = true },
     },
     config = function()
       vim.g.vsnip_filetypes = {
@@ -564,15 +598,17 @@ return packer.startup(function(use)
   -- Code Completion
   use {
     'hrsh7th/nvim-cmp',
+    event = { 'CmdlineEnter', 'CmdWinEnter', 'InsertEnter' },
     opt = use_coc,
-    after = 'nvim-autopairs',
     requires = {
-      { 'hrsh7th/cmp-buffer' },
-      { 'hrsh7th/cmp-cmdline' },
-      { 'hrsh7th/cmp-nvim-lsp' },
-      { 'hrsh7th/cmp-path' },
-      { 'hrsh7th/cmp-vsnip' },
-      { 'onsails/lspkind-nvim' },
+      { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
+      { 'hrsh7th/cmp-cmdline', after = 'nvim-cmp' },
+      { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
+      { 'hrsh7th/cmp-vsnip', after = 'nvim-cmp' },
+      { 'onsails/lspkind-nvim', opt = true },
+    },
+    wants = {
+      'lspkind-nvim',
     },
     config = function()
       require 'plugins.completion'
@@ -582,6 +618,7 @@ return packer.startup(function(use)
   -- LSP server progress bar
   use {
     'j-hui/fidget.nvim',
+    event = 'UIEnter',
     opt = use_coc,
     config = function()
       require('fidget').setup {
@@ -598,9 +635,11 @@ return packer.startup(function(use)
     opt = use_coc,
     requires = {
       -- Enhanced LSP experience for TS
-      { 'jose-elias-alvarez/nvim-lsp-ts-utils', requires = { 'nvim-lua/plenary.nvim' } },
+      { 'jose-elias-alvarez/nvim-lsp-ts-utils', requires = { 'nvim-lua/plenary.nvim', opt = true } },
       -- JSON schema store integration
       { 'b0o/schemastore.nvim' },
+      -- Completion integration
+      { 'hrsh7th/cmp-nvim-lsp' },
     },
     config = function()
       require 'plugins.lsp'
@@ -610,6 +649,7 @@ return packer.startup(function(use)
   -- Extract JSX components
   use {
     'napmn/react-extract.nvim',
+    keys = '<Leader>e',
     requires = {
       'neovim/nvim-lspconfig',
       'nvim-treesitter/nvim-treesitter',
@@ -624,6 +664,7 @@ return packer.startup(function(use)
   -- Light bulb for LSP code actions
   use {
     'kosayoda/nvim-lightbulb',
+    event = 'CursorMoved',
     config = function()
       require('nvim-lightbulb').setup {
         sign = {
@@ -644,6 +685,7 @@ return packer.startup(function(use)
   -- Fade inactive buffers
   use {
     'TaDaa/vimade',
+    event = { 'BufLeave', 'FocusLost' },
     config = function()
       vim.g.vimade = {
         enablefocusfading = 1,
@@ -663,6 +705,13 @@ return packer.startup(function(use)
   -- Incremental fuzzy search motion
   use {
     'rlane/pounce.nvim',
+    cmd = { 'Pounce', 'PounceRepeat' },
+    setup = function()
+      map('n', 's', '<cmd>Pounce<CR>')
+      map('n', 'S', '<cmd>PounceRepeat<CR>')
+      map('v', 'gs', '<cmd>Pounce<CR>')
+      map('o', 'gs', '<cmd>Pounce<CR>')
+    end,
     config = function()
       require('pounce').setup {}
 
@@ -670,17 +719,13 @@ return packer.startup(function(use)
         hi PounceGap cterm=none ctermfg=0 ctermbg=2 gui=none guifg=black guibg=#00aa00
         hi PounceMatch cterm=none ctermfg=0 ctermbg=10 gui=none guifg=black guibg=#11dd11
       ]]
-
-      map('n', 's', '<cmd>Pounce<CR>')
-      map('n', 'S', '<cmd>PounceRepeat<CR>')
-      map('v', 'gs', '<cmd>Pounce<CR>')
-      map('o', 'gs', '<cmd>Pounce<CR>')
     end,
   }
 
   -- Highlight some UI elements based on current mode
   use {
     'mvllow/modes.nvim',
+    after = 'which-key.nvim',
     config = function()
       require('which-key').setup {
         plugins = {
@@ -702,9 +747,10 @@ return packer.startup(function(use)
   }
 
   -- Fix CursorHold performance
-  -- reference: https://github.com/neovim/neovim/issues/12587
+  -- Reference: https://github.com/neovim/neovim/issues/12587
   use {
     'antoinemadec/FixCursorHold.nvim',
+    event = 'UIEnter',
     config = function()
       -- in millisecond, used for both CursorHold and CursorHoldI,
       -- use updatetime instead if not defined
@@ -716,7 +762,7 @@ return packer.startup(function(use)
   -- use { 'github/copilot.vim' } -- Only required for initial setup
   use {
     'zbirenbaum/copilot.lua',
-    event = { 'VimEnter' },
+    after = 'nvim-cmp',
     config = function()
       vim.defer_fn(function()
         require('copilot').setup()
