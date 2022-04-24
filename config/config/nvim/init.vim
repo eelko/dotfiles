@@ -102,7 +102,7 @@ nnoremap j gj
 nnoremap k gk
 
 " Save/exit quicker
-nnoremap <silent> <Leader>q :qall<CR>
+nnoremap <silent> <Leader>q :qall!<CR>
 nnoremap <silent> <Leader>w :write<CR>
 nnoremap <silent> <Leader>x :xit<CR>
 
