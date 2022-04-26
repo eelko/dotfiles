@@ -39,7 +39,7 @@ python3 -m pip install --user --upgrade pynvim
 ~/.tmux/plugins/tpm/bin/install_plugins
 
 # Neovim plugins
-nvim -c 'autocmd User PackerComplete PackerCompile' -c 'autocmd User PackerCompileDone quitall' -c 'PackerUpdate'
+nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 # Vale styles
 wget -qc https://github.com/errata-ai/Microsoft/releases/latest/download/Microsoft.zip -O - | tar -zxv -C /opt/vale-styles/

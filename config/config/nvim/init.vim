@@ -230,7 +230,7 @@ augroup END
 
 " --- PLUGINS ---
 
-lua require('impatient')
+lua pcall(require, 'impatient')
 lua require('plugins')
 
 " --- TEMPORARY CONFIGS ---

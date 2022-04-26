@@ -1,10 +1,20 @@
-local packer_present, packer = pcall(require, 'plugins.packer')
-
-if not packer_present then
-  return false
-end
-
 require 'helpers'
+
+-- Bootstrap packer
+local packer_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
+
+if vim.fn.empty(vim.fn.glob(packer_path)) > 0 then
+  packer_bootstrap = vim.fn.system {
+    'git',
+    'clone',
+    '--depth',
+    '1',
+    'https://github.com/wbthomason/packer.nvim',
+    packer_path,
+  }
+
+  vim.cmd 'packadd packer.nvim'
+end
 
 -- Regenerate compiled loader file whenever this file is updated
 vim.cmd [[
@@ -15,7 +25,7 @@ vim.cmd [[
 ]]
 
 -- Declare plugins
-return packer.startup(function(use)
+return require('packer').startup(function(use)
   -- Let Packer manage itself
   use { 'wbthomason/packer.nvim' }
 
@@ -773,4 +783,9 @@ return packer.startup(function(use)
     'zbirenbaum/copilot-cmp',
     after = { 'copilot.lua' },
   }
+
+  -- Bootstrap packer plugins
+  if packer_bootstrap then
+    require('packer').sync()
+  end
 end)
