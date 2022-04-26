@@ -346,7 +346,7 @@ return require('packer').startup(function(use)
         autocmd User MapActions call MapAction('FindAndReplace', '<Leader>r')
 
         function! GrepWithMotion(text, type)
-          execute('Grep '.a:text)
+          execute("Grep '".trim(a:text)."'")
         endfunction
         autocmd User MapActions call MapAction('GrepWithMotion', '<Leader>g')
       ]]
@@ -489,7 +489,7 @@ return require('packer').startup(function(use)
 
       vim.cmd [[
         function! GrepWithMotion(text, type)
-          execute('lua require("telescope.builtin").grep_string({search = '.a:text.'})')
+          execute('lua require("telescope.builtin").grep_string({search = "'.trim(a:text).'"})')
         endfunction
       ]]
     end,
