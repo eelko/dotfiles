@@ -365,21 +365,19 @@ return require('packer').startup(function(use)
     cmd = 'Telescope',
     requires = {
       { 'nvim-lua/plenary.nvim', opt = true },
-      { 'gbrlsnchs/telescope-lsp-handlers.nvim', opt = true },
       { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', opt = true },
     },
     wants = {
-      'telescope-lsp-handlers.nvim',
       'telescope-fzf-native.nvim',
     },
     setup = function()
-      map('n', '<leader>fb', ':Telescope buffers<CR>', { noremap = true })
-      map('n', '<leader>fc', ':Telescope commands<CR>', { noremap = true })
-      map('n', '<leader>ff', ':Telescope find_files<CR>', { noremap = true })
-      map('n', '<leader>fg', ':Telescope live_grep<CR>', { noremap = true })
-      map('n', '<leader>fh', ':Telescope command_history<CR>', { noremap = true })
-      map('n', '<leader>fl', ':Telescope current_buffer_fuzzy_find<CR>', { noremap = true })
-      map('n', '<leader>fr', ':Telescope oldfiles<CR>', { noremap = true })
+      map('n', '<leader>fb', ':Telescope buffers<CR>')
+      map('n', '<leader>fc', ':Telescope commands<CR>')
+      map('n', '<leader>ff', ':Telescope find_files<CR>')
+      map('n', '<leader>fg', ':Telescope live_grep<CR>')
+      map('n', '<leader>fh', ':Telescope command_history<CR>')
+      map('n', '<leader>fl', ':Telescope current_buffer_fuzzy_find<CR>')
+      map('n', '<leader>fr', ':Telescope oldfiles<CR>')
     end,
     config = function()
       local telescope = require 'telescope'
@@ -395,13 +393,6 @@ return require('packer').startup(function(use)
             },
           },
         },
-        extensions = {
-          lsp_handlers = {
-            code_action = {
-              telescope = require('telescope.themes').get_cursor {},
-            },
-          },
-        },
         pickers = {
           current_buffer_fuzzy_find = {
             sorting_strategy = 'ascending',
@@ -413,7 +404,6 @@ return require('packer').startup(function(use)
       }
 
       telescope.load_extension 'fzf'
-      telescope.load_extension 'lsp_handlers'
 
       vim.cmd [[
         function! GrepWithMotion(text, type)

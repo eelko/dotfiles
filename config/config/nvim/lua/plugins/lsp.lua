@@ -81,9 +81,7 @@ map('n', '<leader>cnf', ':TSLspRenameFile<CR>')
 map('n', '<leader>cI', ':TSLspImportAll<CR>')
 -- Telescope
 map('n', '<leader>cE', ':Telescope diagnostics<CR>')
-map('n', '<leader>fs', ':Telescope lsp_dynamic_workspace_symbols<CR>', { noremap = true })
-map('n', '<leader>ca', ':Telescope lsp_code_actions theme=cursor<CR>')
-map('v', '<leader>ca', ':Telescope lsp_range_code_actions theme=cursor<CR>')
+map('n', '<leader>fs', ':Telescope lsp_dynamic_workspace_symbols<CR>')
 
 -- LSP server registration
 local on_attach = function(client)
