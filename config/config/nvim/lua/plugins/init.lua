@@ -67,11 +67,6 @@ return require('packer').startup(function(use)
               end,
               text_align = 'center',
             },
-            {
-              filetype = 'neo-tree',
-              text = 'Files',
-              text_align = 'center',
-            },
           },
         },
       }
@@ -158,74 +153,6 @@ return require('packer').startup(function(use)
   }
 
   -- File explorer
-  use {
-    'nvim-neo-tree/neo-tree.nvim',
-    cmd = 'Neotree',
-    branch = 'v2.x',
-    requires = {
-      { 'nvim-lua/plenary.nvim', opt = true },
-      { 'kyazdani42/nvim-web-devicons', opt = true },
-      { 'MunifTanjim/nui.nvim', opt = true },
-    },
-    wants = { 'nui.nvim' },
-    setup = function()
-      map('n', '\\', ':Neotree reveal<CR>')
-    end,
-    config = function()
-      vim.g.neo_tree_remove_legacy_commands = 1
-
-      vim.cmd 'hi NeoTreeNormal guifg=#a9b1d6 guibg=#1f2335'
-      vim.cmd 'hi NeoTreeVertSplit guibg=#1D202F guifg=#1D202F'
-
-      require('neo-tree').setup {
-        enable_diagnostics = false,
-        event_handlers = {
-          {
-            event = 'file_opened',
-            handler = function(file_path)
-              require('neo-tree').close_all()
-            end,
-          },
-          {
-            event = 'vim_buffer_enter',
-            handler = function(arg)
-              if vim.bo.filetype == 'neo-tree' then
-                vim.cmd [[setlocal signcolumn=no]]
-              end
-            end,
-          },
-        },
-        filesystem = {
-          commands = {
-            system_open = function(state)
-              local node = state.tree:get_node()
-              local path = node:get_id()
-              vim.api.nvim_command('silent !open ' .. path)
-            end,
-          },
-          filtered_items = {
-            visible = true,
-            hide_dotfiles = false,
-            hide_gitignored = true,
-            hide_by_name = {},
-            never_show = {
-              '.DS_Store',
-              '.git',
-            },
-          },
-          follow_current_file = true,
-          use_libuv_file_watcher = true,
-          window = {
-            mappings = {
-              ['\\'] = 'close_window',
-              ['o'] = 'system_open',
-            },
-          },
-        },
-      }
-    end,
-  }
-
   use {
     'kyazdani42/nvim-tree.lua',
     cmd = { 'NvimTreeToggle', 'NvimTreeFindFile' },
@@ -607,7 +534,7 @@ return require('packer').startup(function(use)
       }
 
       vim.cmd [[
-        au! FileType NvimTree,neo-tree VimadeBufDisable
+        au! FileType NvimTree VimadeBufDisable
         au! FocusLost * VimadeFadeActive
         au! FocusGained * VimadeUnfadeActive
         au! InsertEnter * VimadeWinDisable
