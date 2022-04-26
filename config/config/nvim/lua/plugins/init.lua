@@ -158,12 +158,11 @@ return require('packer').startup(function(use)
     cmd = { 'NvimTreeToggle', 'NvimTreeFindFile' },
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     setup = function()
-      map('n', '<leader>nf', ':NvimTreeFindFile<CR>')
-      map('n', '<leader>nt', ':NvimTreeToggle<CR>')
+      map('n', '\\', ':NvimTreeToggle<CR>')
     end,
     config = function()
-      vim.g.nvim_tree_git_hl = 0
-      vim.g.nvim_tree_icons = { default = '', symlink = '' }
+      vim.g.nvim_tree_git_hl = 1
+      vim.g.nvim_tree_icons = { default = '', symlink = '' }
       vim.g.nvim_tree_show_icons = { git = 0, folders = 1, files = 1 }
       vim.g.nvim_tree_root_folder_modifier = ':t'
 
@@ -178,6 +177,9 @@ return require('packer').startup(function(use)
         },
         filters = {
           custom = { '.git' },
+        },
+        git = {
+          ignore = false,
         },
         renderer = {
           indent_markers = {
