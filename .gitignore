@@ -7,13 +7,16 @@ package-lock.json
 # ignore everything inside
 config/config/*
 config/config/nvim/*
+config/config/nvim/plugin/packer_compiled.lua
 # but skip the folders themselves
 !config/config/
 !config/config/nvim/
+!config/config/nvim/lua/
+!config/config/nvim/plugin/
+!config/config/nvim/snippets/
 # so that it's possible to version a few specific files
 !config/config/efm-langserver
 !config/config/nvim/coc-settings.json
+!config/config/nvim/init.lua
 !config/config/nvim/init.vim
-!config/config/nvim/lua/
-!config/config/nvim/snippets/
 !config/config/starship.toml
