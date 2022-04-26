@@ -286,7 +286,6 @@ return require('packer').startup(function(use)
   use {
     'tpope/vim-surround',
     keys = { { 'n', 'cs' }, { 'n', 'ds' }, { 'n', 'ys' }, { 'v', 'S' } },
-    requires = { { 'tpope/vim-repeat', after = 'vim-surround' } },
   }
 
   -- Markdown previewer
@@ -358,77 +357,6 @@ return require('packer').startup(function(use)
     'obxhdx/vim-debug-logger',
     after = 'vim-action-mapper',
     requires = 'obxhdx/vim-action-mapper',
-  }
-
-  -- Keymap helper
-  use {
-    'folke/which-key.nvim',
-    event = 'CursorHold',
-    config = function()
-      require('which-key').setup {
-        plugins = {
-          spelling = {
-            enabled = true,
-          },
-        },
-      }
-
-      require('which-key').register({
-        d = 'Close current buffer',
-        g = 'Grep operator',
-        gg = 'which_key_ignore',
-        l = 'Debug log operator',
-        ll = 'which_key_ignore',
-        p = 'Paste from clipboard after cursor',
-        P = 'Paste from clipboard before cursor',
-        q = 'Quit',
-        r = 'Find/replace operator',
-        rr = 'which_key_ignore',
-        w = 'Save current buffer',
-        x = 'Save current buffer and quit',
-        y = 'Copy to clipboard',
-        Y = 'Copy whole line to clipboard',
-        a = {
-          name = '+alternate',
-          a = 'Open alternate file',
-          s = 'Open alternate file in vertical split',
-          v = 'Open alternate file in horizontal split',
-        },
-        c = {
-          name = '+code',
-          a = 'Show code actions',
-          d = 'Go to definition',
-          D = 'Go to declaration',
-          e = 'Show current line diagnostics',
-          E = 'Show workspace diagnostics',
-          i = 'Go to implementation',
-          I = 'Add all missing imports',
-          o = 'Organize imports',
-          r = 'Show references',
-          t = 'Go to type definition',
-          n = {
-            name = '+rename',
-            s = 'Rename symbol',
-            f = 'Rename file',
-          },
-        },
-        f = {
-          name = '+find',
-          b = 'Find open buffer',
-          c = 'Find command',
-          f = 'Find file',
-          g = 'Live grep',
-          h = 'Show recent commands',
-          l = 'Filter lines in current buffer',
-          r = 'Open recently edited file',
-        },
-        n = {
-          name = '+navigate',
-          f = 'Show current file in file explorer',
-          t = 'Toggle file explorer',
-        },
-      }, { prefix = '<leader>' })
-    end,
   }
 
   -- Telescope
@@ -625,20 +553,6 @@ return require('packer').startup(function(use)
     end,
   }
 
-  -- LSP server progress bar
-  use {
-    'j-hui/fidget.nvim',
-    event = 'UIEnter',
-    opt = use_coc,
-    config = function()
-      require('fidget').setup {
-        text = {
-          spinner = 'dots',
-        },
-      }
-    end,
-  }
-
   -- Native LSP
   use {
     'neovim/nvim-lspconfig',
@@ -735,16 +649,7 @@ return require('packer').startup(function(use)
   -- Highlight some UI elements based on current mode
   use {
     'mvllow/modes.nvim',
-    after = 'which-key.nvim',
     config = function()
-      require('which-key').setup {
-        plugins = {
-          presets = {
-            operators = false,
-          },
-        },
-      }
-
       require('modes').setup {
         colors = {
           copy = '#e0af68',
