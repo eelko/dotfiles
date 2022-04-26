@@ -1,4 +1,4 @@
-require 'helpers'
+require 'utils'
 
 -- Bootstrap packer
 local packer_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
@@ -330,12 +330,12 @@ return require('packer').startup(function(use)
     config = function()
       function _G.find_and_replace(text, type)
         local visual_modes = { 'v', '^V' }
-        local use_word_boundary = not _G.contains(visual_modes, type)
+        local use_word_boundary = not contains(visual_modes, type)
         local pattern = use_word_boundary and '\\<' .. text .. '\\>' or text
         local new_text = vim.fn.input('Replace ' .. pattern .. ' with: ', text)
 
         if #new_text > 0 then
-          _G.exec_preserving_cursor_pos(',$s/' .. pattern .. '/' .. new_text .. '/gc')
+          exec_preserving_cursor_pos(',$s/' .. pattern .. '/' .. new_text .. '/gc')
         end
       end
 

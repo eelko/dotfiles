@@ -1,4 +1,4 @@
-require 'helpers'
+require 'utils'
 
 -- Diagnostic Config
 local format_diagnostic = function(diagnostic)

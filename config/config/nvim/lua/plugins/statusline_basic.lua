@@ -1,4 +1,4 @@
-require 'helpers'
+require 'utils'
 
 local config = require 'tokyonight.config'
 local colors = require('tokyonight.colors').setup(config)

@@ -1,7 +1,8 @@
+require 'utils'
+
 local config = require 'tokyonight.config'
 local colors = require('tokyonight.colors').setup(config)
 local custom_theme = require 'lualine.themes.tokyonight'
-require 'helpers'
 
 custom_theme.command = {
   a = { bg = colors.magenta, fg = colors.black },
@@ -42,7 +43,7 @@ local function active_lsp_clients()
 end
 
 local function coc_status()
-  if isempty(vim.g.coc_status) then
+  if vim.fn.empty(vim.g.coc_status) then
     return ''
   end
   return ' ' .. vim.g.coc_status
