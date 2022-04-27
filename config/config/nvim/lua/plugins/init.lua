@@ -568,15 +568,10 @@ return require('packer').startup(function(use)
   -- Highlight some UI elements based on current mode
   use {
     'mvllow/modes.nvim',
+    commit = '38f6c91',
+    after = 'tokyonight.nvim',
     config = function()
-      require('modes').setup {
-        colors = {
-          copy = '#e0af68',
-          delete = '#c75c6a',
-          insert = '#9ece6a',
-          visual = '#7aa2f7',
-        },
-      }
+      require('modes').setup()
     end,
   }
 
