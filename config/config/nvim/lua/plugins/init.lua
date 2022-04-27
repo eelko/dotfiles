@@ -35,7 +35,7 @@ return require('packer').startup(function(use)
   -- Colors
   use {
     'folke/tokyonight.nvim',
-    after = 'nvim-treesitter',
+    event = 'UIEnter',
     config = function()
       vim.cmd 'color tokyonight'
       highlight('Folded', '#24283b', '#565f89')
@@ -345,7 +345,7 @@ return require('packer').startup(function(use)
   -- Treesitter
   use {
     'nvim-treesitter/nvim-treesitter',
-    event = 'UIEnter',
+    event = { 'BufReadPre', 'BufNewFile' },
     run = ':TSUpdate',
     requires = {
       { 'JoosepAlviste/nvim-ts-context-commentstring', after = 'nvim-treesitter' },
@@ -476,13 +476,19 @@ return require('packer').startup(function(use)
   use {
     'neovim/nvim-lspconfig',
     disable = use_coc,
+    event = { 'BufReadPre', 'BufNewFile' },
     requires = {
       -- Enhanced LSP experience for TS
-      { 'jose-elias-alvarez/nvim-lsp-ts-utils', requires = { 'nvim-lua/plenary.nvim', opt = true } },
+      { 'jose-elias-alvarez/nvim-lsp-ts-utils', opt = true, requires = { 'nvim-lua/plenary.nvim', opt = true } },
       -- JSON schema store integration
-      { 'b0o/schemastore.nvim' },
+      { 'b0o/schemastore.nvim', opt = true },
       -- Completion integration
-      { 'hrsh7th/cmp-nvim-lsp' },
+      { 'hrsh7th/cmp-nvim-lsp', opt = true },
+    },
+    wants = {
+      'cmp-nvim-lsp',
+      'nvim-lsp-ts-utils',
+      'schemastore.nvim',
     },
     config = function()
       require 'plugins.lsp'
@@ -507,7 +513,7 @@ return require('packer').startup(function(use)
   -- Light bulb for LSP code actions
   use {
     'kosayoda/nvim-lightbulb',
-    event = 'CursorMoved',
+    after = 'nvim-lspconfig',
     config = function()
       require('nvim-lightbulb').setup {
         sign = {
