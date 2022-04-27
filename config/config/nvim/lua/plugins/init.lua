@@ -176,7 +176,7 @@ return require('packer').startup(function(use)
           enable = true, -- highlight current file
         },
         filters = {
-          custom = { '.git' },
+          custom = { '.DS_Store', '.git' },
         },
         git = {
           ignore = false,
