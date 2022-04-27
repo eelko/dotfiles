@@ -425,7 +425,7 @@ return require('packer').startup(function(use)
   local use_coc = vim.g.use_coc or false
   use {
     'neoclide/coc.nvim',
-    opt = not use_coc,
+    disable = not use_coc,
     branch = 'release',
     requires = { 'fannheyward/telescope-coc.nvim', opt = true },
     config = function()
@@ -436,7 +436,7 @@ return require('packer').startup(function(use)
   -- Snippets
   use {
     'hrsh7th/vim-vsnip',
-    opt = use_coc,
+    disable = use_coc,
     event = { 'CmdWinEnter', 'InsertEnter' },
     requires = {
       { 'hrsh7th/vim-vsnip-integ', opt = true },
@@ -456,7 +456,7 @@ return require('packer').startup(function(use)
   use {
     'hrsh7th/nvim-cmp',
     event = { 'CmdlineEnter', 'CmdWinEnter', 'InsertEnter' },
-    opt = use_coc,
+    disable = use_coc,
     requires = {
       { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
       { 'hrsh7th/cmp-cmdline', after = 'nvim-cmp' },
@@ -475,7 +475,7 @@ return require('packer').startup(function(use)
   -- Native LSP
   use {
     'neovim/nvim-lspconfig',
-    opt = use_coc,
+    disable = use_coc,
     requires = {
       -- Enhanced LSP experience for TS
       { 'jose-elias-alvarez/nvim-lsp-ts-utils', requires = { 'nvim-lua/plenary.nvim', opt = true } },
