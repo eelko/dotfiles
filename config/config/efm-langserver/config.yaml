@@ -28,9 +28,9 @@ tools:
 
   hadolint-lint: &hadolint-lint
     lint-source: hadolint
-    lint-command: "hadolint"
+    lint-command: "hadolint --format gnu"
     lint-formats:
-      - "%f:%l %m"
+      - "hadolint:%f:%l: DL%n %t%*[^:]: %m"
 
   jsonlint-lint: &jsonlint-lint
     lint-source: jsonlint
