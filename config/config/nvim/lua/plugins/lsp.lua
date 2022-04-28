@@ -14,13 +14,9 @@ vim.diagnostic.config {
     border = 'rounded',
     format = format_diagnostic,
   },
-  underline = {
-    severity = { max = vim.diagnostic.severity.INFO },
-  },
   severity_sort = true,
   virtual_text = {
     format = format_diagnostic,
-    severity = { min = vim.diagnostic.severity.WARN },
   },
 }
 
