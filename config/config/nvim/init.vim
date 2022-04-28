@@ -87,12 +87,6 @@ augroup HighlightYank
   autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup = "Visual", timeout = 200 })
 augroup END
 
-" Enable spell checking
-augroup SpellChecking
-  autocmd!
-  autocmd FileType markdown,text setlocal spell
-augroup END
-
 " --- KEY MAPPINGS ---
 
 " Space as leader
