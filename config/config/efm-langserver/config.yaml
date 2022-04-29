@@ -105,14 +105,12 @@ tools:
 
 languages:
   css:
-    - <<: *eslint-lint
     - <<: *prettier-format
 
   dockerfile:
     - <<: *hadolint-lint
 
   html:
-    - <<: *eslint-lint
     - <<: *prettier-format
 
   javascript:
@@ -130,7 +128,6 @@ languages:
     - <<: *fixjson-format
 
   less:
-    - <<: *eslint-lint
     - <<: *prettier-format
 
   lua:
@@ -142,11 +139,9 @@ languages:
     - <<: *prettier-format
 
   sass:
-    - <<: *eslint-lint
     - <<: *prettier-format
 
   scss:
-    - <<: *eslint-lint
     - <<: *prettier-format
 
   sh:
