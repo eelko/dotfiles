@@ -41,7 +41,7 @@ tools:
 
   markdownlint-lint: &markdownlint-lint
     lint-source: markdownlint
-    lint-command: "markdownlint --stdin"
+    lint-command: "markdownlint -c ~/.markdownlint.json --stdin"
     lint-stdin: true
     lint-formats:
       - "%f:%l:%c MD%n/%*[^ ] %m"
