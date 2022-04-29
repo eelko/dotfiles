@@ -335,6 +335,11 @@ return require('packer').startup {
             find_files = {
               hidden = true,
             },
+            live_grep = {
+              on_input_filter_cb = function(prompt)
+                return { prompt = prompt:gsub('%s', '.*') }
+              end,
+            },
           },
         }
 
