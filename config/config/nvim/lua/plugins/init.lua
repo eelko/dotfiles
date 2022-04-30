@@ -566,7 +566,7 @@ return require('packer').startup {
         }
 
         vim.cmd [[
-        au! FileType NvimTree VimadeBufDisable
+        au! BufEnter NvimTree* VimadeBufDisable
         au! FocusLost * VimadeFadeActive
         au! FocusGained * VimadeUnfadeActive
         au! InsertEnter * VimadeWinDisable
