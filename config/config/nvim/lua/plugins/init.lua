@@ -172,7 +172,10 @@ return require('packer').startup {
         vim.g.nvim_tree_show_icons = { git = 0, folders = 1, files = 1 }
         vim.g.nvim_tree_root_folder_modifier = ':t'
 
-        vim.cmd 'hi NvimTreeVertSplit guibg=#1D202F guifg=#1D202F'
+        vim.cmd [[
+          hi! NvimTreeCursorLine guibg=#292e42
+          hi! NvimTreeWinSeparator guibg=#24283b guifg=#24283b
+        ]]
 
         local tree_cb = require('nvim-tree.config').nvim_tree_callback
 
