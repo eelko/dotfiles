@@ -545,6 +545,16 @@ return require('packer').startup {
       end,
     }
 
+    -- Emmet
+    use {
+      'mattn/emmet-vim',
+      after = 'nvim-cmp',
+      keys = { 'i', '<C-e>,' },
+      setup = function()
+        vim.g.user_emmet_leader_key = '<C-e>'
+      end,
+    }
+
     -- Fade inactive buffers
     use {
       'TaDaa/vimade',

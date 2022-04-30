@@ -2,7 +2,6 @@
   "name": "dotfiles",
   "description": "These are dependencies that need to be installed globally.",
   "dependencies": {
-    "emmet-ls": "^0.2.2",
     "eslint_d": "^12.0.0",
     "fixjson": "^1.1.2",
     "typescript": "^4.6.3",

@@ -130,7 +130,6 @@ local special_opts = {
 
 for _, server_name in ipairs {
   'efm',
-  'emmet_ls',
   'jsonls',
   'tsserver',
 } do
