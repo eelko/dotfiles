@@ -263,7 +263,7 @@ return require('packer').startup {
     -- Actions with motions
     use {
       'obxhdx/vim-action-mapper',
-      event = 'VimEnter',
+      keys = { '<Leader>r', '<Leader>g' },
       config = function()
         function _G.find_and_replace(text, type)
           local visual_modes = { 'v', '^V' }
@@ -277,15 +277,17 @@ return require('packer').startup {
         end
 
         vim.cmd [[
-        function! FindAndReplace(text, type)
-        call v:lua.find_and_replace(a:text, a:type)
-        endfunction
-        autocmd User MapActions call MapAction('FindAndReplace', '<Leader>r')
+          function! FindAndReplace(text, type)
+            call v:lua.find_and_replace(a:text, a:type)
+          endfunction
+          autocmd User MapActions call MapAction('FindAndReplace', '<Leader>r')
 
-        function! GrepWithMotion(text, type)
-        execute("Grep '".trim(a:text)."'")
-        endfunction
-        autocmd User MapActions call MapAction('GrepWithMotion', '<Leader>g')
+          function! GrepWithMotion(text, type)
+            execute("Grep '".trim(a:text)."'")
+          endfunction
+          autocmd User MapActions call MapAction('GrepWithMotion', '<Leader>g')
+
+          doautocmd User MapActions
         ]]
       end,
     }
