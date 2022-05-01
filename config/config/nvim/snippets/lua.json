@@ -1,0 +1,7 @@
+{
+  "log selected text": {
+    "prefix": "l",
+    "body": ["print('==> $TM_SELECTED_TEXT:', vim.inspect($TM_SELECTED_TEXT))$0"],
+    "description": "log selected text"
+  }
+}

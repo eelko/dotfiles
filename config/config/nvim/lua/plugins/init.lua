@@ -290,13 +290,6 @@ return require('packer').startup {
       end,
     }
 
-    -- Easily add debug messages
-    use {
-      'obxhdx/vim-debug-logger',
-      after = 'vim-action-mapper',
-      requires = 'obxhdx/vim-action-mapper',
-    }
-
     -- Telescope
     use {
       'nvim-telescope/telescope.nvim',
@@ -452,6 +445,7 @@ return require('packer').startup {
       'hrsh7th/vim-vsnip',
       disable = use_coc,
       event = { 'CmdWinEnter', 'InsertEnter' },
+      keys = { { 'n', 's' }, { 'x', 's' } },
       requires = {
         { 'hrsh7th/vim-vsnip-integ', opt = true },
       },
@@ -464,6 +458,10 @@ return require('packer').startup {
         }
 
         vim.g.vsnip_snippet_dir = vim.fn.stdpath 'config' .. '/snippets'
+
+        -- Select use as $TM_SELECTED_TEXT in the next snippet
+        map('n', 's', '<Plug>(vsnip-select-text)')
+        map('x', 's', '<Plug>(vsnip-select-text)')
       end,
     }
 
@@ -581,8 +579,8 @@ return require('packer').startup {
       'rlane/pounce.nvim',
       cmd = { 'Pounce', 'PounceRepeat' },
       setup = function()
-        map('n', 's', '<cmd>Pounce<CR>')
-        map('n', 'S', '<cmd>PounceRepeat<CR>')
+        map('n', 'gs', '<cmd>Pounce<CR>')
+        map('n', 'gS', '<cmd>PounceRepeat<CR>')
         map('v', 'gs', '<cmd>Pounce<CR>')
         map('o', 'gs', '<cmd>Pounce<CR>')
       end,
