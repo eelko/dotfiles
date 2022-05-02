@@ -108,5 +108,15 @@
     "prefix": ["aft"],
     "body": ["afterEach(${1:async }() => {", "\t$0", "})", ""],
     "description": "After-Each hook"
+  },
+  "JSON.stringify": {
+    "prefix": "str",
+    "body": ["JSON.stringify($CLIPBOARD)"],
+    "description": "JSON.stringify"
+  },
+  "JSON.parse": {
+    "prefix": "par",
+    "body": ["JSON.parse($CLIPBOARD)"],
+    "description": "JSON.parse"
   }
 }
