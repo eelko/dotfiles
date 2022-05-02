@@ -161,6 +161,7 @@ return require('packer').startup {
     -- File explorer
     use {
       'kyazdani42/nvim-tree.lua',
+      commit = '86d573d',
       cmd = { 'NvimTreeToggle', 'NvimTreeFindFile' },
       requires = { 'kyazdani42/nvim-web-devicons', opt = true },
       setup = function()
