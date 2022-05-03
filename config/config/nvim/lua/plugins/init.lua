@@ -1,6 +1,6 @@
 require 'utils'
 
--- Bootstrap packer
+-- Bootstrap Packer
 local packer_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 
 if vim.fn.empty(vim.fn.glob(packer_path)) > 0 then
@@ -16,7 +16,7 @@ if vim.fn.empty(vim.fn.glob(packer_path)) > 0 then
   vim.cmd 'packadd packer.nvim'
 end
 
--- Regenerate compiled loader file whenever this file is updated
+-- Auto-regenerate compiled Packer loader
 vim.cmd [[
   augroup PackerUserConfig
     autocmd!
@@ -28,7 +28,41 @@ vim.cmd [[
 return require('packer').startup {
   function(use)
     -- Let Packer manage itself
-    use { 'wbthomason/packer.nvim' }
+    use {
+      'wbthomason/packer.nvim',
+      config = function()
+        function sync_and_lock()
+          local packer = require 'packer'
+          local util = require 'packer.util'
+
+          local format_snapshot = function()
+            local temp_file = vim.fn.tempname()
+            local snapshot_file = util.join_paths(vim.fn.stdpath 'config', 'packer-lock.json')
+
+            packer.snapshot(snapshot_file)
+
+            vim.defer_fn(function()
+              os.execute('jq --sort-keys . ' .. snapshot_file .. '> ' .. temp_file)
+              os.rename(temp_file, snapshot_file)
+            end, 1000)
+          end
+
+          local augroup = vim.api.nvim_create_augroup('PackerSyncAndLock', { clear = true })
+          vim.api.nvim_create_autocmd('User', {
+            pattern = 'PackerComplete',
+            callback = function()
+              format_snapshot()
+              vim.api.nvim_del_augroup_by_id(augroup)
+            end,
+            group = augroup,
+          })
+
+          packer.sync()
+        end
+
+        vim.api.nvim_create_user_command('PackerSyncAndLock', sync_and_lock, {})
+      end,
+    }
 
     -- Improve startup time
     use { 'lewis6991/impatient.nvim' }
