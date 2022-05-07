@@ -31,27 +31,29 @@ return require('packer').startup {
     use {
       'wbthomason/packer.nvim',
       config = function()
-        function sync_and_lock()
-          local packer = require 'packer'
+        local packer = require 'packer'
+
+        local function packer_lock()
           local util = require 'packer.util'
+          local snapshot_file = util.join_paths(vim.fn.stdpath 'config', 'packer-lock.json')
+          local temp_file = vim.fn.tempname()
 
-          local format_snapshot = function()
-            local temp_file = vim.fn.tempname()
-            local snapshot_file = util.join_paths(vim.fn.stdpath 'config', 'packer-lock.json')
+          packer.snapshot(snapshot_file)
 
-            packer.snapshot(snapshot_file)
+          -- format snapshot
+          vim.defer_fn(function()
+            os.execute('jq --sort-keys . ' .. snapshot_file .. '> ' .. temp_file)
+            os.rename(temp_file, snapshot_file)
+          end, 1000)
+        end
 
-            vim.defer_fn(function()
-              os.execute('jq --sort-keys . ' .. snapshot_file .. '> ' .. temp_file)
-              os.rename(temp_file, snapshot_file)
-            end, 1000)
-          end
-
+        local function packer_sync_and_lock()
           local augroup = vim.api.nvim_create_augroup('PackerSyncAndLock', { clear = true })
+
           vim.api.nvim_create_autocmd('User', {
             pattern = 'PackerComplete',
             callback = function()
-              format_snapshot()
+              packer_lock()
               vim.api.nvim_del_augroup_by_id(augroup)
             end,
             group = augroup,
@@ -60,7 +62,8 @@ return require('packer').startup {
           packer.sync()
         end
 
-        vim.api.nvim_create_user_command('PackerSyncAndLock', sync_and_lock, {})
+        vim.api.nvim_create_user_command('PackerLock', packer_lock, {})
+        vim.api.nvim_create_user_command('PackerSyncAndLock', packer_sync_and_lock, {})
       end,
     }
 
@@ -671,5 +674,6 @@ return require('packer').startup {
   end,
   config = {
     auto_reload_compiled = false,
+    snapshot_path = vim.fn.stdpath 'config',
   },
 }
