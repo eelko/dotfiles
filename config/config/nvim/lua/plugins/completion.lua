@@ -7,11 +7,6 @@ local feedkey = function(key, mode)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
-local border_config = {
-  border = 'rounded',
-  winhighlight = 'FloatBorder:FloatBorder,Normal:NormalFloat',
-}
-
 local kind_icons = {
   Text = '',
   Method = '',
@@ -130,11 +125,6 @@ cmp.setup {
     { name = 'copilot' },
     { name = 'buffer' },
     { name = 'path' },
-  },
-
-  window = {
-    completion = cmp.config.window.bordered(border_config),
-    documentation = cmp.config.window.bordered(border_config),
   },
 }
 

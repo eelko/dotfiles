@@ -1,5 +1,13 @@
 require 'utils'
 
+-- Hover/Diagnostic borders
+local open_floating_preview = vim.lsp.util.open_floating_preview
+function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+  opts = opts or {}
+  opts.border = opts.border or { { ' ', 'FloatBorder' } }
+  return open_floating_preview(contents, syntax, opts, ...)
+end
+
 -- Diagnostic Config
 local format_diagnostic = function(diagnostic)
   if diagnostic.code then
@@ -11,7 +19,6 @@ end
 
 vim.diagnostic.config {
   float = {
-    border = 'rounded',
     format = format_diagnostic,
   },
   severity_sort = true,
@@ -39,13 +46,6 @@ function ShowAllDiagnostics(opts, bufnr, line_nr, client_id)
 end
 
 vim.cmd [[ autocmd! CursorHold * lua ShowAllDiagnostics() ]]
-
--- Hover/Signature with borders
-local border_opts = {
-  border = 'rounded',
-}
-vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, border_opts)
-vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, border_opts)
 
 -- Mappings
 map('n', '<leader>cd', vim.lsp.buf.definition)

@@ -348,41 +348,7 @@ return require('packer').startup {
         map('n', '<leader>fr', ':Telescope oldfiles<CR>')
       end,
       config = function()
-        local telescope = require 'telescope'
-        local actions = require 'telescope.actions'
-
-        telescope.setup {
-          defaults = {
-            file_ignore_patterns = { 'node_modules/', '.git/' },
-            layout_strategy = 'vertical',
-            mappings = {
-              i = {
-                ['<esc>'] = actions.close,
-              },
-            },
-          },
-          pickers = {
-            current_buffer_fuzzy_find = {
-              sorting_strategy = 'ascending',
-            },
-            find_files = {
-              hidden = true,
-            },
-            live_grep = {
-              on_input_filter_cb = function(prompt)
-                return { prompt = prompt:gsub('%s', '.*') }
-              end,
-            },
-          },
-        }
-
-        telescope.load_extension 'fzf'
-
-        vim.cmd [[
-        function! GrepWithMotion(text, type)
-        execute('lua require("telescope.builtin").grep_string({search = "'.trim(a:text).'"})')
-        endfunction
-        ]]
+        require 'plugins.telescope'
       end,
     }
 
