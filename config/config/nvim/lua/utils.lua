@@ -15,11 +15,12 @@ function _G.exec_preserving_cursor_pos(command)
   vim.fn.winrestview(current_view)
 end
 
-function _G.highlight(group, bg, fg, gui)
-  bg = bg or 'none'
-  fg = fg or 'none'
-  gui = gui or 'none'
-  vim.api.nvim_command(('hi %s guibg=%s guifg=%s gui=%s'):format(group, bg, fg, gui))
+function _G.highlight(group, options)
+  local opts = { bg = 'none', fg = 'none', gui = 'none' }
+  if options then
+    opts = vim.tbl_extend('force', opts, options)
+  end
+  vim.api.nvim_command(('hi %s guibg=%s guifg=%s gui=%s'):format(group, opts.bg, opts.fg, opts.gui))
 end
 
 function _G.map(mode, lhs, rhs, opts)

@@ -76,7 +76,7 @@ return require('packer').startup {
       event = 'UIEnter',
       config = function()
         vim.cmd 'color tokyonight'
-        highlight('Folded', '#24283b', '#565f89')
+        highlight('Folded', { bg = '#24283b', fg = '#565f89' })
       end,
     }
 
@@ -157,7 +157,7 @@ return require('packer').startup {
           show_trailing_blankline_indent = false,
         }
 
-        highlight('IndentBlanklineContextChar', 'none', '#4e4e4e')
+        highlight('IndentBlanklineContextChar', { bg = 'none', fg = '#4e4e4e' })
       end,
     }
 
