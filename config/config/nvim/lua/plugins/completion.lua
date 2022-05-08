@@ -12,6 +12,34 @@ local border_config = {
   winhighlight = 'FloatBorder:FloatBorder,Normal:NormalFloat',
 }
 
+local kind_icons = {
+  Text = '',
+  Method = '',
+  Function = '',
+  Constructor = '⌘',
+  Field = 'ﰠ',
+  Variable = '',
+  Class = 'ﴯ',
+  Interface = '',
+  Module = '',
+  Property = 'ﰠ',
+  Unit = '塞',
+  Value = '',
+  Enum = '',
+  Keyword = '廓',
+  Snippet = '',
+  Color = '',
+  File = '',
+  Reference = '',
+  Folder = '',
+  EnumMember = '',
+  Constant = '',
+  Struct = 'פּ',
+  Event = '',
+  Operator = '',
+  TypeParameter = '',
+}
+
 local cmp = require 'cmp'
 
 cmp.setup {
@@ -24,14 +52,21 @@ cmp.setup {
   },
 
   formatting = {
-    format = require('lspkind').cmp_format {
-      with_text = true,
-      menu = {
+    fields = { 'kind', 'abbr', 'menu' },
+    format = function(entry, vim_item)
+      local item_kind = vim_item.kind == 'Text' and 'Buffer' or vim_item.kind
+      local item_source = ({
         buffer = '',
         copilot = '',
-        nvim_lsp = '異',
-      },
-    },
+        nvim_lsp = '',
+        vsnip = '',
+      })[entry.source.name]
+
+      vim_item.menu = string.format('%11s %s', item_kind, item_source or '')
+      vim_item.kind = kind_icons[vim_item.kind]
+
+      return vim_item
+    end,
   },
 
   mapping = cmp.mapping.preset.insert {

@@ -38,9 +38,6 @@
   "indent-blankline.nvim": {
     "commit": "045d958"
   },
-  "lspkind-nvim": {
-    "commit": "57e5b5d"
-  },
   "lualine.nvim": {
     "commit": "45d07fc"
   },
