@@ -77,8 +77,6 @@ return require('packer').startup {
       config = function()
         vim.cmd 'color tokyonight'
         highlight('Folded', '#24283b', '#565f89')
-        highlight('Search', '#ff9e64', 'black')
-        highlight('VertSplit', '#24283b', '#080808')
       end,
     }
 
