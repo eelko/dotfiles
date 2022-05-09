@@ -88,6 +88,12 @@ augroup HighlightYank
   autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup = "Visual", timeout = 200 })
 augroup END
 
+" Better vimdiff
+augroup VimDiff
+  autocmd!
+  autocmd VimEnter * if &diff | set laststatus=2 | silent! windo set signcolumn=no | endif
+augroup END
+
 " --- KEY MAPPINGS ---
 
 " Space as leader

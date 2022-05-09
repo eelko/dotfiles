@@ -1,5 +1,3 @@
-[diff]
-  tool = vimdiff
 [alias]
   ; abbreviations
   cb = checkout -b
@@ -23,19 +21,18 @@
   interactive = auto
   show = auto
   status = auto
-[svn]
-  rmdir = true # push empty directory removals back to svn as directory deletes
 [credential]
   helper = osxkeychain
   useHttpPath = true
-[push]
-  default = nothing
 [pull]
   ff = only
+[push]
+  default = nothing
+[svn]
+  rmdir = true # push empty directory removals back to svn as directory deletes
 
-# Delta as Diff Viewer
+# Delta as diff viewer
 [core]
-  ; pager = delta
   pager = delta --side-by-side --file-style 'bold yellow' --file-decoration-style 'yellow box' --paging always
 [interactive]
   diffFilter = delta --color-only
@@ -45,3 +42,20 @@
   line-numbers = true
   line-numbers-left-format = "{nm}⋮ "
   line-numbers-right-format = "{np} │"
+
+# NeoVim as difftool
+[diff]
+  tool = nvimdiff
+[difftool "nvimdiff"]
+  cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
+  prompt = true
+
+# NeoVim as mergetool
+[merge]
+  conflictstyle = zdiff3
+  tool = nvimdiff
+[mergetool "nvimdiff"]
+  cmd = "nvim -d \"$LOCAL\" \"$BASE\" \"$REMOTE\" \"$MERGED\" -c '4wincmd w | wincmd J | set laststatus=2'"
+  prompt = true
+
+# vim: set ft=gitconfig :
