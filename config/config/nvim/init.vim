@@ -17,6 +17,7 @@ set number                                                 " Display line number
 set pumheight=8                                            " Limit completion menu height
 set signcolumn=yes                                         " ALways show the sign column
 set termguicolors                                          " Enables RGB color in the terminal
+set laststatus=3                                           " Enable global statusline
 " Folding
 set foldmethod=indent                                      " Fold based on indent
 set nofoldenable                                           " Do not fold by default
