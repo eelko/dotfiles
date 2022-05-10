@@ -454,10 +454,10 @@ return require('packer').startup {
       },
       config = function()
         vim.g.vsnip_filetypes = {
-          javascript = { 'javascript', 'typescriptreact' },
-          javascriptreact = { 'javascript', 'typescriptreact' },
-          typescript = { 'javascript', 'typescriptreact' },
-          typescriptreact = { 'javascript', 'typescriptreact' },
+          javascript = { 'javascript', 'javascriptreact' },
+          javascriptreact = { 'javascript', 'javascriptreact' },
+          typescript = { 'javascript', 'javascriptreact' },
+          typescriptreact = { 'javascript', 'javascriptreact' },
         }
 
         vim.g.vsnip_snippet_dir = vim.fn.stdpath 'config' .. '/snippets'

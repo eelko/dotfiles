@@ -2,7 +2,7 @@
   "createContext": {
     "prefix": "cc",
     "body": [
-      "export const $1 = createContext<$2>(",
+      "export const $1 = React.createContext<$2>(",
       "\t(null as any) as $2",
       ")"
     ],
@@ -11,7 +11,7 @@
   "useCallback": {
     "prefix": "ucb",
     "body": [
-      "const ${1:memoizedCallback} = useCallback(",
+      "const ${1:memoizedCallback} = React.useCallback(",
       "\t() => {",
       "\t\t${2:doSomething}(${3:a}, ${4:b})",
       "\t},",
@@ -22,18 +22,18 @@
   },
   "useContext": {
     "prefix": "uc",
-    "body": ["const $1 = useContext($0)"],
+    "body": ["const $1 = React.useContext($0)"],
     "description": "React useContext() hook"
   },
   "useEffect": {
     "prefix": "ue",
-    "body": ["useEffect(() => {", "\t$1", "}, [${0:dependencies}])"],
+    "body": ["React.useEffect(() => {", "\t$1", "}, [${0:dependencies}])"],
     "description": "React useEffect() hook"
   },
   "useEffect with cleanup": {
     "prefix": "uec",
     "body": [
-      "useEffect(() => {",
+      "React.useEffect(() => {",
       "\t$1",
       "\n\treturn () => {",
       "\t\t$2",
@@ -44,19 +44,19 @@
   },
   "useRef": {
     "prefix": "ur",
-    "body": ["const ${1:elName}El = useRef(null)"],
+    "body": ["const ${1:elName}El = React.useRef(null)"],
     "description": "React useRef() hook"
   },
   "useMemo": {
     "prefix": "ume",
     "body": [
-      "const ${1:memoizedValue} = useMemo(() => ${2:computeExpensiveValue}(${3:a}, ${4:b}), [${5:a}, ${6:b}])"
+      "const ${1:memoizedValue} = React.useMemo(() => ${2:computeExpensiveValue}(${3:a}, ${4:b}), [${5:a}, ${6:b}])"
     ],
     "description": "React useMemo() hook"
   },
   "useState": {
     "prefix": "us",
-    "body": "const [${1:name}, set${1/(.*)/${1:/capitalize}/}] = useState(${0})",
+    "body": "const [${1:name}, set${1/(.*)/${1:/capitalize}/}] = React.useState(${0})",
     "description": "React useState() hook"
   }
 }
