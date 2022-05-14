@@ -70,10 +70,7 @@ cmp.setup {
       c = cmp.mapping.close(),
     },
 
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
+    ['<CR>'] = cmp.mapping.confirm { select = true },
 
     ['<Tab>'] = cmp.mapping {
       c = function(fallback)
