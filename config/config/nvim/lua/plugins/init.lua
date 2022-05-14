@@ -553,6 +553,15 @@ return require('packer').startup {
       end,
     }
 
+    -- Highlight hex colors
+    use {
+      'norcalli/nvim-colorizer.lua',
+      cmd = 'ColorizerToggle',
+      config = function()
+        require('colorizer').setup()
+      end,
+    }
+
     -- Fade inactive buffers
     use {
       'TaDaa/vimade',

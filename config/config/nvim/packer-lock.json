@@ -56,6 +56,9 @@
   "nvim-cmp": {
     "commit": "bba6fb6"
   },
+  "nvim-colorizer.lua": {
+    "commit": "36c610a"
+  },
   "nvim-lightbulb": {
     "commit": "407f05c"
   },
