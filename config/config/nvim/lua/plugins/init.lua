@@ -543,6 +543,61 @@ return require('packer').startup {
       end,
     }
 
+    -- Trouble
+    use {
+      'folke/trouble.nvim',
+      cmd = { 'Grep', 'Trouble' },
+      after = 'telescope.nvim',
+      requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+      setup = function()
+        -- quickfix/loclist integration
+        function OpenTrouble()
+          local buftype = 'quickfix'
+
+          if vim.fn.getloclist(0, { filewinid = 1 }).filewinid ~= 0 then
+            buftype = 'loclist'
+          end
+
+          local ok, trouble = pcall(require, 'trouble')
+          if ok and pcall(vim.api.nvim_win_close, 0, true) then
+            trouble.toggle(buftype)
+          else
+            local set = vim.opt_local
+            set.colorcolumn = ''
+            set.number = false
+            set.relativenumber = false
+            set.signcolumn = 'no'
+          end
+        end
+        vim.cmd [[ au! BufWinEnter quickfix silent :lua OpenTrouble() ]]
+
+        -- Vimade integration
+        vim.cmd [[
+          au! BufEnter,FileType Trouble VimadeDisable
+          au! BufLeave Trouble VimadeEnable
+        ]]
+      end,
+      config = function()
+        require('trouble').setup {}
+
+        -- Telescope integration
+        local telescope = require 'telescope'
+        local telescope_actions = require 'telescope.actions'
+        local telescope_provider = require 'trouble.providers.telescope'
+
+        telescope.setup {
+          defaults = {
+            mappings = {
+              i = {
+                ['<esc>'] = telescope_actions.close,
+                ['<c-t>'] = telescope_provider.open_with_trouble,
+              },
+            },
+          },
+        }
+      end,
+    }
+
     -- Emmet
     use {
       'mattn/emmet-vim',

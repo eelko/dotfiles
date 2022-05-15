@@ -110,6 +110,9 @@
   "tokyonight.nvim": {
     "commit": "8223c97"
   },
+  "trouble.nvim": {
+    "commit": "da61737"
+  },
   "vim-action-mapper": {
     "commit": "e366ea7"
   },
