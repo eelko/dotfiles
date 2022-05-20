@@ -20,3 +20,10 @@ ZSH_HIGHLIGHT_STYLES[command]='fg=green,bold'
 ZSH_HIGHLIGHT_STYLES[function]='fg=208,bold'
 ZSH_HIGHLIGHT_STYLES[isearch]='fg=51,underline,bold'
 zle_highlight=(isearch:$ZSH_HIGHLIGHT_STYLES[isearch])
+
+# Emacs + vterm integration (jump between prompts with C-c C-n and C-c C-p)
+vterm_prompt_end() {
+  vterm_printf "51;A$(whoami)@$(hostname):$PWD";
+}
+setopt PROMPT_SUBST
+PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'

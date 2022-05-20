@@ -24,12 +24,5 @@ sdkman_init() {
 # Full Python 3 support
 export PATH='/usr/local/opt/python/libexec/bin':$PATH
 
-# Emacs + vterm integration (jump between prompts with C-c C-n and C-c C-p)
-vterm_prompt_end() {
-  vterm_printf "51;A$(whoami)@$(hostname):$PWD";
-}
-setopt PROMPT_SUBST
-PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
-
 # zoxide
 eval "$(zoxide init "$(basename "$SHELL")")"
