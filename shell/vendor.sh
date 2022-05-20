@@ -13,7 +13,7 @@ export LATEST_NODE_PATH="$HOME/.fnm/aliases/latest/bin/node"
 
 # rvm
 rvm_init() {
-  source_if_exists "$HOME/.rvm/scripts/rvm" 
+  source_if_exists "$HOME/.rvm/scripts/rvm"
 }
 
 # sdkman
@@ -30,3 +30,6 @@ vterm_prompt_end() {
 }
 setopt PROMPT_SUBST
 PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
+
+# zoxide
+eval "$(zoxide init "$(basename "$SHELL")")"

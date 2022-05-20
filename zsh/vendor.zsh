@@ -2,7 +2,6 @@ export ZPLUG_HOME=/usr/local/opt/zplug
 source $ZPLUG_HOME/init.zsh
 
 zplug 'zsh-users/zsh-syntax-highlighting', defer:2
-zplug 'plugins/fasd', from:oh-my-zsh, defer:3
 zplug 'zplug/zplug', hook-build: 'zplug --self-manage'
 
 if ! zplug check --verbose; then
