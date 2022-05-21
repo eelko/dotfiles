@@ -4,14 +4,15 @@
 update_tmux_pane_name() {
   [ "$(pgrep tmux)" != "" ] || return
 
-  local -r current_path="$(basename "$(print -rD "$(tmux display-message -p '#{pane_current_path}')")")"
+  local -r current_path="$(tmux display-message -p '#{pane_current_path}')"
+  local -r abbr_current_path="$(basename "${current_path/$HOME/~}")"
 
-  if [[ $current_path =~ - ]]; then
+  if [[ $abbr_current_path =~ - ]]; then
     # only last two words of kebab-cased names
-    current_dir_name=$(echo "$current_path" | awk -F- '{if (length($0) > 15) {print $(NF-1)"-"$NF} else {print $0}}')
+    current_dir_name=$(echo "$abbr_current_path" | awk -F- '{if (length($0) > 15) {print $(NF-1)"-"$NF} else {print $0}}')
   else
     # truncate at 16 characters
-    current_dir_name=${current_path:0:15}
+    current_dir_name=${abbr_current_path:0:15}
   fi
 
   if [[ -n "$1" ]]; then
