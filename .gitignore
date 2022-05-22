@@ -20,4 +20,4 @@ config/config/nvim/plugin/packer_compiled.lua
 !config/config/nvim/init.lua
 !config/config/nvim/init.vim
 !config/config/nvim/packer-lock.json
-!config/config/starship.toml
+!config/config/starship*.toml
