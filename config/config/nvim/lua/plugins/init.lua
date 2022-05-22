@@ -264,8 +264,25 @@ return require('packer').startup {
     use { 'itchyny/vim-qfedit', event = 'CursorMoved' }
 
     -- GNU Readline emulation
-    use { 'tpope/vim-rsi', event = { 'CmdlineEnter', 'CmdWinEnter', 'InsertEnter' } } -- insert mode
-    use { 'ryvnf/readline.vim', after = 'vim-rsi' } -- command mode
+    use {
+      'linty-org/readline.nvim',
+      event = { 'CmdlineEnter', 'CmdWinEnter', 'InsertEnter' },
+      config = function()
+        local readline = require 'readline'
+        map('!', '<C-k>', readline.kill_line)
+        map('!', '<C-u>', readline.backward_kill_line)
+        map('!', '<M-d>', readline.kill_word)
+        map('!', '<C-w>', readline.backward_kill_word)
+        map('!', '<C-a>', readline.beginning_of_line)
+        map('!', '<C-e>', readline.end_of_line)
+        map('!', '<M-b>', readline.backward_word)
+        map('!', '<M-f>', readline.forward_word)
+        map('!', '<C-b>', '<Left>')
+        map('!', '<C-f>', '<Right>')
+        map('!', '<C-d>', '<Delete>')
+        map('!', '<C-h>', '<BS>')
+      end,
+    }
 
     -- Quickly surround with quotes/parens/etc
     use {
