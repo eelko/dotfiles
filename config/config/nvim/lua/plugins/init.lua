@@ -203,9 +203,21 @@ return require('packer').startup {
       end,
       config = function()
         vim.g.nvim_tree_git_hl = 1
-        vim.g.nvim_tree_icons = { default = '', symlink = '' }
-        vim.g.nvim_tree_show_icons = { git = 0, folders = 1, files = 1 }
+        vim.g.nvim_tree_icons = {
+          default = '',
+          git = {
+            unstaged = '',
+            staged = '',
+            unmerged = '',
+            renamed = '➜',
+            untracked = '',
+            deleted = '',
+            ignored = '◌',
+          },
+          symlink = '',
+        }
         vim.g.nvim_tree_root_folder_modifier = ':t'
+        vim.g.nvim_tree_show_icons = { git = 1, folders = 1, files = 1 }
 
         vim.cmd [[
           hi! NvimTreeCursorLine guibg=#292e42
