@@ -620,6 +620,8 @@ return require('packer').startup {
               i = {
                 ['<esc>'] = telescope_actions.close,
                 ['<c-t>'] = telescope_provider.open_with_trouble,
+                ['<down>'] = telescope_actions.cycle_history_next,
+                ['<up>'] = telescope_actions.cycle_history_prev,
               },
             },
           },
