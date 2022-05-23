@@ -1,19 +1,29 @@
-export ZPLUG_HOME=/usr/local/opt/zplug
-source $ZPLUG_HOME/init.zsh
+# bootstrap znap
+ZNAP_HOME="$HOME/.zsh-snap"
 
-zplug 'zsh-users/zsh-syntax-highlighting', defer:2
-zplug 'zplug/zplug', hook-build: 'zplug --self-manage'
+[[ -f $ZNAP_HOME/znap.zsh ]] ||
+    git clone --depth 1 -- \
+        https://github.com/marlonrichert/zsh-snap.git "$ZNAP_HOME"
 
-if ! zplug check --verbose; then
-  printf "Install? [y/N]: "
-  if read -q; then
-    echo; zplug install
-  fi
-fi
+# custom repos locatoin
+zstyle ':znap:*' repos-dir "$ZNAP_HOME/repos"
 
-zplug load
+# start znap
+source "$ZNAP_HOME/znap.zsh"
 
-# syntax highlighting
+# prompt
+znap eval starship 'starship init zsh --print-full-init'
+znap prompt
+
+# restore cursor shape after leaving vim
+change_cursor_shape() { print -n -- "\e[4 q" }
+precmd_functions+=(change_cursor_shape)
+
+# plugins
+znap source ohmyzsh/ohmyzsh plugins/zoxide
+znap source zsh-users/zsh-syntax-highlighting
+
+# zsh-syntax-highlighting
 ZSH_HIGHLIGHT_STYLES[alias]='fg=208,bold'
 ZSH_HIGHLIGHT_STYLES[builtin]='fg=green,bold'
 ZSH_HIGHLIGHT_STYLES[command]='fg=green,bold'
@@ -21,12 +31,9 @@ ZSH_HIGHLIGHT_STYLES[function]='fg=208,bold'
 ZSH_HIGHLIGHT_STYLES[isearch]='fg=51,underline,bold'
 zle_highlight=(isearch:$ZSH_HIGHLIGHT_STYLES[isearch])
 
-# Emacs + vterm integration (jump between prompts with C-c C-n and C-c C-p)
+# emacs + vterm integration (jump between prompts with C-c C-n and C-c C-p)
 vterm_prompt_end() {
   vterm_printf "51;A$(whoami)@$(hostname):$PWD";
 }
 setopt PROMPT_SUBST
 PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
-
-# zoxide
-eval "$(zoxide init zsh)"
