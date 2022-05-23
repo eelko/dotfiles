@@ -23,6 +23,3 @@ sdkman_init() {
 
 # Full Python 3 support
 export PATH='/usr/local/opt/python/libexec/bin':$PATH
-
-# zoxide
-eval "$(zoxide init "$(basename "$SHELL")")"
