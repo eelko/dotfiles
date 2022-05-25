@@ -703,6 +703,9 @@ return require('packer').startup {
     use {
       'antoinemadec/FixCursorHold.nvim',
       event = 'UIEnter',
+      config = function()
+        vim.g.cursorhold_updatetime = 500
+      end,
     }
 
     -- GitHub copilot
