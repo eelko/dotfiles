@@ -566,9 +566,7 @@ return require('packer').startup {
           },
         }
 
-        vim.cmd [[
-        autocmd! CursorMoved * lua require('nvim-lightbulb').update_lightbulb()
-        ]]
+        vim.cmd [[ au! CursorHold * lua require('nvim-lightbulb').update_lightbulb() ]]
       end,
     }
 
