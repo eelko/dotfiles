@@ -22,6 +22,7 @@ The above commands will:
 - [Alfred](https://www.alfredapp.com), an alternative to Spotlight.
 - [Docker](https://www.docker.com).
 - [Doom Emacs](https://github.com/hlissner/doom-emacs) customizations (Doom Emacs needs to be installed separately).
+- [Fish](https://fishshell.com) shell.
 - [FZF](https://github.com/junegunn/fzf), a command-line fuzzy finder.
 - [GNU Emacs](https://www.gnu.org/software/emacs), Yamamoto Mitsuharu's Mac port.
 - [Gimp](https://www.gimp.org) for image manipulation.
