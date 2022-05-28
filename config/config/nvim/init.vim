@@ -94,6 +94,12 @@ augroup VimDiff
   autocmd VimEnter * if &diff | set laststatus=2 | silent! windo set signcolumn=no | endif
 augroup END
 
+" Restore cursor on leave
+augroup RestoreCursor
+  autocmd!
+  autocmd VimLeave * set guicursor=a:hor20
+augroup END
+
 " --- KEY MAPPINGS ---
 
 " Space as leader

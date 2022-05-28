@@ -15,10 +15,6 @@ source "$ZNAP_HOME/znap.zsh"
 znap eval starship 'starship init zsh --print-full-init'
 znap prompt
 
-# restore cursor shape after leaving vim
-change_cursor_shape() { print -n -- "\e[4 q" }
-precmd_functions+=(change_cursor_shape)
-
 # plugins
 znap source ohmyzsh/ohmyzsh plugins/zoxide
 znap source zsh-users/zsh-syntax-highlighting
