@@ -24,6 +24,8 @@
 [credential]
   helper = osxkeychain
   useHttpPath = true
+[init]
+  defaultBranch = main
 [pull]
   ff = only
 [push]
