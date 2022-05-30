@@ -88,7 +88,7 @@ tools:
     format-stdin: true
 
   prettier-format: &prettier-format
-    format-command: "prettier --stdin-filepath ${INPUT} --single-quote"
+    format-command: "prettier --stdin-filepath ${INPUT} --single-quote --prose-wrap always"
     format-stdin: true
 
   shellharden-format: &shellharden-format
