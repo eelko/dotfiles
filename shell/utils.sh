@@ -7,7 +7,6 @@ function cd() {
   else
     builtin cd && eval "l"
   fi
-  [ "$(pgrep tmux)" != "" ] && tmux setenv TMUX_"$(tmux display -p "#I")"_PWD "$PWD"
 }
 
 # Lazy loading helper
