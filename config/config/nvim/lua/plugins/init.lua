@@ -202,23 +202,6 @@ return require('packer').startup {
         map('n', '\\', ':NvimTreeToggle<CR>')
       end,
       config = function()
-        vim.g.nvim_tree_git_hl = 1
-        vim.g.nvim_tree_icons = {
-          default = '',
-          git = {
-            unstaged = '',
-            staged = '',
-            unmerged = '',
-            renamed = '➜',
-            untracked = '',
-            deleted = '',
-            ignored = '◌',
-          },
-          symlink = '',
-        }
-        vim.g.nvim_tree_root_folder_modifier = ':t'
-        vim.g.nvim_tree_show_icons = { git = 1, folders = 1, files = 1 }
-
         vim.cmd [[
           hi! NvimTreeCursorLine guibg=#292e42
           hi! NvimTreeWinSeparator guibg=#24283b guifg=#24283b
@@ -228,9 +211,6 @@ return require('packer').startup {
 
         require('nvim-tree').setup {
           hijack_cursor = true, -- hijack the cursor in the tree to put it at the start of the filename
-          update_focused_file = {
-            enable = true, -- highlight current file
-          },
           filters = {
             custom = { '.DS_Store', '.git' },
           },
@@ -238,9 +218,29 @@ return require('packer').startup {
             ignore = false,
           },
           renderer = {
+            highlight_git = true,
+            icons = {
+              glyphs = {
+                default = '',
+                git = {
+                  unstaged = '',
+                  staged = '',
+                  unmerged = '',
+                  renamed = '➜',
+                  untracked = '',
+                  deleted = '',
+                  ignored = '◌',
+                },
+                symlink = '',
+              },
+            },
             indent_markers = {
               enable = true,
             },
+            root_folder_modifier = ':t',
+          },
+          update_focused_file = {
+            enable = true, -- highlight current file
           },
           view = {
             hide_root_folder = true,
