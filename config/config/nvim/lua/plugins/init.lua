@@ -204,6 +204,7 @@ return require('packer').startup {
       config = function()
         vim.cmd [[
           hi! NvimTreeCursorLine guibg=#292e42
+          hi! NvimTreeGitIgnored guifg=#565f89
           hi! NvimTreeWinSeparator guibg=#24283b guifg=#24283b
         ]]
 
@@ -229,7 +230,7 @@ return require('packer').startup {
                   renamed = '➜',
                   untracked = '',
                   deleted = '',
-                  ignored = '◌',
+                  ignored = '',
                 },
                 symlink = '',
               },
