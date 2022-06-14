@@ -94,6 +94,6 @@ highlight('TelescopePreviewTitle', { fg = colors.grey16 })
 -- Integration with vim-action-mapper
 vim.cmd [[
   function! GrepWithMotion(text, type)
-  execute('lua require("telescope.builtin").grep_string({search = "'.trim(a:text).'"})')
+    execute('lua require("telescope.builtin").grep_string({search = "'.trim(a:text).'"})')
   endfunction
 ]]

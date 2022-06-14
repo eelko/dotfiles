@@ -367,6 +367,7 @@ return require('packer').startup {
       },
       wants = {
         'telescope-fzf-native.nvim',
+        'vim-action-mapper',
       },
       setup = function()
         map('n', '<leader>fb', ':Telescope buffers<CR>')
