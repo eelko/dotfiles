@@ -367,6 +367,7 @@ return require('packer').startup {
       },
       wants = {
         'telescope-fzf-native.nvim',
+        'trouble.nvim',
         'vim-action-mapper',
       },
       setup = function()
@@ -608,24 +609,6 @@ return require('packer').startup {
       end,
       config = function()
         require('trouble').setup {}
-
-        -- Telescope integration
-        local telescope = require 'telescope'
-        local telescope_actions = require 'telescope.actions'
-        local telescope_provider = require 'trouble.providers.telescope'
-
-        telescope.setup {
-          defaults = {
-            mappings = {
-              i = {
-                ['<esc>'] = telescope_actions.close,
-                ['<c-t>'] = telescope_provider.open_with_trouble,
-                ['<down>'] = telescope_actions.cycle_history_next,
-                ['<up>'] = telescope_actions.cycle_history_prev,
-              },
-            },
-          },
-        }
       end,
     }
 

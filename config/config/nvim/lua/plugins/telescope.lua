@@ -1,6 +1,8 @@
 require 'utils'
-local telescope = require 'telescope'
+
 local actions = require 'telescope.actions'
+local telescope = require 'telescope'
+local trouble_telescope_provider = require 'trouble.providers.telescope'
 
 telescope.setup {
   defaults = {
@@ -20,6 +22,12 @@ telescope.setup {
         ['<esc>'] = actions.close,
         ['<down>'] = actions.cycle_history_next,
         ['<up>'] = actions.cycle_history_prev,
+        -- ALlow Readline mappings to work
+        ['<C-d>'] = false,
+        ['<C-e>'] = false,
+        ['<C-u>'] = false,
+        -- Trouble integration
+        ['<c-t>'] = trouble_telescope_provider.open_with_trouble,
       },
     },
   },
