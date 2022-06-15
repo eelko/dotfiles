@@ -149,6 +149,7 @@ inoremap <silent> <S-Tab> <C-h>
 
 " Cleverly close buffers (based on reddit.com/em9qvv)
 nnoremap <expr><Leader>d (bufnr('%') == getbufinfo({'buflisted': 1})[-1].bufnr ? ':bp' : ':bn').'<bar>bd #<CR>'
+nnoremap <expr><Leader>D (bufnr('%') == getbufinfo({'buflisted': 1})[-1].bufnr ? ':bp' : ':bn').'<bar>bd! #<CR>'
 
 " Easily clear search matches
 nnoremap <silent> <Esc> :noh<CR>
