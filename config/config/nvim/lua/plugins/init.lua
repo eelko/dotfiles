@@ -566,8 +566,11 @@ return require('packer').startup {
           virtual_text = {
             enabled = true,
             hl_mode = 'combine',
+            text = '',
           },
         }
+
+        highlight('LightBulbVirtualText', { fg = 'lightyellow' })
 
         vim.cmd [[ au! CursorHold * lua require('nvim-lightbulb').update_lightbulb() ]]
       end,
