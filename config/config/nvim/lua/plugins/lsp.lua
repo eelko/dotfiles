@@ -10,10 +10,18 @@ end
 
 -- Diagnostic Config
 local format_diagnostic = function(diagnostic)
+  local icons = {
+    [vim.diagnostic.severity.ERROR] = ' ',
+    [vim.diagnostic.severity.WARN] = ' ',
+    [vim.diagnostic.severity.INFO] = ' ',
+    [vim.diagnostic.severity.HINT] = ' ',
+  }
+  local icon = icons[diagnostic.severity]
+
   if diagnostic.code then
-    return string.format('[%s:%s] %s', diagnostic.source, diagnostic.code, diagnostic.message)
+    return string.format('%s [%s:%s] %s', icon, diagnostic.source, diagnostic.code, diagnostic.message)
   else
-    return string.format('[%s] %s', diagnostic.source, diagnostic.message)
+    return string.format('%s [%s] %s', icon, diagnostic.source, diagnostic.message)
   end
 end
 
@@ -22,8 +30,10 @@ vim.diagnostic.config {
     format = format_diagnostic,
   },
   severity_sort = true,
+  signs = false,
   virtual_text = {
     format = format_diagnostic,
+    prefix = '',
   },
 }
 
