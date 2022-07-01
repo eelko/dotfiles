@@ -27,6 +27,47 @@ vim.diagnostic.config {
   },
 }
 
+-- Diagnostic Handlers
+
+-- Create a custom namespace. This will aggregate signs from all other
+-- namespaces and only show the one with the highest severity on a
+-- given line
+---@param original_handler A reference to a handler, e.g. `vim.diagnostic.handlers.signs`.
+---@param namespace The return of `vim.api.nvim_create_namespace`.
+---@return A modified version of the handler that only shows the diagnostic with highest severity.
+function filter_diagnostics(original_handler, namespace)
+  local new_handler = {
+    show = function(_, bufnr, _, opts)
+      -- Get all diagnostics from the whole buffer rather than just the
+      -- diagnostics passed to the handler
+      local diagnostics = vim.diagnostic.get(bufnr)
+
+      -- For each line, find the diagnostic with highest severity
+      local max_severity_per_line = {}
+      for _, d in pairs(diagnostics) do
+        local m = max_severity_per_line[d.lnum]
+        if not m or d.severity < m.severity then
+          max_severity_per_line[d.lnum] = d
+        end
+      end
+
+      -- Pass the filtered diagnostics (with the custom namespace) to
+      -- the original handler
+      local filtered_diagnostics = vim.tbl_values(max_severity_per_line)
+      original_handler.show(namespace, bufnr, filtered_diagnostics, opts)
+    end,
+    hide = function(_, bufnr)
+      original_handler.hide(namespace, bufnr)
+    end,
+  }
+
+  return new_handler
+end
+
+local namespace = vim.api.nvim_create_namespace 'my_namespace'
+vim.diagnostic.handlers.signs = filter_diagnostics(vim.diagnostic.handlers.signs, namespace)
+vim.diagnostic.handlers.virtual_text = filter_diagnostics(vim.diagnostic.handlers.virtual_text, namespace)
+
 -- Diagnostics Signs
 for _, type in pairs { 'Error', 'Warn', 'Hint', 'Info' } do
   local hl = 'DiagnosticSign' .. type
@@ -34,7 +75,7 @@ for _, type in pairs { 'Error', 'Warn', 'Hint', 'Info' } do
 end
 
 -- Show all diagnostics on current line on CursorHold
-function ShowAllDiagnostics(opts, bufnr, line_nr, client_id)
+function show_all_diagnostics(opts, bufnr, line_nr, client_id)
   bufnr = bufnr or 0
   line_nr = line_nr or (vim.api.nvim_win_get_cursor(0)[1] - 1)
   opts = opts or { ['lnum'] = line_nr }
@@ -45,7 +86,7 @@ function ShowAllDiagnostics(opts, bufnr, line_nr, client_id)
   end
 end
 
-vim.cmd [[ autocmd! CursorHold * lua ShowAllDiagnostics() ]]
+vim.cmd [[ autocmd! CursorHold * lua show_all_diagnostics() ]]
 
 -- Mappings
 map('n', '<leader>cd', vim.lsp.buf.definition)
