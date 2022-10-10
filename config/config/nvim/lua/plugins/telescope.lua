@@ -11,7 +11,12 @@ telescope.setup {
     -- appearance
     borderchars = { '' },
     entry_prefix = '  ',
-    layout_config = { mirror = true, prompt_position = 'top' },
+    layout_config = {
+      mirror = true,
+      prompt_position = 'top',
+      width = 0.5,
+      height = 0.5,
+    },
     layout_strategy = 'vertical',
     prompt_prefix = '     ',
     selection_caret = '  ',
