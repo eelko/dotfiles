@@ -680,10 +680,21 @@ return require('packer').startup {
     -- Highlight some UI elements based on current mode
     use {
       'mvllow/modes.nvim',
-      commit = '38f6c91',
       after = 'tokyonight.nvim',
       config = function()
         require('modes').setup()
+
+        -- Highlight numbers fg only
+        highlight('ModesCopyCursorLineNr', { fg = '#f5c359' })
+        highlight('ModesInsertCursorLineNr', { fg = '#78ccc5' })
+        highlight('ModesDeleteCursorLineNr', { fg = '#c75c6a' })
+        highlight('ModesVisualCursorLineNr', { fg = '#9745be' })
+
+        -- Don't highlight sign column
+        highlight('ModesCopyCursorLineSign', { bg = 'none' })
+        highlight('ModesInsertCursorLineSign', { bg = 'none' })
+        highlight('ModesDeleteCursorLineSign', { bg = 'none' })
+        highlight('ModesVisualCursorLineSign', { bg = 'none' })
       end,
     }
 
