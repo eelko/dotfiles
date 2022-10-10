@@ -3,6 +3,7 @@
 " Misc
 set clipboard+=unnamedplus                                 " Use system clipboard for all operations
 set hidden                                                 " Allows buffers to be left unsaved (bp/bn)
+set inccommand=split                                       " Show partial off-screen substitution results in a preview window
 set mouse=a                                                " Enable mouse
 set noautoread                                             " Don't auto reload files from disk when they change outisde Vim
 set noshowmode                                             " Don't show edit mode in command bar
