@@ -56,7 +56,6 @@ cmp.setup {
       local item_kind = vim_item.kind == 'Text' and 'Buffer' or vim_item.kind
       local item_source = ({
         buffer = '',
-        copilot = '',
         nvim_lsp = '',
         vsnip = '',
       })[entry.source.name]
@@ -123,7 +122,6 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'vsnip' },
-    { name = 'copilot' },
     { name = 'buffer' },
     { name = 'path' },
   },
