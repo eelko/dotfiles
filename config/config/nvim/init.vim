@@ -154,18 +154,6 @@ nnoremap <expr><Leader>D (bufnr('%') == getbufinfo({'buflisted': 1})[-1].bufnr ?
 " Easily clear search matches
 nnoremap <silent> <Esc> :noh<CR>
 
-" Visual Star Search (http://vim.wikia.com/wiki/VimTip171)
-vnoremap <silent> * :<C-U>
-  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-  \gvy/<C-R>=&ic?'\c':'\C'<CR><C-R><C-R>=substitute(
-  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
-  \gVzv:call setreg('"', old_reg, old_regtype)<CR>
-vnoremap <silent> # :<C-U>
-  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-  \gvy?<C-R>=&ic?'\c':'\C'<CR><C-R><C-R>=substitute(
-  \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
-  \gVzv:call setreg('"', old_reg, old_regtype)<CR>
-
 " Resize splits with purpose
 augroup SaveWindowSize
   autocmd!
