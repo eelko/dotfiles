@@ -130,6 +130,17 @@ map('n', '<leader>cI', ':TSLspImportAll<CR>')
 map('n', '<leader>cE', ':Telescope diagnostics<CR>')
 map('n', '<leader>fs', ':Telescope lsp_dynamic_workspace_symbols<CR>')
 
+-- Formatting callback
+local lsp_formatting = function(bufnr)
+  vim.lsp.buf.format {
+    filter = function(client)
+      -- only use efm for formatting
+      return client.name == 'efm'
+    end,
+    bufnr = bufnr,
+  }
+end
+
 -- LSP server registration
 local on_attach = function(client)
   vim.b.omnifunc = 'v:lua.vim.lsp.omnifunc'
@@ -142,20 +153,21 @@ local on_attach = function(client)
   end
 
   -- Format on save
-  vim.cmd [[
-    augroup LspFormatting
-      autocmd! * <buffer>
-      autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
-    augroup END
-  ]]
+  local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 
-  if client.name ~= 'efm' then
-    client.resolved_capabilities.document_formatting = false
-    client.resolved_capabilities.document_range_formatting = false
+  if client.supports_method 'textDocument/formatting' then
+    vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
+    vim.api.nvim_create_autocmd('BufWritePre', {
+      group = augroup,
+      buffer = bufnr,
+      callback = function()
+        lsp_formatting(bufnr)
+      end,
+    })
   end
 
   -- Highlight current symbol
-  if client.resolved_capabilities.document_highlight then
+  if client.supports_method 'textDocument/documentHighlight' then
     vim.cmd [[
       augroup LspDocumentHighlight
         autocmd! * <buffer>
