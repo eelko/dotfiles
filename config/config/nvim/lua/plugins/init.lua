@@ -366,6 +366,7 @@ return require('packer').startup {
         { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', opt = true },
       },
       wants = {
+        'plenary.nvim',
         'telescope-fzf-native.nvim',
         'trouble.nvim',
         'vim-action-mapper',
