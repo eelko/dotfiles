@@ -78,6 +78,7 @@ return require('packer').startup {
         vim.cmd 'color tokyonight'
         highlight('CurSearch', { bg = '#637ab3', fg = '#c0caf5' })
         highlight('Folded', { bg = '#24283b', fg = '#565f89' })
+        highlight('NvimTreeFolderIcon', { bg = 'none', fg = '#8094b4' })
       end,
     }
 
