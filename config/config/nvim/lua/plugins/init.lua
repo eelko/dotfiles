@@ -606,12 +606,6 @@ return require('packer').startup {
           end
         end
         vim.cmd [[ au! BufWinEnter quickfix silent :lua OpenTrouble() ]]
-
-        -- Vimade integration
-        vim.cmd [[
-          au! BufEnter,FileType Trouble VimadeDisable
-          au! BufLeave Trouble VimadeEnable
-        ]]
       end,
       config = function()
         require('trouble').setup {}
@@ -649,8 +643,9 @@ return require('packer').startup {
 
         vim.cmd [[
         au! BufEnter NvimTree* VimadeBufDisable
-        au! FocusLost * VimadeFadeActive
+        au! BufEnter,FileType Trouble VimadeBufDisable
         au! FocusGained * VimadeUnfadeActive
+        au! FocusLost * VimadeFadeActive
         au! InsertEnter * VimadeWinDisable
         au! InsertLeave * VimadeWinEnable
         ]]
