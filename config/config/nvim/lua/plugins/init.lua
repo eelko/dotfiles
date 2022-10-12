@@ -79,6 +79,7 @@ return require('packer').startup {
         highlight('CurSearch', { bg = '#637ab3', fg = '#c0caf5' })
         highlight('Folded', { bg = '#24283b', fg = '#565f89' })
         highlight('NvimTreeFolderIcon', { bg = 'none', fg = '#8094b4' })
+        highlight('TroubleNormal', { bg = '#24283b', fg = '#c0caf5' })
       end,
     }
 
@@ -633,22 +634,32 @@ return require('packer').startup {
 
     -- Fade inactive buffers
     use {
-      'TaDaa/vimade',
-      event = { 'BufLeave', 'FocusLost' },
+      'levouh/tint.nvim',
+      after = 'tokyonight.nvim',
       config = function()
-        vim.g.vimade = {
-          enablefocusfading = 1,
-          enabletreesitter = 1,
-        }
+        require('tint').setup {
+          focus_change_events = {
+            focus = { 'FocusGained', 'WinEnter' },
+            unfocus = { 'FocusLost', 'WinLeave' },
+          },
+          highlight_ignore_patterns = {
+            'EndOfBuffer',
+            'IndentBlankline.*',
+            'LineNr',
+            'NonText',
+            'Trouble.*',
+            'WinSeparator',
+          },
+          window_ignore_function = function(winid)
+            local bufid = vim.api.nvim_win_get_buf(winid)
+            local buftype = vim.api.nvim_buf_get_option(bufid, 'buftype')
+            local filetype = vim.api.nvim_buf_get_option(bufid, 'filetype')
+            local floating = vim.api.nvim_win_get_config(winid).relative ~= ''
 
-        vim.cmd [[
-        au! BufEnter NvimTree* VimadeBufDisable
-        au! BufEnter,FileType Trouble VimadeBufDisable
-        au! FocusGained * VimadeUnfadeActive
-        au! FocusLost * VimadeFadeActive
-        au! InsertEnter * VimadeWinDisable
-        au! InsertLeave * VimadeWinEnable
-        ]]
+            -- Do not tint `terminal`, floating windows, etc, tint everything else
+            return buftype == 'terminal' or floating or filetype == 'NvimTree'
+          end,
+        }
       end,
     }
 

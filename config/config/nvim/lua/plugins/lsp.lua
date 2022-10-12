@@ -114,8 +114,6 @@ map('n', 'K', function()
   if contains({ 'vim', 'help' }, vim.o.filetype) then
     vim.cmd('silent! h ' .. vim.fn.expand '<cword>')
   else
-    -- calling twice as a workaround for flickering caused by vimade
-    vim.lsp.buf.hover()
     vim.lsp.buf.hover()
   end
 end)
