@@ -704,16 +704,6 @@ return require('packer').startup {
       end,
     }
 
-    -- Fix CursorHold performance
-    -- Reference: https://github.com/neovim/neovim/issues/12587
-    use {
-      'antoinemadec/FixCursorHold.nvim',
-      event = 'UIEnter',
-      config = function()
-        vim.g.cursorhold_updatetime = 500
-      end,
-    }
-
     -- Bootstrap packer plugins
     if packer_bootstrap then
       require('packer').sync()
