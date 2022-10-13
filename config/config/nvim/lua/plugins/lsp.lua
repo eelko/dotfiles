@@ -141,8 +141,6 @@ end
 
 -- LSP server registration
 local on_attach = function(client)
-  vim.b.omnifunc = 'v:lua.vim.lsp.omnifunc'
-
   -- Fix code action ranges and filter diagnostics
   if client.name == 'tsserver' then
     local ts_utils = require 'nvim-lsp-ts-utils'
