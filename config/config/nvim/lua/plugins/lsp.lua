@@ -174,32 +174,26 @@ local on_attach = function(client)
   end
 end
 
-local special_opts = {
-  ['emmet_ls'] = function(opts)
-    opts.filetypes = { 'html', 'css', 'typescriptreact', 'javascriptreact' }
-  end,
-  ['jsonls'] = function(opts)
-    opts.settings = {
+local lspconfig = require 'lspconfig'
+
+local servers = {
+  efm = {},
+  jsonls = {
+    settings = {
       json = {
         schemas = require('schemastore').json.schemas(),
       },
-    }
-  end,
+    },
+  },
+  tsserver = {},
 }
 
-for _, server_name in ipairs {
-  'efm',
-  'jsonls',
-  'tsserver',
-} do
-  local common_opts = {
-    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
-    on_attach = on_attach,
-  }
+local build_opts = function(opts)
+  opts['on_attach'] = on_attach
+  opts['capabilities'] = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  return opts
+end
 
-  if special_opts[server_name] then
-    special_opts[server_name](common_opts)
-  end
-
-  require('lspconfig')[server_name].setup(common_opts)
+for name, config in pairs(servers) do
+  lspconfig[name].setup(build_opts(config))
 end
