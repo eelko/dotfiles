@@ -1,6 +1,6 @@
 require 'utils'
 
--- Hover/Diagnostic borders
+-- Borderless floats for hover info and diagnostics
 local open_floating_preview = vim.lsp.util.open_floating_preview
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
   opts = opts or {}
@@ -8,7 +8,7 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
   return open_floating_preview(contents, syntax, opts, ...)
 end
 
--- Diagnostic Config
+-- Custom diagnostic messages
 local format_diagnostic = function(diagnostic)
   local icons = {
     [vim.diagnostic.severity.ERROR] = ' ',
@@ -30,7 +30,7 @@ vim.diagnostic.config {
     format = format_diagnostic,
   },
   severity_sort = true,
-  signs = false,
+  signs = false, -- disable signs on gutter
   virtual_text = {
     format = format_diagnostic,
     prefix = '',
@@ -39,9 +39,8 @@ vim.diagnostic.config {
 
 -- Diagnostic Handlers
 
--- Create a custom namespace. This will aggregate signs from all other
--- namespaces and only show the one with the highest severity on a
--- given line
+-- Aggregate diagnostics from all other namespaces and only show the one with
+-- the highest severity on a given line
 ---@param original_handler A reference to a handler, e.g. `vim.diagnostic.handlers.signs`.
 ---@param namespace The return of `vim.api.nvim_create_namespace`.
 ---@return A modified version of the handler that only shows the diagnostic with highest severity.
@@ -77,26 +76,6 @@ end
 local namespace = vim.api.nvim_create_namespace 'my_namespace'
 vim.diagnostic.handlers.signs = filter_diagnostics(vim.diagnostic.handlers.signs, namespace)
 vim.diagnostic.handlers.virtual_text = filter_diagnostics(vim.diagnostic.handlers.virtual_text, namespace)
-
--- Diagnostics Signs
-for _, type in pairs { 'Error', 'Warn', 'Hint', 'Info' } do
-  local hl = 'DiagnosticSign' .. type
-  vim.fn.sign_define(hl, { text = '', texthl = hl, numhl = '', priority = 1 })
-end
-
--- Show all diagnostics on current line on CursorHold
-function show_all_diagnostics(opts, bufnr, line_nr, client_id)
-  bufnr = bufnr or 0
-  line_nr = line_nr or (vim.api.nvim_win_get_cursor(0)[1] - 1)
-  opts = opts or { ['lnum'] = line_nr }
-
-  local line_diagnostics = vim.diagnostic.get(bufnr, opts)
-  if #line_diagnostics > 1 then
-    vim.diagnostic.open_float()
-  end
-end
-
-vim.cmd [[ autocmd! CursorHold * lua show_all_diagnostics() ]]
 
 -- Mappings
 map('n', '<leader>cd', vim.lsp.buf.definition)
