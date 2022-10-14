@@ -118,12 +118,6 @@ map('n', 'K', function()
   end
 end)
 map('i', '<C-k>', vim.lsp.buf.signature_help)
--- code actions
-map('n', '<leader>ca', vim.lsp.buf.code_action)
--- typescript helpers
-map('n', '<leader>co', ':TSLspOrganize<CR>')
-map('n', '<leader>cnf', ':TSLspRenameFile<CR>')
-map('n', '<leader>cI', ':TSLspImportAll<CR>')
 -- Telescope
 map('n', '<leader>cE', ':Telescope diagnostics<CR>')
 map('n', '<leader>fs', ':Telescope lsp_dynamic_workspace_symbols<CR>')
@@ -141,13 +135,6 @@ end
 
 -- LSP server registration
 local on_attach = function(client)
-  -- Fix code action ranges and filter diagnostics
-  if client.name == 'tsserver' then
-    local ts_utils = require 'nvim-lsp-ts-utils'
-    ts_utils.setup {}
-    ts_utils.setup_client(client)
-  end
-
   -- Format on save
   local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 
@@ -185,7 +172,6 @@ local servers = {
       },
     },
   },
-  tsserver = {},
 }
 
 local build_opts = function(opts)
@@ -197,3 +183,8 @@ end
 for name, config in pairs(servers) do
   lspconfig[name].setup(build_opts(config))
 end
+
+-- tsserver
+require('typescript').setup {
+  server = build_opts {},
+}

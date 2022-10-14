@@ -527,7 +527,7 @@ return require('packer').startup {
       event = { 'BufReadPre', 'BufNewFile' },
       requires = {
         -- Enhanced LSP experience for TS
-        { 'jose-elias-alvarez/nvim-lsp-ts-utils', opt = true, requires = { 'nvim-lua/plenary.nvim', opt = true } },
+        { 'jose-elias-alvarez/typescript.nvim', opt = true },
         -- JSON schema store integration
         { 'b0o/schemastore.nvim', opt = true },
         -- Completion integration
@@ -535,8 +535,8 @@ return require('packer').startup {
       },
       wants = {
         'cmp-nvim-lsp',
-        'nvim-lsp-ts-utils',
         'schemastore.nvim',
+        'typescript.nvim',
       },
       config = function()
         require 'plugins.lsp'
