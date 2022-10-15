@@ -156,3 +156,8 @@ cmp.setup.cmdline(':', {
     { name = 'path' },
   },
 })
+
+-- Easily turn auto-completion off
+vim.api.nvim_create_user_command('DisableAutoCompletion', function()
+  require('cmp').setup { enabled = false }
+end, {})
