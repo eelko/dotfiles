@@ -1,9 +1,5 @@
 require 'utils'
 
--- Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
--- delays and poor user experience
-vim.o.updatetime = 300
-
 -- Custom node path
 vim.g.coc_node_path = vim.fn.expand '$LATEST_NODE_PATH'
 

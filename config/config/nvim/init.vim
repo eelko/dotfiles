@@ -10,6 +10,7 @@ set mousemodel=extend                                      " Right mouse button 
 set noautoread                                             " Don't auto reload files from disk when they change outisde Vim
 set noshowmode                                             " Don't show edit mode in command bar
 set shell=/bin/bash
+set updatetime=300                                         " Shorter time to trigger CursorHold autocmd
 set wildmenu                                               " Enable command line completion menu
 set wildoptions=tagfile                                    " Use classic completion menu instead of floating window
 " Appearance
