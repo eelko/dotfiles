@@ -138,6 +138,13 @@ local on_attach = function(client, bufnr)
       augroup END
     ]]
   end
+
+  -- Code context
+  if client.supports_method 'textDocument/documentSymbol' then
+    local navic = require 'nvim-navic'
+    navic.setup { separator = '  ' }
+    navic.attach(client, bufnr)
+  end
 end
 
 local lspconfig = require 'lspconfig'

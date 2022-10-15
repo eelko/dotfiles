@@ -532,9 +532,12 @@ return require('packer').startup {
         { 'b0o/schemastore.nvim', opt = true },
         -- Completion integration
         { 'hrsh7th/cmp-nvim-lsp', opt = true },
+        -- Code context
+        { 'SmiteshP/nvim-navic', opt = true },
       },
       wants = {
         'cmp-nvim-lsp',
+        'nvim-navic',
         'schemastore.nvim',
         'typescript.nvim',
       },
