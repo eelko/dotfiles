@@ -113,7 +113,7 @@ local lsp_formatting = function(bufnr)
 end
 
 -- LSP server registration
-local on_attach = function(client)
+local on_attach = function(client, bufnr)
   -- Format on save
   local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 
