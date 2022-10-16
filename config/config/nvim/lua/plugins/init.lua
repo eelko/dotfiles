@@ -281,10 +281,12 @@ return require('packer').startup {
         map('!', '<C-e>', readline.end_of_line)
         map('!', '<M-b>', readline.backward_word)
         map('!', '<M-f>', readline.forward_word)
-        map('!', '<C-b>', '<Left>')
-        map('!', '<C-f>', '<Right>')
-        map('!', '<C-d>', '<Delete>')
-        map('!', '<C-h>', '<BS>')
+        -- `map` does not work for the mappings below
+        -- apparently the `silent` option breaks them
+        vim.keymap.set('!', '<C-b>', '<Left>')
+        vim.keymap.set('!', '<C-f>', '<Right>')
+        vim.keymap.set('!', '<C-d>', '<Delete>')
+        vim.keymap.set('!', '<C-h>', '<BS>')
       end,
     }
 
