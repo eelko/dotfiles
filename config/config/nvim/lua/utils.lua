@@ -24,7 +24,7 @@ function _G.highlight(group, options)
 end
 
 function _G.map(mode, lhs, rhs, opts)
-  local options = { noremap = true, silent = true }
+  local options = { silent = true }
   if opts then
     options = vim.tbl_extend('force', options, opts)
   end
