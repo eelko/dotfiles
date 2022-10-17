@@ -717,6 +717,20 @@ return require('packer').startup {
       end,
     }
 
+    -- Fancy notifications
+    use {
+      'rcarriga/nvim-notify',
+      config = function()
+        require('notify').setup {
+          max_width = 50,
+          stages = 'fade',
+        }
+
+        -- replace built-in `notify`
+        vim.notify = require 'notify'
+      end,
+    }
+
     -- Bootstrap packer plugins
     if packer_bootstrap then
       require('packer').sync()
