@@ -45,19 +45,4 @@
   line-numbers-left-format = "{nm}⋮ "
   line-numbers-right-format = "{np} │"
 
-# NeoVim as difftool
-[diff]
-  tool = nvimdiff
-[difftool "nvimdiff"]
-  cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
-  prompt = true
-
-# NeoVim as mergetool
-[merge]
-  conflictstyle = zdiff3
-  tool = nvimdiff
-[mergetool "nvimdiff"]
-  cmd = "nvim -d \"$LOCAL\" \"$BASE\" \"$REMOTE\" \"$MERGED\" -c '4wincmd w | wincmd J | set laststatus=2'"
-  prompt = true
-
 # vim: set ft=gitconfig :

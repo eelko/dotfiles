@@ -149,6 +149,14 @@ return require('packer').startup {
       end,
     }
 
+    -- Git diff/merge tool
+    use {
+      'sindrets/diffview.nvim',
+      cmd = 'DiffviewOpen',
+      requires = { 'nvim-lua/plenary.nvim', opt = true },
+      wants = 'plenary.nvim',
+    }
+
     -- Indentation guides
     use {
       'lukas-reineke/indent-blankline.nvim',
