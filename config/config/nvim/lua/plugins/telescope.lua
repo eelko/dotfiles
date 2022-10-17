@@ -25,9 +25,11 @@ telescope.setup {
     mappings = {
       i = {
         ['<esc>'] = actions.close,
-        ['<down>'] = actions.cycle_history_next,
         ['<up>'] = actions.cycle_history_prev,
-        -- ALlow Readline mappings to work
+        ['<down>'] = actions.cycle_history_next,
+        ['<left>'] = actions.preview_scrolling_down,
+        ['<right>'] = actions.preview_scrolling_up,
+        -- Allow readline mappings to work
         ['<C-d>'] = false,
         ['<C-e>'] = false,
         ['<C-u>'] = false,
