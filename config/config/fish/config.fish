@@ -59,6 +59,9 @@ function fzf --wraps=fzf --description="Use fzf-tmux if in tmux session"
   end
 end
 
+# sponge
+set sponge_delay 10 # number of failed commands to keep at a time
+
 # utilities
 function cd --wraps=cd --description="List directory contents after cd"
   builtin cd $argv && l
