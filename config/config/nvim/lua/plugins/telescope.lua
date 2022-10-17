@@ -4,6 +4,13 @@ local actions = require 'telescope.actions'
 local telescope = require 'telescope'
 local trouble_telescope_provider = require 'trouble.providers.telescope'
 
+-- Flips the location of the results/prompt and preview windows
+local mirrored_layout = {
+  layout_config = {
+    mirror = true,
+  },
+}
+
 telescope.setup {
   defaults = {
     -- misc options
@@ -11,7 +18,6 @@ telescope.setup {
     -- appearance
     entry_prefix = '  ',
     layout_config = {
-      mirror = true,
       prompt_position = 'top',
       width = 0.5,
       height = 0.5,
@@ -38,15 +44,34 @@ telescope.setup {
     },
   },
   pickers = {
+    buffers = mirrored_layout,
+    commands = mirrored_layout,
+    current_buffer_fuzzy_find = mirrored_layout,
+    diagnostics = mirrored_layout,
+    find_files = mirrored_layout,
     live_grep = {
+      layout_config = {
+        mirror = true,
+      },
       on_input_filter_cb = function(prompt)
+        -- replace spaces with wild cards
         return { prompt = prompt:gsub('%s', '.*') }
       end,
+    },
+    lsp_dynamic_workspace_symbols = mirrored_layout,
+    oldfiles = mirrored_layout,
+  },
+  extensions = {
+    ['ui-select'] = {
+      require('telescope.themes').get_cursor {
+        selection_caret = ' ',
+      },
     },
   },
 }
 
 telescope.load_extension 'fzf'
+telescope.load_extension 'ui-select'
 
 -- Appearance
 -- Colors from https://github.com/thanhvule0310/dotfiles/blob/main/nvim/lua/theme.lua
@@ -100,3 +125,10 @@ vim.cmd [[
     execute('lua require("telescope.builtin").grep_string({search = "'.trim(a:text).'"})')
   endfunction
 ]]
+
+-- Redefine code action mapping after lazy loading happens.
+-- This had to be done here instead of doing it at `lsp.lua` so that Telescope
+-- (along with telescope-ui-select.nvim) can be lazy-loaded upon hitting this
+-- mapping. The reason is that lsp always loads before Telescope so it would
+-- override Packer's key-based loader.
+map('n', '<leader>ca', vim.lsp.buf.code_action)

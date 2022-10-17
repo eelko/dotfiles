@@ -366,13 +366,16 @@ return require('packer').startup {
     use {
       'nvim-telescope/telescope.nvim',
       cmd = 'Telescope',
+      keys = { '<leader>ca' }, -- code action mapping
       requires = {
         { 'nvim-lua/plenary.nvim', opt = true },
+        { 'nvim-telescope/telescope-ui-select.nvim', opt = true },
         { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', opt = true },
       },
       wants = {
         'plenary.nvim',
         'telescope-fzf-native.nvim',
+        'telescope-ui-select.nvim',
         'trouble.nvim',
         'vim-action-mapper',
       },
