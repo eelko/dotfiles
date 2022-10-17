@@ -9,7 +9,6 @@ telescope.setup {
     -- misc options
     file_ignore_patterns = { 'node_modules/', '.git/' },
     -- appearance
-    borderchars = { '' },
     entry_prefix = '  ',
     layout_config = {
       mirror = true,
@@ -102,7 +101,7 @@ highlight('TelescopePromptBorder', { bg = colors.grey13, fg = colors.grey13 })
 highlight('TelescopeResultsBorder', { bg = colors.grey15, fg = colors.grey15 })
 highlight('TelescopePreviewBorder', { bg = colors.grey16, fg = colors.grey16 })
 
-highlight('TelescopePromptTitle', { fg = colors.grey13 })
+highlight('TelescopePromptTitle', { fg = colors.grey5 })
 highlight('TelescopeResultsTitle', { fg = colors.grey15 })
 highlight('TelescopePreviewTitle', { fg = colors.grey16 })
 
