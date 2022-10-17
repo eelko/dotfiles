@@ -101,31 +101,16 @@ map('i', '<C-k>', vim.lsp.buf.signature_help)
 map('n', '<leader>cE', ':Telescope diagnostics<CR>')
 map('n', '<leader>fs', ':Telescope lsp_dynamic_workspace_symbols<CR>')
 
--- Formatting callback
-local lsp_formatting = function(bufnr)
-  vim.lsp.buf.format {
-    filter = function(client)
-      -- only use efm for formatting
-      return client.name == 'efm'
-    end,
-    bufnr = bufnr,
-  }
-end
-
 -- LSP server registration
 local on_attach = function(client, bufnr)
   -- Format on save
-  local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
-
   if client.supports_method 'textDocument/formatting' then
-    vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
-    vim.api.nvim_create_autocmd('BufWritePre', {
-      group = augroup,
-      buffer = bufnr,
-      callback = function()
-        lsp_formatting(bufnr)
-      end,
-    })
+    vim.cmd [[
+      augroup LspFormatting
+        autocmd! * <buffer>
+        autocmd BufWritePre <buffer> lua vim.lsp.buf.format({name = 'efm'})
+      augroup END
+    ]]
   end
 
   -- Highlight current symbol
