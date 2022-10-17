@@ -38,17 +38,6 @@ telescope.setup {
     },
   },
   pickers = {
-    find_files = {
-      hidden = true,
-      layout_strategy = 'flex',
-      layout_config = {
-        horizontal = {
-          prompt_position = 'top',
-          preview_width = 0.55,
-        },
-        mirror = false,
-      },
-    },
     live_grep = {
       on_input_filter_cb = function(prompt)
         return { prompt = prompt:gsub('%s', '.*') }
