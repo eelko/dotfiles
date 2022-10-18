@@ -48,7 +48,12 @@ telescope.setup {
     commands = mirrored_layout,
     current_buffer_fuzzy_find = mirrored_layout,
     diagnostics = mirrored_layout,
-    find_files = mirrored_layout,
+    find_files = {
+      hidden = true,
+      layout_config = {
+        mirror = true,
+      },
+    },
     live_grep = {
       layout_config = {
         mirror = true,
