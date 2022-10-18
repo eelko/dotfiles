@@ -1,4 +1,13 @@
 {
+  "Function": {
+    "prefix": ["fun"],
+    "body": [
+      "${1:async }function ${2:name}(${3:params}) {",
+      "\t${0}",
+      "}"
+    ],
+    "description": "Function"
+  },
   "Arrow Function": {
     "prefix": ["afb"],
     "body": ["($1) => ${2:{$0\\}}"],
