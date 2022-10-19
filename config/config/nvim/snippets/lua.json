@@ -3,5 +3,16 @@
     "prefix": "l",
     "body": ["print('==> $TM_SELECTED_TEXT:', vim.inspect($TM_SELECTED_TEXT))$0"],
     "description": "log selected text"
+  },
+  "add plugin": {
+    "prefix": "use",
+    "body": [
+      "use { '${1:plugin name}',",
+      "\t${2:config = function()",
+      "\t\t${3}",
+      "\tend,}",
+      "}$0"
+    ],
+    "description": "add plugin"
   }
 }
