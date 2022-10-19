@@ -7,8 +7,6 @@ local theme = require 'lualine.themes.tokyonight'
 local bg = theme.normal.b.bg
 local fg = theme.normal.c.fg
 
-local navic = require 'nvim-navic' -- code context
-
 require('lualine').setup {
   options = {
     component_separators = { left = '', right = '' },
@@ -37,7 +35,6 @@ require('lualine').setup {
         end,
       },
       { 'diagnostics', icon = ' ', sources = { 'nvim_diagnostic' }, padding = { left = 3 } },
-      { navic.get_location, icon = '', cond = navic.is_available, padding = { left = 3 } },
     },
     lualine_x = {},
     lualine_y = { 'progress' },

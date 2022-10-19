@@ -127,8 +127,14 @@ local on_attach = function(client, bufnr)
   -- Code context
   if client.supports_method 'textDocument/documentSymbol' then
     local navic = require 'nvim-navic'
-    navic.setup { separator = '  ' }
+    navic.setup {
+      highlight = true,
+      separator = '  ',
+    }
     navic.attach(client, bufnr)
+
+    -- show context on winbar
+    vim.wo.winbar = " %{%v:lua.require'nvim-navic'.get_location()%}"
   end
 end
 
