@@ -598,6 +598,60 @@ return require('packer').startup {
       end,
     }
 
+    -- Symbols outline
+    use {
+      'mxsdev/symbols-outline.nvim', -- use fork until this PR is merged https://github.com/simrat39/symbols-outline.nvim/pull/169
+      branch = 'merge-jsx-tree',
+      keys = '<leader>co',
+      cmd = 'SymbolsOutline',
+      config = function()
+        map('n', '<leader>co', ':SymbolsOutline<CR>')
+
+        require('symbols-outline').setup {
+          autofold_depth = 1,
+          keymaps = {
+            hover_symbol = 'K',
+            toggle_preview = 'p',
+            fold = 'x',
+            unfold = 'o',
+            fold_all = 'X',
+            unfold_all = 'O',
+            fold_reset = 'R',
+          },
+          symbol_blacklist = { 'Property', 'Variable' },
+          symbols = { -- custom symbols to match the ones used by nvim-navic
+            Array = { icon = '', hl = 'TSConstant' },
+            Boolean = { icon = '◩', hl = 'TSBoolean' },
+            Class = { icon = 'ﴯ', hl = 'TSType' },
+            Constant = { icon = '', hl = 'TSConstant' },
+            Constructor = { icon = '', hl = 'TSConstructor' },
+            Enum = { icon = '練', hl = 'TSType' },
+            EnumMember = { icon = '', hl = 'TSField' },
+            Event = { icon = '', hl = 'TSType' },
+            Field = { icon = '', hl = 'TSField' },
+            File = { icon = '', hl = 'TSURI' },
+            Function = { icon = '', hl = 'TSFunction' },
+            Interface = { icon = '練', hl = 'TSType' },
+            Key = { icon = '', hl = 'TSType' },
+            Method = { icon = '', hl = 'TSMethod' },
+            Module = { icon = '', hl = 'TSNamespace' },
+            Namespace = { icon = '', hl = 'TSNamespace' },
+            Null = { icon = 'ﳠ', hl = 'TSType' },
+            Number = { icon = '', hl = 'TSNumber' },
+            Object = { icon = '', hl = 'TSType' },
+            Operator = { icon = '', hl = 'TSOperator' },
+            Package = { icon = '', hl = 'TSNamespace' },
+            Property = { icon = '', hl = 'TSMethod' },
+            String = ' ',
+            String = { icon = '', hl = 'TSString' },
+            Struct = { icon = '', hl = 'TSType' },
+            TypeParameter = { icon = '', hl = 'TSParameter' },
+            Variable = { icon = '', hl = 'TSConstant' },
+          },
+        }
+      end,
+    }
+
     -- Trouble
     use {
       'folke/trouble.nvim',
@@ -672,7 +726,7 @@ return require('packer').startup {
             local floating = vim.api.nvim_win_get_config(winid).relative ~= ''
 
             -- Do not tint `terminal`, floating windows, etc, tint everything else
-            return buftype == 'terminal' or floating or filetype == 'NvimTree'
+            return buftype == 'terminal' or floating or contains({ 'NvimTree', 'Outline' }, filetype)
           end,
         }
       end,
