@@ -76,7 +76,6 @@ return require('packer').startup {
       event = 'UIEnter',
       config = function()
         vim.cmd 'color tokyonight'
-        highlight('CurSearch', { bg = '#637ab3', fg = '#c0caf5' })
         highlight('Folded', { bg = '#24283b', fg = '#565f89' })
         highlight('NavicSeparator', { fg = '#454c6e', italic = true })
         highlight('NavicText', { fg = '#565f89', italic = true })
