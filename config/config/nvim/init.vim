@@ -16,7 +16,7 @@ set wildoptions=tagfile                                    " Use classic complet
 " Appearance
 set cursorline                                             " Highlight current line
 set list                                                   " Show unprintable characters
-set listchars=tab:».,trail:⌴,extends:❯,precedes:❮,nbsp:°   " Unprintable characters
+set listchars=tab:».,trail:⌴,extends:…,precedes:…,nbsp:°   " Unprintable characters
 set number                                                 " Display line numbers
 set pumheight=8                                            " Limit completion menu height
 set signcolumn=yes                                         " ALways show the sign column
