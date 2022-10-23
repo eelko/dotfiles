@@ -170,6 +170,10 @@ nnoremap <silent> <C-w>- :execute 'resize ' . (winheight(0) - (full_height / 4))
 nnoremap <silent> <C-w>> :execute 'vertical resize ' . (winwidth(0) + (full_width / 4))<CR>
 nnoremap <silent> <C-w>< :execute 'vertical resize ' . (winwidth(0) - (full_width / 4))<CR>
 
+" Easily work with tabs
+nnoremap <silent> <C-w>tn :tabnew %<CR>
+nnoremap <silent> <C-w>tc :tabclose<CR>
+
 " --- FUNCTIONS AND COMMANDS ---
 
 command! -nargs=1 -range=% Align :execute "<line1>,<line2>!sed 's/" . <f-args> . "/@". <f-args> . "/g' | column -s@ -t"
