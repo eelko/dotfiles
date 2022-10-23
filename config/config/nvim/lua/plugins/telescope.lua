@@ -54,6 +54,7 @@ telescope.setup {
         mirror = true,
       },
     },
+    grep_string = mirrored_layout,
     live_grep = {
       layout_config = {
         mirror = true,
