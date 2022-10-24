@@ -420,11 +420,17 @@ return require('packer').startup {
         vim.o.foldtext = 'v:lua.custom_fold_text()'
 
         function custom_fold_text()
-          local foldstart = vim.fn.substitute(vim.fn.getline(vim.v.foldstart), '\t', ' ', 'g')
           local line_count = vim.v.foldend - vim.v.foldstart + 1
-          local icon = ''
-          local separator = '…'
-          return string.format('%s %s %s (%s lines)', foldstart, separator, icon, line_count)
+          local foldstart = vim.fn.getline(vim.v.foldstart):gsub('\t', ' ')
+
+          if foldstart:find '^%s' ~= nil then
+            -- line start with space, replace spaces with formatted text
+            local offset = string.len(string.match(foldstart, '^%s+')) - 3 -- leading spaces minus icon and surrounding spaces
+            local leading_text = string.format(' %s ', string.rep('-', offset))
+            foldstart = foldstart:gsub('^%s+', leading_text) -- replace spaces with icon and dashes
+          end
+
+          return string.format('%s   (%s lines)', foldstart, line_count)
         end
 
         require('nvim-treesitter.configs').setup {
