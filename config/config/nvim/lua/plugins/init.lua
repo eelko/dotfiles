@@ -168,8 +168,6 @@ return require('packer').startup {
           show_first_indent_level = false,
           show_trailing_blankline_indent = false,
         }
-
-        highlight('IndentBlanklineContextChar', { bg = 'none', fg = '#4e4e4e' })
       end,
     }
 
