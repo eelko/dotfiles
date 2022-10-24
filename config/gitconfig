@@ -8,6 +8,7 @@
   rv = remote -v
   st = status -sb
   lg = log --oneline --decorate --format='%C(yellow)%h%C(auto)%d%C(reset) %s %C(green)(%ar) %C(cyan)<%an>%C(reset)'
+  mt = !nvim -c 'au UIEnter * DiffviewOpen'
   wc = !git whatchanged -1 $1
   ; functions
   assumed-unchanged = !git ls-files -v | grep '^h'
