@@ -78,7 +78,7 @@ return require('packer').startup {
         require('tokyonight').setup {
           on_highlights = function(hl, c)
             local nvim_tree_classic_folders = '#8094b4'
-            hl.Folded = { bg = c.none, fg = c.comment }
+            hl.Folded = { link = 'Comment' }
             hl.IndentBlanklineContextChar = { bg = c.none, fg = c.comment, nocombine = true }
             hl.NavicSeparator = { fg = c.blue7, italic = true }
             hl.NavicText = { fg = c.comment, italic = true }
