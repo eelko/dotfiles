@@ -75,12 +75,19 @@ return require('packer').startup {
       'folke/tokyonight.nvim',
       event = 'UIEnter',
       config = function()
+        require('tokyonight').setup {
+          on_highlights = function(hl, c)
+            local nvim_tree_classic_folders = '#8094b4'
+            hl.Folded = { bg = c.none, fg = c.comment }
+            hl.IndentBlanklineContextChar = { bg = c.none, fg = c.comment, nocombine = true }
+            hl.NavicSeparator = { fg = c.blue7, italic = true }
+            hl.NavicText = { fg = c.comment, italic = true }
+            hl.NvimTreeFolderIcon = { bg = c.none, fg = nvim_tree_classic_folders }
+            hl.TroubleNormal = { bg = c.none } -- avoid weird behavior with tint.nvim where bg color changes after enter/leave events
+          end,
+        }
+
         vim.cmd 'color tokyonight'
-        highlight('Folded', { bg = '#24283b', fg = '#565f89' })
-        highlight('NavicSeparator', { fg = '#454c6e', italic = true })
-        highlight('NavicText', { fg = '#565f89', italic = true })
-        highlight('NvimTreeFolderIcon', { bg = 'none', fg = '#8094b4' })
-        highlight('TroubleNormal', { bg = '#24283b', fg = '#c0caf5' })
       end,
     }
 
