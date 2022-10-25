@@ -99,11 +99,36 @@ return require('packer').startup {
       end,
     }
 
+    -- Icons
+    use {
+      'nvim-tree/nvim-web-devicons',
+      event = 'UIEnter',
+      config = function()
+        local devicons = require 'nvim-web-devicons'
+
+        -- override icons but reuse original colors
+        local _, js_color = devicons.get_icon_color('foo.js', 'js')
+        local _, ts_color = devicons.get_icon_color('foo.ts', 'ts')
+
+        require('nvim-web-devicons').set_icon {
+          js = {
+            icon = '',
+            color = js_color,
+            name = 'Js',
+          },
+          ts = {
+            icon = 'ﯤ',
+            color = ts_color,
+            name = 'Ts',
+          },
+        }
+      end,
+    }
+
     -- Tabline
     use {
       'akinsho/bufferline.nvim',
       after = 'tokyonight.nvim',
-      requires = { 'kyazdani42/nvim-web-devicons', opt = true },
       config = function()
         require('bufferline').setup {
           options = {
@@ -222,7 +247,6 @@ return require('packer').startup {
     use {
       'kyazdani42/nvim-tree.lua',
       cmd = { 'NvimTreeToggle', 'NvimTreeFindFile' },
-      requires = { 'kyazdani42/nvim-web-devicons', opt = true },
       setup = function()
         map('n', '\\', ':NvimTreeToggle<CR>')
       end,
@@ -336,7 +360,6 @@ return require('packer').startup {
     use {
       'nvim-lualine/lualine.nvim',
       after = 'tokyonight.nvim',
-      requires = { { 'kyazdani42/nvim-web-devicons', opt = true } },
       config = function()
         require 'plugins.statusline_basic'
       end,
@@ -674,7 +697,6 @@ return require('packer').startup {
       'folke/trouble.nvim',
       cmd = { 'Grep', 'Trouble' },
       after = 'telescope.nvim',
-      requires = { 'kyazdani42/nvim-web-devicons', opt = true },
       setup = function()
         -- quickfix/loclist integration
         function OpenTrouble()
