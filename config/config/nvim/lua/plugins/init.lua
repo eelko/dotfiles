@@ -77,12 +77,20 @@ return require('packer').startup {
       config = function()
         require('tokyonight').setup {
           on_highlights = function(hl, c)
-            local nvim_tree_classic_folders = '#8094b4'
+            -- Core colors
             hl.Folded = { link = 'Comment' }
+
+            -- LSP diagnostics colors
+            hl.DiagnosticVirtualTextError = { bg = '#362c3d', fg = c.error, italic = true }
+            hl.DiagnosticVirtualTextHint = { bg = '#233745', fg = c.hint, italic = true }
+            hl.DiagnosticVirtualTextInfo = { bg = '#22374b', fg = c.info, italic = true }
+            hl.DiagnosticVirtualTextWarn = { bg = '#373640', fg = c.warning, italic = true }
+
+            -- Misc plugins colors
             hl.IndentBlanklineContextChar = { bg = c.none, fg = c.comment, nocombine = true }
             hl.NavicSeparator = { fg = c.blue7, italic = true }
             hl.NavicText = { fg = c.comment, italic = true }
-            hl.NvimTreeFolderIcon = { bg = c.none, fg = nvim_tree_classic_folders }
+            hl.NvimTreeFolderIcon = { bg = c.none, fg = '#8094b4' } -- classic folder color
             hl.TroubleNormal = { bg = c.none } -- avoid weird behavior with tint.nvim where bg color changes after enter/leave events
           end,
         }
