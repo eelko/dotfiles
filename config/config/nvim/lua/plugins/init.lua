@@ -797,7 +797,9 @@ return require('packer').startup {
       'mvllow/modes.nvim',
       after = 'tokyonight.nvim',
       config = function()
-        require('modes').setup()
+        require('modes').setup {
+          set_cursorline = false,
+        }
 
         -- Highlight numbers fg only
         highlight('ModesCopyCursorLineNr', { fg = '#f5c359', bold = true })
