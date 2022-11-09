@@ -78,6 +78,7 @@ return require('packer').startup {
         require('tokyonight').setup {
           on_highlights = function(hl, c)
             -- Core colors
+            hl.DiffDelete = { bg = '#3f2d3d', fg = '#3f2d3d' }
             hl.Folded = { link = 'Comment' }
 
             -- LSP diagnostics colors
