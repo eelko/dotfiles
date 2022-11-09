@@ -125,12 +125,10 @@ local on_attach = function(client, bufnr)
   end
 
   -- Code context
-  if client.supports_method 'textDocument/documentSymbol' then
+  -- Skipped when viewing diffs so it doesn't conflict with diffview.nvim
+  if client.supports_method 'textDocument/documentSymbol' and not vim.o.diff then
     local navic = require 'nvim-navic'
-    navic.setup {
-      highlight = true,
-      separator = '  ',
-    }
+    navic.setup { highlight = true, separator = '  ' }
     navic.attach(client, bufnr)
 
     -- show context on winbar
