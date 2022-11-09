@@ -131,10 +131,29 @@ return require('packer').startup {
       'akinsho/bufferline.nvim',
       after = 'tokyonight.nvim',
       config = function()
+        vim.o.mousemoveevent = true
+
         require('bufferline').setup {
+          highlights = {
+            buffer_selected = {
+              fg = '#a9b1d6',
+              bold = false,
+              italic = false,
+            },
+            close_button_selected = {
+              fg = '#565f89',
+            },
+          },
           options = {
+            buffer_close_icon = '',
             diagnostics = false,
+            hover = {
+              enabled = true,
+              delay = 100,
+              reveal = { 'close' },
+            },
             max_name_length = 50,
+            modified_icon = '',
             offsets = {
               {
                 filetype = 'NvimTree',
