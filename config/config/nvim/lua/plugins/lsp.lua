@@ -142,6 +142,7 @@ local lspconfig = require 'lspconfig'
 
 local servers = {
   efm = {},
+  cssls = {},
   jsonls = {
     settings = {
       json = {
