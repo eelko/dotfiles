@@ -194,9 +194,28 @@ return require('packer').startup {
     -- Git diff/merge tool
     use {
       'sindrets/diffview.nvim',
-      cmd = 'DiffviewOpen',
+      cmd = { 'DiffviewFileHistory', 'DiffviewOpen' },
       requires = { 'nvim-lua/plenary.nvim', opt = true },
       wants = 'plenary.nvim',
+      config = function()
+        require('diffview').setup {
+          enhanced_diff_hl = false,
+          hooks = {
+            diff_buf_read = function(bufnr)
+              vim.opt_local.winbar = '%f ' .. (not vim.bo.modifiable and '' or '')
+            end,
+            view_opened = function(view)
+              vim.notify(('%s has opened on tab %d.'):format(view:class():name(), view.tabpage))
+            end,
+          },
+          view = {
+            merge_tool = {
+              layout = 'diff3_mixed',
+              disable_diagnostics = true,
+            },
+          },
+        }
+      end,
     }
 
     -- Indentation guides
