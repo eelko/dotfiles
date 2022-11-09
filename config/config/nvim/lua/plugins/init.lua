@@ -649,8 +649,14 @@ return require('packer').startup {
       config = function()
         map('n', '<leader>co', ':SymbolsOutline<CR>')
 
+        -- Darker bg and no window separator, just like nvim-tree
+        vim.cmd [[
+        autocmd! FileType Outline set winhighlight=WinSeparator:NvimTreeWinSeparator,Normal:NvimTreeNormal
+        ]]
+
         require('symbols-outline').setup {
           autofold_depth = 1,
+          position = 'left',
           keymaps = {
             hover_symbol = 'K',
             toggle_preview = 'p',
@@ -752,6 +758,7 @@ return require('packer').startup {
             unfocus = { 'FocusLost', 'WinLeave' },
           },
           highlight_ignore_patterns = {
+            'Diff.*',
             'EndOfBuffer',
             'IndentBlankline.*',
             'LineNr',
