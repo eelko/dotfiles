@@ -1,6 +1,7 @@
 require 'utils'
 
 local actions = require 'telescope.actions'
+local lga_actions = require 'telescope-live-grep-args.actions'
 local telescope = require 'telescope'
 local trouble_telescope_provider = require 'trouble.providers.telescope'
 
@@ -55,15 +56,6 @@ telescope.setup {
       },
     },
     grep_string = mirrored_layout,
-    live_grep = {
-      layout_config = {
-        mirror = true,
-      },
-      on_input_filter_cb = function(prompt)
-        -- replace spaces with wild cards
-        return { prompt = prompt:gsub('%s', '.*') }
-      end,
-    },
     lsp_dynamic_workspace_symbols = mirrored_layout,
     oldfiles = mirrored_layout,
   },
@@ -73,10 +65,21 @@ telescope.setup {
         selection_caret = ' ',
       },
     },
+    live_grep_args = {
+      mappings = {
+        i = {
+          ['<C-k>'] = lga_actions.quote_prompt(),
+        },
+      },
+      layout_config = {
+        mirror = true,
+      },
+    },
   },
 }
 
 telescope.load_extension 'fzf'
+telescope.load_extension 'live_grep_args'
 telescope.load_extension 'ui-select'
 
 -- Appearance

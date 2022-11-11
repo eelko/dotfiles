@@ -448,12 +448,14 @@ return require('packer').startup {
       keys = { '<leader>ca' }, -- code action mapping
       requires = {
         { 'nvim-lua/plenary.nvim', opt = true },
-        { 'nvim-telescope/telescope-ui-select.nvim', opt = true },
         { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', opt = true },
+        { 'nvim-telescope/telescope-live-grep-args.nvim', opt = true },
+        { 'nvim-telescope/telescope-ui-select.nvim', opt = true },
       },
       wants = {
         'plenary.nvim',
         'telescope-fzf-native.nvim',
+        'telescope-live-grep-args.nvim',
         'telescope-ui-select.nvim',
         'trouble.nvim',
         'vim-action-mapper',
@@ -462,7 +464,7 @@ return require('packer').startup {
         map('n', '<leader>fb', ':Telescope buffers<CR>')
         map('n', '<leader>fc', ':Telescope commands<CR>')
         map('n', '<leader>ff', ':Telescope find_files<CR>')
-        map('n', '<leader>fg', ':Telescope live_grep<CR>')
+        map('n', '<leader>fg', ':Telescope live_grep_args<CR>')
         map('n', '<leader>fh', ':Telescope command_history<CR>')
         map('n', '<leader>fl', ':Telescope current_buffer_fuzzy_find<CR>')
         map('n', '<leader>fr', ':Telescope oldfiles<CR>')
