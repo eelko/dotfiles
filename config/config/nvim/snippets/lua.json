@@ -1,7 +1,7 @@
 {
   "log selected text": {
     "prefix": "l",
-    "body": ["print('==> $TM_SELECTED_TEXT:', vim.inspect($TM_SELECTED_TEXT))$0"],
+    "body": ["print('==> $CLIPBOARD:', vim.inspect($CLIPBOARD))$0"],
     "description": "log selected text"
   },
   "add plugin": {

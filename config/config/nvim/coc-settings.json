@@ -1,79 +1,96 @@
 {
-  "coc.preferences.enableMessageDialog": true,
-  "coc.preferences.formatOnSaveFiletypes": ["*"],
-  "diagnostic.errorSign": "",
-  "diagnostic.floatConfig": {
-    "border": true,
-    "highlight": "LspFloatWinNormal",
-    "borderhighlight": "LspFloatWinBorder"
-  },
+  /* general */
+  "coc.preferences.formatOnSave": true,
+  /* diagnostics */
   "diagnostic.enableHighlightLineNumber": false,
-  "diagnostic.hintSign": "",
-  "diagnostic.infoSign": "",
-  "diagnostic.warningSign": "",
-  "dialog.floatBorderHighlight": "LspFloatWinBorder",
-  "dialog.floatHighlight": "LspFloatWinNormal",
-  "eslint.autoFixOnSave": true,
-  "eslint.format.enable": true,
-  "hover.floatConfig": {
-    "border": true,
-    "highlight": "LspFloatWinNormal",
-    "borderhighlight": "LspFloatWinBorder"
+  "diagnostic.errorSign": "",
+  "diagnostic.hintSign": "",
+  "diagnostic.infoSign": "",
+  "diagnostic.warningSign": "",
+  /* list */
+  "list.insertMappings": {
+    "<C-a>": "do:selectall",
+    "<C-n>": "normal:j",
+    "<C-p>": "normal:k",
+    "<down>": "prompt:next",
+    "<space>": "do:toggle",
+    "<up>": "prompt:previous"
   },
-  "languageserver": {
-    "efm": {
-      "args": [],
-      "command": "efm-langserver",
-      "filetypes": ["*"]
-    }
+  "list.normalMappings": {
+    "<C-a>": "do:selectall",
+    "<C-n>": "normal:j",
+    "<C-p>": "normal:k",
+    "<space>": "do:toggle"
   },
-  "lightbulb.virtualText": "",
-  "signature.floatConfig": {
-    "border": true,
-    "highlight": "LspFloatWinNormal",
-    "borderhighlight": "LspFloatWinBorder"
-  },
-  "snippets.extends": {
-    "javascript": ["typescript"],
-    "javascriptreact": ["javascript"],
-    "typescript": ["javascript"],
-    "typescriptreact": ["typescript"]
-  },
-  "snippets.textmateSnippetsRoots": ["~/.config/nvim/snippets/"],
-  "snippets.userSnippetsDirectory": "~/.config/nvim/snippets/",
+  /* outline */
+  "outline.previewBorderHighlightGroup": "FloatBorder",
+  "outline.splitCommand": "topleft 30vs",
+  /* tree */
+  "tree.closedIcon": "",
+  "tree.openedIcon": "",
+  /* auto complete menu */
   "suggest.completionItemKindLabels": {
-    "class": "ﴯ Class",
-    "color": " Color",
-    "constant": " Constant",
-    "constructor": " Constructor",
-    "enum": " Enum",
-    "enumMember": " EnumMember",
-    "event": " Event",
-    "field": "ﰠ Field",
-    "file": " File",
-    "folder": " Folder",
-    "function": " Function",
-    "interface": " Interface",
-    "keyword": " Keyword",
-    "method": " Method",
-    "module": " Module",
-    "operator": " Operator",
-    "property": "ﰠ Property",
-    "reference": " Reference",
-    "snippet": " Snippet",
-    "struct": "פּ Struct",
-    "text": " Text",
-    "typeParameter": " TypeParameter",
-    "unit": "塞 Unit",
-    "value": " Value",
-    "variable": " Variable"
+    "class": "ﴯ",
+    "color": "",
+    "constant": "",
+    "constructor": "⌘",
+    "enum": "",
+    "enumMember": "",
+    "event": "",
+    "field": "ﰠ",
+    "file": "",
+    "folder": "",
+    "function": "",
+    "interface": "I",
+    "keyword": "",
+    "method": "",
+    "module": "",
+    "operator": "",
+    "property": "",
+    "reference": "",
+    "snippet": "",
+    "struct": "פּ",
+    "text": "",
+    "typeParameter": "",
+    "unit": "塞",
+    "value": "",
+    "variable": ""
   },
-  "suggest.enablePreselect": true,
+  /* float windows */
+  "dialog.floatBorderHighlight": "FloatBorder",
+  "dialog.rounded": false,
+  "floatFactory.floatConfig": {
+    "border": true,
+    "rounded": false,
+    "borderhighlight": "FloatBorder",
+    "highlight": "CocFloating"
+  },
   "suggest.floatConfig": {
     "border": true,
-    "highlight": "LspFloatWinNormal",
-    "borderhighlight": "LspFloatWinBorder"
+    "borderhighlight": "FloatBorder"
   },
-  "suggest.noselect": false,
-  "suggest.selection": "recentlyUsedByPrefix"
+  /* additional servers */
+  "languageserver": {
+    "efm": {
+      "command": "efm-langserver",
+      "args": [],
+      "filetypes": ["dockerfile", "lua", "sh", "text", "yaml"]
+    }
+  },
+  /* coc-eslint */
+  "eslint.autoFixOnSave": true,
+  "eslint.format.enable": true,
+  /* coc-prettier */
+  "prettier.proseWrap": "always",
+  /* coc-snippets */
+  "snippets.extends": {
+    "javascript": ["javascript"],
+    "javascriptreact": ["javascript"],
+    "typescript": ["javascript"],
+    "typescriptreact": ["javascript"]
+  },
+  "snippets.textmateSnippetsRoots": ["~/.config/nvim/snippets/"],
+  "snippets.userSnippetsDirectory": "~/.config/nvim/snippets/"
 }
+
+// vim: filetype=jsonc

@@ -76,10 +76,12 @@ return require('packer').startup {
       event = 'UIEnter',
       config = function()
         require('tokyonight').setup {
+          sidebars = { 'coctree', 'list', 'qf' },
           on_highlights = function(hl, c)
             -- Core colors
             hl.DiffDelete = { bg = '#3f2d3d', fg = '#3f2d3d' }
             hl.Folded = { link = 'Comment' }
+            hl.FloatBorder = { fg = 'grey' }
 
             -- LSP diagnostics colors
             hl.DiagnosticVirtualTextError = { bg = '#362c3d', fg = c.error, italic = true }
@@ -87,12 +89,44 @@ return require('packer').startup {
             hl.DiagnosticVirtualTextInfo = { bg = '#22374b', fg = c.info, italic = true }
             hl.DiagnosticVirtualTextWarn = { bg = '#373640', fg = c.warning, italic = true }
 
+            -- CoC colors
+            -- completion menu
+            hl.CocPumSearch = { link = 'CmpItemAbbrMatch' }
+            hl.CocPumShortcut = { fg = 'grey' }
+            -- completion kinds
+            hl.CocSymbolClass = { link = 'CmpItemKindClass' }
+            hl.CocSymbolConstant = { link = 'CmpItemKindConstant' }
+            hl.CocSymbolConstructor = { link = 'CmpItemKindConstructor' }
+            hl.CocSymbolDefault = { link = 'CmpItemKindDefault' }
+            hl.CocSymbolEnum = { link = 'CmpItemKindEnum' }
+            hl.CocSymbolEnumMember = { link = 'CmpItemKindEnumMember' }
+            hl.CocSymbolEvent = { link = 'CmpItemKindEvent' }
+            hl.CocSymbolField = { link = 'CmpItemKindField' }
+            hl.CocSymbolFile = { link = 'Normal' }
+            hl.CocSymbolFunction = { link = 'CmpItemKindFunction' }
+            hl.CocSymbolInterface = { link = 'CmpItemKindInterface' }
+            hl.CocSymbolKeyword = { link = 'CmpItemKindKeyword' }
+            hl.CocSymbolMethod = { link = 'CmpItemKindMethod' }
+            hl.CocSymbolModule = { link = 'CmpItemKindModule' }
+            hl.CocSymbolOperator = { link = 'CmpItemKindOperator' }
+            hl.CocSymbolProperty = { link = 'CmpItemKindProperty' }
+            hl.CocSymbolReference = { link = 'CmpItemKindReference' }
+            hl.CocSymbolSnippet = { link = 'CmpItemKindSnippet' }
+            hl.CocSymbolStruct = { link = 'CmpItemKindStruct' }
+            hl.CocSymbolText = { link = '' }
+            hl.CocSymbolTypeParameter = { link = 'CmpItemKindTypeParameter' }
+            hl.CocSymbolUnit = { link = 'CmpItemKindUnit' }
+            hl.CocSymbolValue = { link = 'CmpItemKindValue' }
+            hl.CocSymbolVariable = { link = 'CmpItemKindVariable' }
+            -- list
+            hl.CocListMode = { fg = c.fg_dark, bg = c.bg_dark }
+            hl.CocListPath = { fg = c.fg_dark, bg = c.bg_dark }
+            -- outline
+            hl.CocTreeOpenClose = { link = 'NvimTreeIndentMarker' }
+
             -- Misc plugins colors
             hl.IndentBlanklineContextChar = { bg = c.none, fg = c.comment, nocombine = true }
-            hl.NavicSeparator = { fg = c.blue7, italic = true }
-            hl.NavicText = { fg = c.comment, italic = true }
             hl.NvimTreeFolderIcon = { bg = c.none, fg = '#8094b4' } -- classic folder color
-            hl.TroubleNormal = { bg = c.none } -- avoid weird behavior with tint.nvim where bg color changes after enter/leave events
           end,
         }
 
@@ -271,18 +305,6 @@ return require('packer').startup {
       end,
     }
 
-    -- Auto pairs
-    use {
-      'windwp/nvim-autopairs',
-      after = 'nvim-cmp',
-      config = function()
-        require('nvim-autopairs').setup()
-        -- inserts `()` after selecting a function or method item from completion menu
-        local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
-        require('cmp').event:on('confirm_done', cmp_autopairs.on_confirm_done { map_char = { tex = '' } })
-      end,
-    }
-
     -- Tmux integration
     use {
       'christoomey/vim-tmux-navigator',
@@ -403,9 +425,6 @@ return require('packer').startup {
       keys = { { 'n', 'cs' }, { 'n', 'ds' }, { 'n', 'ys' }, { 'v', 'S' } },
     }
 
-    -- Markdown previewer
-    use { 'iamcco/markdown-preview.nvim', cmd = 'MarkdownPreview', run = ':call mkdp#util#install()' }
-
     -- Documentation generator
     use {
       'danymat/neogen',
@@ -422,7 +441,7 @@ return require('packer').startup {
       'nvim-lualine/lualine.nvim',
       after = 'tokyonight.nvim',
       config = function()
-        require 'plugins.statusline_basic'
+        require 'plugins.statusline'
       end,
     }
 
@@ -472,19 +491,16 @@ return require('packer').startup {
     use {
       'nvim-telescope/telescope.nvim',
       cmd = 'Telescope',
-      keys = { '<leader>ca' }, -- code action mapping
+      keys = { '<leader>g' }, -- grep with motion
       requires = {
         { 'nvim-lua/plenary.nvim', opt = true },
         { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', opt = true },
         { 'nvim-telescope/telescope-live-grep-args.nvim', opt = true },
-        { 'nvim-telescope/telescope-ui-select.nvim', opt = true },
       },
       wants = {
         'plenary.nvim',
         'telescope-fzf-native.nvim',
         'telescope-live-grep-args.nvim',
-        'telescope-ui-select.nvim',
-        'trouble.nvim',
         'vim-action-mapper',
       },
       setup = function()
@@ -588,217 +604,18 @@ return require('packer').startup {
     }
 
     -- CoC
-    local use_coc = vim.g.use_coc or false
     use {
       'neoclide/coc.nvim',
-      disable = not use_coc,
       branch = 'release',
-      requires = { 'fannheyward/telescope-coc.nvim', opt = true },
       config = function()
         require 'plugins.coc'
-      end,
-    }
-
-    -- Snippets
-    use {
-      'hrsh7th/vim-vsnip',
-      disable = use_coc,
-      event = { 'CmdWinEnter', 'InsertEnter' },
-      keys = { { 'n', 's' }, { 'x', 's' } },
-      requires = {
-        { 'hrsh7th/vim-vsnip-integ', opt = true },
-      },
-      config = function()
-        vim.g.vsnip_filetypes = {
-          javascript = { 'javascript', 'javascriptreact' },
-          javascriptreact = { 'javascript', 'javascriptreact' },
-          typescript = { 'javascript', 'javascriptreact' },
-          typescriptreact = { 'javascript', 'javascriptreact' },
-        }
-
-        vim.g.vsnip_snippet_dir = vim.fn.stdpath 'config' .. '/snippets'
-
-        -- Select use as $TM_SELECTED_TEXT in the next snippet
-        map('n', 's', '<Plug>(vsnip-select-text)')
-        map('x', 's', '<Plug>(vsnip-select-text)')
-      end,
-    }
-
-    -- Code Completion
-    use {
-      'hrsh7th/nvim-cmp',
-      event = { 'CmdlineEnter', 'CmdWinEnter', 'InsertEnter' },
-      disable = use_coc,
-      requires = {
-        { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
-        { 'hrsh7th/cmp-cmdline', after = 'nvim-cmp' },
-        { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
-        { 'hrsh7th/cmp-vsnip', after = 'nvim-cmp' },
-      },
-      config = function()
-        require 'plugins.completion'
-      end,
-    }
-
-    -- Native LSP
-    use {
-      'neovim/nvim-lspconfig',
-      disable = use_coc,
-      event = { 'BufReadPre', 'BufNewFile' },
-      requires = {
-        -- Enhanced LSP experience for TS
-        { 'jose-elias-alvarez/typescript.nvim', opt = true },
-        -- JSON schema store integration
-        { 'b0o/schemastore.nvim', opt = true },
-        -- Completion integration
-        { 'hrsh7th/cmp-nvim-lsp', opt = true },
-        -- Code context
-        { 'SmiteshP/nvim-navic', opt = true },
-      },
-      wants = {
-        'cmp-nvim-lsp',
-        'nvim-navic',
-        'schemastore.nvim',
-        'typescript.nvim',
-      },
-      config = function()
-        require 'plugins.lsp'
-      end,
-    }
-
-    -- Extract JSX components
-    use {
-      'napmn/react-extract.nvim',
-      keys = '<Leader>e',
-      requires = {
-        'neovim/nvim-lspconfig',
-        'nvim-treesitter/nvim-treesitter',
-      },
-      config = function()
-        local react_extract = require 'react-extract'
-        react_extract.setup()
-        map('v', '<Leader>e', react_extract.extract_to_new_file)
-      end,
-    }
-
-    -- Light bulb for LSP code actions
-    use {
-      'kosayoda/nvim-lightbulb',
-      after = 'nvim-lspconfig',
-      config = function()
-        require('nvim-lightbulb').setup {
-          sign = {
-            enabled = false,
-          },
-          virtual_text = {
-            enabled = true,
-            hl_mode = 'combine',
-            text = '',
-          },
-        }
-
-        highlight('LightBulbVirtualText', { fg = 'lightyellow' })
-
-        vim.cmd [[ au! CursorHold * lua require('nvim-lightbulb').update_lightbulb() ]]
-      end,
-    }
-
-    -- Symbols outline
-    use {
-      'mxsdev/symbols-outline.nvim', -- use fork until this PR is merged https://github.com/simrat39/symbols-outline.nvim/pull/169
-      branch = 'merge-jsx-tree',
-      keys = '<leader>co',
-      cmd = 'SymbolsOutline',
-      config = function()
-        map('n', '<leader>co', ':SymbolsOutline<CR>')
-
-        -- Darker bg and no window separator, just like nvim-tree
-        vim.cmd [[
-        autocmd! FileType Outline set signcolumn=no winhighlight=WinSeparator:NvimTreeWinSeparator,Normal:NvimTreeNormal
-        ]]
-
-        require('symbols-outline').setup {
-          autofold_depth = 1,
-          position = 'left',
-          keymaps = {
-            hover_symbol = 'K',
-            toggle_preview = 'p',
-            fold = 'x',
-            unfold = 'o',
-            fold_all = 'X',
-            unfold_all = 'O',
-            fold_reset = 'R',
-          },
-          symbol_blacklist = { 'Property', 'Variable' },
-          symbols = { -- custom symbols to match the ones used by nvim-navic
-            Array = { icon = '', hl = 'constant' },
-            Boolean = { icon = '◩', hl = 'boolean' },
-            Class = { icon = 'ﴯ', hl = 'type' },
-            Constant = { icon = '', hl = 'constant' },
-            Constructor = { icon = '', hl = 'constructor' },
-            Enum = { icon = '練', hl = 'type' },
-            EnumMember = { icon = '', hl = 'field' },
-            Event = { icon = '', hl = 'type' },
-            Field = { icon = '', hl = 'field' },
-            File = { icon = '', hl = 'uri' },
-            Function = { icon = '', hl = 'function' },
-            Interface = { icon = '練', hl = 'type' },
-            Key = { icon = '', hl = 'type' },
-            Method = { icon = '', hl = 'method' },
-            Module = { icon = '', hl = 'namespace' },
-            Namespace = { icon = '', hl = 'namespace' },
-            Null = { icon = 'ﳠ', hl = 'type' },
-            Number = { icon = '', hl = 'number' },
-            Object = { icon = '', hl = 'type' },
-            Operator = { icon = '', hl = 'operator' },
-            Package = { icon = '', hl = 'namespace' },
-            Property = { icon = '', hl = 'method' },
-            String = { icon = '', hl = 'string' },
-            Struct = { icon = '', hl = 'type' },
-            TypeParameter = { icon = '', hl = 'parameter' },
-            Variable = { icon = '', hl = 'constant' },
-          },
-        }
-      end,
-    }
-
-    -- Trouble
-    use {
-      'folke/trouble.nvim',
-      cmd = { 'Grep', 'Trouble' },
-      after = 'telescope.nvim',
-      setup = function()
-        -- quickfix/loclist integration
-        function OpenTrouble()
-          local buftype = 'quickfix'
-
-          if vim.fn.getloclist(0, { filewinid = 1 }).filewinid ~= 0 then
-            buftype = 'loclist'
-          end
-
-          local ok, trouble = pcall(require, 'trouble')
-          if ok and pcall(vim.api.nvim_win_close, 0, true) then
-            trouble.toggle(buftype)
-          else
-            local set = vim.opt_local
-            set.colorcolumn = ''
-            set.number = false
-            set.relativenumber = false
-            set.signcolumn = 'no'
-          end
-        end
-        vim.cmd [[ au! BufWinEnter quickfix silent :lua OpenTrouble() ]]
-      end,
-      config = function()
-        require('trouble').setup {}
       end,
     }
 
     -- Emmet
     use {
       'mattn/emmet-vim',
-      after = 'nvim-cmp',
-      keys = { 'i', '<C-y>,' },
+      keys = { { 'i', '<C-y>,' } },
     }
 
     -- Highlight hex colors

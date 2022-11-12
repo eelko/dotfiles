@@ -9,7 +9,6 @@ eval "$("$dircolors" -b "$HOME"/.LS_COLORS/LS_COLORS)"
 
 # fnm
 eval "$(fnm env)"
-export LATEST_NODE_PATH="$HOME/.fnm/aliases/latest/bin/node"
 
 # rvm
 rvm_init() {

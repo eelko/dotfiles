@@ -10,6 +10,9 @@ local fg = theme.normal.c.fg
 require('lualine').setup {
   options = {
     component_separators = { left = '', right = '' },
+    disabled_filetypes = {
+      statusline = { 'list' },
+    },
     section_separators = { left = '', right = '' },
     theme = {
       normal = {
@@ -34,7 +37,8 @@ require('lualine').setup {
           return not contains({ 'NvimTree', 'TelescopePrompt' }, vim.o.filetype)
         end,
       },
-      { 'diagnostics', icon = ' ', sources = { 'nvim_diagnostic' }, padding = { left = 3 } },
+      { 'g:coc_status', icon = '', padding = { left = 3 } },
+      { 'diagnostics', icon = ' ', sources = { 'coc' }, padding = { left = 3 } },
     },
     lualine_x = {},
     lualine_y = { 'progress' },

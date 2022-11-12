@@ -3,14 +3,6 @@ require 'utils'
 local actions = require 'telescope.actions'
 local lga_actions = require 'telescope-live-grep-args.actions'
 local telescope = require 'telescope'
-local trouble_telescope_provider = require 'trouble.providers.telescope'
-
--- Flips the location of the results/prompt and preview windows
-local mirrored_layout = {
-  layout_config = {
-    mirror = true,
-  },
-}
 
 telescope.setup {
   defaults = {
@@ -19,6 +11,7 @@ telescope.setup {
     -- appearance
     entry_prefix = '  ',
     layout_config = {
+      mirror = true,
       prompt_position = 'top',
       width = 0.5,
       height = 0.5,
@@ -39,40 +32,20 @@ telescope.setup {
         ['<C-d>'] = false,
         ['<C-e>'] = false,
         ['<C-u>'] = false,
-        -- Trouble integration
-        ['<c-t>'] = trouble_telescope_provider.open_with_trouble,
       },
     },
   },
   pickers = {
-    buffers = mirrored_layout,
-    commands = mirrored_layout,
-    current_buffer_fuzzy_find = mirrored_layout,
-    diagnostics = mirrored_layout,
     find_files = {
       hidden = true,
-      layout_config = {
-        mirror = true,
-      },
     },
-    grep_string = mirrored_layout,
-    lsp_dynamic_workspace_symbols = mirrored_layout,
-    oldfiles = mirrored_layout,
   },
   extensions = {
-    ['ui-select'] = {
-      require('telescope.themes').get_cursor {
-        selection_caret = ' ',
-      },
-    },
     live_grep_args = {
       mappings = {
         i = {
           ['<C-k>'] = lga_actions.quote_prompt(),
         },
-      },
-      layout_config = {
-        mirror = true,
       },
     },
   },
@@ -80,7 +53,6 @@ telescope.setup {
 
 telescope.load_extension 'fzf'
 telescope.load_extension 'live_grep_args'
-telescope.load_extension 'ui-select'
 
 -- Appearance
 -- Colors from https://github.com/thanhvule0310/dotfiles/blob/main/nvim/lua/theme.lua
@@ -134,10 +106,3 @@ vim.cmd [[
     execute('lua require("telescope.builtin").grep_string({search = "'.trim(a:text).'"})')
   endfunction
 ]]
-
--- Redefine code action mapping after lazy loading happens.
--- This had to be done here instead of doing it at `lsp.lua` so that Telescope
--- (along with telescope-ui-select.nvim) can be lazy-loaded upon hitting this
--- mapping. The reason is that lsp always loads before Telescope so it would
--- override Packer's key-based loader.
-map('n', '<leader>ca', vim.lsp.buf.code_action)
