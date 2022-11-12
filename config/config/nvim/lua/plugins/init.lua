@@ -808,7 +808,7 @@ return require('packer').startup {
             local floating = vim.api.nvim_win_get_config(winid).relative ~= ''
 
             -- Do not tint `terminal`, floating windows, etc, tint everything else
-            return buftype == 'terminal' or floating or contains({ 'NvimTree', 'Outline' }, filetype)
+            return buftype == 'terminal' or floating or contains({ 'NvimTree', 'Outline' }, filetype) or vim.o.diff
           end,
         }
       end,
