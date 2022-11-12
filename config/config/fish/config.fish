@@ -8,6 +8,7 @@ set --export MANPAGER 'nvim -c "Man!" -o -'
 set --export PATH "$HOME/.bin:$PATH"
 set --export PATH "$HOME/.dotfiles/node_modules/.bin:$PATH"
 set --export PATH "./node_modules/.bin:$PATH"
+set --export SHELL "/usr/local/bin/fish"
 
 # abbreviations
 abbr -a c 'cat'
