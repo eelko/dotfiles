@@ -686,7 +686,7 @@ return require('packer').startup {
 
         -- Darker bg and no window separator, just like nvim-tree
         vim.cmd [[
-        autocmd! FileType Outline set winhighlight=WinSeparator:NvimTreeWinSeparator,Normal:NvimTreeNormal
+        autocmd! FileType Outline set signcolumn=no winhighlight=WinSeparator:NvimTreeWinSeparator,Normal:NvimTreeNormal
         ]]
 
         require('symbols-outline').setup {
