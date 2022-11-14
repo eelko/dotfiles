@@ -912,6 +912,7 @@ key_bindings:
   - { key: B,              mods: Command, mode: ~Search,     action: None        }
 
   # (User mappings)
+  - { key: Q,      mods: Alt,                chars: "\x1bq"        }
   # OS integration
   - { key: N,      mods: Command,            action: CreateNewWindow }
   - { key: Return, mods: Command,            action: ToggleSimpleFullscreen }
