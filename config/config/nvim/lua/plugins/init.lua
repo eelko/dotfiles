@@ -467,6 +467,7 @@ return require('packer').startup {
         map('n', '<leader>fg', ':Telescope live_grep_args<CR>')
         map('n', '<leader>fh', ':Telescope command_history<CR>')
         map('n', '<leader>fl', ':Telescope current_buffer_fuzzy_find<CR>')
+        map('n', '<leader>fp', ':Telescope resume<CR>')
         map('n', '<leader>fr', ':Telescope oldfiles<CR>')
       end,
       config = function()
