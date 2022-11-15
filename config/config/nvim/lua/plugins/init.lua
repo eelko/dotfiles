@@ -783,38 +783,6 @@ return require('packer').startup {
       end,
     }
 
-    -- Fade inactive buffers
-    use {
-      'levouh/tint.nvim',
-      after = 'tokyonight.nvim',
-      config = function()
-        require('tint').setup {
-          focus_change_events = {
-            focus = { 'FocusGained', 'WinEnter' },
-            unfocus = { 'FocusLost', 'WinLeave' },
-          },
-          highlight_ignore_patterns = {
-            'Diff.*',
-            'EndOfBuffer',
-            'IndentBlankline.*',
-            'LineNr',
-            'NonText',
-            'Trouble.*',
-            'WinSeparator',
-          },
-          window_ignore_function = function(winid)
-            local bufid = vim.api.nvim_win_get_buf(winid)
-            local buftype = vim.api.nvim_buf_get_option(bufid, 'buftype')
-            local filetype = vim.api.nvim_buf_get_option(bufid, 'filetype')
-            local floating = vim.api.nvim_win_get_config(winid).relative ~= ''
-
-            -- Do not tint `terminal`, floating windows, etc, tint everything else
-            return buftype == 'terminal' or floating or contains({ 'NvimTree', 'Outline' }, filetype) or vim.o.diff
-          end,
-        }
-      end,
-    }
-
     -- Incremental fuzzy search motion
     use {
       'rlane/pounce.nvim',
