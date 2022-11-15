@@ -279,7 +279,7 @@ return require('packer').startup {
 
     -- File explorer
     use {
-      'kyazdani42/nvim-tree.lua',
+      'nvim-tree/nvim-tree.lua',
       cmd = { 'NvimTreeToggle', 'NvimTreeFindFile' },
       setup = function()
         map('n', '\\', ':NvimTreeToggle<CR>')
@@ -336,6 +336,7 @@ return require('packer').startup {
                 { key = 'x', cb = tree_cb 'close_node' },
               },
             },
+            width = 40,
           },
         }
       end,
