@@ -228,7 +228,7 @@ cnoreabbrev <expr> lgrep (getcmdtype() ==# ':' && getcmdline() ==# 'lgrep') ? 'L
 
 augroup quickfix
   autocmd!
-  autocmd FileType qf setlocal nobuflisted
+  autocmd FileType qf setlocal nobuflisted signcolumn=no
   autocmd QuickFixCmdPost cgetexpr nested cwindow
   autocmd QuickFixCmdPost lgetexpr nested lwindow
 augroup END
