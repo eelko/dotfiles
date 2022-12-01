@@ -35,11 +35,16 @@ yes | "$(brew --prefix)"/opt/fzf/install --no-fish --no-update-rc
 # Python3 bindings for Vim
 python3 -m pip install --user --upgrade pynvim
 
-# Tmux plugins
+# Install tmux plugins
 ~/.tmux/plugins/tpm/bin/install_plugins
 
-# Neovim plugins
-nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+# Install Fish Shell plugins
+fish -c 'while read -la plugin; fisher install $plugin; end < config/config/fish/fish_plugins'
 
-# Vale styles
-wget -qc https://github.com/errata-ai/Microsoft/releases/latest/download/Microsoft.zip -O - | tar -zxv -C /opt/vale-styles/
+# Download Vale styles
+VALE_STYLES_DIR=/opt/vale-styles/
+mkdir -p "$VALE_STYLES_DIR"
+wget -qc https://github.com/errata-ai/Microsoft/releases/latest/download/Microsoft.zip -O - | tar -zxv -C "$VALE_STYLES_DIR"
+
+# Install Neovim plugins
+nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
