@@ -452,6 +452,8 @@ return require('packer').startup {
         map('n', '<leader>aa', ':A<CR>')
         map('n', '<leader>as', ':AS<CR>')
         map('n', '<leader>av', ':AV<CR>')
+
+        require 'plugins.projections'
       end,
     }
 
