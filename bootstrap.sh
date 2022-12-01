@@ -29,8 +29,8 @@ git submodule foreach git pull origin master
 # shellcheck disable=SC2086
 find "$DOTFILES_HOME"/config/* -maxdepth 0 -exec bash -c 'ln -snv $1 ~/.$(basename $1)' _ {} \;
 
-# FZF keybindings
-yes | /usr/local/opt/fzf/install --no-update-rc
+# Install FZF key bindings and fuzzy completion (except for Fish Shell)
+yes | "$(brew --prefix)"/opt/fzf/install --no-fish --no-update-rc
 
 # Python3 bindings for Vim
 python3 -m pip install --user --upgrade pynvim
