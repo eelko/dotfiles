@@ -41,6 +41,8 @@ brew "ripgrep"
 brew "starship"
 brew "tmux"
 brew "tree"
+brew "wget"
+brew "zoxide"
 
 # casks
 cask "alacritty"
