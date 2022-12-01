@@ -95,7 +95,7 @@
   },
   "Describe": {
     "prefix": ["des"],
-    "body": ["describe('${1:some scenario}', ${2:async }() => {", "\t$0", "})"],
+    "body": ["describe('${1:some scenario}', () => {", "\t$0", "})"],
     "description": "Describe block"
   },
   "Test Case": {
