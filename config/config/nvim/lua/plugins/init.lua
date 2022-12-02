@@ -678,6 +678,9 @@ return require('packer').startup {
       config = function()
         require('notify').setup {
           max_width = 50,
+          on_open = function(win)
+            vim.api.nvim_win_set_config(win, { focusable = false })
+          end,
           stages = 'fade',
         }
 
