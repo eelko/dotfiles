@@ -276,6 +276,7 @@ return require('packer').startup {
           enhanced_diff_hl = false,
           hooks = {
             diff_buf_read = function(bufnr)
+              vim.opt_local.signcolumn = 'no'
               vim.opt_local.winbar = '%f ' .. (not vim.bo.modifiable and '' or '')
             end,
             view_opened = function(view)
