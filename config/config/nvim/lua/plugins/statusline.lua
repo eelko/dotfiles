@@ -7,6 +7,23 @@ local theme = require 'lualine.themes.tokyonight'
 local bg = theme.normal.b.bg
 local fg = theme.normal.c.fg
 
+local function split_name()
+  if vim.bo.buftype == 'nofile' then
+    return ''
+  end
+
+  local wininfo = vim.fn.getwininfo()
+  local open_files = 0
+
+  for id, win in pairs(wininfo) do
+    if vim.fn.bufname(win.bufnr) ~= '' then
+      open_files = open_files + 1
+    end
+  end
+
+  return (open_files > 1) and '%f' or ''
+end
+
 require('lualine').setup {
   options = {
     component_separators = { left = '', right = '' },
@@ -43,5 +60,11 @@ require('lualine').setup {
     lualine_x = {},
     lualine_y = { 'progress' },
     lualine_z = { 'location' },
+  },
+  winbar = {
+    lualine_a = { { split_name, color = 'WinBar' } },
+  },
+  inactive_winbar = {
+    lualine_a = { { split_name, color = 'WinBarNC' } },
   },
 }
