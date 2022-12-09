@@ -63,9 +63,9 @@ end
 # sponge
 set sponge_delay 10 # number of failed commands to keep at a time
 
-# utilities
-function cd --wraps=cd --description="List directory contents after cd"
-  builtin cd $argv && l
+# List directory contents after cd
+function list_after_cd_on_variable_pwd --on-variable PWD
+  l
 end
 
 # prompt
