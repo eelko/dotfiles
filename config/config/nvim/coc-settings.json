@@ -87,7 +87,7 @@
     "javascript": ["javascript"],
     "javascriptreact": ["javascript"],
     "typescript": ["javascript"],
-    "typescriptreact": ["javascript"]
+    "typescriptreact": ["javascript", "javascriptreact"]
   },
   "snippets.textmateSnippetsRoots": ["~/.config/nvim/snippets/"],
   "snippets.userSnippetsDirectory": "~/.config/nvim/snippets/"
