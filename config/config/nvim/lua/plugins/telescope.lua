@@ -1,108 +1,122 @@
-require 'utils'
+local map = require('utils').map
+local highlight = require('utils').highlight
 
-local actions = require 'telescope.actions'
-local lga_actions = require 'telescope-live-grep-args.actions'
-local telescope = require 'telescope'
+return {
+  'nvim-telescope/telescope.nvim',
+  cmd = 'Telescope',
+  dependencies = {
+    { 'nvim-lua/plenary.nvim' },
+    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+    { 'nvim-telescope/telescope-live-grep-args.nvim' },
+  },
+  init = function()
+    map('n', '<leader>fb', ':Telescope buffers<CR>')
+    map('n', '<leader>fc', ':Telescope commands<CR>')
+    map('n', '<leader>ff', ':Telescope find_files<CR>')
+    map('n', '<leader>fg', ':Telescope live_grep_args<CR>')
+    map('n', '<leader>fl', ':Telescope current_buffer_fuzzy_find<CR>')
+    map('n', '<leader>fp', ':Telescope resume<CR>')
+    map('n', '<leader>ft', ':Telescope<CR>')
+  end,
+  config = function()
+    local actions = require 'telescope.actions'
+    local lga_actions = require 'telescope-live-grep-args.actions'
+    local telescope = require 'telescope'
 
-telescope.setup {
-  defaults = {
-    -- misc options
-    file_ignore_patterns = { 'node_modules/', '.git/' },
-    -- appearance
-    entry_prefix = '  ',
-    layout_config = {
-      mirror = true,
-      prompt_position = 'top',
-      width = 0.5,
-      height = 0.5,
-    },
-    layout_strategy = 'vertical',
-    prompt_prefix = '     ',
-    selection_caret = '  ',
-    sorting_strategy = 'ascending',
-    -- mappings
-    mappings = {
-      i = {
-        ['<esc>'] = actions.close,
-        ['<up>'] = actions.cycle_history_prev,
-        ['<down>'] = actions.cycle_history_next,
-        ['<left>'] = actions.preview_scrolling_down,
-        ['<right>'] = actions.preview_scrolling_up,
-        -- Allow readline mappings to work
-        ['<C-d>'] = false,
-        ['<C-e>'] = false,
-        ['<C-u>'] = false,
-      },
-    },
-  },
-  pickers = {
-    find_files = {
-      hidden = true,
-    },
-  },
-  extensions = {
-    live_grep_args = {
-      mappings = {
-        i = {
-          ['<C-k>'] = lga_actions.quote_prompt(),
+    telescope.setup {
+      defaults = {
+        -- misc options
+        file_ignore_patterns = { 'node_modules/', '.git/' },
+        -- appearance
+        entry_prefix = '  ',
+        layout_config = {
+          mirror = true,
+          prompt_position = 'top',
+          width = 0.5,
+          height = 0.5,
+        },
+        layout_strategy = 'vertical',
+        prompt_prefix = '     ',
+        selection_caret = '  ',
+        sorting_strategy = 'ascending',
+        -- mappings
+        mappings = {
+          i = {
+            ['<esc>'] = actions.close,
+            ['<up>'] = actions.cycle_history_prev,
+            ['<down>'] = actions.cycle_history_next,
+            ['<left>'] = actions.preview_scrolling_down,
+            ['<right>'] = actions.preview_scrolling_up,
+            -- Allow readline mappings to work
+            ['<C-d>'] = false,
+            ['<C-e>'] = false,
+            ['<C-u>'] = false,
+          },
         },
       },
-    },
-  },
+      pickers = {
+        find_files = {
+          hidden = true,
+        },
+      },
+      extensions = {
+        live_grep_args = {
+          mappings = {
+            i = {
+              ['<C-k>'] = lga_actions.quote_prompt(),
+            },
+          },
+        },
+      },
+    }
+
+    telescope.load_extension 'fzf'
+    telescope.load_extension 'live_grep_args'
+
+    -- Appearance
+    -- Colors from https://github.com/thanhvule0310/dotfiles/blob/main/nvim/lua/theme.lua
+    local colors = {
+      bg = '#2e3440',
+      fg = '#ECEFF4',
+      red = '#bf616a',
+      orange = '#d08770',
+      yellow = '#ebcb8b',
+      blue = '#5e81ac',
+      green = '#a3be8c',
+      cyan = '#88c0d0',
+      magenta = '#b48ead',
+      pink = '#FFA19F',
+      grey1 = '#f8fafc',
+      grey2 = '#f0f1f4',
+      grey3 = '#eaecf0',
+      grey4 = '#d9dce3',
+      grey5 = '#c4c9d4',
+      grey6 = '#b5bcc9',
+      grey7 = '#929cb0',
+      grey8 = '#8e99ae',
+      grey9 = '#74819a',
+      grey10 = '#616d85',
+      grey11 = '#464f62',
+      grey12 = '#3a4150',
+      grey13 = '#333a47',
+      grey14 = '#242932',
+      grey15 = '#1e222a',
+      grey16 = '#1c1f26',
+      grey17 = '#0f1115',
+      grey18 = '#0d0e11',
+      grey19 = '#020203',
+    }
+
+    highlight('TelescopePromptNormal', { bg = colors.grey13 })
+    highlight('TelescopeResultsNormal', { bg = colors.grey15 })
+    highlight('TelescopePreviewNormal', { bg = colors.grey16 })
+
+    highlight('TelescopePromptBorder', { bg = colors.grey13, fg = colors.grey13 })
+    highlight('TelescopeResultsBorder', { bg = colors.grey15, fg = colors.grey15 })
+    highlight('TelescopePreviewBorder', { bg = colors.grey16, fg = colors.grey16 })
+
+    highlight('TelescopePromptTitle', { fg = colors.grey5 })
+    highlight('TelescopeResultsTitle', { fg = colors.grey15 })
+    highlight('TelescopePreviewTitle', { fg = colors.grey16 })
+  end,
 }
-
-telescope.load_extension 'fzf'
-telescope.load_extension 'live_grep_args'
-
--- Appearance
--- Colors from https://github.com/thanhvule0310/dotfiles/blob/main/nvim/lua/theme.lua
-local colors = {
-  bg = '#2e3440',
-  fg = '#ECEFF4',
-  red = '#bf616a',
-  orange = '#d08770',
-  yellow = '#ebcb8b',
-  blue = '#5e81ac',
-  green = '#a3be8c',
-  cyan = '#88c0d0',
-  magenta = '#b48ead',
-  pink = '#FFA19F',
-  grey1 = '#f8fafc',
-  grey2 = '#f0f1f4',
-  grey3 = '#eaecf0',
-  grey4 = '#d9dce3',
-  grey5 = '#c4c9d4',
-  grey6 = '#b5bcc9',
-  grey7 = '#929cb0',
-  grey8 = '#8e99ae',
-  grey9 = '#74819a',
-  grey10 = '#616d85',
-  grey11 = '#464f62',
-  grey12 = '#3a4150',
-  grey13 = '#333a47',
-  grey14 = '#242932',
-  grey15 = '#1e222a',
-  grey16 = '#1c1f26',
-  grey17 = '#0f1115',
-  grey18 = '#0d0e11',
-  grey19 = '#020203',
-}
-
-highlight('TelescopePromptNormal', { bg = colors.grey13 })
-highlight('TelescopeResultsNormal', { bg = colors.grey15 })
-highlight('TelescopePreviewNormal', { bg = colors.grey16 })
-
-highlight('TelescopePromptBorder', { bg = colors.grey13, fg = colors.grey13 })
-highlight('TelescopeResultsBorder', { bg = colors.grey15, fg = colors.grey15 })
-highlight('TelescopePreviewBorder', { bg = colors.grey16, fg = colors.grey16 })
-
-highlight('TelescopePromptTitle', { fg = colors.grey5 })
-highlight('TelescopeResultsTitle', { fg = colors.grey15 })
-highlight('TelescopePreviewTitle', { fg = colors.grey16 })
-
--- Integration with vim-action-mapper
-vim.cmd [[
-  function! GrepWithMotion(text, type)
-    execute('lua require("telescope.builtin").grep_string({search = "'.trim(a:text).'"})')
-  endfunction
-]]

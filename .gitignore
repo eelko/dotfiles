@@ -8,13 +8,11 @@ package-lock.json
 config/config/*
 config/config/fish/*
 config/config/nvim/*
-config/config/nvim/plugin/packer_compiled.lua
 # but skip the folders themselves
 !config/config/
 !config/config/fish/
 !config/config/nvim/
 !config/config/nvim/lua/
-!config/config/nvim/plugin/
 !config/config/nvim/snippets/
 # so that it's possible to version a few specific files
 !config/config/efm-langserver
@@ -22,6 +20,5 @@ config/config/nvim/plugin/packer_compiled.lua
 !config/config/fish/fish_plugins
 !config/config/nvim/coc-settings.json
 !config/config/nvim/init.lua
-!config/config/nvim/init.vim
-!config/config/nvim/packer-lock.json
+!config/config/nvim/lazy-lock.json
 !config/config/starship*.toml

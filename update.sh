@@ -21,7 +21,7 @@ npm update
 ~/.tmux/plugins/tpm/bin/update_plugins all
 
 # Neovim plugins
-nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+nvim --headless '+Lazy sync' +qa
 
 # Vale styles
 wget -qc https://github.com/errata-ai/Microsoft/releases/latest/download/Microsoft.zip -O - | tar -zxv -C /opt/vale-styles/

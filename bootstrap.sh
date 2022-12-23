@@ -47,4 +47,4 @@ mkdir -p "$VALE_STYLES_DIR"
 wget -qc https://github.com/errata-ai/Microsoft/releases/latest/download/Microsoft.zip -O - | tar -zxv -C "$VALE_STYLES_DIR"
 
 # Install Neovim plugins
-nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+nvim --headless '+Lazy sync' +qa

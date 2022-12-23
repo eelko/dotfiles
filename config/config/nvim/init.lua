@@ -1,3 +1,4 @@
+vim.cmd [[
 " --- OPTIONS ---
 
 " Misc
@@ -227,13 +228,11 @@ augroup quickfix
   autocmd QuickFixCmdPost lgetexpr nested lwindow
 augroup END
 
-" --- PLUGINS ---
-
-lua pcall(require, 'impatient')
-lua require('plugins')
-
 " --- TEMPORARY CONFIGS ---
 
 if filereadable(expand('~/.vimrc.local.vim'))
   source ~/.vimrc.local.vim
 endif
+]]
+
+require 'packages'
