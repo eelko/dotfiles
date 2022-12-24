@@ -1,6 +1,7 @@
 {
   /* general */
   "coc.preferences.formatOnSave": true,
+  "colors.enable": true,
   /* diagnostics */
   "diagnostic.enableHighlightLineNumber": false,
   "diagnostic.errorSign": "",
