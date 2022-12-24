@@ -27,4 +27,31 @@ require('lazy').setup('plugins', {
   install = {
     colorscheme = { 'tokyonight', 'habamax' },
   },
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        '2html_plugin',
+        'getscript',
+        'getscriptPlugin',
+        'gzip',
+        'logipat',
+        'matchit',
+        'matchparen',
+        'netrw',
+        'netrwFileHandlers',
+        'netrwPlugin',
+        'netrwSettings',
+        'rrhelper',
+        'spellfile_plugin',
+        'tar',
+        'tarPlugin',
+        'tohtml',
+        'tutor',
+        'vimball',
+        'vimballPlugin',
+        'zip',
+        'zipPlugin',
+      },
+    },
+  },
 })
