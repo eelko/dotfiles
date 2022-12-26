@@ -1,18 +1,26 @@
 {
+  "add plugin": {
+    "prefix": "use",
+    "body": [
+      "return { '${1:plugin name}',",
+      "\t${2:event = '${3:event name}',}",
+      "\t${4:keys = { '${5:key spec}' \\}},",
+      "\t${6:dependencies = '${7}',}",
+      "\t${8:config = function()${0}end,}",
+      "}"
+    ],
+    "description": "add plugin spec"
+  },
   "log selected text": {
     "prefix": "l",
     "body": ["print('==> $CLIPBOARD:', vim.inspect($CLIPBOARD))$0"],
     "description": "log selected text"
   },
-  "add plugin": {
-    "prefix": "use",
+  "map": {
+    "prefix": "map",
     "body": [
-      "use { '${1:plugin name}',",
-      "\t${2:config = function()",
-      "\t\t${3}",
-      "\tend,}",
-      "}$0"
+      "map('${1:n}', '${2:lhs}', '${3:rhs}', { desc = '${4:description}' })${0}"
     ],
-    "description": "add plugin"
+    "description": "add key mapping"
   }
 }
