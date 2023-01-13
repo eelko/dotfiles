@@ -11,7 +11,7 @@ map('c', '<cp>', '<up>', { desc = 'Go to previous entry in command history' })
 -- Normal mode
 map('n', '<c-n>', ':bnext<cr>', { desc = 'Go to next buffer' })
 map('n', '<c-p>', ':bprev<cr>', { desc = 'Go to previous buffer' })
-map('n', '<c-w>tc', ':tabnew %<cr>', { desc = 'Close current tab' })
+map('n', '<c-w>tc', ':tabclose', { desc = 'Close current tab' })
 map('n', '<c-w>tn', ':tabnew %<cr>', { desc = 'Create new tab' })
 map('n', '<esc>', ':nohlsearch<cr>', { desc = 'Clear highlighted search matches' })
 map(
