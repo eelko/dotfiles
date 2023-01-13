@@ -77,6 +77,7 @@ return {
       inactive_winbar = {
         lualine_a = { { split_name, color = 'WinBarNC' } },
       },
+      extensions = { 'quickfix', 'nvim-tree' },
     }
   end,
 }
