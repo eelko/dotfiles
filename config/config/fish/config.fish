@@ -9,6 +9,7 @@ set --export PATH "$HOME/.bin:$PATH"
 set --export PATH "$HOME/.dotfiles/node_modules/.bin:$PATH"
 set --export PATH "./node_modules/.bin:$PATH"
 set --export SHELL "/usr/local/bin/fish"
+set --export TERM 'wezterm' # enable undercurl support on Neovim under Wezterm
 
 # abbreviations
 abbr -a c 'cat'
@@ -28,7 +29,7 @@ abbr -a gst 'git status -sb'
 abbr -a gwc 'git whatchanged -1'
 
 # aliases
-alias e  "$EDITOR"
+alias e "$EDITOR"
 
 alias ls 'lsd'
 alias l  'ls -l --group-dirs=first --date relative'
@@ -44,6 +45,7 @@ source "$HOME/.LS_COLORS/lscolors.csh" # better ls colors
 # fzf
 set --export FZF_DEFAULT_OPTS '--multi'
 set --export FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --bind 'alt-a:select-all,alt-d:kill-word,alt-t:toggle-all,ctrl-j:accept,ctrl-k:kill-line,ctrl-n:down,ctrl-p:up,up:previous-history,down:next-history'"
+set --export FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --height=50%"
 set --export FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --history=$HOME/.fzf_history"
 set --export FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --layout=reverse"
 set --export FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --tiebreak=end"
@@ -60,12 +62,15 @@ function fzf --wraps=fzf --description="Use fzf-tmux if in tmux session"
   end
 end
 
-# List directory contents after cd
+# list directory contents after cd
 function list_after_cd_on_variable_pwd --on-variable PWD
   l
 end
 
 # prompt
 starship init fish | source
+
+# enable WezTerm shell integration
+source ~/.config/fish/shell-integration.fish
 
 # vim: set commentstring=#%s :

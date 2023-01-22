@@ -1,6 +1,5 @@
 .DS_Store
 .tags
-config/tmux/plugins/
 node_modules/
 package-lock.json
 
@@ -19,6 +18,7 @@ config/config/nvim/lua/config/local.lua
 !config/config/efm-langserver
 !config/config/fish/config.fish
 !config/config/fish/fish_plugins
+!config/config/fish/shell-integration.fish
 !config/config/nvim/coc-settings.json
 !config/config/nvim/init.lua
 !config/config/nvim/lazy-lock.json

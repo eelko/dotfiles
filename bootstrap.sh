@@ -46,5 +46,11 @@ VALE_STYLES_DIR=/opt/vale-styles/
 mkdir -p "$VALE_STYLES_DIR"
 wget -qc https://github.com/errata-ai/Microsoft/releases/latest/download/Microsoft.zip -O - | tar -zxv -C "$VALE_STYLES_DIR"
 
+# Enable undercurl support for Wezterm+Neovim
+tempfile=$(mktemp) \
+  && curl -o "$tempfile" https://raw.githubusercontent.com/wez/wezterm/master/termwiz/data/wezterm.terminfo \
+  && tic -x -o ~/.terminfo "$tempfile" \
+  && rm "$tempfile"
+
 # Install Neovim plugins
 nvim --headless '+Lazy sync' +qa
