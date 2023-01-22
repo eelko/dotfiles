@@ -24,6 +24,10 @@ require('lazy').setup('plugins', {
     notify = false,
     frequency = 86400, -- check for updates once a day
   },
+  change_detection = {
+    enabled = true,
+    notify = false,
+  },
   install = {
     colorscheme = { 'tokyonight', 'habamax' },
   },
