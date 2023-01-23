@@ -91,7 +91,9 @@
     "typescriptreact": ["javascript", "javascriptreact"]
   },
   "snippets.textmateSnippetsRoots": ["~/.config/nvim/snippets/"],
-  "snippets.userSnippetsDirectory": "~/.config/nvim/snippets/"
+  "snippets.userSnippetsDirectory": "~/.config/nvim/snippets/",
+  /* coc-react-refactor */
+  "react-refactor.produceClass": false
 }
 
 // vim: filetype=jsonc
