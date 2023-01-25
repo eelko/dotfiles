@@ -1,6 +1,3 @@
-local map = require('utils').map
-local highlight = require('utils').highlight
-
 return {
   'nvim-telescope/telescope.nvim',
   cmd = 'Telescope',
@@ -10,6 +7,7 @@ return {
     { 'nvim-telescope/telescope-live-grep-args.nvim' },
   },
   init = function()
+    local map = require('utils').map
     map('n', '<leader>fb', ':Telescope buffers<CR>')
     map('n', '<leader>fc', ':Telescope commands<CR>')
     map('n', '<leader>ff', ':Telescope find_files<CR>')
@@ -106,6 +104,8 @@ return {
       grey18 = '#0d0e11',
       grey19 = '#020203',
     }
+
+    local highlight = require('utils').highlight
 
     highlight('TelescopePromptNormal', { bg = colors.grey13 })
     highlight('TelescopeResultsNormal', { bg = colors.grey15 })

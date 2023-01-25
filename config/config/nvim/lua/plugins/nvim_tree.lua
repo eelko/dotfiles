@@ -1,12 +1,13 @@
-local map = require('utils').map
-local highlight = require('utils').highlight
-
 return {
   'nvim-tree/nvim-tree.lua',
   keys = {
     { '\\', ':NvimTreeToggle<CR>', silent = true },
   },
   config = function()
+    local utils = require 'utils'
+    local map = utils.map
+    local highlight = utils.highlight
+
     local config = require 'tokyonight.config'
     local colors = require('tokyonight.colors').setup(config)
 

@@ -1,9 +1,9 @@
-local map = require('utils').map
-
 return {
   'tpope/vim-projectionist',
   event = 'VeryLazy',
   config = function()
+    local map = require('utils').map
+
     map('n', '<leader>aa', ':A<CR>')
     map('n', '<leader>as', ':AS<CR>')
     map('n', '<leader>av', ':AV<CR>')

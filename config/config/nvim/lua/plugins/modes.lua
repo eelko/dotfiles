@@ -1,5 +1,3 @@
-local highlight = require('utils').highlight
-
 return {
   'mvllow/modes.nvim',
   event = 'VeryLazy',
@@ -7,6 +5,8 @@ return {
     require('modes').setup {
       set_cursorline = false,
     }
+
+    local highlight = require('utils').highlight
 
     -- Highlight numbers fg only
     highlight('ModesCopyCursorLineNr', { fg = '#f5c359', bold = true })

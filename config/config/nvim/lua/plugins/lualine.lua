@@ -1,26 +1,24 @@
-local contains = require('utils').contains
-
-local function split_name()
-  if vim.bo.buftype == 'nofile' then
-    return ''
-  end
-
-  local wininfo = vim.fn.getwininfo()
-  local open_files = 0
-
-  for id, win in pairs(wininfo) do
-    if vim.fn.bufname(win.bufnr) ~= '' then
-      open_files = open_files + 1
-    end
-  end
-
-  return (open_files > 1) and '%f' or ''
-end
-
 return {
   'nvim-lualine/lualine.nvim',
   event = 'UIEnter',
   config = function()
+    local function split_name()
+      if vim.bo.buftype == 'nofile' then
+        return ''
+      end
+
+      local wininfo = vim.fn.getwininfo()
+      local open_files = 0
+
+      for id, win in pairs(wininfo) do
+        if vim.fn.bufname(win.bufnr) ~= '' then
+          open_files = open_files + 1
+        end
+      end
+
+      return (open_files > 1) and '%f' or ''
+    end
+
     local config = require 'tokyonight.config'
     local colors = require('tokyonight.colors').setup(config)
     local theme = require 'lualine.themes.tokyonight'
@@ -55,6 +53,7 @@ return {
             'filename',
             symbols = { modified = ' ', readonly = ' ' },
             cond = function()
+              local contains = require('utils').contains
               return not contains({ 'NvimTree', 'TelescopePrompt' }, vim.o.filetype)
             end,
           },

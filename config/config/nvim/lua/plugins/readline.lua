@@ -1,9 +1,8 @@
-local map = require('utils').map
-
 return {
   'linty-org/readline.nvim',
   event = { 'CmdlineEnter', 'CmdWinEnter', 'InsertEnter' },
   config = function()
+    local map = require('utils').map
     local readline = require 'readline'
 
     map('!', '<C-k>', readline.kill_line)

@@ -14,6 +14,8 @@ return {
     'windwp/nvim-autopairs',
   },
   config = function()
+    local map = require('utils').map
+
     -- LSP
     require('mason').setup()
 
@@ -35,7 +37,7 @@ return {
                 desc = '[LSP] ' .. desc
               end
 
-              require('utils').map('n', keys, func, { buffer = bufnr, desc = desc })
+              map('n', keys, func, { buffer = bufnr, desc = desc })
             end
 
             -- Code navigation

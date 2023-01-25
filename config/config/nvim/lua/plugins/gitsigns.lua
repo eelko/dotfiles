@@ -1,10 +1,9 @@
-local map = require('utils').map
-
 return {
   'lewis6991/gitsigns.nvim',
   event = 'UIEnter',
   dependencies = 'nvim-lua/plenary.nvim',
   config = function()
+    local map = require('utils').map
     map('n', '<leader>gb', ':Gitsigns blame_line<CR>')
 
     require('gitsigns').setup {

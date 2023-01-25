@@ -1,5 +1,3 @@
-local contains = require('utils').contains
-
 return {
   'obxhdx/vim-action-mapper',
   dependencies = 'nvim-telescope/telescope.nvim',
@@ -8,6 +6,9 @@ return {
     { '<Leader>r', mode = { 'n', 'v' } },
   },
   config = function()
+    local utils = require 'utils'
+    local contains = utils.contains
+
     function _G.find_and_replace(text, type)
       local visual_modes = { 'v', '^V' }
       local use_word_boundary = not contains(visual_modes, type)
@@ -15,7 +16,7 @@ return {
       local new_text = vim.fn.input('Replace ' .. pattern .. ' with: ', text)
 
       if #new_text > 0 then
-        require('utils').exec_preserving_cursor_pos(',$s/' .. pattern .. '/' .. new_text .. '/gc')
+        utils.exec_preserving_cursor_pos(',$s/' .. pattern .. '/' .. new_text .. '/gc')
       end
     end
 
