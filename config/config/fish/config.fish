@@ -60,9 +60,6 @@ function fzf --wraps=fzf --description="Use fzf-tmux if in tmux session"
   end
 end
 
-# sponge
-set sponge_delay 10 # number of failed commands to keep at a time
-
 # List directory contents after cd
 function list_after_cd_on_variable_pwd --on-variable PWD
   l
