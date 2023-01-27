@@ -1,6 +1,9 @@
 return {
   'nvim-treesitter/nvim-treesitter',
-  dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
+  dependencies = {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    'JoosepAlviste/nvim-ts-context-commentstring',
+  },
   event = { 'BufNewFile', 'BufReadPre' },
   build = ':TSUpdate',
   config = function()
@@ -39,9 +42,33 @@ return {
       indent = {
         enable = true,
       },
-      -- Context aware comments (nvim-ts-context-commentstring)
+
+      -- nvim-ts-context-commentstring
       context_commentstring = {
         enable = true,
+      },
+
+      -- nvim-treesitter/nvim-treesitter-textobjects
+      textobjects = {
+        select = {
+          enable = true,
+          lookahead = true, -- automatically jump forward to textobj, similar to targets.vim
+          keymaps = {
+            ['ib'] = '@block.inner',
+            ['ab'] = '@block.outer',
+            ['ii'] = '@call.inner',
+            ['ai'] = '@call.outer',
+            -- ['ac'] = '@comment.outer',
+            ['ic'] = '@conditional.inner',
+            ['ac'] = '@conditional.outer',
+            ['af'] = '@function.outer',
+            ['if'] = '@function.inner',
+            ['il'] = '@loop.inner',
+            ['al'] = '@loop.outer',
+            ['ia'] = '@parameter.inner',
+            ['aa'] = '@parameter.outer',
+          },
+        },
       },
     }
   end,
