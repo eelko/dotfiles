@@ -73,4 +73,10 @@ starship init fish | source
 # enable WezTerm shell integration
 source ~/.config/fish/shell-integration.fish
 
+# load local configs
+set LOCAL_CONFIG "$HOME/.local.config.fish"
+if test -e "$LOCAL_CONFIG"
+  source $LOCAL_CONFIG
+end
+
 # vim: set commentstring=#%s :
