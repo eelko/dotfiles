@@ -10,6 +10,7 @@ return {
         hl.NormalFloat = { bg = '#414141' }
 
         -- CoC colors
+        hl.CocHighlightText = { link = 'LspReferenceText' }
         -- completion menu
         hl.CocPumSearch = { link = 'CmpItemAbbrMatch' }
         hl.CocPumShortcut = { fg = 'grey' }
@@ -33,7 +34,7 @@ return {
         hl.CocSymbolReference = { link = 'CmpItemKindReference' }
         hl.CocSymbolSnippet = { link = 'CmpItemKindSnippet' }
         hl.CocSymbolStruct = { link = 'CmpItemKindStruct' }
-        hl.CocSymbolText = { link = '' }
+        -- hl.CocSymbolText = { link = '' }
         hl.CocSymbolTypeParameter = { link = 'CmpItemKindTypeParameter' }
         hl.CocSymbolUnit = { link = 'CmpItemKindUnit' }
         hl.CocSymbolValue = { link = 'CmpItemKindValue' }
