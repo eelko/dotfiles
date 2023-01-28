@@ -8,6 +8,16 @@ end, {
   desc = 'Close all buffers except the ones visible (including split or tabs)',
 })
 
+vim.api.nvim_create_user_command('DiffToggle', function()
+  if vim.o.diff then
+    vim.cmd 'windo diffoff'
+  else
+    vim.cmd 'windo diffthis'
+  end
+end, {
+  desc = 'Show or hide differences between all open split buffers',
+})
+
 vim.api.nvim_create_user_command('StripTrailingWhitespaces', function()
   require('utils').exec_preserving_cursor_pos '%s/\\s\\+$//g'
 end, {
