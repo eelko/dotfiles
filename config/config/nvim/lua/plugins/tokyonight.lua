@@ -6,10 +6,11 @@ return {
       sidebars = { 'coctree', 'list', 'qf' },
       on_highlights = function(hl, c)
         hl.DiffDelete = { bg = c.diff.delete, fg = c.diff.delete }
-        hl.FloatBorder = { fg = 'grey', bg = '#414141' }
+        hl.FloatBorder = { fg = 'Grey', bg = '#414141' }
         hl.Folded = { link = 'Comment' }
         hl.NormalFloat = { bg = '#414141' }
         hl.StatusLine = { bg = c.fg_gutter, fg = c.fg_sidebar }
+        hl.WinBarNC = { fg = 'Grey', bold = true }
 
         -- Bufferline
         hl.BufferLineIndicatorSelected = { link = 'BufferLineSeparatorSelected' } -- underline for entire "tab"
@@ -18,7 +19,7 @@ return {
         hl.CocHighlightText = { link = 'LspReferenceText' }
         -- completion menu
         hl.CocPumSearch = { link = 'CmpItemAbbrMatch' }
-        hl.CocPumShortcut = { fg = 'grey' }
+        hl.CocPumShortcut = { fg = 'Grey' }
         -- completion kinds
         hl.CocSymbolClass = { link = 'CmpItemKindClass' }
         hl.CocSymbolConstant = { link = 'CmpItemKindConstant' }
