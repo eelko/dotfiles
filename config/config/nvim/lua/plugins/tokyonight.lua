@@ -11,6 +11,9 @@ return {
         hl.NormalFloat = { bg = '#414141' }
         hl.StatusLine = { bg = c.fg_gutter, fg = c.fg_sidebar }
 
+        -- Bufferline
+        hl.BufferLineIndicatorSelected = { link = 'BufferLineSeparatorSelected' } -- underline for entire "tab"
+
         -- CoC colors
         hl.CocHighlightText = { link = 'LspReferenceText' }
         -- completion menu

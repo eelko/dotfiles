@@ -22,6 +22,9 @@ return {
           delay = 100,
           reveal = { 'close' },
         },
+        indicator = {
+          style = 'underline',
+        },
         max_name_length = 50,
         modified_icon = '',
         offsets = {
