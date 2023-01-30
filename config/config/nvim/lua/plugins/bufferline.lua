@@ -10,9 +10,6 @@ return {
           bold = false,
           italic = false,
         },
-        close_button_selected = {
-          fg = 'Grey',
-        },
       },
       options = {
         buffer_close_icon = '',

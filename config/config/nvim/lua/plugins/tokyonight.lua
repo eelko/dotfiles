@@ -13,6 +13,7 @@ return {
         hl.WinBarNC = { fg = 'Grey', bold = true }
 
         -- Bufferline
+        hl.BufferLineCloseButtonSelected = { fg = c.dark5, sp = c.blue, underline = true }
         hl.BufferLineIndicatorSelected = { link = 'BufferLineSeparatorSelected' } -- underline for entire "tab"
 
         -- CoC colors
