@@ -44,6 +44,21 @@ return {
         hl.CocListPath = { fg = c.fg_dark, bg = c.bg_dark }
         -- outline
         hl.CocTreeOpenClose = { link = 'NvimTreeIndentMarker' }
+
+        -- Telescope
+        local prompt = '#2d3149'
+        -- normal
+        hl.TelescopeNormal = { bg = c.bg_dark, fg = c.fg_dark }
+        hl.TelescopePromptNormal = { bg = prompt }
+        hl.TelescopePreviewNormal = { bg = c.border }
+        -- borders
+        hl.TelescopeBorder = { bg = c.bg_dark, fg = c.bg_dark }
+        hl.TelescopePromptBorder = { bg = prompt, fg = prompt }
+        hl.TelescopePreviewBorder = { bg = c.border, fg = c.border }
+        -- title
+        hl.TelescopePromptTitle = { bg = prompt, fg = c.fg_dark }
+        hl.TelescopeResultsTitle = { bg = c.bg_dark, fg = c.bg_dark }
+        hl.TelescopePreviewTitle = { bg = c.border, fg = c.border }
       end,
     }
 
