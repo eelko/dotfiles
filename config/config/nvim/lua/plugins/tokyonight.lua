@@ -45,6 +45,9 @@ return {
         -- outline
         hl.CocTreeOpenClose = { link = 'NvimTreeIndentMarker' }
 
+        -- Indent Blank Line
+        hl.IndentBlanklineSpaceChar = { link = 'NonText' }
+
         -- Telescope
         local prompt = '#2d3149'
         -- normal
