@@ -1,5 +1,6 @@
 return {
   'folke/tokyonight.nvim',
+  event = 'VimEnter',
   config = function()
     require('tokyonight').setup {
       sidebars = { 'coctree', 'list', 'qf' },
@@ -8,6 +9,7 @@ return {
         hl.FloatBorder = { fg = 'grey', bg = '#414141' }
         hl.Folded = { link = 'Comment' }
         hl.NormalFloat = { bg = '#414141' }
+        hl.StatusLine = { bg = c.fg_gutter, fg = c.fg_sidebar }
 
         -- CoC colors
         hl.CocHighlightText = { link = 'LspReferenceText' }

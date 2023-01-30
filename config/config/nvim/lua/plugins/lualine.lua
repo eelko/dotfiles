@@ -19,13 +19,6 @@ return {
       return (open_files > 1) and '%f' or ''
     end
 
-    local config = require 'tokyonight.config'
-    local colors = require('tokyonight.colors').setup(config)
-    local theme = require 'lualine.themes.tokyonight'
-
-    local bg = theme.normal.b.bg
-    local fg = theme.normal.c.fg
-
     require('lualine').setup {
       options = {
         component_separators = { left = '', right = '' },
@@ -33,13 +26,7 @@ return {
           statusline = { 'list' },
         },
         section_separators = { left = '', right = '' },
-        theme = {
-          normal = {
-            a = { bg = bg, fg = fg },
-            b = { bg = bg, fg = fg },
-            c = { bg = bg, fg = fg },
-          },
-        },
+        theme = 'monotone',
       },
       sections = {
         lualine_a = { { 'mode', color = { gui = 'bold' } } },
@@ -64,7 +51,7 @@ return {
           {
             require('lazy.status').updates,
             cond = require('lazy.status').has_updates,
-            color = { fg = colors.orange },
+            color = { fg = 'orange' },
           },
         },
         lualine_y = { 'progress' },
