@@ -4,18 +4,14 @@ return {
   config = function()
     vim.o.mousemoveevent = true
 
-    local config = require 'tokyonight.config'
-    local colors = require('tokyonight.colors').setup(config)
-
     require('bufferline').setup {
       highlights = {
         buffer_selected = {
-          fg = colors.fg_dark,
           bold = false,
           italic = false,
         },
         close_button_selected = {
-          fg = colors.comment,
+          fg = 'Grey',
         },
       },
       options = {
