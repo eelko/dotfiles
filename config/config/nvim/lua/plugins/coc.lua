@@ -66,9 +66,9 @@ return {
     )
 
     -- List commands
-    nmap('<leader>ce', ':<C-u>CocList diagnostics<cr>', { desc = 'Show all diagnostics', nowait = true })
+    nmap('<leader>ce', ':<C-u>CocList -A diagnostics<cr>', { desc = 'Show all diagnostics', nowait = true })
     nmap('<leader>cc', ':<C-u>CocList commands<cr>', { desc = 'Show all available LSP commands', nowait = true })
-    nmap('<leader>cs', ':<C-u>CocList -I symbols<cr>', { desc = 'Search workspace symbols', nowait = true })
+    nmap('<leader>cs', ':<C-u>CocList -A -I symbols<cr>', { desc = 'Search workspace symbols', nowait = true })
     nmap('<leader>p', ':<C-u>CocListResume<cr>', { desc = 'Resume previous CoC list', nowait = true })
 
     -- Auto complete
