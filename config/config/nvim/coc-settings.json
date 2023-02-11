@@ -57,6 +57,7 @@
     "value": "",
     "variable": ""
   },
+  "suggest.enablePreselect": false, // The preselect feature may occasionally break Neovim's undo system (https://github.com/neoclide/coc.nvim/issues/1412)
   /* float windows */
   "dialog.floatBorderHighlight": "FloatBorder",
   "dialog.rounded": false,
