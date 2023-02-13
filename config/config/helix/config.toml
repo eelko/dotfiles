@@ -1,0 +1,42 @@
+# https://docs.helix-editor.com/configuration.html
+
+# Checklist to migrating to Helix
+# - File explorer
+# - Multiple LSP servers per buffer
+# - Code snippets
+
+theme = "catppuccin_macchiato"
+
+[editor]
+cursorline = true
+auto-save = true
+auto-info = true # whether to display infoboxes
+bufferline = "always"
+color-modes = true # whether to color the mode indicator with different colors depending on the mode itself
+completion-trigger-len = 1
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.indent-guides]
+render = true
+
+[editor.file-picker]
+hidden = false
+
+[editor.lsp]
+display-messages = true
+
+[editor.statusline]
+left = ["mode", "spacer", "spinner", "file-name", "spacer", "diagnostics"]
+center = []
+right = ["selections", "position", "file-encoding"]
+
+[keys.insert]
+# enhanced readline mappings
+A-b = ["move_prev_word_start", "move_char_left"]
+A-f = ["move_next_word_end", "move_char_right"]
+C-b = "move_char_left"
+C-f = "move_char_right"

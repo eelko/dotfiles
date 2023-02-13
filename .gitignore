@@ -11,6 +11,7 @@ config/config/nvim/lua/config/local.lua
 # but skip the folders themselves
 !config/config/
 !config/config/fish/
+!config/config/helix/
 !config/config/nvim/
 !config/config/nvim/lua/
 !config/config/nvim/snippets/
