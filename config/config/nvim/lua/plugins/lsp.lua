@@ -4,24 +4,30 @@ return {
   event = { 'BufNewFile', 'BufReadPre' },
   dependencies = {
     'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-nvim-lsp-signature-help',
     'hrsh7th/cmp-vsnip',
     'hrsh7th/nvim-cmp',
     'hrsh7th/vim-vsnip',
     'hrsh7th/vim-vsnip-integ',
+    'jose-elias-alvarez/null-ls.nvim',
+    'kosayoda/nvim-lightbulb',
+    'nvim-lua/plenary.nvim',
     'nvim-tree/nvim-web-devicons',
+    'onsails/lspkind.nvim',
     'williamboman/mason-lspconfig.nvim',
     'williamboman/mason.nvim',
     'windwp/nvim-autopairs',
   },
   config = function()
     local map = require('utils').map
+    local augroup = vim.api.nvim_create_augroup('LspGroup', { clear = true })
 
     -- LSP
     require('mason').setup()
 
     local mason_lspconfig = require 'mason-lspconfig'
     mason_lspconfig.setup {
-      ensure_installed = { 'cssls', 'efm', 'eslint', 'html', 'jsonls', 'tsserver' },
+      ensure_installed = { 'cssls', 'html', 'jsonls', 'tsserver' },
     }
     mason_lspconfig.setup_handlers {
       -- The first entry (without a key) will be the default handler
@@ -66,33 +72,48 @@ return {
             end, { desc = '[LSP] Format current buffer' })
 
             -- Autocommands
-            vim.api.nvim_create_augroup('LspGroup', { clear = false })
-            vim.api.nvim_clear_autocmds { buffer = bufnr, group = 'LspGroup' }
-
             if client.server_capabilities.documentHighlightProvider then
               vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-                group = 'LspGroup',
                 buffer = bufnr,
                 callback = vim.lsp.buf.document_highlight,
                 desc = '[LSP] Highlight symbol under cursor on CursorHold',
+                group = augroup,
               })
 
               vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
                 buffer = bufnr,
                 callback = vim.lsp.buf.clear_references,
                 desc = '[LSP] Clear highlighted symbol references on CursorMoved',
-                group = 'LspGroup',
+                group = augroup,
               })
             end
 
-            vim.api.nvim_create_autocmd('BufWrite', {
+            vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
               buffer = bufnr,
               callback = function()
-                vim.lsp.buf.format()
+                vim.diagnostic.open_float(nil, { focus = false, scope = 'cursor' })
               end,
-              desc = '[LSP] Format current buffer on save',
-              group = 'LspGroup',
+              desc = '[LSP] Show diagnostics under cursor on CursorHold',
+              group = augroup,
             })
+
+            -- Light bulb
+            require('nvim-lightbulb').setup {
+              sign = {
+                enabled = false,
+              },
+              virtual_text = {
+                enabled = true,
+                text = '',
+                -- highlight mode to use for virtual text (replace, combine, blend), see :help nvim_buf_set_extmark() for reference
+                hl_mode = 'combine',
+              },
+              autocmd = {
+                enabled = true,
+                pattern = { '*' },
+                events = { 'CursorHold', 'CursorHoldI' },
+              },
+            }
           end,
         }
       end,
@@ -118,16 +139,21 @@ return {
       vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
     end
 
+    local lspkind = require 'lspkind' -- Icons for completion menu
     local cmp = require 'cmp'
     cmp.setup {
-      snippet = {
-        expand = function(args)
-          vim.fn['vsnip#anonymous'](args.body)
-        end,
+      completion = {
+        completeopt = 'menu,menuone,noinsert',
       },
-      window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
+      formatting = {
+        format = lspkind.cmp_format {
+          mode = 'symbol_text',
+          maxwidth = 50,
+          ellipsis_char = '...',
+          before = function(entry, vim_item)
+            return vim_item
+          end,
+        },
       },
       mapping = cmp.mapping.preset.insert {
         ['<c-b>'] = cmp.mapping.scroll_docs(-4),
@@ -156,14 +182,84 @@ return {
           end
         end, { 'i', 's' }),
       },
+      snippet = {
+        expand = function(args)
+          vim.fn['vsnip#anonymous'](args.body)
+        end,
+      },
       sources = cmp.config.sources {
         { name = 'vsnip' },
         { name = 'nvim_lsp' },
+        { name = 'nvim_lsp_signature_help' },
+      },
+      window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
       },
     }
 
     -- Autopairs
     require('nvim-autopairs').setup {}
     cmp.event:on('confirm_done', require('nvim-autopairs.completion.cmp').on_confirm_done()) -- insert `(` after picking a function or method from the autocomplete menu
+
+    -- Linters/Formatters
+    local null_ls = require 'null-ls'
+    local code_actions = null_ls.builtins.code_actions
+    local diagnostics = null_ls.builtins.diagnostics
+    local formatting = null_ls.builtins.formatting
+
+    null_ls.setup {
+      on_attach = function(client, bufnr)
+        vim.api.nvim_create_autocmd('BufWritePre', {
+          buffer = bufnr,
+          callback = function()
+            vim.lsp.buf.format { bufnr = bufnr }
+          end,
+          desc = '[LSP] Format current buffer on save',
+          group = augroup,
+        })
+      end,
+      sources = {
+        -- Eslint
+        code_actions.eslint_d,
+        diagnostics.eslint_d.with {
+          filter = function(diagnostic)
+            return diagnostic.code ~= 'prettier/prettier' -- ignore prettier warnings from eslint-plugin-prettier
+          end,
+        },
+        formatting.eslint_d,
+
+        -- Fixjson
+        formatting.fixjson,
+
+        -- Hadolint
+        diagnostics.hadolint,
+
+        -- Jsonlint
+        diagnostics.jsonlint,
+
+        -- Prettier
+        formatting.prettierd,
+
+        -- Shellcheck
+        code_actions.shellcheck,
+        diagnostics.shellcheck,
+
+        -- Shellharden
+        formatting.shellharden,
+
+        -- Shfmt
+        formatting.shfmt,
+
+        -- Stylua
+        formatting.stylua,
+
+        -- Vale
+        diagnostics.vale,
+
+        -- Yamllint
+        diagnostics.yamllint,
+      },
+    }
   end,
 }
