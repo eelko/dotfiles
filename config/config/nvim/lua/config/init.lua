@@ -1,4 +1,5 @@
 require 'config.options'
+require 'config.diagnostics'
 require 'config.mappings'
 require 'config.commands'
 require 'config.autocommands'
