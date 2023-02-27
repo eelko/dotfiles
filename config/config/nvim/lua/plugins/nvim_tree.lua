@@ -1,7 +1,7 @@
 return {
   'nvim-tree/nvim-tree.lua',
   keys = {
-    { '\\', ':NvimTreeToggle<CR>', silent = true },
+    { '\\', ':NvimTreeFindFile<CR>', silent = true },
   },
   config = function()
     local utils = require 'utils'
