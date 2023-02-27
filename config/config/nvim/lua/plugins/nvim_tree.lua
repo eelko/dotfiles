@@ -16,8 +16,6 @@ return {
     highlight('NvimTreeGitIgnored', { fg = colors.comment, italic = false })
     highlight('NvimTreeWinSeparator', { bg = colors.bg, fg = colors.bg })
 
-    local tree_cb = require('nvim-tree.config').nvim_tree_callback
-
     require('nvim-tree').setup {
       hijack_cursor = true, -- hijack the cursor in the tree to put it at the start of the filename
       filters = {
@@ -53,14 +51,6 @@ return {
       },
       view = {
         hide_root_folder = true,
-        mappings = {
-          list = {
-            -- NERDTree-like mappings
-            { key = 'C', cb = tree_cb 'cd' },
-            { key = 'u', cb = tree_cb 'dir_up' },
-            { key = 'x', cb = tree_cb 'close_node' },
-          },
-        },
         width = 40,
       },
     }
