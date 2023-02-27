@@ -22,5 +22,12 @@
       "map('${1:n}', '${2:lhs}', '${3:rhs}', { desc = '${4:description}' })${0}"
     ],
     "description": "add key mapping"
+  },
+  "config function": {
+    "prefix": "cf",
+    "body": [
+      "config = function()\n\t${1}\nend"
+    ],
+    "description": "add config function"
   }
 }
