@@ -51,7 +51,7 @@ return {
       },
       view = {
         hide_root_folder = true,
-        width = 40,
+        width = 50,
       },
     }
   end,
