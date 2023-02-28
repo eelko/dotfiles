@@ -8,13 +8,21 @@ return {
   },
   init = function()
     local map = require('utils').map
-    map('n', '<leader>fb', ':Telescope buffers<CR>')
-    map('n', '<leader>fc', ':Telescope commands<CR>')
-    map('n', '<leader>ff', ':Telescope find_files<CR>')
-    map('n', '<leader>fg', ':Telescope live_grep_args<CR>')
-    map('n', '<leader>fl', ':Telescope current_buffer_fuzzy_find<CR>')
-    map('n', '<leader>fp', ':Telescope resume<CR>')
-    map('n', '<leader>ft', ':Telescope<CR>')
+    map('c', '<c-r>', '<Plug>(TelescopeFuzzyCommandSearch)', { desc = '[Telescope] Command history picker' })
+    map('n', '<leader>fb', ':Telescope buffers<CR>', { desc = '[Telescope] Open buffer picker' })
+    map('n', '<leader>fc', ':Telescope commands<CR>', { desc = '[Telescope] Command picker' })
+    map('n', '<leader>ff', ':Telescope find_files<CR>', { desc = '[Telescope] File picker' })
+    map('n', '<leader>fg', ':Telescope live_grep_args<CR>', { desc = '[Telescope] Live grep' })
+    map('n', '<leader>fk', ':Telescope keymaps<CR>', { desc = '[Telescope] Keymaps picker' })
+    map(
+      'n',
+      '<leader>fl',
+      ':Telescope current_buffer_fuzzy_find<CR>',
+      { desc = '[Telescope] Current buffer line picker' }
+    )
+    map('n', '<leader>fo', ':Telescope oldfiles<CR>', { desc = '[Telescope] Recently edited files picker' })
+    map('n', '<leader>fp', ':Telescope resume<CR>', { desc = '[Telescope] Resume last picker' })
+    map('n', '<leader>ft', ':Telescope<CR>', { desc = '[Telescope] Default picker' })
   end,
   config = function()
     local actions = require 'telescope.actions'
