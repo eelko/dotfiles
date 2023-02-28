@@ -7,6 +7,7 @@ vim.opt.mousemodel = 'extend' -- Right mouse button extends a selection (or: dis
 vim.opt.autoread = false -- Don't auto reload files from disk when they change outisde Vim
 vim.opt.showmode = false -- Don't show edit mode in command bar
 vim.opt.updatetime = 300 -- Shorter time to trigger CursorHold autocmd
+vim.opt.jumpoptions:prepend { 'view' } -- Restore viewport on jump
 
 -- Appearance
 vim.opt.cursorline = true -- Highlight current line
