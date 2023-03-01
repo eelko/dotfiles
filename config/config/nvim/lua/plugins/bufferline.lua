@@ -13,6 +13,9 @@ return {
       },
       options = {
         buffer_close_icon = '',
+        custom_filter = function(buf, buf_nums)
+          return vim.bo[buf].filetype ~= 'qf'
+        end,
         diagnostics = false,
         hover = {
           enabled = true,
