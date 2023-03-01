@@ -3,33 +3,17 @@ return {
   dependencies = 'nvim-telescope/telescope.nvim',
   keys = {
     { '<Leader>g', mode = { 'n', 'v' } },
-    { '<Leader>r', mode = { 'n', 'v' } },
   },
   config = function()
-    local utils = require 'utils'
-    local contains = utils.contains
-
-    function _G.find_and_replace(text, type)
-      local visual_modes = { 'v', '^V' }
-      local use_word_boundary = not contains(visual_modes, type)
-      local pattern = use_word_boundary and '\\<' .. text .. '\\>' or text
-      local new_text = vim.fn.input('Replace ' .. pattern .. ' with: ', text)
-
-      if #new_text > 0 then
-        utils.exec_preserving_cursor_pos(',$s/' .. pattern .. '/' .. new_text .. '/gc')
-      end
+    function _G.grep_with_telescope(text)
+      require('telescope.builtin').grep_string { search = vim.fn.trim(text) }
     end
 
     vim.cmd [[
-    function! FindAndReplace(text, type)
-      call v:lua.find_and_replace(a:text, a:type)
-    endfunction
-    autocmd User MapActions call MapAction('FindAndReplace', '<Leader>r')
-
-    " Telescope integration
     function! GrepWithMotion(text, type)
-      execute('lua require("telescope.builtin").grep_string({search = "'.trim(a:text).'"})')
+      call v:lua.grep_with_telescope(a:text)
     endfunction
+
     autocmd User MapActions call MapAction('GrepWithMotion', '<Leader>g')
 
     doautocmd User MapActions
