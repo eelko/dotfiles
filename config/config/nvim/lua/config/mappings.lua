@@ -34,7 +34,7 @@ map('n', '[Q', ':cfirst<CR>', { desc = 'Go to first quickfix entry' })
 map('n', '[q', ':cprevious<CR>', { desc = 'Go to previous quickfix entry' })
 map('n', ']Q', ':clast<CR>', { desc = 'Go to last quickfix entry' })
 map('n', ']q', ':cnext<CR>', { desc = 'Go to next quickfix entry' })
-map('n', 'gp', '`[v`]', { desc = 'Visual select last yank/paste' })
+map('n', 'gy', '`[v`]', { desc = 'Visual select last yank/paste' })
 map('n', 'j', 'gj', { desc = 'Navigate down wrapped lines' })
 map('n', 'k', 'gk', { desc = 'Navigate up wrapped lines' })
 
