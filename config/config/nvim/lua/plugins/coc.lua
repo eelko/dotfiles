@@ -43,7 +43,7 @@ return {
       else
         api.nvim_command('!' .. vim.o.keywordprg .. ' ' .. cword)
       end
-    end, { desc = 'Show documentation for symbol under cursor' })
+    end, { desc = '[LSP] Show documentation for symbol under cursor' })
 
     -- Code actions
     nmap('<leader>r', '<Plug>(coc-rename)', { desc = 'Rename symbol under cursor' })
@@ -57,19 +57,19 @@ return {
     nmap(
       '<leader>ca',
       '<Plug>(coc-codeaction-cursor)',
-      { desc = 'Apply Code Action to symbol under cursor', nowait = true }
+      { desc = '[LSP] Apply Code Action to symbol under cursor', nowait = true }
     )
     nmap(
       '<leader>cf',
       '<Plug>(coc-fix-current)',
-      { desc = 'Apply the most preferred auto-fix action for diagnostic under cursor', nowait = true }
+      { desc = '[LSP] Apply the most preferred auto-fix action for diagnostic under cursor', nowait = true }
     )
 
     -- List commands
-    nmap('<leader>ce', ':<C-u>CocList -A diagnostics<cr>', { desc = 'Show all diagnostics', nowait = true })
-    nmap('<leader>cc', ':<C-u>CocList commands<cr>', { desc = 'Show all available LSP commands', nowait = true })
-    nmap('<leader>cs', ':<C-u>CocList -A -I symbols<cr>', { desc = 'Search workspace symbols', nowait = true })
-    nmap('<leader>p', ':<C-u>CocListResume<cr>', { desc = 'Resume previous CoC list', nowait = true })
+    nmap('<leader>ce', ':<C-u>CocList -A diagnostics<cr>', { desc = '[LSP] Show all diagnostics', nowait = true })
+    nmap('<leader>cc', ':<C-u>CocList commands<cr>', { desc = '[LSP] Show all available LSP commands', nowait = true })
+    nmap('<leader>cs', ':<C-u>CocList -A -I symbols<cr>', { desc = '[LSP] Search workspace symbols', nowait = true })
+    nmap('<leader>p', ':<C-u>CocListResume<cr>', { desc = '[LSP] Resume previous CoC list', nowait = true })
 
     -- Auto complete
     function _G.check_back_space()
