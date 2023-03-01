@@ -9,8 +9,8 @@ map('c', '<cn>', '<down>', { desc = 'Go to next entry in command history' })
 map('c', '<cp>', '<up>', { desc = 'Go to previous entry in command history' })
 
 -- Normal mode
-map('n', '<c-n>', ':bnext<cr>', { desc = 'Go to next buffer' })
-map('n', '<c-p>', ':bprev<cr>', { desc = 'Go to previous buffer' })
+map('n', 'gn', ':if &buftype == "" | bnext | endif<CR>', { desc = 'Go to next buffer' })
+map('n', 'gp', ':if &buftype == "" | bprevious | endif<CR>', { desc = 'Go to previous buffer' })
 map('n', '<c-w>tc', ':tabclose<cr>', { desc = 'Close current tab' })
 map('n', '<c-w>tn', ':tabnew %<cr>', { desc = 'Create new tab' })
 map('n', '<esc>', ':nohlsearch<cr>', { desc = 'Clear highlighted search matches' })
