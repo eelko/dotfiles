@@ -59,7 +59,7 @@ return {
             nmap('<C-k>', vim.lsp.buf.signature_help, 'Show signature documentation')
 
             -- Code actions
-            nmap('gns', vim.lsp.buf.rename, 'Rename symbol under cursor')
+            nmap('<leader>r', vim.lsp.buf.rename, 'Rename symbol under cursor')
             nmap('<leader>ca', vim.lsp.buf.code_action, 'Apply Code Action to symbol under cursor')
 
             -- List commands

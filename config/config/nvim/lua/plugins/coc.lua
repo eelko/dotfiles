@@ -46,7 +46,7 @@ return {
     end, { desc = 'Show documentation for symbol under cursor' })
 
     -- Code actions
-    nmap('gns', '<Plug>(coc-rename)', { desc = 'Rename symbol under cursor' })
+    nmap('<leader>r', '<Plug>(coc-rename)', { desc = 'Rename symbol under cursor' })
 
     map(
       'x',
