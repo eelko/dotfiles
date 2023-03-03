@@ -152,10 +152,6 @@ return {
         format = lspkind.cmp_format(),
       },
       mapping = cmp.mapping.preset.insert {
-        ['<c-b>'] = cmp.mapping.scroll_docs(-4),
-        ['<c-f>'] = cmp.mapping.scroll_docs(4),
-        ['<tab>'] = cmp.mapping.complete(),
-        ['<c-e>'] = cmp.mapping.abort(),
         ['<tab>'] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
