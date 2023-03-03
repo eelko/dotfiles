@@ -3,6 +3,8 @@ return {
   enabled = false,
   event = { 'BufNewFile', 'BufReadPre' },
   dependencies = {
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-cmdline',
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-nvim-lsp-signature-help',
     'hrsh7th/cmp-vsnip',
@@ -141,6 +143,7 @@ return {
 
     local lspkind = require 'lspkind' -- Icons for completion menu
     local cmp = require 'cmp'
+
     cmp.setup {
       completion = {
         completeopt = 'menu,menuone,noinsert',
@@ -196,6 +199,35 @@ return {
         documentation = cmp.config.window.bordered(),
       },
     }
+
+    -- `/` cmdline setup.
+    cmp.setup.cmdline('/', {
+      formatting = {
+        fields = { 'abbr', 'menu' },
+      },
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = {
+        { name = 'buffer' },
+      },
+    })
+
+    -- `:` cmdline setup.
+    cmp.setup.cmdline(':', {
+      formatting = {
+        fields = { 'abbr', 'menu' },
+      },
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = cmp.config.sources({
+        { name = 'path' },
+      }, {
+        {
+          name = 'cmdline',
+          option = {
+            ignore_cmds = { 'Man', '!' },
+          },
+        },
+      }),
+    })
 
     -- Autopairs
     require('nvim-autopairs').setup {}
