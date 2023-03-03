@@ -45,7 +45,7 @@ return {
             end,
           },
           { 'g:coc_status', icon = '', padding = { left = 3 } },
-          { 'diagnostics', icon = ' ', sources = { 'coc', 'nvim_lsp' }, padding = { left = 3 } },
+          { 'diagnostics', icon = ' ', sources = { 'coc', 'nvim_workspace_diagnostic' }, padding = { left = 3 } },
         },
         lualine_x = {
           {
