@@ -1,6 +1,9 @@
 return {
   'mattn/emmet-vim',
+  init = function()
+    vim.g.user_emmet_leader_key = '<C-x>'
+  end,
   keys = {
-    { '<C-y>,', mode = 'i' },
+    { '<C-x>,', mode = 'i' },
   },
 }
