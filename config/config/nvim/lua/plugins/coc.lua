@@ -86,11 +86,6 @@ return {
       expr = true,
     })
 
-    map('i', '<cr>', [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], {
-      desc = '[LSP] Accept selected completion item or notify CoC to format',
-      expr = true,
-    })
-
     -- Commands
     vim.api.nvim_create_user_command(
       'Fold',
