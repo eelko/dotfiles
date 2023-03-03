@@ -149,14 +149,7 @@ return {
         completeopt = 'menu,menuone,noinsert',
       },
       formatting = {
-        format = lspkind.cmp_format {
-          mode = 'symbol_text',
-          maxwidth = 50,
-          ellipsis_char = '...',
-          before = function(entry, vim_item)
-            return vim_item
-          end,
-        },
+        format = lspkind.cmp_format(),
       },
       mapping = cmp.mapping.preset.insert {
         ['<c-b>'] = cmp.mapping.scroll_docs(-4),
