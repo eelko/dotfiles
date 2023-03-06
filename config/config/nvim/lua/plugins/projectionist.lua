@@ -1,12 +1,11 @@
 return {
   'tpope/vim-projectionist',
-  event = 'VeryLazy',
+  lazy = false,
   config = function()
     local map = require('utils').map
-
-    map('n', '<leader>aa', ':A<CR>')
-    map('n', '<leader>as', ':AS<CR>')
-    map('n', '<leader>av', ':AV<CR>')
+    map('n', '<leader>aa', ':A<CR>', { desc = '[Projectionist] Open alternate file on current buffer ' })
+    map('n', '<leader>as', ':AS<CR>', { desc = '[Projectionist] Open alternate file on a split buffer ' })
+    map('n', '<leader>av', ':AV<CR>', { desc = '[Projectionist] Open alternate file on a vertical split buffer ' })
 
     vim.g.projectionist_heuristics = {
       -- Java
