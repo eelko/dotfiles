@@ -19,26 +19,6 @@ return {
         color = md_color,
         name = 'Md',
       },
-      ['test.js'] = {
-        icon = '',
-        color = js_color,
-        name = 'TestJavascript',
-      },
-      ['test.jsx'] = {
-        icon = '',
-        color = js_color,
-        name = 'TestJavascriptReact',
-      },
-      ['test.ts'] = {
-        icon = '',
-        color = ts_color,
-        name = 'TestTypescript',
-      },
-      ['test.tsx'] = {
-        icon = '',
-        color = ts_color,
-        name = 'TestTypescriptReact',
-      },
       ['ts'] = {
         icon = 'ﯤ',
         color = ts_color,
