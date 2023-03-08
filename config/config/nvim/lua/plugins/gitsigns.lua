@@ -4,7 +4,7 @@ return {
   dependencies = 'nvim-lua/plenary.nvim',
   config = function()
     local map = require('utils').map
-    map('n', '<leader>gb', ':Gitsigns blame_line<CR>')
+    map('n', '<leader>gb', ':Gitsigns blame_line<CR>', { desc = '[Git Signs] Show Git Blame for current line' })
 
     require('gitsigns').setup {
       signs = {

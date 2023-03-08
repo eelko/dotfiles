@@ -12,24 +12,17 @@ return {
 
     -- Mappings
     local map = require('utils').map
-    local nmap = function(keys, func, opts)
-      if opts.desc then
-        opts.desc = '[LSP] ' .. opts.desc
-      end
-
-      map('n', keys, func, { desc = opts.desc })
-    end
 
     -- Code navigation
-    nmap('[d', '<Plug>(coc-diagnostic-prev)', { desc = 'Go to previous diagnostic' })
-    nmap(']d', '<Plug>(coc-diagnostic-next)', { desc = 'Go to next diagnostic' })
-    nmap('gD', '<Plug>(coc-declaration)', { desc = 'Go to Declaration' })
-    nmap('gd', '<Plug>(coc-definition)', { desc = 'Go to Definition' })
-    nmap('gi', '<Plug>(coc-implementation)', { desc = 'Go to Implementation' })
-    nmap('gr', '<Plug>(coc-references)', { desc = 'Go to References' })
-    nmap('td', '<Plug>(coc-type-definition)', { desc = 'Go to Type Definition' })
+    map('n', '[d', '<Plug>(coc-diagnostic-prev)', { desc = '[LSP] Go to previous diagnostic' })
+    map('n', ']d', '<Plug>(coc-diagnostic-next)', { desc = '[LSP] Go to next diagnostic' })
+    map('n', 'gD', '<Plug>(coc-declaration)', { desc = '[LSP] Go to Declaration' })
+    map('n', 'gd', '<Plug>(coc-definition)', { desc = '[LSP] Go to Definition' })
+    map('n', 'gi', '<Plug>(coc-implementation)', { desc = '[LSP] Go to Implementation' })
+    map('n', 'gr', '<Plug>(coc-references)', { desc = '[LSP] Go to References' })
+    map('n', 'td', '<Plug>(coc-type-definition)', { desc = '[LSP] Go to Type Definition' })
 
-    nmap('K', function()
+    map('n', 'K', function()
       local api = vim.api
       local fn = vim.fn
       local cword = fn.expand '<cword>'
@@ -46,7 +39,7 @@ return {
     end, { desc = '[LSP] Show documentation for symbol under cursor' })
 
     -- Code actions
-    nmap('<leader>r', '<Plug>(coc-rename)', { desc = 'Rename symbol under cursor' })
+    map('n', '<leader>r', '<Plug>(coc-rename)', { desc = '[LSP] Rename symbol under cursor' })
 
     map(
       'x',
@@ -54,22 +47,24 @@ return {
       '<Plug>(coc-codeaction-selected)',
       { desc = '[LSP] Apply Code Action to the selected region', nowait = true }
     )
-    nmap(
+    map(
+      'n',
       '<leader>ca',
       '<Plug>(coc-codeaction-cursor)',
       { desc = '[LSP] Apply Code Action to symbol under cursor', nowait = true }
     )
-    nmap(
+    map(
+      'n',
       '<leader>cf',
       '<Plug>(coc-fix-current)',
       { desc = '[LSP] Apply the most preferred auto-fix action for diagnostic under cursor', nowait = true }
     )
 
     -- List commands
-    nmap('<leader>ce', ':<C-u>CocList -A diagnostics<cr>', { desc = '[LSP] Show all diagnostics', nowait = true })
-    nmap('<leader>cc', ':<C-u>CocList commands<cr>', { desc = '[LSP] Show all available LSP commands', nowait = true })
-    nmap('<leader>cs', ':<C-u>CocList -A -I symbols<cr>', { desc = '[LSP] Search workspace symbols', nowait = true })
-    nmap('<leader>p', ':<C-u>CocListResume<cr>', { desc = '[LSP] Resume previous CoC list', nowait = true })
+    map('n', '<leader>ce', ':<C-u>CocList -A diagnostics<cr>', { desc = '[LSP] Show all diagnostics', nowait = true })
+    map('n', '<leader>cc', ':<C-u>CocList commands<cr>', { desc = '[LSP] Show all available LSP commands', nowait = true })
+    map('n', '<leader>cs', ':<C-u>CocList -A -I symbols<cr>', { desc = '[LSP] Search workspace symbols', nowait = true })
+    map('n', '<leader>p', ':<C-u>CocListResume<cr>', { desc = '[LSP] Resume previous CoC list', nowait = true })
 
     -- Auto complete
     function _G.check_back_space()
