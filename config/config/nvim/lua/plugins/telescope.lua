@@ -1,29 +1,33 @@
 return {
   'nvim-telescope/telescope.nvim',
-  cmd = 'Telescope',
   dependencies = {
     { 'nvim-lua/plenary.nvim' },
     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     { 'nvim-telescope/telescope-live-grep-args.nvim' },
   },
-  init = function()
-    local map = require('utils').map
-    map('c', '<c-r>', '<Plug>(TelescopeFuzzyCommandSearch)', { desc = '[Telescope] Command history picker' })
-    map('n', '<leader>fb', ':Telescope buffers<CR>', { desc = '[Telescope] Open buffer picker' })
-    map('n', '<leader>fc', ':Telescope commands<CR>', { desc = '[Telescope] Command picker' })
-    map('n', '<leader>ff', ':Telescope find_files<CR>', { desc = '[Telescope] File picker' })
-    map('n', '<leader>fg', ':Telescope live_grep_args<CR>', { desc = '[Telescope] Live grep' })
-    map('n', '<leader>fk', ':Telescope keymaps<CR>', { desc = '[Telescope] Keymaps picker' })
-    map(
-      'n',
+  keys = {
+    {
+      '<c-r>',
+      '<Plug>(TelescopeFuzzyCommandSearch)',
+      desc = '[Telescope] Command history picker',
+      mode = 'c',
+      silent = true,
+    },
+    { '<leader>fb', ':Telescope buffers<CR>', desc = '[Telescope] Open buffer picker', silent = true },
+    { '<leader>fc', ':Telescope commands<CR>', desc = '[Telescope] Command picker', silent = true },
+    { '<leader>ff', ':Telescope find_files<CR>', desc = '[Telescope] File picker', silent = true },
+    { '<leader>fg', ':Telescope live_grep_args<CR>', desc = '[Telescope] Live grep', silent = true },
+    { '<leader>fk', ':Telescope keymaps<CR>', desc = '[Telescope] Keymaps picker', silent = true },
+    {
       '<leader>fl',
       ':Telescope current_buffer_fuzzy_find<CR>',
-      { desc = '[Telescope] Current buffer line picker' }
-    )
-    map('n', '<leader>fo', ':Telescope oldfiles<CR>', { desc = '[Telescope] Recently edited files picker' })
-    map('n', '<leader>fp', ':Telescope resume<CR>', { desc = '[Telescope] Resume last picker' })
-    map('n', '<leader>ft', ':Telescope<CR>', { desc = '[Telescope] Default picker' })
-  end,
+      desc = '[Telescope] Current buffer line picker',
+      silent = true,
+    },
+    { '<leader>fo', ':Telescope oldfiles<CR>', desc = '[Telescope] Recently edited files picker', silent = true },
+    { '<leader>fp', ':Telescope resume<CR>', desc = '[Telescope] Resume last picker', silent = true },
+    { '<leader>ft', ':Telescope<CR>', desc = '[Telescope] Default picker', silent = true },
+  },
   config = function()
     local actions = require 'telescope.actions'
     local lga_actions = require 'telescope-live-grep-args.actions'
