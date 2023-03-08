@@ -3,22 +3,22 @@ return {
   event = { 'CmdlineEnter', 'CmdWinEnter', 'InsertEnter' },
   config = function()
     local map = require('utils').map
-    local readline = require 'readline'
+    local r = require 'readline'
 
-    map('!', '<C-k>', readline.kill_line)
-    map('!', '<C-u>', readline.backward_kill_line)
-    map('!', '<M-d>', readline.kill_word)
-    map('!', '<C-w>', readline.backward_kill_word)
-    map('!', '<C-a>', readline.beginning_of_line)
-    map('!', '<C-e>', readline.end_of_line)
-    map('!', '<M-b>', readline.backward_word)
-    map('!', '<M-f>', readline.forward_word)
+    map('!', '<C-k>', r.kill_line, { desc = '[Readline] Kill from cursor position until end of line' })
+    map('!', '<C-u>', r.backward_kill_line, { desc = '[Readline] Kill from cursor position until beginning of line' })
+    map('!', '<M-d>', r.kill_word, { desc = '[Readline] Kill from cursor position until end of word' })
+    map('!', '<C-w>', r.backward_kill_word, { desc = '[Readline] Kill from cursor position until beginning of word' })
+    map('!', '<C-a>', r.beginning_of_line, { desc = '[Readline] Jump to beginning of line' })
+    map('!', '<C-e>', r.end_of_line, { desc = '[Readline] Jump to end of line' })
+    map('!', '<M-b>', r.backward_word, { desc = '[Readline] Jump to the beginning of previous word' })
+    map('!', '<M-f>', r.forward_word, { desc = '[Readline] Jump to the beginning of next word' })
 
     -- `map` does not work for the mappings below
     -- apparently the `silent` option breaks them
-    vim.keymap.set('!', '<C-b>', '<Left>')
-    vim.keymap.set('!', '<C-f>', '<Right>')
-    vim.keymap.set('!', '<C-d>', '<Delete>')
-    vim.keymap.set('!', '<C-h>', '<BS>')
+    vim.keymap.set('!', '<C-b>', '<Left>', { desc = '[Readline] Move cursor to the left' })
+    vim.keymap.set('!', '<C-f>', '<Right>', { desc = '[Readline] Move cursor to the right' })
+    vim.keymap.set('!', '<C-d>', '<Delete>', { desc = '[Readline] Delete one character forward' })
+    vim.keymap.set('!', '<C-h>', '<BS>', { desc = '[Readline] Delete one character backward' })
   end,
 }
