@@ -37,6 +37,8 @@ alias la 'l -a'
 alias lt 'l --tree --depth 1'
 
 # binds
+bind \cn history-prefix-search-forward
+bind \cp history-prefix-search-backward
 bind \cx\ce edit_command_buffer
 
 # colors
