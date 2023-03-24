@@ -5,10 +5,12 @@ return {
     require('tokyonight').setup {
       sidebars = { 'coctree', 'list', 'qf' },
       on_highlights = function(hl, c)
+        local my_colors = { arsenic = '#414141' }
+
         hl.DiffDelete = { bg = c.diff.delete, fg = c.diff.delete }
-        hl.FloatBorder = { fg = 'Grey', bg = '#414141' }
+        hl.FloatBorder = { bg = my_colors.arsenic, fg = 'Grey' }
         hl.Folded = { link = 'Comment' }
-        hl.NormalFloat = { bg = '#414141' }
+        hl.NormalFloat = { bg = my_colors.arsenic }
         hl.StatusLine = { bg = c.fg_gutter, fg = c.fg_sidebar }
         hl.WinBarNC = { fg = 'Grey', bold = true }
 
@@ -69,6 +71,11 @@ return {
         hl.TelescopePromptTitle = { bg = prompt, fg = c.fg_dark }
         hl.TelescopeResultsTitle = { bg = c.bg_dark, fg = c.bg_dark }
         hl.TelescopePreviewTitle = { bg = c.border, fg = c.border }
+
+        -- Treesitter
+        hl.TreesitterContext = { bg = c.bg_highlight }
+        hl.TreesitterContextBottom = { sp = c.border, underline = true }
+        hl.TreesitterContextLineNumber = { bg = c.bg_highlight, fg = c.dark5 }
       end,
     }
 
