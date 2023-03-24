@@ -8,6 +8,9 @@
   "diagnostic.hintSign": "",
   "diagnostic.infoSign": "",
   "diagnostic.warningSign": "",
+  /* hierarchy */
+  "callHierarchy.enableTooltip": false,
+  "typeHierarchy.enableTooltip": false,
   /* list */
   "list.insertMappings": {
     "<C-a>": "do:selectall",
