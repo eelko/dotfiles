@@ -1,7 +1,14 @@
 return {
   'nvim-tree/nvim-tree.lua',
   keys = {
-    { '\\', ':NvimTreeFindFile<CR>', silent = true },
+    {
+      '\\',
+      function()
+        vim.cmd(vim.bo.filetype == 'NvimTree' and 'NvimTreeClose' or 'NvimTreeFocus')
+      end,
+      desc = 'Open NvimTree if closed, close it if it has the focus.',
+      silent = true,
+    },
   },
   config = function()
     local utils = require 'utils'
