@@ -58,6 +58,11 @@ return {
         enable = true,
       },
 
+      -- vim-matchup
+      matchup = {
+        enable = true,
+      },
+
       -- nvim-treesitter/nvim-treesitter-textobjects
       textobjects = {
         select = {
