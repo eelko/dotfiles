@@ -65,8 +65,8 @@ return {
             nmap('<leader>ca', vim.lsp.buf.code_action, 'Apply Code Action to symbol under cursor')
 
             -- List commands
-            nmap('<leader>ce', require('telescope.builtin').diagnostics, 'Show all diagnostics')
-            nmap('<leader>cs', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Search workspace symbols')
+            nmap('<leader>d', require('telescope.builtin').diagnostics, 'Show all diagnostics')
+            nmap('<leader>s', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Search workspace symbols')
 
             -- Commands
             vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)

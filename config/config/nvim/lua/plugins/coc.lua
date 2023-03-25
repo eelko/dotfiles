@@ -20,6 +20,7 @@ return {
     map('n', 'gd', '<Plug>(coc-definition)', { desc = '[LSP] Go to Definition' })
     map('n', 'gi', '<Plug>(coc-implementation)', { desc = '[LSP] Go to Implementation' })
     map('n', 'gr', '<Plug>(coc-references)', { desc = '[LSP] Go to References' })
+    map('n', 'gR', '<Plug>(coc-references-used)', { desc = '[LSP] Go to References (excluding declarations)' })
     map('n', 'td', '<Plug>(coc-type-definition)', { desc = '[LSP] Go to Type Definition' })
 
     map('n', 'K', function()
@@ -61,10 +62,10 @@ return {
     )
 
     -- List commands
-    map('n', '<leader>ce', ':<C-u>CocList -A diagnostics<cr>', { desc = '[LSP] Show all diagnostics', nowait = true })
     map('n', '<leader>cc', ':<C-u>CocList commands<cr>', { desc = '[LSP] Show all available LSP commands', nowait = true })
-    map('n', '<leader>cs', ':<C-u>CocList -A -I symbols<cr>', { desc = '[LSP] Search workspace symbols', nowait = true })
+    map('n', '<leader>d', ':<C-u>CocList -A diagnostics<cr>', { desc = '[LSP] Show all diagnostics', nowait = true })
     map('n', '<leader>p', ':<C-u>CocListResume<cr>', { desc = '[LSP] Resume previous CoC list', nowait = true })
+    map('n', '<leader>s', ':<C-u>CocList -A -I symbols<cr>', { desc = '[LSP] Search workspace symbols', nowait = true })
 
     -- Auto complete
     function _G.check_back_space()
