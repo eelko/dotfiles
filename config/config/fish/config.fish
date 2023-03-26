@@ -8,6 +8,7 @@ set --export MANPAGER 'nvim -c "Man!" -o -'
 set --export PATH "$HOME/.bin:$PATH"
 set --export PATH "$HOME/.dotfiles/node_modules/.bin:$PATH"
 set --export PATH "./node_modules/.bin:$PATH"
+set --export PATH "/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH" # launch VS Code from cli
 set --export SHELL "/usr/local/bin/fish"
 set --export TERM 'wezterm' # enable undercurl support on Neovim under Wezterm
 
