@@ -11,6 +11,20 @@
     ],
     "description": "add plugin spec"
   },
+  "config function": {
+    "prefix": "cf",
+    "body": [
+      "config = function()\n\t${1}\nend"
+    ],
+    "description": "add config function"
+  },
+  "if statement": {
+    "prefix": "if",
+    "body": [
+      "if ${1} then\n\t${0}\nend"
+    ],
+    "description": "if statement"
+  },
   "log selected text": {
     "prefix": "l",
     "body": ["print('==> $CLIPBOARD:', vim.inspect($CLIPBOARD))$0"],
@@ -23,11 +37,4 @@
     ],
     "description": "add key mapping"
   },
-  "config function": {
-    "prefix": "cf",
-    "body": [
-      "config = function()\n\t${1}\nend"
-    ],
-    "description": "add config function"
-  }
 }
