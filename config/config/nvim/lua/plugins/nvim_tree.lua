@@ -35,7 +35,7 @@ return {
         highlight_git = true,
         icons = {
           glyphs = {
-            default = '',
+            default = '󰈙',
             git = {
               unstaged = '',
               staged = '',

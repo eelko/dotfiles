@@ -38,7 +38,7 @@ return {
           { 'filetype', colored = false, icon_only = true, padding = { left = 3 } },
           {
             'filename',
-            symbols = { modified = ' ', readonly = ' ' },
+            symbols = { modified = '󰆓 ', readonly = ' ' },
             cond = function()
               local contains = require('utils').contains
               return not contains({ 'NvimTree', 'TelescopePrompt' }, vim.o.filetype)

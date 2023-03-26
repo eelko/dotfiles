@@ -10,7 +10,7 @@ return {
 
     devicons.set_icon {
       ['js'] = {
-        icon = '',
+        icon = '󰌞',
         color = js_color,
         name = 'Js',
       },
@@ -20,7 +20,7 @@ return {
         name = 'Md',
       },
       ['ts'] = {
-        icon = 'ﯤ',
+        icon = '󰛦',
         color = ts_color,
         name = 'Ts',
       },

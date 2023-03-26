@@ -1,4 +1,4 @@
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
 
 -- Redefine gutter signs
 for type, icon in pairs(signs) do

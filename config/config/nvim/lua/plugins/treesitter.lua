@@ -27,7 +27,7 @@ return {
         foldstart = foldstart:gsub('^%s+', leading_text) -- replace spaces with icon and dashes
       end
 
-      return string.format('%s   (%s lines)', foldstart, line_count)
+      return string.format('%s  󰦸 (%s lines)', foldstart, line_count)
     end
 
     require('nvim-treesitter.configs').setup {
