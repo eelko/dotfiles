@@ -17,9 +17,6 @@ which pip3 > /dev/null && pip3 install --upgrade pynvim
 # NPM dependencies
 npm update
 
-# Tmux plugins
-~/.tmux/plugins/tpm/bin/update_plugins all
-
 # Neovim plugins
 nvim --headless '+Lazy sync' +qa
 

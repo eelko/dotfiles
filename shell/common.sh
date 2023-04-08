@@ -31,7 +31,6 @@ if [[ $(uname) = 'Linux' ]]; then
   alias pbpaste='xclip -selection clipboard -o'
 fi
 
-alias emacs='open -a /Applications/Emacs.app'
 alias grep='grep --color'
 alias la='l -a --color=always | less'
 alias ll='l --color=always | less'

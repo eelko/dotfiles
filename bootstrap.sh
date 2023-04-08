@@ -35,9 +35,6 @@ yes | "$(brew --prefix)"/opt/fzf/install --no-fish --no-update-rc
 # Python3 bindings for Vim
 python3 -m pip install --user --upgrade pynvim
 
-# Install tmux plugins
-~/.tmux/plugins/tpm/bin/install_plugins
-
 # Install Fish Shell plugins
 fish -c 'while read -la plugin; fisher install $plugin; end < config/config/fish/fish_plugins'
 

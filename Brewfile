@@ -44,8 +44,5 @@ brew "wget"
 brew "zoxide"
 
 # casks
-cask "alfred"
-cask "gimp"
-cask "homebrew/cask-versions/firefox-developer-edition"
 cask "rectangle"
 cask "wez/wezterm/wezterm"

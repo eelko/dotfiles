@@ -57,14 +57,6 @@ set fzf_history_opts '--preview-window=up:3:wrap'
 
 fzf_configure_bindings --directory=\ct --git_log=\cg --git_status=\cs
 
-function fzf --wraps=fzf --description="Use fzf-tmux if in tmux session"
-  if set --query TMUX
-    fzf-tmux $argv
-  else
-    command fzf $argv
-  end
-end
-
 # list directory contents after cd
 function list_after_cd_on_variable_pwd --on-variable PWD
   l

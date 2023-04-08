@@ -1,7 +1,0 @@
-export SHELL='/usr/local/bin/bash'
-
-for f in $HOME/.dotfiles/shell/*; do source $f; done
-for f in $HOME/.dotfiles/bash/*; do source $f; done
-
-# unversioned sensitive/temporary configs
-[ -s "$HOME/.bashrc.local.bash" ] && source "$HOME/.bashrc.local.bash"
