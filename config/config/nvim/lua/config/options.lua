@@ -1,6 +1,7 @@
 -- Misc
 vim.opt.autoread = false -- Don't auto reload files from disk when they change outisde Vim
 vim.opt.clipboard:prepend { 'unnamedplus' } -- Use system clipboard for all operations
+vim.opt.diffopt:prepend { 'linematch:60' } -- Better diffs
 vim.opt.hidden = true -- Allows buffers to be left unsaved (bp/bn)
 vim.opt.inccommand = 'split' -- Show partial off-screen substitution results in a preview window
 vim.opt.jumpoptions:prepend { 'view' } -- Restore viewport on jump
