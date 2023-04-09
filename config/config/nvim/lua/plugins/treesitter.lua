@@ -8,7 +8,8 @@ return {
   event = { 'BufNewFile', 'BufReadPre' },
   build = ':TSUpdate',
   config = function()
-    vim.o.fillchars = 'fold: '
+    vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+    vim.o.foldcolumn = 'auto'
     vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
     vim.o.foldlevel = 99
     vim.o.foldmethod = 'expr'
@@ -19,14 +20,6 @@ return {
     function custom_fold_text()
       local line_count = vim.v.foldend - vim.v.foldstart + 1
       local foldstart = vim.fn.getline(vim.v.foldstart):gsub('\t', ' ')
-
-      if foldstart:find '^%s' ~= nil then
-        -- line start with space, replace spaces with formatted text
-        local offset = string.len(string.match(foldstart, '^%s+')) - 3 -- leading spaces minus icon and surrounding spaces
-        local leading_text = string.format(' %s ', string.rep('-', offset))
-        foldstart = foldstart:gsub('^%s+', leading_text) -- replace spaces with icon and dashes
-      end
-
       return string.format('%s  󰦸 (%s lines)', foldstart, line_count)
     end
 

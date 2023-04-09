@@ -4,10 +4,7 @@
   "colors.enable": true,
   /* diagnostics */
   "diagnostic.enableHighlightLineNumber": false,
-  "diagnostic.errorSign": "",
-  "diagnostic.hintSign": "",
-  "diagnostic.infoSign": "",
-  "diagnostic.warningSign": "",
+  "diagnostic.enableSign": false,
   /* hierarchy */
   "callHierarchy.enableTooltip": false,
   "typeHierarchy.enableTooltip": false,
