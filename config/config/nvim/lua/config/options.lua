@@ -19,6 +19,7 @@ vim.opt.number = true -- Display line numbers
 vim.opt.pumheight = 8 -- Limit completion menu height
 vim.opt.relativenumber = true -- Use relative numbers
 vim.opt.signcolumn = 'yes' -- ALways show the sign column
+vim.opt.splitkeep = 'screen' -- Keep the text on the same screen line when opening, closing or resizing horizontal splits
 vim.opt.termguicolors = true -- Enables RGB color in the terminal
 
 -- Formatting
