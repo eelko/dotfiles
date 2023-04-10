@@ -44,5 +44,6 @@ brew "wget"
 brew "zoxide"
 
 # casks
+cask "keepingyouawake"
 cask "rectangle"
 cask "wez/wezterm/wezterm"
