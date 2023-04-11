@@ -20,5 +20,8 @@ npm update
 # Neovim plugins
 nvim --headless '+Lazy sync' +qa
 
+# Fish plugins
+fisher update
+
 # Vale styles
 wget -qc https://github.com/errata-ai/Microsoft/releases/latest/download/Microsoft.zip -O - | tar -zxv -C /opt/vale-styles/
