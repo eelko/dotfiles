@@ -14,10 +14,10 @@ return {
     highlight('ModesDeleteCursorLineNr', { fg = '#c75c6a', bold = true })
     highlight('ModesVisualCursorLineNr', { fg = '#9745be', bold = true })
 
-    -- Don't highlight sign column
-    highlight('ModesCopyCursorLineSign', { bg = 'none' })
-    highlight('ModesInsertCursorLineSign', { bg = 'none' })
-    highlight('ModesDeleteCursorLineSign', { bg = 'none' })
-    highlight('ModesVisualCursorLineSign', { bg = 'none' })
+    -- Don't highlight fold and sign columns
+    for _, mode in pairs { 'Copy', 'Insert', 'Delete', 'Visual' } do
+      highlight('Modes' .. mode .. 'CursorLineFold', { bg = 'none' })
+      highlight('Modes' .. mode .. 'CursorLineSign', { bg = 'none' })
+    end
   end,
 }
