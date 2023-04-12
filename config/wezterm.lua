@@ -16,9 +16,9 @@ colors.tab_bar = {
     bg_color = colors.background,
     fg_color = colors.brights[5], -- blue
   },
-  new_tab = {
+  inactive_tab_hover = {
     bg_color = colors.background,
-    fg_color = colors.background, -- hide button
+    fg_color = colors.brights[5], -- blue
   },
 }
 
@@ -129,6 +129,7 @@ return {
   tab_bar_at_bottom = true,
   tab_max_width = 50,
   use_fancy_tab_bar = false,
+  show_new_tab_button_in_tab_bar = false,
 
   -- Window appearance
   initial_cols = 115,
