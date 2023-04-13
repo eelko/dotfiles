@@ -9,8 +9,10 @@ return {
 
         hl.DiffDelete = { bg = c.diff.delete, fg = c.diff.delete }
         hl.FloatBorder = { bg = my_colors.arsenic, fg = 'Grey' }
+        hl.FoldColumn = { bg = 'none', fg = c.comment }
         hl.Folded = { link = 'Comment' }
         hl.NormalFloat = { bg = my_colors.arsenic }
+        hl.SignColumn = { bg = 'none', fg = c.comment }
         hl.StatusLine = { bg = c.fg_gutter, fg = c.fg_sidebar }
         hl.WinBarNC = { fg = 'Grey', bold = true }
 
