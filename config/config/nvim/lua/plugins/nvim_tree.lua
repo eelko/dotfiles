@@ -51,13 +51,12 @@ return {
         indent_markers = {
           enable = true,
         },
-        root_folder_modifier = ':t',
+        root_folder_label = false,
       },
       update_focused_file = {
         enable = true, -- highlight current file
       },
       view = {
-        hide_root_folder = true,
         width = 50,
       },
     }
