@@ -3,8 +3,6 @@ brew "bash"
 brew "git"
 brew "grep"
 brew "less"
-brew "ruby"
-brew "vim"
 brew "zsh"
 
 # linters
