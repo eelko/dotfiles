@@ -4,7 +4,17 @@ return {
   config = function()
     vim.o.mousemoveevent = true
 
-    require('bufferline').setup {
+    local bufferline = require 'bufferline'
+    local map = require('utils').map
+
+    -- Go to nth buffer keymaps
+    for n = 1, 9 do
+      map('n', 'g' .. n, function()
+        bufferline.go_to_buffer(n, true)
+      end, { desc = '[Bufferline] Go to ' .. n .. 'th buffer' })
+    end
+
+    bufferline.setup {
       highlights = {
         buffer_selected = {
           bold = false,
@@ -26,6 +36,9 @@ return {
           style = 'underline',
         },
         max_name_length = 50,
+        numbers = function(opts)
+          return string.format('%s', opts.raise(opts.ordinal))
+        end,
         modified_icon = '',
         offsets = {
           {
