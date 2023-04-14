@@ -25,7 +25,7 @@ npm install
 git submodule update --init --recursive
 git submodule foreach git pull origin master
 
-# Symlink config files
+# Find and link all files and folders in `config` directory to home directory
 # shellcheck disable=SC2086
 find "$DOTFILES_HOME"/config/* -maxdepth 0 -exec bash -c 'ln -snv $1 ~/.$(basename $1)' _ {} \;
 
