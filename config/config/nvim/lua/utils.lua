@@ -104,4 +104,21 @@ function M.switch_buffer(direction)
   vim.cmd('keepjumps ' .. 'buf ' .. bufnr)
 end
 
+--- Highlight an entire row for a specified duration.
+-- @param start_row (number): The starting row number to highlight.
+-- @param end_row (number): The ending row number to highlight.
+-- @param duration (number): The duration in milliseconds for which the row should be highlighted (default: 200).
+-- @param hl_group (string): The highlight group to use for highlighting (default: 'Visual').
+function M.flash(start_row, end_row, duration, hl_group)
+  hl_group = hl_group or 'Visual'
+  duration = duration or 200
+
+  local ns_id = vim.api.nvim_create_namespace 'row_highlight'
+  vim.highlight.range(0, ns_id, hl_group, { start_row, 0 }, { end_row, -1 })
+
+  vim.defer_fn(function()
+    vim.api.nvim_buf_clear_namespace(0, ns_id, start_row, end_row + 1)
+  end, duration)
+end
+
 return M
