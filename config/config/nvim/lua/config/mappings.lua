@@ -8,6 +8,19 @@ map('c', '<c-g>', "<c-r>=expand('%:h').'/'<cr>", { desc = 'Expand current file p
 map('c', '<cn>', '<down>', { desc = 'Go to next entry in command history' })
 map('c', '<cp>', '<up>', { desc = 'Go to previous entry in command history' })
 
+-- Insert mode
+vim.keymap.set('i', '<C-c>', function()
+  local cursor_position = vim.fn.getcurpos()
+  local search_count = vim.fn.searchcount({ recompute = 1 }).total
+
+  for _ = 1, search_count do
+    vim.cmd 'normal! .'
+  end
+
+  vim.fn.setpos('.', cursor_position)
+  vim.cmd 'stopinsert'
+end, { desc = 'Repeat last change made with `cgn` for all remaining occurrences' })
+
 -- Normal mode
 map('n', '<c-w>tc', ':tabclose<cr>', { desc = 'Close current tab' })
 map('n', '<c-w>tn', ':tabnew %<cr>', { desc = 'Create new tab' })
