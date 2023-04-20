@@ -5,6 +5,7 @@ return {
     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     { 'nvim-telescope/telescope-live-grep-args.nvim' },
   },
+  cmd = 'Telescope',
   keys = {
     {
       '<c-r>',
@@ -25,8 +26,14 @@ return {
       silent = true,
     },
     { '<leader>fo', ':Telescope oldfiles<CR>', desc = '[Telescope] Recently edited files picker', silent = true },
-    { '<leader>fp', ':Telescope resume<CR>', desc = '[Telescope] Resume last picker', silent = true },
-    { '<leader>ft', ':Telescope<CR>', desc = '[Telescope] Default picker', silent = true },
+    { '<leader>fp', ':Telescope<CR>', desc = '[Telescope] Default picker', silent = true },
+    { '<leader>fr', ':Telescope resume<CR>', desc = '[Telescope] Resume last picker', silent = true },
+    {
+      '<leader>ft',
+      ':Telescope tests_picker current_buffer_tests layout_config={width=0.9,height=0.9}<CR>',
+      desc = '[Telescope] Jump to a test in current buffer',
+      silent = true,
+    },
   },
   config = function()
     local actions = require 'telescope.actions'
@@ -91,6 +98,7 @@ return {
     }
 
     telescope.load_extension 'fzf'
+    telescope.load_extension 'tests_picker'
     telescope.load_extension 'live_grep_args'
   end,
 }
