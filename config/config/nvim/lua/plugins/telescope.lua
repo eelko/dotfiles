@@ -32,6 +32,15 @@ return {
     local actions = require 'telescope.actions'
     local lga_actions = require 'telescope-live-grep-args.actions'
     local telescope = require 'telescope'
+    local flash = require('utils').flash
+
+    -- Custom select action that centers and flashes the current line
+    local function custom_select(prompt_bufnr)
+      actions.select_default(prompt_bufnr)
+      actions.center(prompt_bufnr)
+      local row = vim.api.nvim_win_get_cursor(0)[1]
+      flash(row - 1, row - 1)
+    end
 
     telescope.setup {
       defaults = {
@@ -52,6 +61,7 @@ return {
         -- mappings
         mappings = {
           i = {
+            ['<cr>'] = custom_select,
             ['<esc>'] = actions.close,
             ['<up>'] = actions.cycle_history_prev,
             ['<down>'] = actions.cycle_history_next,
