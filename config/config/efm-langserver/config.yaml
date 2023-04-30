@@ -32,6 +32,13 @@ tools:
     lint-formats:
       - "hadolint:%f:%l: DL%n %t%*[^:]: %m"
 
+  luacheck-lint: &luacheck-lint
+    lint-source: luacheck
+    lint-command: "luacheck --no-color -"
+    lint-stdin: true
+    lint-formats:
+      - "    %f:%l:%c: %m"
+
   jsonlint-lint: &jsonlint-lint
     lint-source: jsonlint
     lint-command: "jsonlint -c"
@@ -131,6 +138,7 @@ languages:
     - <<: *prettier-format
 
   lua:
+    - <<: *luacheck-lint
     - <<: *stylua-format
 
   markdown:
