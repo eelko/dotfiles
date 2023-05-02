@@ -24,6 +24,18 @@ return {
         },
       },
 
+      -- Lua
+      ['.stylua.toml'] = {
+        ['lua/*.lua'] = {
+          type = 'source',
+          alternate = { 'tests/{}_spec.lua' },
+        },
+        ['tests/*_spec.lua'] = {
+          type = 'test',
+          alternate = { 'lua/{}.lua' },
+        },
+      },
+
       -- JS
       ['package.json'] = {
         ['package.json'] = {
