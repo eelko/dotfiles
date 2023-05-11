@@ -28,3 +28,24 @@ A-b = ["move_prev_word_start", "move_char_left"]
 A-f = ["move_next_word_end", "move_char_right"]
 C-b = "move_char_left"
 C-f = "move_char_right"
+
+[keys.normal]
+"C-d" = ["half_page_down", "goto_window_center"]
+"C-u" = ["half_page_up", "goto_window_center"]
+
+[keys.normal."]"]
+"]" = "goto_next_paragraph"
+
+[keys.normal."["]
+"[" = "goto_prev_paragraph"
+
+[keys.normal.space]
+q = ":quit-all"
+w = ":write-all"
+x = [":write", ":buffer-close"]
+
+[keys.select."]"]
+"]" = "goto_next_paragraph"
+
+[keys.select."["]
+"[" = "goto_prev_paragraph"
