@@ -8,6 +8,7 @@ auto-save = true
 bufferline = "always"
 color-modes = true
 completion-trigger-len = 1
+line-number = "relative"
 
 [editor.cursor-shape]
 insert = "bar"
