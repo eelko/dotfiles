@@ -3,7 +3,7 @@ if status is-interactive
 end
 
 # env
-set --export EDITOR 'nvim'
+set --export EDITOR 'hx'
 set --export MANPAGER 'nvim -c "Man!" -o -'
 set --export SHELL '/usr/local/bin/fish'
 set --export TERM 'wezterm' # enable undercurl support on Neovim under Wezterm
