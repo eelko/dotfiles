@@ -1,34 +1,49 @@
 [[language]]
-name = "css"
-formatter = { command = 'prettier', args = ["--parser", "css"] }
+name = "bash"
+formatter = { command = 'fmt_shell' }
 auto-format = true
 
 [[language]]
-name = "html"
-formatter = { command = 'prettier', args = ["--parser", "html"] }
+name = 'css'
+formatter = { command = 'prettier', args = ['--parser', 'css'] }
 auto-format = true
 
 [[language]]
-name = "json"
-formatter = { command = 'prettier', args = ["--parser", "json"] }
+name = 'html'
+formatter = { command = 'prettier', args = ['--parser', 'html'] }
 auto-format = true
 
 [[language]]
-name = "javascript"
-formatter = { command = 'prettier', args = ["--parser", "typescript"] }
+name = 'javascript'
+formatter = { command = 'prettier', args = ['--parser', 'typescript'] }
 auto-format = true
 
 [[language]]
-name = "jsx"
-formatter = { command = 'prettier', args = ["--parser", "typescript"] }
+name = 'json'
+formatter = { command = 'fixjson', args = ['--stdin-filename', '$FILENAME'] }
 auto-format = true
 
 [[language]]
-name = "typescript"
-formatter = { command = 'prettier', args = ["--parser", "typescript"] }
+name = 'jsx'
+formatter = { command = 'prettier', args = ['--parser', 'typescript'] }
 auto-format = true
 
 [[language]]
-name = "tsx"
-formatter = { command = 'prettier', args = ["--parser", "typescript"] }
+name = 'lua'
+formatter = { command = 'stylua', args = ['--search-parent-directories', '--stdin-filepath', '$FILENAME', '-'] }
+auto-format = true
+
+[[language]]
+name = 'markdown'
+formatter = { command = 'prettier', args = ['--parser', 'markdown'] }
+auto-format = true
+
+[[language]]
+name = 'tsx'
+formatter = { command = 'prettier', args = ['--parser', 'typescript'] }
+auto-format = true
+
+[[language]]
+name = 'typescript'
+formatter = { command = 'prettier', args = ['--parser', 'typescript'] }
 auto-format = true
