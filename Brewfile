@@ -19,7 +19,15 @@ brew "shfmt"
 brew "stylua"
 
 # lsp
+brew "bash-language-server"
+brew "docker-ls"
 brew "efm-langserver"
+brew "kotlin-language-server"
+brew "lua-language-server"
+brew "marksman"
+brew "typescript-language-server"
+brew "vscode-langservers-extracted"
+brew "yaml-language-server"
 
 # extra packages
 brew "bat"
