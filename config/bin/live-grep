@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+# TODO Uncomment after helix-editor#5468 has been released:
+# if [[ "$EDITOR" =~ (hx) ]]; then
+#   FILE_LNUM_FORMAT="{1}:{2}"
+#   EDITOR_CMD="$EDITOR $FILE_LNUM_FORMAT"
+# elif [[ "$EDITOR" =~ (vim|nvim) ]]; then
+#   FILE_LNUM_FORMAT="{1} +{2}"
+#   EDITOR_CMD="$EDITOR $FILE_LNUM_FORMAT"
+# else
+#   echo "Unsupported editor: $EDITOR"
+#   exit 1
+# fi
+
+# 1. Search for text in files using Ripgrep
+# 2. Interactively narrow down the list using fzf
+# 3. Open the file in $EDITOR
+CATPPUCCIN_GREEN='#a6da95'
+CATPPUCCIN_MAUVE='#c6a0f6'
+
+IFS=$'\n' readarray -t selections < <(
+  rg --color=always --line-number --no-heading --smart-case "${*:-}" |
+    fzf --ansi \
+      --border \
+      --color "hl+:$CATPPUCCIN_GREEN:reverse,hl:$CATPPUCCIN_MAUVE:reverse" \
+      --delimiter ':' \
+      --height '100%' \
+      --multi \
+      --print-query --exit-0 \
+      --preview 'bat {1} --highlight-line {2}' \
+      --preview-window 'right,+{2}+3/3,~3' \
+      --scrollbar '▍' \
+      --bind "ctrl-y:execute(echo -n {1}:{2} | pbcopy)"
+)
+# TODO Uncomment after helix-editor#5468 has been released:
+# --bind "enter:execute($EDITOR_CMD),ctrl-y:execute(echo $FILE_LNUM_FORMAT)+abort"
+
+# Iterate over the selections and print them
+# Note: We start from the second element in the array to skip the first element,
+#       which is the query string from fzf (and is empty if no query was entered).
+for line in "${selections[@]:1}"; do
+  file=$(echo "$line" | cut -d: -f1)
+  line_number=$(echo "$line" | cut -d: -f2)
+  echo "$file:$line_number"
+done
