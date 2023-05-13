@@ -41,9 +41,11 @@ alias la 'l -a'
 alias lt 'l --tree --depth 1'
 
 # binds
-bind \cn history-prefix-search-forward
-bind \cp history-prefix-search-backward
+bind \cn    history-prefix-search-forward
+bind \cp    history-prefix-search-backward
 bind \cx\ce edit_command_buffer
+bind \cg    fzf_append_live_grep_to_prompt
+bind \co    fzf_append_mru_to_prompt
 
 # colors
 source "$HOME/.LS_COLORS/lscolors.csh" # better ls colors
@@ -58,7 +60,7 @@ set --export FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --tiebreak=end"
 
 set fzf_history_opts '--preview-window=up:3:wrap'
 
-fzf_configure_bindings --directory=\ct --git_log=\cg --git_status=\cs
+fzf_configure_bindings --directory=\ct --git_status=\cs
 
 # list directory contents after cd
 function list_after_cd_on_variable_pwd --on-variable PWD
