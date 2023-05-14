@@ -1,5 +1,6 @@
 return {
   'obxhdx/vim-action-mapper',
+  enabled = false,
   dependencies = 'nvim-telescope/telescope.nvim',
   keys = {
     { '<Leader>g', mode = { 'n', 'v' } },

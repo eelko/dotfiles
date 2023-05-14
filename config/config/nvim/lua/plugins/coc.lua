@@ -1,6 +1,6 @@
 return {
   'neoclide/coc.nvim',
-  enabled = true,
+  enabled = false,
   event = { 'BufNewFile', 'BufReadPre' },
   branch = 'release',
   config = function()
@@ -62,7 +62,12 @@ return {
     )
 
     -- List commands
-    map('n', '<leader>cc', ':<C-u>CocList commands<cr>', { desc = '[LSP] Show all available LSP commands', nowait = true })
+    map(
+      'n',
+      '<leader>cc',
+      ':<C-u>CocList commands<cr>',
+      { desc = '[LSP] Show all available LSP commands', nowait = true }
+    )
     map('n', '<leader>d', ':<C-u>CocList -A diagnostics<cr>', { desc = '[LSP] Show all diagnostics', nowait = true })
     map('n', '<leader>p', ':<C-u>CocListResume<cr>', { desc = '[LSP] Resume previous CoC list', nowait = true })
     map('n', '<leader>s', ':<C-u>CocList -A -I symbols<cr>', { desc = '[LSP] Search workspace symbols', nowait = true })

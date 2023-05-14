@@ -1,5 +1,6 @@
 return {
   'mvllow/modes.nvim',
+  enabled = false,
   event = 'VeryLazy',
   config = function()
     require('modes').setup {

@@ -60,7 +60,6 @@ vim.opt.runtimepath:prepend(vim.fn.stdpath 'data' .. '/lazy/lazy.nvim')
 
 require('lazy').setup {
   require 'plugins.commentary',
-  require 'plugins.hop',
   require 'plugins.surround',
 }
 

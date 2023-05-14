@@ -19,7 +19,7 @@ return {
         -- Bufferline
         hl.BufferLineCloseButtonSelected = { fg = c.dark5, sp = c.blue, underline = true }
         hl.BufferLineIndicatorSelected = { link = 'BufferLineSeparatorSelected' } -- underline for entire "tab"
-        hl.BufferLineNumbersSelected = { fg = c.dark5,bg = c.bg, sp = c.blue, underline = true }
+        hl.BufferLineNumbersSelected = { fg = c.dark5, bg = c.bg, sp = c.blue, underline = true }
 
         -- CoC colors
         hl.CocHighlightText = { link = 'LspReferenceText' }

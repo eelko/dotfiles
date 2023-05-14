@@ -1,5 +1,6 @@
 return {
   'lewis6991/gitsigns.nvim',
+  enabled = false,
   event = 'UIEnter',
   dependencies = 'nvim-lua/plenary.nvim',
   config = function()

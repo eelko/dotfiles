@@ -1,5 +1,6 @@
 return {
   'nvim-lualine/lualine.nvim',
+  enabled = false,
   event = 'UIEnter',
   config = function()
     local function split_name()

@@ -1,5 +1,6 @@
 return {
   'tpope/vim-projectionist',
+  enabled = false,
   lazy = false,
   config = function()
     local map = require('utils').map

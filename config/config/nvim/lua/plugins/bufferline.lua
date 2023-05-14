@@ -1,5 +1,6 @@
 return {
   'akinsho/bufferline.nvim',
+  enabled = false,
   event = 'UIEnter',
   config = function()
     vim.o.mousemoveevent = true
