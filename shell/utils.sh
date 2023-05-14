@@ -29,7 +29,7 @@ function lazy_load() {
   done
 
   eval "$(
-        cat << EOF
+    cat <<EOF
   function ${load_fn}() {
     local -r bin_name="\$1"
     if ! bin_exists "\$bin_name"; then
@@ -60,14 +60,14 @@ EOF
 # Convert all .flac files (within directpry) to mp3
 function flac2mp3() {
   for f in **/*.flac; do
-       ffmpeg -i "$f" -ab 320k -map_metadata 0 -id3v2_version 3 "${f[@]/%flac/mp3}"
+    ffmpeg -i "$f" -ab 320k -map_metadata 0 -id3v2_version 3 "${f[@]/%flac/mp3}"
   done
 }
 
 # Convert all .m4a files (within directpry) to mp3
 function m4a2mp3() {
   for f in **/*.m4a; do
-       ffmpeg -i "$f" -codec:v copy -codec:a libmp3lame -q:a 2 "${f%.m4a}.mp3"
+    ffmpeg -i "$f" -codec:v copy -codec:a libmp3lame -q:a 2 "${f%.m4a}.mp3"
   done
 }
 
@@ -108,27 +108,13 @@ function source_if_exists() {
 
 # Helper to check wether a bin exists
 function bin_exists() {
-  command which "$1" > /dev/null 2>&1
+  command which "$1" >/dev/null 2>&1
   return $?
 }
 
 # Join each line of output by given separator
 joinby() {
   paste -sd "$1" -
-}
-
-# Search/replace
-replace() {
-  [[ "$#" -ne 2 ]] && echo -e "Usage:\n$ replace <pattern> <replacement>" && return
-  local -r pattern="$1"
-  local -r replacement="$2"
-  local -r matching_files=("$(rg "$pattern" -l 2> /dev/null)")
-
-  [[ -n "$matching_files" ]] || ( echo "No occurrences of \"$pattern\" found" && return )
-
-  for file in "${matching_files[@]}"; do
-    "$EDITOR" -c "%s/\v$pattern/$replacement/gc" -c 'wq' "$file"
-  done
 }
 
 # Mass download files from website (apache, h5ai, etc)

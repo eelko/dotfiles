@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+# Check for correct number of arguments
+if [[ "$#" -lt 2 ]]; then
+  echo -e "Usage:\n$(basename "$0") <pattern> <replacement>"
+  exit 1
+fi
+
+pattern="$1"
+replacement="$2"
+
+# Check if the pattern exists in any file
+matching_files=$(rg "$pattern" -l 2>/dev/null)
+
+if [[ -z "$matching_files" ]]; then
+  echo "No occurrences of \"$pattern\" found"
+  exit 1
+fi
+
+# Define the commands to run in Neovim:
+
+# Base substitution command
+substitute_cmd="%s/\v$pattern/$replacement/gc"
+
+# Wrap the substitute command in mappings
+# Keymap for performing the substitution in the current file
+set_current_file_keymap="nnoremap <leader>r :$substitute_cmd"
+# Keymap for performing the substitution in all files listed in the quickfix
+set_all_files_keymap="nnoremap <leader>R :cfdo $substitute_cmd"
+
+# Set individual commands for the final Neovim command
+set_grep_program="set grepprg=rg\ --vimgrep"
+grep_and_open_qf="silent grep! $pattern | copen"
+jump_to_first_qf="cfirst"
+set_search_term="let @/=\"$pattern\""
+initiate_search="normal! n"
+
+# Run Neovim with the individual commands
+nvim -c "$set_current_file_keymap| $set_all_files_keymap| $set_grep_program | $grep_and_open_qf | $jump_to_first_qf | $set_search_term | $initiate_search"
