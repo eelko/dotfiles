@@ -32,3 +32,4 @@ vim.opt.wrap = false -- Disable line wrapping
 -- Searching
 vim.opt.ignorecase = true -- Ignore case sensitivity
 vim.opt.smartcase = true -- Enable case-smart searching (overrides ignorecase)
+vim.opt.grepprg = 'rg --vimgrep' -- Ripgrep as grep program
