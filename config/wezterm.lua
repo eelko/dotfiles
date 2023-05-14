@@ -124,6 +124,8 @@ return {
   -- Font
   font = wezterm.font('OperatorMono NF', { weight = 'Book' }),
   font_size = 14.0,
+  underline_thickness = 3,
+  underline_position = -4,
 
   -- Tab bar
   tab_bar_at_bottom = true,
