@@ -1,6 +1,3 @@
 [submodule "config/LS_COLORS"]
 	path = config/LS_COLORS
 	url = https://github.com/trapd00r/LS_COLORS
-[submodule "config/config/helix/catppuccin"]
-	path = config/config/helix/catppuccin
-	url = https://github.com/catppuccin/helix
