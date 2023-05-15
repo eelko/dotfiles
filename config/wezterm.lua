@@ -2,10 +2,9 @@ local wezterm = require 'wezterm'
 local icons = wezterm.nerdfonts
 local act = wezterm.action
 
-local BASE_THEME = 'tokyonight-storm'
+local BASE_THEME = 'Catppuccin Macchiato'
 local colors = wezterm.color.get_builtin_schemes()[BASE_THEME]
 
-colors.cursor_bg = 'orange'
 colors.tab_bar = {
   background = colors.background,
   active_tab = {
