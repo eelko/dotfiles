@@ -68,6 +68,10 @@ function list_after_cd_on_variable_pwd --on-variable PWD
 end
 
 # prompt
+function set_cursor_to_underscore --on-event fish_postexec
+  printf "\e[4 q"
+end
+
 starship init fish | source
 
 # enable WezTerm shell integration
