@@ -28,6 +28,7 @@ display-messages = true
 A-b = ["move_prev_word_start", "move_char_left"]
 A-f = ["move_next_word_end", "move_char_right"]
 C-b = "move_char_left"
+C-d = "delete_char_forward"
 C-f = "move_char_right"
 
 [keys.normal]
@@ -41,9 +42,10 @@ C-f = "move_char_right"
 "[" = "goto_prev_paragraph"
 
 [keys.normal.space]
+F = "file_picker_in_current_buffer_directory"
 q = ":quit-all"
 w = ":write-all"
-x = [":write", ":buffer-close"]
+x = ":buffer-close"
 
 [keys.select."]"]
 "]" = "goto_next_paragraph"
