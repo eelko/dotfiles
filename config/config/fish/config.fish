@@ -58,9 +58,10 @@ set --export FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --history=$HOME/.fzf_history"
 set --export FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --layout=reverse"
 set --export FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --tiebreak=end"
 
-set fzf_history_opts '--preview-window=up:3:wrap'
-
+# PatrickF1/fzf.fish
 fzf_configure_bindings --directory=\ct --git_status=\cs
+set fzf_fd_opts --hidden --exclude=.git
+set fzf_history_opts --preview-window=up:3:wrap
 
 # list directory contents after cd
 function list_after_cd_on_variable_pwd --on-variable PWD
