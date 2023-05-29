@@ -41,6 +41,8 @@ alias l  'ls -l --group-dirs=first --date relative'
 alias la 'l -a'
 alias lt 'l --tree --depth 1'
 
+alias p switch_project
+
 # binds
 bind \cn    history-prefix-search-forward
 bind \cp    history-prefix-search-backward

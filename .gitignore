@@ -25,6 +25,7 @@ config/config/nvim/lua/config/local.lua
 !config/config/fish/shell-integration.fish
 !config/config/fish/functions/fzf_append_mru_to_prompt.fish
 !config/config/fish/functions/fzf_append_live_grep_to_prompt.fish
+!config/config/fish/functions/switch_project.fish
 !config/config/nvim/coc-settings.json
 !config/config/nvim/init.lua
 !config/config/nvim/lazy-lock.json
