@@ -4,6 +4,7 @@ end
 
 # env
 set --export EDITOR 'hx'
+set --export LESS '-+F' # disable the 'quit-if-one-screen' behavior for all git commands
 set --export MANPAGER 'nvim -c "Man!" -o -'
 set --export SHELL '/usr/local/bin/fish'
 set --export TERM 'wezterm' # enable undercurl support on Neovim under Wezterm
