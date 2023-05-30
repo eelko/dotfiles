@@ -44,6 +44,7 @@ C-f = "move_char_right"
 [keys.normal.space]
 F = "file_picker_in_current_buffer_directory"
 g = ":pipe-to wezterm cli split-pane -- helix-live-grep"
+l = ":pipe-to helix-debug-print"
 q = ":quit-all"
 w = ":write-all"
 x = ":buffer-close"
