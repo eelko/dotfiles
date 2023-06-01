@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+# Check if required tools are installed
+check_dependencies() {
+  if ! command -v exiftool &>/dev/null; then
+    echo "exiftool could not be found."
+    echo "Please install exiftool using your package manager, e.g., 'sudo apt-get install exiftool' on Debian-based Linux distributions or 'brew install exiftool' on macOS."
+    exit 1
+  fi
+}
+
+# Print the usage instructions
+usage() {
+  echo "Usage:"
+  echo "$ $(basename "$0") <image_file1> [<image_file2> ...]"
+  echo
+  echo "Removes Exif data from specified image files. Original images are backed up with '_backup' appended to the filename."
+  exit 1
+}
+
+# Strip exif data from provided image files
+rmexif() {
+  for filename in "$@"; do
+    exiftool -all= "$filename"
+  done
+}
+
+check_dependencies
+[[ $# -eq 0 ]] && usage
+
+rmexif "$@"
