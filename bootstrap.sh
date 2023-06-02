@@ -18,9 +18,6 @@ fi
 # Homebrew dependencies
 brew bundle
 
-# NPM dependencies
-npm install
-
 # Init git submodules
 git submodule update --init --recursive
 git submodule foreach git pull origin master

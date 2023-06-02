@@ -21,28 +21,28 @@ setopt HIST_VERIFY               # Don't execute immediately upon history expans
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 
 # use emacs mode
-bindkey -e
+# bindkey-e
 
-# C-U kills from cursor to BOL
-bindkey '^U' kill-region
-
-# cycle through command history matching typed characters
-autoload -U down-line-or-beginning-search
-autoload -U up-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-bindkey '^N' down-line-or-beginning-search
-bindkey '^P' up-line-or-beginning-search
-
-# edit command line in $EDITOR
-autoload -U edit-command-line
-zle -N edit-command-line
-bindkey '^X^E' edit-command-line
-
-# enable S-Tab in completion menu
-zmodload zsh/complist
-bindkey '^[[Z' reverse-menu-complete
-
-# use bash-style word functions
-autoload -U select-word-style
-select-word-style bash
+# # C-U kills from cursor to BOL
+# bindkey '^U' kill-region
+#
+# # cycle through command history matching typed characters
+# autoload -U down-line-or-beginning-search
+# autoload -U up-line-or-beginning-search
+# zle -N up-line-or-beginning-search
+# zle -N down-line-or-beginning-search
+# bindkey '^N' down-line-or-beginning-search
+# bindkey '^P' up-line-or-beginning-search
+#
+# # edit command line in $EDITOR
+# autoload -U edit-command-line
+# zle -N edit-command-line
+# bindkey '^X^E' edit-command-line
+#
+# # enable S-Tab in completion menu
+# zmodload zsh/complist
+# bindkey '^[[Z' reverse-menu-complete
+#
+# # use bash-style word functions
+# autoload -U select-word-style
+# select-word-style bash
