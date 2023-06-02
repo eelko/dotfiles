@@ -1,7 +1,0 @@
-{
-  "log selected text": {
-    "prefix": "l",
-    "body": ["echo \"==> $CLIPBOARD: \\$$CLIPBOARD\"$0"],
-    "description": "log selected text"
-  }
-}
