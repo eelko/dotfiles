@@ -30,3 +30,4 @@ config/config/nvim/lua/config/local.lua
 !config/config/nvim/init.lua
 !config/config/nvim/lazy-lock.json
 !config/config/starship*.toml
+Brewfile.lock.json

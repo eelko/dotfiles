@@ -4,4 +4,6 @@ for f in $HOME/.dotfiles/shell/*; do source $f; done
 for f in $HOME/.dotfiles/zsh/*; do source $f; done
 
 # unversioned sensitive/temporary configs
-[ -s "$HOME/.zshrc.local.zsh" ] && source "$HOME/.zshrc.local.zsh"
+# [ -s "$HOME/.zshrc.local.zsh" ] && source "$HOME/.zshrc.local.zsh"
+
+

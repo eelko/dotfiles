@@ -18,13 +18,22 @@ fi
 # Homebrew dependencies
 brew bundle
 
-# Init git submodules
-git submodule update --init --recursive
-git submodule foreach git pull origin master
+# Move current config to a backup zo the new config becomes a softlink
+# NOTE: This doest work yet and needs some attention
+file="$HOME/.config"
+if [ -L "$file" ] && [ -d "$file" ]
+then
+		mv -nv ~/.config ~/.oldconfig
+fi
 
 # Find and link all files and folders in `config` directory to home directory
 # shellcheck disable=SC2086
 find "$DOTFILES_HOME"/config/* -maxdepth 0 -exec bash -c 'ln -snv $1 ~/.$(basename $1)' _ {} \;
+
+
+# Init git submodules
+git submodule update --init --recursive
+git submodule foreach git pull origin master
 
 # Install FZF key bindings and fuzzy completion (except for Fish Shell)
 # yes | "$(brew --prefix)"/opt/fzf/install --no-fish --no-update-rc
@@ -32,19 +41,3 @@ find "$DOTFILES_HOME"/config/* -maxdepth 0 -exec bash -c 'ln -snv $1 ~/.$(basena
 # Python3 bindings for Vim
 python3 -m pip install --user --upgrade pynvim
 
-# Install Fish Shell plugins
-# fish -c 'while read -la plugin; fisher install $plugin; end < config/config/fish/fish_plugins'
-
-# Download Vale styles
-# VALE_STYLES_DIR=/opt/vale-styles/
-# mkdir -p "$VALE_STYLES_DIR"
-# wget -qc https://github.com/errata-ai/Microsoft/releases/latest/download/Microsoft.zip -O - | tar -zxv -C "$VALE_STYLES_DIR"
-
-# Enable undercurl support for Wezterm+Neovim
-# tempfile=$(mktemp) \
-#   && curl -o "$tempfile" https://raw.githubusercontent.com/wez/wezterm/master/termwiz/data/wezterm.terminfo \
-#   && tic -x -o ~/.terminfo "$tempfile" \
-#   && rm "$tempfile"
-#
-# Install Neovim plugins
-# nvim --headless '+Lazy sync' +qa
