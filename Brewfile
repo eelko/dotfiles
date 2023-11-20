@@ -43,6 +43,8 @@ brew "tldr"
 brew "gh"
 brew "lazygit"
 brew "cmake"
+brew "pyenv"
+brew "pyenv-virtualenv"
 
 # casks
 cask "keepingyouawake"
