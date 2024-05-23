@@ -23,7 +23,7 @@
   show = auto
   status = auto
 [credential]
-  helper = osxkeychain
+	helper = store
   useHttpPath = true
 [init]
   defaultBranch = main
@@ -47,3 +47,6 @@
   line-numbers-right-format = "{np} │"
 
 # vim: set ft=gitconfig :
+[user]
+	name = Eelko
+	email = {ID}+{username}@users.noreply.github.com

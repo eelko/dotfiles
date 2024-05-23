@@ -45,8 +45,19 @@ brew "lazygit"
 brew "cmake"
 brew "pyenv"
 brew "pyenv-virtualenv"
+brew "tmux"
+
+#libs
+brew "eigen"
+brew "freetype"
+brew "harfbuzz"
+brew "libpthread-stubs"
+brew "gcc"
 
 # casks
 cask "keepingyouawake"
 cask "rectangle"
 cask "wez/wezterm/wezterm"
+
+brew "koekeishiya/formulae/yabai"
+brew "koekeishiya/formulae/skhd"

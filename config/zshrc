@@ -3,6 +3,8 @@ export SHELL='/usr/local/bin/zsh'
 for f in $HOME/.dotfiles/shell/*; do source $f; done
 for f in $HOME/.dotfiles/zsh/*; do source $f; done
 
+# source $HOME/.dotfiles/conda.sh # Als ik dit activeer heb ik gezeik met een standaard base environment. Dit werkt niet goed samen met pyenv
+
 # unversioned sensitive/temporary configs
 # [ -s "$HOME/.zshrc.local.zsh" ] && source "$HOME/.zshrc.local.zsh"
 
