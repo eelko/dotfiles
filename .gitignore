@@ -4,7 +4,6 @@ node_modules/
 package-lock.json
 
 # ignore everything inside
-config/config/*
 config/config/fish/*
 config/config/fish/functions/*
 config/config/nvim/*
